@@ -1,0 +1,158 @@
+//
+//  JianGuo.pch
+//  JianGuo
+//
+//  Created by apple on 16/3/1.
+//  Copyright © 2016年 ningcol. All rights reserved.
+//
+
+
+#import <Availability.h>
+#import <Foundation/Foundation.h>
+#import "CodeLoginViewController.h"
+#ifndef JianGuo_pch
+#define JianGuo_pch
+
+#ifdef DEBUG
+#   define JGLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define JGLog(...)
+#endif
+
+
+#define IS_LANDSCAPE         ([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft || [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight)
+#define IS_IPAD              ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define IS_IPHONE            ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE4           (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height < 568.0)
+#define IS_IPHONE5           (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0)
+#define IS_IPHONE6           (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 667.0)
+#define IS_IPHONE6PLUS       (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 736.0 || [[UIScreen mainScreen] bounds].size.width == 736.0) // Both orientations
+#define IS_IOS8_AND_HIGHER   ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
+
+#define JGSVPROGRESSLOAD(f) [QLSVProgressHud showLoadingViewWithStatus:f];
+#define JGSVPROGRESSLOADING JGSVPROGRESSLOAD(@"登录中...");
+#define JGFAILREQUESTCALLBACK [SVProgressHUD dismiss];\
+[self showAlertViewWithText:NETERROETEXT duration:1];
+
+//颜色RGB
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+#define LIGHTGRAYTEXT RGBCOLOR(102, 102, 102)
+#define BACKCOLORGRAY RGBCOLOR(241, 241, 241)
+#define WHITECOLOR RGBCOLOR(255, 255, 255)
+#define YELLOWCOLOR RGBCOLOR(245, 201, 48)
+#define BLUECOLOR RGBCOLOR(59, 155, 255)
+#define RedColor RGBCOLOR(248, 124, 124)
+#define GreenColor RGBCOLOR(170, 207, 83)
+
+
+
+#define JGNAVIGATIONBARCLEARSTYLE -(void)viewWillAppear:(BOOL)animated\
+{\
+    [super viewWillAppear:animated];\
+    self.view.backgroundColor = BACKCOLORGRAY;\
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];\
+    CGFloat top = 5;\
+    CGFloat bottom = 5 ;\
+    CGFloat left = 0;\
+    CGFloat right = 0;\
+    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);\
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"icon-navigationBar"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];\
+}
+
+
+//字体
+#define FONT(f)                     [UIFont systemFontOfSize:f]
+#define JGFONT(f)                   [UIFont fontWithName:@"MarkerFelt-Thin" size:f]
+#define BOLDFONT(f)                 [UIFont boldSystemFontOfSize:f]
+
+#define SCREEN_W [UIScreen mainScreen].bounds.size.width
+#define SCREEN_H [UIScreen mainScreen].bounds.size.height
+
+#define APPLICATION  [UIApplication sharedApplication]
+
+#if __has_feature(objc_arc)
+#define IMP_BLOCK_SELF(type) __weak type *block_self=self;
+#else
+#define IMP_BLOCK_SELF(type) __block type *block_self=self;
+#endif
+
+#define USER [JGUser user]
+
+#define WALLET [WalletModel wallet]
+
+#define isHaveNewNews @"NotiNews"
+
+#define NotificationCenter [NSNotificationCenter defaultCenter]
+
+#define USERDEFAULTS [NSUserDefaults standardUserDefaults]
+#define CITY @"city"
+#define JOBTYPE @"jobType"
+#define CityCode  @"cityCode"
+#define CityName @"cityName"
+#define JGKeyedUnarchiver(f) [NSKeyedUnarchiver unarchiveObjectWithFile:f]; 
+//API 切换
+//#define APIURLCOMMON @"http://192.168.1.233/JianGuo_Server/"//局域网
+////TODO: 切换环境
+//#define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
+
+#define NETERROETEXT @"网络错误!"
+//API 切换
+#ifdef DEBUG
+//    #define APIURLCOMMON @"http://192.168.1.132/JianGuo_Server/"//局域网
+//
+//    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
+
+//    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
+
+    #define APIURLCOMMON @"http://192.168.0.103:9090/"//义文局域网
+
+#else
+    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
+#endif
+
+#define userType  @"1"
+
+#define JGCityArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"city.data"]
+#define JGJobTypeArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"jobtype.data"]
+
+#define JGLimitArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"limit.data"]
+#define JGWelfareArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"welfare.data"]
+#define JGLabelArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"label.data"]
+
+//通知
+static NSString *kNotificationDidReceiveMessage = @"kNotificationDidReceiveMessage";
+static NSString *kNotificationOpenIMClient = @"kNotificationOpenIMClient";
+static NSString *kNotificationJobType = @"kNotificationJobType";
+static NSString *kNotificationCity = @"kNotificationCity";
+static NSString *kNotificationLoginSuccessed = @"kNotificationLoginSuccessed";
+static NSString *kNotificationLogoutSuccessed = @"kNotificationLogoutSuccessed";
+static NSString *kNotificationClickNotification = @"kNotificationClickNotification";
+static NSString *kNotificationGetCitySuccess = @"kNotificationGetCitySuccess";
+static NSString *kNotificationGetNewNotiNews = @"kNotificationGetNewNotiNews";
+static NSString *kNotificationGotChatUserInfon = @"kNotificationGotChatUserInfon";
+static NSString *kNotificationClosedChatKit = @"kNotificationClosedChatKit";
+static NSString *kNotificationSendJobName = @"kNotificationSendJobName";
+
+
+#ifdef __OBJC__
+
+#import <UIKit/UIKit.h>
+#import "WalletModel.h"
+#import "JGUser.h"
+#import "JianliAccount.h"
+#import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <AFNetworking/AFNetworking.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+#import "UIViewExt.h"
+#import <MJRefresh/MJRefresh.h>
+#import <MJExtension/MJExtension.h>
+#import "JGIMClient.h"
+#import <Masonry.h>
+#import "QLSVProgressHud.h"
+#endif
+
+
+#endif /* JianGuo_pch */

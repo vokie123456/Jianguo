@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BindCell" rowHeight="55" id="KGk-i7-Jjw" customClass="BindCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="Yeu-xz-eyH">
+                        <rect key="frame" x="8" y="6" width="35" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="NpF-gN-7Oa"/>
+                            <constraint firstAttribute="width" constant="35" id="Wvq-81-N7S"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yjiantou" translatesAutoresizingMaskIntoConstraints="NO" id="wAo-dv-aF2">
+                        <rect key="frame" x="292" y="21" width="8" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="8" id="81c-Q0-DNH"/>
+                            <constraint firstAttribute="height" constant="14" id="CHt-Lo-cpn"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54N-4D-RB0">
+                        <rect key="frame" x="51" y="6" width="80" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="1nP-QI-CRY"/>
+                            <constraint firstAttribute="height" constant="21" id="zsA-qM-50A"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未绑定" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kSa-rG-DKs">
+                        <rect key="frame" x="51" y="31" width="120" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="4sv-e1-lcW"/>
+                            <constraint firstAttribute="height" constant="15" id="At7-qi-KRc"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5Q-eG-UpF">
+                        <rect key="frame" x="20" y="53" width="300" height="1"/>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="CyI-qs-YmU"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_weixuanzhongda" translatesAutoresizingMaskIntoConstraints="NO" id="M4S-YF-RaA">
+                        <rect key="frame" x="286" y="18" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="143-ZJ-8Fu"/>
+                            <constraint firstAttribute="width" constant="20" id="yaH-ZH-ZHs"/>
+                        </constraints>
+                    </imageView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kai-PW-RN1">
+                        <rect key="frame" x="240" y="0.0" width="80" height="53"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="Nl4-bH-32w"/>
+                        </constraints>
+                        <connections>
+                            <action selector="clickBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rBI-pv-sga"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggt-FY-Wc1" customClass="IBButton">
+                        <rect key="frame" x="232" y="13" width="60" height="30"/>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.78823529410000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="3c6-hR-EqG"/>
+                            <constraint firstAttribute="height" constant="30" id="xH5-IY-XVj"/>
+                        </constraints>
+                        <state key="normal" title="解绑">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="unBind:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="jCd-O5-i3V"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="kSa-rG-DKs" firstAttribute="leading" secondItem="Yeu-xz-eyH" secondAttribute="trailing" constant="8" symbolic="YES" id="07p-yz-vrj"/>
+                    <constraint firstItem="M4S-YF-RaA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="67o-Ky-7Aw"/>
+                    <constraint firstItem="Yeu-xz-eyH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="6jz-oC-h3w"/>
+                    <constraint firstItem="54N-4D-RB0" firstAttribute="leading" secondItem="Yeu-xz-eyH" secondAttribute="trailing" constant="8" symbolic="YES" id="Bwb-xl-Ghl"/>
+                    <constraint firstAttribute="bottom" secondItem="m5Q-eG-UpF" secondAttribute="bottom" id="EWf-ed-6Kh"/>
+                    <constraint firstItem="kSa-rG-DKs" firstAttribute="top" secondItem="54N-4D-RB0" secondAttribute="bottom" constant="4" id="GOe-UR-zMg"/>
+                    <constraint firstItem="ggt-FY-Wc1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="HE7-4I-wmp"/>
+                    <constraint firstItem="54N-4D-RB0" firstAttribute="leading" secondItem="Yeu-xz-eyH" secondAttribute="trailing" constant="8" id="HOJ-2V-8sY"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ggt-FY-Wc1" secondAttribute="trailing" constant="20" id="Jp3-qq-Fqd"/>
+                    <constraint firstAttribute="trailing" secondItem="wAo-dv-aF2" secondAttribute="trailing" constant="20" id="LQs-Z2-Atw"/>
+                    <constraint firstItem="wAo-dv-aF2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RMi-hL-GrE"/>
+                    <constraint firstAttribute="trailing" secondItem="m5Q-eG-UpF" secondAttribute="trailing" id="RkY-Pd-rcj"/>
+                    <constraint firstItem="kSa-rG-DKs" firstAttribute="leading" secondItem="54N-4D-RB0" secondAttribute="leading" id="Sy8-1C-gAw"/>
+                    <constraint firstItem="Kai-PW-RN1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="TgO-Kl-JtG"/>
+                    <constraint firstItem="Yeu-xz-eyH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="cX9-7X-O9Q"/>
+                    <constraint firstAttribute="trailing" secondItem="Kai-PW-RN1" secondAttribute="trailing" id="fQY-2P-7XN"/>
+                    <constraint firstAttribute="trailing" secondItem="M4S-YF-RaA" secondAttribute="trailing" constant="14" id="omh-AI-MW1"/>
+                    <constraint firstItem="m5Q-eG-UpF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rJg-zQ-jGQ"/>
+                    <constraint firstItem="m5Q-eG-UpF" firstAttribute="top" secondItem="Kai-PW-RN1" secondAttribute="bottom" id="uMu-bV-H9N"/>
+                    <constraint firstItem="54N-4D-RB0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="usB-Vc-RtH"/>
+                    <constraint firstItem="Yeu-xz-eyH" firstAttribute="top" secondItem="54N-4D-RB0" secondAttribute="top" id="wVk-dz-22G"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bindStateL" destination="kSa-rG-DKs" id="8aX-Mz-1Ci"/>
+                <outlet property="bindTypeL" destination="54N-4D-RB0" id="vRn-p8-qOc"/>
+                <outlet property="iconView" destination="Yeu-xz-eyH" id="WEk-lO-fYt"/>
+                <outlet property="jiantouView" destination="wAo-dv-aF2" id="8F2-qP-Rqx"/>
+                <outlet property="selectBtn" destination="Kai-PW-RN1" id="cpq-RI-prk"/>
+                <outlet property="selectView" destination="M4S-YF-RaA" id="92f-XM-dDq"/>
+                <outlet property="unBindBtn" destination="ggt-FY-Wc1" id="pWz-lt-gYA"/>
+            </connections>
+            <point key="canvasLocation" x="584" y="302.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="card" width="24" height="24"/>
+        <image name="icon_weixuanzhongda" width="17" height="17"/>
+        <image name="yjiantou" width="8" height="13"/>
+    </resources>
+</document>

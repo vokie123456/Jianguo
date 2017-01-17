@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostDemandViewController">
+            <connections>
+                <outlet property="sureBtn" destination="lD9-UZ-pve" id="75Z-W3-7Cb"/>
+                <outlet property="tableView" destination="U7O-Q7-WUn" id="eeh-10-7zD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="U7O-Q7-WUn">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="567"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="g9O-YG-cJh"/>
+                        <outlet property="delegate" destination="-1" id="4DT-tv-Krw"/>
+                    </connections>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lD9-UZ-pve" customClass="IBButton">
+                    <rect key="frame" x="30" y="597" width="314" height="40"/>
+                    <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Hvy-jh-S9U"/>
+                    </constraints>
+                    <state key="normal" title="发布需求">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="surePostDemand:" destination="-1" eventType="touchUpInside" id="Tsq-lF-wIr"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="U7O-Q7-WUn" secondAttribute="trailing" id="47G-yA-7W4"/>
+                <constraint firstAttribute="bottom" secondItem="lD9-UZ-pve" secondAttribute="bottom" constant="30" id="EIh-Ly-nPw"/>
+                <constraint firstAttribute="bottom" secondItem="U7O-Q7-WUn" secondAttribute="bottom" constant="100" id="IMI-Xo-gG2"/>
+                <constraint firstItem="U7O-Q7-WUn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Tba-BQ-lgb"/>
+                <constraint firstItem="lD9-UZ-pve" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="WEe-Ta-Giv"/>
+                <constraint firstItem="U7O-Q7-WUn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="l8E-iU-mgf"/>
+                <constraint firstItem="lD9-UZ-pve" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uqx-eu-hNi"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+        </view>
+    </objects>
+</document>

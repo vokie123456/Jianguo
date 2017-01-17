@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="bzD-oX-bOz" customClass="NoDataView">
+            <rect key="frame" x="0.0" y="0.0" width="335" height="280"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="还没有任何热门数据哦!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjJ-T1-R0X">
+                    <rect key="frame" x="80" y="128" width="175" height="22"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_renwu1" translatesAutoresizingMaskIntoConstraints="NO" id="e4R-zg-wMY">
+                    <rect key="frame" x="123" y="33" width="90" height="90"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="90" id="Xbi-M0-vT1"/>
+                        <constraint firstAttribute="height" constant="90" id="dDj-Pp-qyX"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FmI-15-D7E">
+                    <rect key="frame" x="68" y="165" width="199" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Hqe-Ys-dV8"/>
+                    </constraints>
+                    <state key="normal" title="查看全部兼职">
+                        <color key="titleColor" red="0.2784313725" green="0.62352941179999999" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="clickAllJobs:" destination="-1" eventType="touchUpInside" id="3jS-dS-XDl"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="FmI-15-D7E" firstAttribute="leading" secondItem="bzD-oX-bOz" secondAttribute="leading" constant="68" id="3x7-Ky-TDu"/>
+                <constraint firstItem="JjJ-T1-R0X" firstAttribute="top" secondItem="e4R-zg-wMY" secondAttribute="bottom" constant="5" id="7xh-N8-rPJ"/>
+                <constraint firstAttribute="bottom" secondItem="FmI-15-D7E" secondAttribute="bottom" constant="75" id="Fen-Mo-0Ra"/>
+                <constraint firstItem="FmI-15-D7E" firstAttribute="top" secondItem="JjJ-T1-R0X" secondAttribute="bottom" constant="15" id="KMc-c7-aIX"/>
+                <constraint firstItem="e4R-zg-wMY" firstAttribute="top" secondItem="bzD-oX-bOz" secondAttribute="top" constant="33" id="Ovx-UH-rq2"/>
+                <constraint firstItem="JjJ-T1-R0X" firstAttribute="centerX" secondItem="bzD-oX-bOz" secondAttribute="centerX" id="ifr-mf-WoA"/>
+                <constraint firstItem="e4R-zg-wMY" firstAttribute="centerX" secondItem="FmI-15-D7E" secondAttribute="centerX" id="irX-yn-7xC"/>
+                <constraint firstItem="e4R-zg-wMY" firstAttribute="centerX" secondItem="bzD-oX-bOz" secondAttribute="centerX" id="xyk-td-j3g"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="ChangeBtn" destination="FmI-15-D7E" id="DRM-a9-4is"/>
+            </connections>
+            <point key="canvasLocation" x="280.5" y="230.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="img_renwu1" width="140" height="140"/>
+    </resources>
+</document>

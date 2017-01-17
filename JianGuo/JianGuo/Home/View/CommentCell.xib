@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="68" id="KGk-i7-Jjw" customClass="CommentCell">
+            <rect key="frame" x="0.0" y="0.0" width="335" height="68"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="335" height="68"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01-07 15:31" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e71-1a-4i2">
+                        <rect key="frame" x="247" y="11" width="70" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="rbs-3R-Ydp"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近忙啥呢?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTx-fz-oFw" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="68" y="34" width="249" height="24"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_renwu" translatesAutoresizingMaskIntoConstraints="NO" id="Evt-LJ-tSa">
+                        <rect key="frame" x="8" y="8" width="45" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Evt-LJ-tSa" secondAttribute="height" multiplier="45:45" id="OyY-SY-WEB"/>
+                            <constraint firstAttribute="width" constant="45" id="VoZ-r8-kJ9"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周星驰" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0W-PD-5yv">
+                        <rect key="frame" x="68" y="8" width="42" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="KhA-zK-Ta1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="N0W-PD-5yv" firstAttribute="top" secondItem="Evt-LJ-tSa" secondAttribute="top" id="AwY-qh-eBC"/>
+                    <constraint firstItem="Evt-LJ-tSa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Nfk-IT-DTh"/>
+                    <constraint firstAttribute="bottom" secondItem="nTx-fz-oFw" secondAttribute="bottom" constant="10" id="WCT-Ao-Gnf"/>
+                    <constraint firstAttribute="trailing" secondItem="nTx-fz-oFw" secondAttribute="trailing" constant="20" id="Wfj-S2-Oja"/>
+                    <constraint firstItem="e71-1a-4i2" firstAttribute="centerY" secondItem="N0W-PD-5yv" secondAttribute="centerY" id="gEb-eA-4Uf"/>
+                    <constraint firstItem="nTx-fz-oFw" firstAttribute="leading" secondItem="N0W-PD-5yv" secondAttribute="leading" id="hPF-hD-1Tj"/>
+                    <constraint firstItem="N0W-PD-5yv" firstAttribute="leading" secondItem="Evt-LJ-tSa" secondAttribute="trailing" constant="15" id="iDe-Dj-TaM"/>
+                    <constraint firstItem="nTx-fz-oFw" firstAttribute="top" secondItem="N0W-PD-5yv" secondAttribute="bottom" constant="5" id="m2O-BW-jYj"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="e71-1a-4i2" secondAttribute="trailing" constant="10" id="oC3-9O-9Cf"/>
+                    <constraint firstItem="Evt-LJ-tSa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="zDO-hD-iKH"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="contentL" destination="nTx-fz-oFw" id="s2X-Wi-HuL"/>
+                <outlet property="iconView" destination="Evt-LJ-tSa" id="5Yq-Ck-dqT"/>
+                <outlet property="nameL" destination="N0W-PD-5yv" id="pgi-Pn-I0L"/>
+                <outlet property="timeL" destination="e71-1a-4i2" id="whE-G8-NOC"/>
+            </connections>
+            <point key="canvasLocation" x="559.5" y="319"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="img_renwu" width="88" height="95"/>
+    </resources>
+</document>
