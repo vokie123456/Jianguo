@@ -97,6 +97,7 @@ static NSString *identifier = @"DemandListCell";
 {
     [super viewDidAppear:animated];
     
+    [IQKeyboardManager sharedManager].enable = NO;
     [self customCommentKeyboard];
 
 }
@@ -104,6 +105,7 @@ static NSString *identifier = @"DemandListCell";
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
     [self.commentView removeFromSuperview];//从父视图上删除并没有把对象置空
     self.commentView = nil;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;

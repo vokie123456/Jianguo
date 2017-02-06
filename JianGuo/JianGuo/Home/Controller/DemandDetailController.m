@@ -17,6 +17,7 @@
 #import "CommentInputView.h"
 #import "UITextView+placeholder.h"
 #import <UIImageView+WebCache.h>
+#import <IQKeyboardManager.h>
 
 #define HeaderImageHeight 747/3
 
@@ -50,6 +51,7 @@
     [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    
     self.tableView.estimatedRowHeight = 110;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
@@ -66,50 +68,39 @@
 }
 
 
--(void)customCommentKeyboard
-{
-    CommentInputView *view = [CommentInputView aReplyCommentView:nil];
-    view.delegate = self;
-    self.commentView = view;
-    self.commentTV = view.commentTV;
-    [APPLICATION.keyWindow addSubview:view];
-    [APPLICATION.keyWindow bringSubviewToFront:view];
-    
-    
-    if (self.commentView.commentTV.text.length) {
-        CGRect rect = [self.commentView.commentTV.text boundingRectWithSize:CGSizeMake(self.commentView.commentTV.size.width,   MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine |   NSStringDrawingUsesFontLeading    |NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.commentView.commentTV.font} context:nil];
-        self.commentView.frame = CGRectMake(0, 0, SCREEN_W, rect.size.height+10);
-    }else{
-        self.commentView.frame = CGRectMake(0, 0, SCREEN_W, 40);
-    }
-    
-    self.commentView.center = CGPointMake(SCREEN_W/2,self.view.bottom+100);
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self customCommentKeyboard];
+    [IQKeyboardManager sharedManager].enable = NO;
+//    [self customCommentKeyboard];
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
     
     [self.bottomView removeFromSuperview];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
 }
 
 -(void)requestDemandDetail
 {
     
-    [JGHTTPClient getDemandDetailsWithDemandId:self.demandId Success:^(id responseObject) {
+    [JGHTTPClient getDemandDetailsWithDemandId:self.demandId userId:USER.login_id Success:^(id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
             
             self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
             [self.demandView sd_setImageWithURL:[NSURL URLWithString:self.demandModel.d_image] placeholderImage:[UIImage imageNamed:@"kobe"]];
             if (self.demandModel.enroll_status.integerValue==1) {
+                self.signButton.userInteractionEnabled = NO;
                 [self.signButton setBackgroundColor:[UIColor lightGrayColor]];
                 [self.signButton setTitle:@"已经约了" forState:UIControlStateNormal];
             }
@@ -264,6 +255,9 @@
     if (indexPath.section == 1) {
         CommentModel *model = self.dataArr[indexPath.row];
         CommentCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        [self customCommentKeyboard];
+        
         self.to_user_id = model.user_id;
         self.commentTV.placeholder = [NSString stringWithFormat:@"回复 %@",cell.nameL.text];
         [self.commentTV becomeFirstResponder];
@@ -342,6 +336,7 @@
     comment.label.text = @"评论";
     comment.clickBlock = ^(UIButton *sender){//评论
         
+        [self customCommentKeyboard];
         self.to_user_id = self.demandModel.b_user_id;
         [self.commentTV becomeFirstResponder];
         
@@ -384,6 +379,27 @@
     }];
 }
 
+
+-(void)customCommentKeyboard
+{
+    CommentInputView *view = [CommentInputView aReplyCommentView:nil];
+    view.delegate = self;
+    self.commentView = view;
+    self.commentTV = view.commentTV;
+    [APPLICATION.keyWindow addSubview:view];
+    [APPLICATION.keyWindow bringSubviewToFront:view];
+    
+    
+    //    if (self.commentView.commentTV.text.length) {
+    //        CGRect rect = [self.commentView.commentTV.text boundingRectWithSize:CGSizeMake(self.commentView.commentTV.size.width,   MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine |   NSStringDrawingUsesFontLeading    |NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.commentView.commentTV.font} context:nil];
+    //        self.commentView.frame = CGRectMake(0, 0, SCREEN_W, rect.size.height+10);
+    //    }else{
+    //        self.commentView.frame = CGRectMake(0, 0, SCREEN_W, 40);
+    //    }
+    //
+    //    self.commentView.center = CGPointMake(SCREEN_W/2,self.view.bottom+100);
+}
+
 -(void)keyboardWillAppear:(NSNotification *)noti
 {
     
@@ -396,7 +412,7 @@
     [UIView animateWithDuration:duration delay:0 options:option animations:^{
         self.commentView.frame = CGRectMake(0, SCREEN_H-rect.size.height-self.commentView.height, SCREEN_W, self.commentView.height);
     } completion:^(BOOL finished) {
-        [self.commentTV becomeFirstResponder];
+
     }];
 }
 
@@ -412,6 +428,8 @@
         //        self.commentView.transform = CGAffineTransformIdentity;
         self.commentView.frame = CGRectMake(0, rect.origin.y+rect.size.height, SCREEN_W, self.commentView.height);
     } completion:^(BOOL finished) {
+        [self.commentView removeFromSuperview];
+        self.commentView = nil;;
     }];
 }
 

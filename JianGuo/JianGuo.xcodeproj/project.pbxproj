@@ -342,6 +342,11 @@
 		189F59051CC7329C00F45E9B /* WalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F59031CC7329C00F45E9B /* WalletCell.m */; };
 		189F59061CC7329C00F45E9B /* WalletCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189F59041CC7329C00F45E9B /* WalletCell.xib */; };
 		189F59111CC775BF00F45E9B /* IncomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F59101CC775BF00F45E9B /* IncomeModel.m */; };
+		18A2902F1E2DFED400BF5B39 /* MineNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2902D1E2DFED400BF5B39 /* MineNewViewController.m */; };
+		18A290301E2DFED400BF5B39 /* MineNewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A2902E1E2DFED400BF5B39 /* MineNewViewController.xib */; };
+		18A290391E2DFFAC00BF5B39 /* MineIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A290371E2DFFAC00BF5B39 /* MineIconCell.m */; };
+		18A2903A1E2DFFAC00BF5B39 /* MineIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */; };
+		18A2903D1E2E16A400BF5B39 /* MineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2903C1E2E16A400BF5B39 /* MineLayout.m */; };
 		18A7BB3F1DE55AF300ACA1A9 /* StudentInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7BB3D1DE55AF300ACA1A9 /* StudentInfoCell.m */; };
 		18A7BB401DE55AF300ACA1A9 /* StudentInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7BB3E1DE55AF300ACA1A9 /* StudentInfoCell.xib */; };
 		18A88B231E233580005A212A /* QLSVProgressHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A88B221E233580005A212A /* QLSVProgressHud.m */; };
@@ -1094,6 +1099,14 @@
 		189F59041CC7329C00F45E9B /* WalletCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WalletCell.xib; sourceTree = "<group>"; };
 		189F590F1CC775BF00F45E9B /* IncomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeModel.h; sourceTree = "<group>"; };
 		189F59101CC775BF00F45E9B /* IncomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeModel.m; sourceTree = "<group>"; };
+		18A2902C1E2DFED400BF5B39 /* MineNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineNewViewController.h; sourceTree = "<group>"; };
+		18A2902D1E2DFED400BF5B39 /* MineNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineNewViewController.m; sourceTree = "<group>"; };
+		18A2902E1E2DFED400BF5B39 /* MineNewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineNewViewController.xib; sourceTree = "<group>"; };
+		18A290361E2DFFAC00BF5B39 /* MineIconCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineIconCell.h; sourceTree = "<group>"; };
+		18A290371E2DFFAC00BF5B39 /* MineIconCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineIconCell.m; sourceTree = "<group>"; };
+		18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineIconCell.xib; sourceTree = "<group>"; };
+		18A2903B1E2E16A400BF5B39 /* MineLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineLayout.h; sourceTree = "<group>"; };
+		18A2903C1E2E16A400BF5B39 /* MineLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineLayout.m; sourceTree = "<group>"; };
 		18A7BB3C1DE55AF300ACA1A9 /* StudentInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentInfoCell.h; sourceTree = "<group>"; };
 		18A7BB3D1DE55AF300ACA1A9 /* StudentInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentInfoCell.m; sourceTree = "<group>"; };
 		18A7BB3E1DE55AF300ACA1A9 /* StudentInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentInfoCell.xib; sourceTree = "<group>"; };
@@ -1554,6 +1567,9 @@
 			children = (
 				188E6C211C854161000EE7B7 /* MineViewController.h */,
 				188E6C221C854161000EE7B7 /* MineViewController.m */,
+				18A2902C1E2DFED400BF5B39 /* MineNewViewController.h */,
+				18A2902D1E2DFED400BF5B39 /* MineNewViewController.m */,
+				18A2902E1E2DFED400BF5B39 /* MineNewViewController.xib */,
 				18D6E6091E1CB04A00BFD8E5 /* ProfileViewController.h */,
 				18D6E60A1E1CB04A00BFD8E5 /* ProfileViewController.m */,
 				18D6E60B1E1CB04A00BFD8E5 /* ProfileViewController.xib */,
@@ -1670,6 +1686,9 @@
 				1809EB1F1E1B7A9B0027BDF2 /* DemandCell.h */,
 				1809EB201E1B7A9B0027BDF2 /* DemandCell.m */,
 				1809EB1C1E1B67A00027BDF2 /* DemandCell.xib */,
+				18A290361E2DFFAC00BF5B39 /* MineIconCell.h */,
+				18A290371E2DFFAC00BF5B39 /* MineIconCell.m */,
+				18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2587,6 +2606,8 @@
 				18A88B221E233580005A212A /* QLSVProgressHud.m */,
 				182DB8491E16213400985887 /* CustomLayout.h */,
 				182DB84A1E16213400985887 /* CustomLayout.m */,
+				18A2903B1E2E16A400BF5B39 /* MineLayout.h */,
+				18A2903C1E2E16A400BF5B39 /* MineLayout.m */,
 				18AA388C1E14C38D00B398DF /* PresentingAnimator.h */,
 				18AA388D1E14C38D00B398DF /* PresentingAnimator.m */,
 				18AA38891E14C37D00B398DF /* DismissingAnimator.h */,
@@ -3045,6 +3066,7 @@
 				18E24E6E1CA1014E00C5A700 /* JGCata.plist in Resources */,
 				185C4CC51C97C58E00510A3E /* AttentionCell.xib in Resources */,
 				18E5C90E1C9BB15A004E6E29 /* chatBar_more_cameraSelected@2x.png in Resources */,
+				18A2903A1E2DFFAC00BF5B39 /* MineIconCell.xib in Resources */,
 				18F723591C9F88040040DA5E /* MyPartjobCell.xib in Resources */,
 				18E5C8EC1C9BB15A004E6E29 /* faceDelete@2x.png in Resources */,
 				186AA0261DF51F84008C0842 /* Placeholder.bundle in Resources */,
@@ -3053,6 +3075,7 @@
 				18F723481C9E348F0040DA5E /* icon_chose_arrow_sel@2x.png in Resources */,
 				18E5C8FC1C9BB15A004E6E29 /* chatBar_recordBg@2x.png in Resources */,
 				186AA01E1DF51F84008C0842 /* ChatKeyboard.bundle in Resources */,
+				18A290301E2DFED400BF5B39 /* MineNewViewController.xib in Resources */,
 				18E5C8FF1C9BB15A004E6E29 /* chatBar_recordSelectedBg.png in Resources */,
 				186A43001C91621F00CFC236 /* CheckBox.xib in Resources */,
 				185C4CDE1C985A1700510A3E /* DetailHeaderCell.xib in Resources */,
@@ -3277,6 +3300,7 @@
 				18A7BB3F1DE55AF300ACA1A9 /* StudentInfoCell.m in Sources */,
 				187B055E1C87CB7000C7F0A9 /* RegisterViewController.m in Sources */,
 				186A9FFD1DF51F84008C0842 /* NSString+LCCKAddScale.m in Sources */,
+				18A290391E2DFFAC00BF5B39 /* MineIconCell.m in Sources */,
 				186AA0291DF51F84008C0842 /* NSFileManager+LCCKExtension.m in Sources */,
 				186AA0111DF51F84008C0842 /* LCCKChatLocationMessageCell.m in Sources */,
 				18E5C8E81C9BB15A004E6E29 /* Emoji.m in Sources */,
@@ -3405,6 +3429,7 @@
 				186A9FFB1DF51F84008C0842 /* NSBundle+LCCKCaleArray.m in Sources */,
 				186AA00B1DF51F84008C0842 /* LCCKInputViewPlugin.m in Sources */,
 				182D81581E112353005F795B /* SMPageControl.m in Sources */,
+				18A2902F1E2DFED400BF5B39 /* MineNewViewController.m in Sources */,
 				186AA04B1DF51F84008C0842 /* LCCKConversationRefreshHeader.m in Sources */,
 				186AA0191DF51F84008C0842 /* LCCKMenuItem.m in Sources */,
 				185C4CDC1C9859FF00510A3E /* BusinessCell.m in Sources */,
@@ -3471,6 +3496,7 @@
 				1840AB801C8EB66700D171A2 /* QNHijackingDetectWrapper.m in Sources */,
 				186AA0441DF51F84008C0842 /* LCCKSafariActivity.m in Sources */,
 				18E5C9231C9C5719004E6E29 /* MerCntHeaderView.m in Sources */,
+				18A2903D1E2E16A400BF5B39 /* MineLayout.m in Sources */,
 				18EBA4C41CC9D0C90075F270 /* ExportModel.m in Sources */,
 				1840ABAB1C91184500D171A2 /* RealNameModel.m in Sources */,
 				188151501C92B8A500F664F8 /* JianliAccount.m in Sources */,

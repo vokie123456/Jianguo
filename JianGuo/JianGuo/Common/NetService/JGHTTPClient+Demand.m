@@ -179,11 +179,13 @@
  *  获取需求详情
  */
 +(void)getDemandDetailsWithDemandId:(NSString *)Id
+                             userId:(NSString *)userId
                             Success:(void (^)(id responseObject))success
                             failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:Id?Id:@"0" forKey:@"id"];
+    [params setObject:userId?userId:@"0" forKey:@"user_id"];
     
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/getDemand"];

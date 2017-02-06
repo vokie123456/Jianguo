@@ -76,6 +76,7 @@
  *  获取需求详情
  */
 +(void)getDemandDetailsWithDemandId:(NSString *)Id
+                             userId:(NSString *)userId
                             Success:(void (^)(id responseObject))success
                             failure:(void (^)(NSError *error))failure;
 /**

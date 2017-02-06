@@ -8,6 +8,7 @@
 
 #import "MyTabBarController.h"
 #import "MineViewController.h"
+#import "MineNewViewController.h"
 #import "HomeViewController.h"
 #import "HomeNewViewController.h"
 #import "PartJobViewController.h"
@@ -72,7 +73,8 @@
     navChat.tabBarItem.title = @"果聊";
     
     
-    MineViewController *mineVC = [[MineViewController alloc] init];
+    MineNewViewController *mineVC = [[MineNewViewController alloc] init];
+//    MineViewController *mineVC = [[MineViewController alloc] init];
     mineVC.title = @"我的";
     //设置图标
     mineVC.tabBarItem.image = [UIImage imageNamed:@"zh_wd"];

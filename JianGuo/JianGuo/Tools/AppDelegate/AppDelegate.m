@@ -19,7 +19,7 @@
 #import "UIWindow+Extension.h"
 #import "MyTabBarController.h"
 #import "BaseViewController.h"
-#import "LoginNewViewController.h"
+#import "LoginNew2ViewController.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 #import <TencentOpenAPI/QQApiInterface.h>
@@ -454,9 +454,9 @@
                     [JGUser deleteuser];
                     MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                     UINavigationController *navVC = tabVC.childViewControllers.firstObject;
-                    LoginNewViewController *loginVC = [[LoginNewViewController alloc] init];
+                    LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc] init];
                     loginVC.hidesBottomBarWhenPushed = YES;
-                    [navVC pushViewController:loginVC animated:YES];
+                    [navVC presentViewController:loginVC animated:YES completion:nil];
                 }
                 
             } failure:^(NSError *error) {
@@ -472,9 +472,9 @@
                 [JGUser deleteuser];
                 MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                 UINavigationController *navVC = tabVC.childViewControllers.firstObject;
-                LoginNewViewController *loginVC = [[LoginNewViewController alloc] init];
+                LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc] init];
                 loginVC.hidesBottomBarWhenPushed = YES;
-                [navVC pushViewController:loginVC animated:YES];
+                [navVC presentViewController:loginVC animated:YES completion:nil];
                 
             }];
 /*
