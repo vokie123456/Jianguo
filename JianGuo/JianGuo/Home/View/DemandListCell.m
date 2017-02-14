@@ -226,6 +226,7 @@
         if ([responseObject[@"code"]integerValue] == 200) {
             _model.like_status = status;
             [self.praiseBtn setBackgroundImage:[UIImage imageNamed:status.integerValue==1?@"xin":@"heart"] forState:UIControlStateNormal];
+            
         }
         
     } failure:^(NSError *error) {

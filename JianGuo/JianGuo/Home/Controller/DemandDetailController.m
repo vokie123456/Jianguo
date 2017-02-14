@@ -324,8 +324,8 @@
     [view addSubview:chat];
     
     CheckBoxButton *colletion = [[CheckBoxButton alloc] initWithFrame:CGRectMake(chat.right, 0, chat.width, chat.height)];
-    colletion.imageV.image = [UIImage imageNamed:@"collection"];
-    colletion.label.text = @"收藏";
+    colletion.imageV.image = [UIImage imageNamed:@"demandshare"];
+    colletion.label.text = @"分享";
     colletion.clickBlock = ^(UIButton *sender){
         
     };
@@ -362,7 +362,7 @@
 -(void)sign:(UIButton *)sender//点击报名
 {
     JGSVPROGRESSLOAD(@"正在报名...")
-    [JGHTTPClient signDemandWithDemandId:self.demandId status:@"1" Success:^(id responseObject) {
+    [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1" Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         
         [self showAlertViewWithText:responseObject[@"message"] duration:1];

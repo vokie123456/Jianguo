@@ -27,6 +27,12 @@
 		180A61F61D6D4DE700AC89BF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180A61F51D6D4DE700AC89BF /* HomeViewController.m */; };
 		180A61F81D6D7A2F00AC89BF /* RemindMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18285C111D4B815500D6E0C8 /* RemindMsgViewController.m */; };
 		180A61FE1D6D7CF900AC89BF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 180A61FD1D6D7CF900AC89BF /* Info.plist */; };
+		180FFCCE1E4C1C3400E6A076 /* MineSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180FFCCC1E4C1C3400E6A076 /* MineSelectCell.xib */; };
+		180FFCCF1E4C1C3400E6A076 /* MineSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180FFCCD1E4C1C3400E6A076 /* MineSelectCell.m */; };
+		180FFCD31E4C52F500E6A076 /* MyPostDemandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180FFCD11E4C52F500E6A076 /* MyPostDemandViewController.m */; };
+		180FFCD41E4C52F500E6A076 /* MyPostDemandViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180FFCD21E4C52F500E6A076 /* MyPostDemandViewController.xib */; };
+		180FFCD81E4C538100E6A076 /* MyDemandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180FFCD61E4C538100E6A076 /* MyDemandCell.m */; };
+		180FFCD91E4C538100E6A076 /* MyDemandCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180FFCD71E4C538100E6A076 /* MyDemandCell.xib */; };
 		181660321CA4D608003E9A44 /* NavigatinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181660311CA4D608003E9A44 /* NavigatinViewController.m */; };
 		18205A581CCB299B0015A55B /* AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18205A531CCB299B0015A55B /* AreaModel.m */; };
 		18205A591CCB299B0015A55B /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18205A551CCB299B0015A55B /* CityModel.m */; };
@@ -63,6 +69,12 @@
 		183055521E20CEF8008FB0B5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183055501E20CEF8008FB0B5 /* CommentCell.xib */; };
 		183055551E20E160008FB0B5 /* DemandModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183055541E20E160008FB0B5 /* DemandModel.m */; };
 		183055581E20E1E2008FB0B5 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183055571E20E1E2008FB0B5 /* CommentModel.m */; };
+		183540B01E4AC56E009958B3 /* MineCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183540AE1E4AC56E009958B3 /* MineCollectionCell.m */; };
+		183540B11E4AC56E009958B3 /* MineCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183540AF1E4AC56E009958B3 /* MineCollectionCell.xib */; };
+		1835D04E1E4C6FB500798208 /* SignDemandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835D04C1E4C6FB500798208 /* SignDemandViewController.m */; };
+		1835D04F1E4C6FB500798208 /* SignDemandViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835D04D1E4C6FB500798208 /* SignDemandViewController.xib */; };
+		1835D0531E4C724A00798208 /* SignersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835D0511E4C724A00798208 /* SignersCell.m */; };
+		1835D0541E4C724A00798208 /* SignersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835D0521E4C724A00798208 /* SignersCell.xib */; };
 		183ED2861C96A98C00BF1A9A /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183ED2851C96A98C00BF1A9A /* SettingViewController.m */; };
 		183ED28C1C96B11C00BF1A9A /* OpinionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183ED28B1C96B11C00BF1A9A /* OpinionsViewController.m */; };
 		183ED28F1C96C18F00BF1A9A /* CollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183ED28E1C96C18F00BF1A9A /* CollectViewController.m */; };
@@ -139,6 +151,12 @@
 		185C4CE41C985A4A00510A3E /* WorkDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185C4CE31C985A4A00510A3E /* WorkDetailCell.xib */; };
 		185C4CE61C985A5C00510A3E /* BusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185C4CE51C985A5C00510A3E /* BusinessCell.xib */; };
 		186306EC1D06BF4500911A2E /* MyImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186306EB1D06BF4500911A2E /* MyImagePickerController.m */; };
+		18643C761E4D6C2F00BEF756 /* SignUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 18643C751E4D6C2F00BEF756 /* SignUsers.m */; };
+		18643C7A1E4DA82C00BEF756 /* MySignDemandsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18643C781E4DA82C00BEF756 /* MySignDemandsViewController.m */; };
+		18643C7B1E4DA82C00BEF756 /* MySignDemandsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18643C791E4DA82C00BEF756 /* MySignDemandsViewController.xib */; };
+		18643C7F1E4DA8FF00BEF756 /* MySignDemandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18643C7D1E4DA8FF00BEF756 /* MySignDemandCell.m */; };
+		18643C801E4DA8FF00BEF756 /* MySignDemandCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18643C7E1E4DA8FF00BEF756 /* MySignDemandCell.xib */; };
+		18643C861E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18643C851E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m */; };
 		1865951B1CE095800034FDD2 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186595191CE095800034FDD2 /* libMobClickLibrary.a */; };
 		186A42F81C912FB900CFC236 /* JianLiHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A42F71C912FB900CFC236 /* JianLiHeaderView.m */; };
 		186A42FB1C915ACB00CFC236 /* JianliCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A42FA1C915ACB00CFC236 /* JianliCell.m */; };
@@ -354,6 +372,8 @@
 		18AA38881E14BFDE00B398DF /* BindingTelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AA38861E14BFDE00B398DF /* BindingTelViewController.xib */; };
 		18AA388B1E14C37D00B398DF /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388A1E14C37D00B398DF /* DismissingAnimator.m */; };
 		18AA388E1E14C38D00B398DF /* PresentingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388D1E14C38D00B398DF /* PresentingAnimator.m */; };
+		18B04FBC1E51B811000F26EF /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B04FBA1E51B811000F26EF /* EditInfoViewController.m */; };
+		18B04FBD1E51B811000F26EF /* EditInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */; };
 		18B1CCF91C8D79FE00C2270C /* MineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B1CCF81C8D79FE00C2270C /* MineCell.m */; };
 		18B2D8C51C994FDE0099BD90 /* DateOrTimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2D8C41C994FDE0099BD90 /* DateOrTimeTool.m */; };
 		18B2D8C81C99589B0099BD90 /* NSDate+CalculateDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2D8C71C99589B0099BD90 /* NSDate+CalculateDay.m */; };
@@ -505,6 +525,15 @@
 		180A61F41D6D4DE700AC89BF /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		180A61F51D6D4DE700AC89BF /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		180A61FD1D6D7CF900AC89BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		180FFCCB1E4C1C3400E6A076 /* MineSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineSelectCell.h; sourceTree = "<group>"; };
+		180FFCCC1E4C1C3400E6A076 /* MineSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineSelectCell.xib; sourceTree = "<group>"; };
+		180FFCCD1E4C1C3400E6A076 /* MineSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineSelectCell.m; sourceTree = "<group>"; };
+		180FFCD01E4C52F500E6A076 /* MyPostDemandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPostDemandViewController.h; sourceTree = "<group>"; };
+		180FFCD11E4C52F500E6A076 /* MyPostDemandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostDemandViewController.m; sourceTree = "<group>"; };
+		180FFCD21E4C52F500E6A076 /* MyPostDemandViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPostDemandViewController.xib; sourceTree = "<group>"; };
+		180FFCD51E4C538100E6A076 /* MyDemandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDemandCell.h; sourceTree = "<group>"; };
+		180FFCD61E4C538100E6A076 /* MyDemandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDemandCell.m; sourceTree = "<group>"; };
+		180FFCD71E4C538100E6A076 /* MyDemandCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyDemandCell.xib; sourceTree = "<group>"; };
 		181660301CA4D608003E9A44 /* NavigatinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigatinViewController.h; sourceTree = "<group>"; };
 		181660311CA4D608003E9A44 /* NavigatinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigatinViewController.m; sourceTree = "<group>"; };
 		18205A521CCB299B0015A55B /* AreaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaModel.h; sourceTree = "<group>"; };
@@ -571,6 +600,15 @@
 		183055541E20E160008FB0B5 /* DemandModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemandModel.m; sourceTree = "<group>"; };
 		183055561E20E1E2008FB0B5 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		183055571E20E1E2008FB0B5 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		183540AD1E4AC56E009958B3 /* MineCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCollectionCell.h; sourceTree = "<group>"; };
+		183540AE1E4AC56E009958B3 /* MineCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCollectionCell.m; sourceTree = "<group>"; };
+		183540AF1E4AC56E009958B3 /* MineCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineCollectionCell.xib; sourceTree = "<group>"; };
+		1835D04B1E4C6FB500798208 /* SignDemandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignDemandViewController.h; sourceTree = "<group>"; };
+		1835D04C1E4C6FB500798208 /* SignDemandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignDemandViewController.m; sourceTree = "<group>"; };
+		1835D04D1E4C6FB500798208 /* SignDemandViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignDemandViewController.xib; sourceTree = "<group>"; };
+		1835D0501E4C724A00798208 /* SignersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignersCell.h; sourceTree = "<group>"; };
+		1835D0511E4C724A00798208 /* SignersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignersCell.m; sourceTree = "<group>"; };
+		1835D0521E4C724A00798208 /* SignersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignersCell.xib; sourceTree = "<group>"; };
 		183ED2841C96A98C00BF1A9A /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		183ED2851C96A98C00BF1A9A /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		183ED28A1C96B11C00BF1A9A /* OpinionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpinionsViewController.h; sourceTree = "<group>"; };
@@ -720,6 +758,16 @@
 		185C4CE51C985A5C00510A3E /* BusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BusinessCell.xib; sourceTree = "<group>"; };
 		186306EA1D06BF4500911A2E /* MyImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyImagePickerController.h; sourceTree = "<group>"; };
 		186306EB1D06BF4500911A2E /* MyImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyImagePickerController.m; sourceTree = "<group>"; };
+		18643C741E4D6C2F00BEF756 /* SignUsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUsers.h; path = ../../Home/Model/SignUsers.h; sourceTree = "<group>"; };
+		18643C751E4D6C2F00BEF756 /* SignUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUsers.m; path = ../../Home/Model/SignUsers.m; sourceTree = "<group>"; };
+		18643C771E4DA82C00BEF756 /* MySignDemandsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySignDemandsViewController.h; sourceTree = "<group>"; };
+		18643C781E4DA82C00BEF756 /* MySignDemandsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySignDemandsViewController.m; sourceTree = "<group>"; };
+		18643C791E4DA82C00BEF756 /* MySignDemandsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySignDemandsViewController.xib; sourceTree = "<group>"; };
+		18643C7C1E4DA8FF00BEF756 /* MySignDemandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySignDemandCell.h; sourceTree = "<group>"; };
+		18643C7D1E4DA8FF00BEF756 /* MySignDemandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySignDemandCell.m; sourceTree = "<group>"; };
+		18643C7E1E4DA8FF00BEF756 /* MySignDemandCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySignDemandCell.xib; sourceTree = "<group>"; };
+		18643C841E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JGHTTPClient+ImageUrl.h"; sourceTree = "<group>"; };
+		18643C851E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JGHTTPClient+ImageUrl.m"; sourceTree = "<group>"; };
 		186595191CE095800034FDD2 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ../libMobClickLibrary.a; sourceTree = "<group>"; };
 		1865951A1CE095800034FDD2 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = ../MobClick.h; sourceTree = "<group>"; };
 		186A42F61C912FB900CFC236 /* JianLiHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JianLiHeaderView.h; sourceTree = "<group>"; };
@@ -1119,6 +1167,9 @@
 		18AA388A1E14C37D00B398DF /* DismissingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissingAnimator.m; sourceTree = "<group>"; };
 		18AA388C1E14C38D00B398DF /* PresentingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentingAnimator.h; sourceTree = "<group>"; };
 		18AA388D1E14C38D00B398DF /* PresentingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentingAnimator.m; sourceTree = "<group>"; };
+		18B04FB91E51B811000F26EF /* EditInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoViewController.h; sourceTree = "<group>"; };
+		18B04FBA1E51B811000F26EF /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
+		18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditInfoViewController.xib; sourceTree = "<group>"; };
 		18B1CCF71C8D79FE00C2270C /* MineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCell.h; sourceTree = "<group>"; };
 		18B1CCF81C8D79FE00C2270C /* MineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCell.m; sourceTree = "<group>"; };
 		18B2D8C31C994FDE0099BD90 /* DateOrTimeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateOrTimeTool.h; sourceTree = "<group>"; };
@@ -1607,6 +1658,18 @@
 				187B72741CC8A7E0006DF99E /* PayPwViewController.m */,
 				186306EA1D06BF4500911A2E /* MyImagePickerController.h */,
 				186306EB1D06BF4500911A2E /* MyImagePickerController.m */,
+				180FFCD01E4C52F500E6A076 /* MyPostDemandViewController.h */,
+				180FFCD11E4C52F500E6A076 /* MyPostDemandViewController.m */,
+				180FFCD21E4C52F500E6A076 /* MyPostDemandViewController.xib */,
+				1835D04B1E4C6FB500798208 /* SignDemandViewController.h */,
+				1835D04C1E4C6FB500798208 /* SignDemandViewController.m */,
+				1835D04D1E4C6FB500798208 /* SignDemandViewController.xib */,
+				18643C771E4DA82C00BEF756 /* MySignDemandsViewController.h */,
+				18643C781E4DA82C00BEF756 /* MySignDemandsViewController.m */,
+				18643C791E4DA82C00BEF756 /* MySignDemandsViewController.xib */,
+				18B04FB91E51B811000F26EF /* EditInfoViewController.h */,
+				18B04FBA1E51B811000F26EF /* EditInfoViewController.m */,
+				18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1614,6 +1677,8 @@
 		18390DFB1C8592CD00C5125B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18643C741E4D6C2F00BEF756 /* SignUsers.h */,
+				18643C751E4D6C2F00BEF756 /* SignUsers.m */,
 				1840ABA91C91184500D171A2 /* RealNameModel.h */,
 				1840ABAA1C91184500D171A2 /* RealNameModel.m */,
 				1801C3041C929CBE00B73522 /* SchoolModel.h */,
@@ -1689,6 +1754,21 @@
 				18A290361E2DFFAC00BF5B39 /* MineIconCell.h */,
 				18A290371E2DFFAC00BF5B39 /* MineIconCell.m */,
 				18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */,
+				183540AD1E4AC56E009958B3 /* MineCollectionCell.h */,
+				183540AE1E4AC56E009958B3 /* MineCollectionCell.m */,
+				183540AF1E4AC56E009958B3 /* MineCollectionCell.xib */,
+				180FFCCB1E4C1C3400E6A076 /* MineSelectCell.h */,
+				180FFCCD1E4C1C3400E6A076 /* MineSelectCell.m */,
+				180FFCCC1E4C1C3400E6A076 /* MineSelectCell.xib */,
+				180FFCD51E4C538100E6A076 /* MyDemandCell.h */,
+				180FFCD61E4C538100E6A076 /* MyDemandCell.m */,
+				180FFCD71E4C538100E6A076 /* MyDemandCell.xib */,
+				18643C7C1E4DA8FF00BEF756 /* MySignDemandCell.h */,
+				18643C7D1E4DA8FF00BEF756 /* MySignDemandCell.m */,
+				18643C7E1E4DA8FF00BEF756 /* MySignDemandCell.xib */,
+				1835D0501E4C724A00798208 /* SignersCell.h */,
+				1835D0511E4C724A00798208 /* SignersCell.m */,
+				1835D0521E4C724A00798208 /* SignersCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2732,6 +2812,8 @@
 				187332171C8E6C63004C637F /* JGHTTPClient+Mine.m */,
 				182190931CCB763F00CEC2E4 /* JGHTTPClient+Job.h */,
 				182190941CCB763F00CEC2E4 /* JGHTTPClient+Job.m */,
+				18643C841E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.h */,
+				18643C851E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m */,
 			);
 			path = NetService;
 			sourceTree = "<group>";
@@ -3019,6 +3101,7 @@
 				186AA0271DF51F84008C0842 /* VoiceMessageSource.bundle in Resources */,
 				18E5C8F31C9BB15A004E6E29 /* chatBar_keyboardSelected.png in Resources */,
 				183055481E20995D008FB0B5 /* DemandDetailController.xib in Resources */,
+				1835D0541E4C724A00798208 /* SignersCell.xib in Resources */,
 				186AA0211DF51F84008C0842 /* LCCKPBLocalizations.bundle in Resources */,
 				183055521E20CEF8008FB0B5 /* CommentCell.xib in Resources */,
 				188C0B9C1C86B72800FEF500 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -3048,18 +3131,22 @@
 				18F723321C9D30580040DA5E /* SignUpView.xib in Resources */,
 				18574BFF1CE1BB8900115A62 /* AboutCell.xib in Resources */,
 				18E5C9011C9BB15A004E6E29 /* chatBar_colorMore_audioCall@2x.png in Resources */,
+				183540B11E4AC56E009958B3 /* MineCollectionCell.xib in Resources */,
 				18E24E6F1CA1014E00C5A700 /* JGArea.plist in Resources */,
+				1835D04F1E4C6FB500798208 /* SignDemandViewController.xib in Resources */,
 				18DA7A111CB7AADD000587DA /* SignListCell.xib in Resources */,
 				182DB8481E1609A200985887 /* CustomCollectionCell.xib in Resources */,
 				189603391E13548D0099F188 /* FindPassViewController.xib in Resources */,
 				18E5C90B1C9BB15A004E6E29 /* chatBar_more_camera.png in Resources */,
 				18E5C9121C9BB15A004E6E29 /* chatBar_more_locationSelected@2x.png in Resources */,
 				18F7233F1C9DA5140040DA5E /* ShareView.xib in Resources */,
+				180FFCD91E4C538100E6A076 /* MyDemandCell.xib in Resources */,
 				188C0BA01C86B72800FEF500 /* ShareSDK.bundle in Resources */,
 				186AA0231DF51F84008C0842 /* MBProgressHUD.bundle in Resources */,
 				18E8D46C1C95125B00745B39 /* NoDataView.xib in Resources */,
 				18E5C9151C9BB15A004E6E29 /* chatBar_more_photoSelected.png in Resources */,
 				186AA0221DF51F84008C0842 /* LCCKPhotoBrowser.bundle in Resources */,
+				180FFCCE1E4C1C3400E6A076 /* MineSelectCell.xib in Resources */,
 				18E5C9131C9BB15A004E6E29 /* chatBar_more_photo.png in Resources */,
 				18E5C9061C9BB15A004E6E29 /* chatBar_colorMore_locationSelected@2x.png in Resources */,
 				1842877E1C99150000416F3A /* ChatListCell.xib in Resources */,
@@ -3091,10 +3178,12 @@
 				1801C3031C927CB000B73522 /* PickerView.xib in Resources */,
 				18F723491C9E348F0040DA5E /* icon_chose_bottom@2x.png in Resources */,
 				187B05571C87C81B00C7F0A9 /* PushConfig.plist in Resources */,
+				18643C7B1E4DA82C00BEF756 /* MySignDemandsViewController.xib in Resources */,
 				18F723371C9D435D0040DA5E /* ChatNoticeOrMetionView.xib in Resources */,
 				18E24E701CA1014E00C5A700 /* JGSort.plist in Resources */,
 				18E5C90D1C9BB15A004E6E29 /* chatBar_more_cameraSelected.png in Resources */,
 				18E5C9051C9BB15A004E6E29 /* chatBar_colorMore_location@2x.png in Resources */,
+				180FFCD41E4C52F500E6A076 /* MyPostDemandViewController.xib in Resources */,
 				188E6BFB1C852CAD000EE7B7 /* Assets.xcassets in Resources */,
 				1830554D1E209C15008FB0B5 /* DemandDetailCell.xib in Resources */,
 				18E5C8F91C9BB15A004E6E29 /* chatBar_record.png in Resources */,
@@ -3129,8 +3218,10 @@
 				1873321D1C8E7E7E004C637F /* TextFieldCell.xib in Resources */,
 				185C4CE61C985A5C00510A3E /* BusinessCell.xib in Resources */,
 				18E5C9031C9BB15A004E6E29 /* chatBar_colorMore_camera@2x.png in Resources */,
+				18B04FBD1E51B811000F26EF /* EditInfoViewController.xib in Resources */,
 				18990B571D65A62F0087FCF6 /* SelectCollectionCell.xib in Resources */,
 				1899A6C11E12103900CA39D9 /* WeiboSDK.bundle in Resources */,
+				18643C801E4DA8FF00BEF756 /* MySignDemandCell.xib in Resources */,
 				186AA0251DF51F84008C0842 /* Other.bundle in Resources */,
 				187B726C1CC879FC006DF99E /* BindCell.xib in Resources */,
 				18990B551D65A62F0087FCF6 /* LabelCell.xib in Resources */,
@@ -3197,6 +3288,7 @@
 				180A61F61D6D4DE700AC89BF /* HomeViewController.m in Sources */,
 				18735D871E2A171B003825EF /* CommentInputView.m in Sources */,
 				1840AB831C8EB66700D171A2 /* QNDes.m in Sources */,
+				183540B01E4AC56E009958B3 /* MineCollectionCell.m in Sources */,
 				187096241C891F2700D5257C /* UIImage+sretchImage.m in Sources */,
 				186AA0071DF51F84008C0842 /* LCCKChatBar.m in Sources */,
 				18E5C89A1C9B97F8004E6E29 /* ImagesModel.m in Sources */,
@@ -3240,6 +3332,7 @@
 				18805A8E1D82528D00BD2806 /* UIDevice+Model.m in Sources */,
 				18BBA37F1E13CA8B00CB8FD5 /* UIWindow+Extension.m in Sources */,
 				185C4CD61C9859A900510A3E /* DetailsCell.m in Sources */,
+				180FFCD81E4C538100E6A076 /* MyDemandCell.m in Sources */,
 				186AA0131DF51F84008C0842 /* LCCKChatSystemMessageCell.m in Sources */,
 				1840AB841C8EB66700D171A2 /* QNHex.m in Sources */,
 				1840AB8C1C8EB66700D171A2 /* QNSystem.m in Sources */,
@@ -3248,6 +3341,7 @@
 				186AA0371DF51F84008C0842 /* LCCKUIService.m in Sources */,
 				186AA03E1DF51F84008C0842 /* LCCKCaptionView.m in Sources */,
 				18F723541C9F85A90040DA5E /* MyPartJobViewController.m in Sources */,
+				18643C861E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m in Sources */,
 				18E5C8A01C9B9F28004E6E29 /* SelectCityController.m in Sources */,
 				1840AB941C8EB66700D171A2 /* QNReachability.m in Sources */,
 				18FE54A01C859DCA00702074 /* HeaderView.m in Sources */,
@@ -3285,6 +3379,8 @@
 				18B1CCF91C8D79FE00C2270C /* MineCell.m in Sources */,
 				1840AB961C8EB66700D171A2 /* QNConfiguration.m in Sources */,
 				188C0B461C868C1400FEF500 /* LoginViewController.m in Sources */,
+				1835D0531E4C724A00798208 /* SignersCell.m in Sources */,
+				180FFCCF1E4C1C3400E6A076 /* MineSelectCell.m in Sources */,
 				188E6C0C1C852F8C000EE7B7 /* MyTabBarController.m in Sources */,
 				1840AB8F1C8EB66700D171A2 /* QNHttpManager.m in Sources */,
 				186A9FF01DF51F84008C0842 /* LCCKContactListViewController.m in Sources */,
@@ -3327,6 +3423,7 @@
 				18DA7A0E1CB7AAAA000587DA /* SignListCell.m in Sources */,
 				186AA0401DF51F84008C0842 /* LCCKPhotoBrowser.m in Sources */,
 				1840AB981C8EB66700D171A2 /* QNResumeUpload.m in Sources */,
+				18643C7A1E4DA82C00BEF756 /* MySignDemandsViewController.m in Sources */,
 				18AA38871E14BFDE00B398DF /* BindingTelViewController.m in Sources */,
 				187332151C8E68B7004C637F /* MyCVViewController.m in Sources */,
 				189A8BD91DEEDEBB000BCC5A /* MoneyRecordModel.m in Sources */,
@@ -3400,6 +3497,7 @@
 				186A9FF71DF51F84008C0842 /* AVIMConversation+LCCKExtension.m in Sources */,
 				187D6A601C8A6FFF004BCB34 /* JGUser.m in Sources */,
 				1870962A1C8933D400D5257C /* FindPassViewController.m in Sources */,
+				1835D04E1E4C6FB500798208 /* SignDemandViewController.m in Sources */,
 				18E5C8E41C9BB15A004E6E29 /* BCKeyBoard.m in Sources */,
 				187B72781CC8AC5B006DF99E /* WalletModel.m in Sources */,
 				186AA0151DF51F84008C0842 /* LCCKChatVoiceMessageCell.m in Sources */,
@@ -3413,6 +3511,7 @@
 				18DA7A1D1CB8B29E000587DA /* UIButton+Background.m in Sources */,
 				188E92D31C897228006F4205 /* CALayer+Cool.m in Sources */,
 				183ED2861C96A98C00BF1A9A /* SettingViewController.m in Sources */,
+				18643C761E4D6C2F00BEF756 /* SignUsers.m in Sources */,
 				186AA02F1DF51F84008C0842 /* UIView+LCCKExtension.m in Sources */,
 				185C4CC31C97C57000510A3E /* AttentionCell.m in Sources */,
 				18420F0B1CB7476F00E9ECA2 /* NameIdManger.m in Sources */,
@@ -3446,6 +3545,7 @@
 				186AA03C1DF51F84008C0842 /* LCCKDeallocExecutor.m in Sources */,
 				187300B21DF8F50400FF42AF /* JGLCCKInputPickImage.m in Sources */,
 				18971EF51E1F36DE003EE4CD /* DemandListCell.m in Sources */,
+				180FFCD31E4C52F500E6A076 /* MyPostDemandViewController.m in Sources */,
 				186AA03A1DF51F84008C0842 /* NSDate+LCCKDateTools.m in Sources */,
 				186AA0451DF51F84008C0842 /* LCCKWebViewController.m in Sources */,
 				182D81751E1124C1005F795B /* UIImage+Water.m in Sources */,
@@ -3454,7 +3554,9 @@
 				1840AB9A1C8EB66700D171A2 /* QNUploadOption.m in Sources */,
 				186AA00C1DF51F84008C0842 /* LCCKInputViewPluginLocation.m in Sources */,
 				186AA0161DF51F84008C0842 /* LCCKContentView.m in Sources */,
+				18643C7F1E4DA8FF00BEF756 /* MySignDemandCell.m in Sources */,
 				18B817421DE44F1700A8764D /* LabelModel.m in Sources */,
+				18B04FBC1E51B811000F26EF /* EditInfoViewController.m in Sources */,
 				184E3A871DE7D5640022A97A /* MyWalletHeadView.m in Sources */,
 				1840ABA81C8ED26200D171A2 /* AvatarBrowser.m in Sources */,
 				18F723301C9D26250040DA5E /* StarView.m in Sources */,

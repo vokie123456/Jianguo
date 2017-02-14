@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MineCollectionCell" id="gTV-IL-0wX" customClass="MineCollectionCell">
+            <rect key="frame" x="0.0" y="0.0" width="325" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="325" height="66"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="科比" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qe-MJ-ALM">
+                        <rect key="frame" x="15" y="8" width="30" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="92" id="PiM-kw-5Wg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="PiM-kw-5Wg"/>
+                            </mask>
+                        </variation>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击编辑信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCP-a5-eks">
+                        <rect key="frame" x="15" y="34" width="290" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YvU-wq-JaJ">
+                        <rect key="frame" x="0.0" y="65" width="325" height="1"/>
+                        <color key="backgroundColor" red="0.94566205260000002" green="0.9435909536" blue="0.94741855429999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="00y-cV-1yf"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="man" translatesAutoresizingMaskIntoConstraints="NO" id="Uun-Ic-VTy">
+                        <rect key="frame" x="65" y="10" width="14" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Uun-Ic-VTy" secondAttribute="height" multiplier="1:1" id="n6B-gw-g11"/>
+                            <constraint firstAttribute="width" constant="14" id="nux-bp-v2T"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="cCP-a5-eks" firstAttribute="top" secondItem="4Qe-MJ-ALM" secondAttribute="bottom" constant="8" id="AU5-se-Gfn"/>
+                <constraint firstItem="4Qe-MJ-ALM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="DYS-zv-DgX"/>
+                <constraint firstItem="YvU-wq-JaJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="SRr-OY-cVV"/>
+                <constraint firstItem="4Qe-MJ-ALM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="WTf-9A-ctx"/>
+                <constraint firstAttribute="bottom" secondItem="YvU-wq-JaJ" secondAttribute="bottom" id="b8I-Ev-Dur"/>
+                <constraint firstAttribute="trailing" secondItem="YvU-wq-JaJ" secondAttribute="trailing" id="ePO-DD-OFs"/>
+                <constraint firstAttribute="trailing" secondItem="cCP-a5-eks" secondAttribute="trailing" constant="20" id="mW2-Si-a6K"/>
+                <constraint firstItem="cCP-a5-eks" firstAttribute="leading" secondItem="4Qe-MJ-ALM" secondAttribute="leading" id="nNy-hR-mFM"/>
+                <constraint firstItem="Uun-Ic-VTy" firstAttribute="leading" secondItem="4Qe-MJ-ALM" secondAttribute="trailing" constant="20" id="xKv-Bj-J85"/>
+                <constraint firstItem="Uun-Ic-VTy" firstAttribute="centerY" secondItem="4Qe-MJ-ALM" secondAttribute="centerY" id="zB3-za-ufR"/>
+            </constraints>
+            <size key="customSize" width="325" height="72"/>
+            <connections>
+                <outlet property="genderView" destination="Uun-Ic-VTy" id="H9L-98-EIv"/>
+                <outlet property="nameL" destination="4Qe-MJ-ALM" id="qFl-dm-mOD"/>
+            </connections>
+            <point key="canvasLocation" x="560.5" y="290"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="man" width="14" height="14"/>
+    </resources>
+</document>

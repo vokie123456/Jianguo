@@ -73,8 +73,8 @@
     navChat.tabBarItem.title = @"果聊";
     
     
-    MineNewViewController *mineVC = [[MineNewViewController alloc] init];
-//    MineViewController *mineVC = [[MineViewController alloc] init];
+//    MineNewViewController *mineVC = [[MineNewViewController alloc] init];
+    MineViewController *mineVC = [[MineViewController alloc] init];
     mineVC.title = @"我的";
     //设置图标
     mineVC.tabBarItem.image = [UIImage imageNamed:@"zh_wd"];

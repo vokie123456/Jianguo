@@ -32,7 +32,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </imageView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入账号" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="K2X-br-Bpa">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="13614093590" placeholder="请输入账号" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="K2X-br-Bpa">
                     <rect key="frame" x="50" y="190" width="274" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="5SO-Og-KDW"/>
@@ -40,7 +40,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="Sdc-Fd-boe">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="Sdc-Fd-boe">
                     <rect key="frame" x="50" y="265" width="274" height="45"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="alphabet"/>

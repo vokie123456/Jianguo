@@ -245,6 +245,7 @@
             textV.placeholder = @"一段介绍你自己的文字";
             [cell.contentView addSubview:textV];
             self.introduceTF = textV;
+            
         }
     }
     

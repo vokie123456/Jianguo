@@ -217,9 +217,9 @@
     
     NSMutableDictionary *params = [self getAllBasedParams];
     
-    [params setObject:nickName forKey:@"nickname"];
+    !nickName?:[params setObject:nickName forKey:@"nickname"];
     
-    [params setObject:name forKey:@"name"];
+    !name?:[params setObject:name forKey:@"name"];
     
     iconUrl.length?[params setObject:iconUrl forKey:@"head_img_url"]:nil;
     
@@ -227,11 +227,11 @@
 
     inSchoolTime.length?[params setObject:inSchoolTime forKey:@"intoschool_date"]:nil;
     
-    [params setObject:sex forKey:@"sex"];
+    !sex?:[params setObject:sex forKey:@"sex"];
     
-    [params setObject:birthDay forKey:@"birth_date"];
+    !birthDay?:[params setObject:birthDay forKey:@"birth_date"];
     
-    [params setObject:constellation forKey:@"constellation"];
+    !constellation?:[params setObject:constellation forKey:@"constellation"];
     
     qq.length?[params setObject:qq forKey:@"qq"]:nil;
     

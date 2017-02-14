@@ -106,7 +106,7 @@
 
 //    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 
-    #define APIURLCOMMON @"http://192.168.0.103:9090/"//义文局域网
+    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
 
 #else
     #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网

@@ -11,7 +11,9 @@
 @implementation MineIconCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    self.iconView.contentMode = UIViewContentModeScaleAspectFill;
+    
 }
 
 @end

@@ -15,6 +15,7 @@
 #import "PostDemandViewController.h"
 #import "ProfileViewController.h"
 #import "DemandListViewController.h"
+#import "MineNewViewController.h"
 
 #define cellCount 5
 
@@ -110,6 +111,12 @@ static NSString *identifier = @"colletionCell";
         
         DemandListViewController *profileVC = [DemandListViewController new];
         profileVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:profileVC animated:YES];
+        
+    }else if (indexPath.row == 3){
+        
+        MineNewViewController *profileVC = [MineNewViewController new];
+//        profileVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:profileVC animated:YES];
         
     }

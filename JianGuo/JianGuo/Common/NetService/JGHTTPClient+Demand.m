@@ -204,18 +204,119 @@
  *  我要接活儿
  */
 +(void)signDemandWithDemandId:(NSString *)Id
+                       userId:(NSString *)userId
                        status:(NSString *)status
                       Success:(void (^)(id responseObject))success
                       failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
     [params setObject:Id forKey:@"d_id"];
+    [params setObject:userId forKey:@"user_id"];
     [params setObject:status forKey:@"enroll_status"];
     
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/demandEnroll"];
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
+ *  报名申请人的列表
+ */
++(void)signerListWithDemandId:(NSString *)Id
+                      pageNum:(NSString *)pageNum
+                     pageSize:(NSString *)pageSize
+                      Success:(void (^)(id responseObject))success
+                      failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:Id?Id:@"0" forKey:@"id"];
+    [params setObject:pageNum forKey:@"pageNum"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/getEnrollUser"];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
+ *  删除需求
+ */
++(void)updateDemandStatusWithDemandId:(NSString *)Id
+                               status:(NSString *)status
+                              Success:(void (^)(id responseObject))success
+                              failure:(void (^)(NSError *error))failure;
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:Id?Id:@"0" forKey:@"id"];
+    [params setObject:status forKey:@"d_status"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/upDemandStatus"];
+    
+    [[JGHTTPClient sharedManager] PUT:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
+ *  我发布的需求列表
+ */
++(void)getMyDemandsListWithPageNum:(NSString *)pageNum
+                          pageSize:(NSString *)pageSize
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:pageNum forKey:@"pageNum"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demand/getDemandByUser/%@",USER.login_id]];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
+ *  我报名的需求列表
+ */
++(void)getMySignedDemandsListWithPageNum:(NSString *)pageNum
+                                pageSize:(NSString *)pageSize
+                                 Success:(void (^)(id responseObject))success
+                                 failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:pageNum forKey:@"pageNum"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demand/getDemandUserJoin/%@",USER.login_id]];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
             success(responseObject);
         }

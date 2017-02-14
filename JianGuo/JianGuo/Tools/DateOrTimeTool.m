@@ -22,7 +22,7 @@
         formatter = [[NSDateFormatter alloc] init];
         formatter = [[NSDateFormatter alloc] init];
         formatter.timeZone = [NSTimeZone systemTimeZone];//设置成这样能解决相差8小时的问题
-        [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         [formatter setLocale:[NSLocale currentLocale]];
     });
     return formatter;
