@@ -12,19 +12,18 @@
 #import "DemandTypeView.h"
 #import "PickerView.h"
 #import "JGHTTPClient+Mine.h"
+#import "JianliAccount.h"
 
 @interface EditInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
+{
+    JianliAccount *account;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) UITextView *introduceTV;
-@property (nonatomic,strong) UITextField *nameTF;
 @property (nonatomic,strong) UITextField *nickNameTF;
 @property (nonatomic,strong) UITextField *sexTF;
 @property (nonatomic,strong) UITextField *starTF;
 @property (nonatomic,strong) UITextField *birthDateTF;
-@property (nonatomic,strong) UITextField *isStudentTF;
-@property (nonatomic,strong) UITextField *addressTF;
-@property (nonatomic,strong) UITextField *schoolTF;
-@property (nonatomic,strong) UITextField *intoSchoolTimeTF;
 @property (nonatomic,strong) UITextField *QQTF;
 @property (nonatomic,copy) NSString *starSet;
 @property (nonatomic,copy) NSString *sex;
@@ -59,12 +58,29 @@
     self.navigationItem.rightBarButtonItem = rightBtn;
     
     
+    JGSVPROGRESSLOAD(@"正在拼命加载中...");
+    [JGHTTPClient getJianliInfoByloginId:[JGUser user].login_id Success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        JGLog(@"%@",responseObject);
+        if (responseObject) {
+            
+            account = [JianliAccount mj_objectWithKeyValues:responseObject[@"data"]];
+            
+            [self.tableView reloadData];
+        }
+
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+    }];
+    
 }
 
 -(void)save
 {
-    JGSVPROGRESSLOAD(@"正在上传...")
-    [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:nil iconUrl:nil sex:self.sex schoolId:nil cityId:nil areaId:nil inSchoolTime:nil birthDay:self.birthDateTF.text constellation:self.starSet introduce:self.introduceTV.text qq:self.QQTF.text isStudent:nil Success:^(id responseObject) {
+    JGSVPROGRESSLOAD(@"正在上传...");
+    [JGHTTPClient uploadUserJianliInfoByname:self.nickNameTF.text nickName:nil iconUrl:nil sex:self.sex height:nil schoolId:nil cityId:nil areaId:nil inSchoolTime:nil birthDay:self.birthDateTF.text constellation:self.starTF.text introduce:self.introduceTV.text qq:self.QQTF.text isStudent:nil Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"] integerValue]== 200) {
@@ -102,27 +118,30 @@
     
     if (indexPath.row == 0) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.labelLeft.text = @"姓名";
+        cell.labelLeft.text = @"昵称";
         cell.rightTf.placeholder = @"尊姓大名";
         cell.jiantouView.hidden = YES;
         cell.rightTf.userInteractionEnabled = YES;
-        self.nameTF = cell.rightTf;
+        self.nickNameTF = cell.rightTf;
+        if (account) {
+            self.nickNameTF.text = account.nickname;
+        }
     }else if (indexPath.row == 1){
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.labelLeft.text = @"性别";
         cell.jiantouView.hidden = YES;
         self.sexTF = cell.rightTf;
+        if (account) {
+            self.sex = account.sex;
+            if (account.sex.integerValue == 2) {
+                cell.rightTf.text = @"男";
+            }else if (account.sex.integerValue == 1){
+                cell.rightTf.text = @"女";
+            }
+        }
         cell.rightTf.userInteractionEnabled = NO;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-//        cell.selectYes.hidden = NO;
-//        cell.selectNo.hidden = NO;
-//        cell.selectNo.labeYysOrNo.text = @"我是女神";
-//        cell.selectYes.labeYysOrNo.text = @"我是男神";
-        //用户性别(男=2,女=1)
-//        cell.seletIsStudentBlock = ^(NSString *sex){
-//            
-//        };
     }else if (indexPath.row == 2){
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.labelLeft.text = @"星座";
@@ -130,6 +149,11 @@
         cell.jiantouView.hidden = YES;
         cell.rightTf.userInteractionEnabled = NO;
         self.starTF = cell.rightTf;
+        if (account) {
+           NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
+            self.starSet = account.constellation;
+            cell.rightTf.text = account.constellation;
+        }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }else if (indexPath.row == 3){
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -138,6 +162,9 @@
         cell.jiantouView.hidden = YES;
         cell.rightTf.userInteractionEnabled = NO;
         self.birthDateTF = cell.rightTf;
+        if (account) {
+            cell.rightTf.text = account.birth_date;
+        }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }else if (indexPath.row == 4){
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -146,6 +173,9 @@
         cell.jiantouView.hidden = YES;
         cell.rightTf.userInteractionEnabled = YES;
         self.QQTF = cell.rightTf;
+        if (account) {
+            cell.rightTf.text = account.qq;
+        }
     }else if (indexPath.row == 5) {
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -159,6 +189,10 @@
         textV.placeholder = @"一段介绍你自己的文字";
         [cell.contentView addSubview:textV];
         self.introduceTV = textV;
+        if (account) {
+            textV.text = account.introduce;
+            textV.placeholder = nil;
+        }
         
     }
         
@@ -170,7 +204,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 1){//选择性别
-        JianliCell *cell = [tableView cellForRowAtIndexPath: indexPath];
         PickerView *pickerView = [PickerView aPickerView:^(NSString *sex) {
             if ([sex isEqualToString:@"男"]) {
                 self.sex = @"2";

@@ -43,6 +43,8 @@
 
 @property (nonatomic,copy) NSString *introduce;
 
+@property (nonatomic,copy) NSString *constellation;
+
 /**** 以上为新接口返回的数据 *****/
 @property (nonatomic,copy) NSString *login_id;
 

@@ -12,16 +12,10 @@
 
 
 /** 兼职图片 */
-@property (nonatomic, copy) NSString*   job_image;
+@property (nonatomic, copy) NSString*   logImg;
 
 /** 兼职名称 */
-@property (nonatomic, copy) NSString*   job_name;
-
-/** 开始日期 */
-@property (nonatomic, copy) NSString*   start_date;
-
-/** 结束日期 */
-@property (nonatomic, copy) NSString*   end_date;
+@property (nonatomic, copy) NSString*   logName;
 
 /** 创建时间 */
 @property (nonatomic, copy) NSString*  createTime;
@@ -41,7 +35,13 @@
 /** 自己的ID */
 @property (nonatomic, copy) NSString*  user_id;
 
-/** 提现到支付宝或者银行卡 */
+/** 
+ 1;//兼职工资
+ 5;//充值
+ 2;//提现
+ 4;//商家支出工资款（商家端记录信息备用）
+ 6;//用户发布需求冻结（发需求扣款记录）
+ */
 @property (nonatomic, copy) NSString*  type;
 
 /** ??? */

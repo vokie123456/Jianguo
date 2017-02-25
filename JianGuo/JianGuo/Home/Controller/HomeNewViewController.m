@@ -7,17 +7,19 @@
 //
 
 #import "HomeNewViewController.h"
+#import "HomeViewController.h"
 #import "SMPageControl.h"
 #import "UIImage+Color.h"
 #import "LoginNew2ViewController.h"
 #import "CustomCollectionCell.h"
 #import "CustomLayout.h"
+#import "VerLayout.h"
 #import "PostDemandViewController.h"
 #import "ProfileViewController.h"
 #import "DemandListViewController.h"
 #import "MineNewViewController.h"
 
-#define cellCount 5
+#define cellCount 2
 
 static NSString *identifier = @"colletionCell";
 
@@ -27,6 +29,8 @@ static NSString *identifier = @"colletionCell";
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (nonatomic,assign) BOOL isHorLayout;;
+
 @end
 
 @implementation HomeNewViewController
@@ -34,19 +38,35 @@ static NSString *identifier = @"colletionCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"找兼职";
+    
+//    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn_r setTitle:@"切换布局" forState:UIControlStateNormal];
+//    [btn_r addTarget:self action:@selector(changeLayout:) forControlEvents:UIControlEventTouchUpInside];
+//    btn_r.frame = CGRectMake(0, 0, 60, 30);
+//    
+//    
+//    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+//    
+//    self.navigationItem.rightBarButtonItem = rightBtn;
+
+    
 //    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 //    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    CustomLayout *layout = [[CustomLayout alloc] init];
-    layout.sendIndexBlock = ^(NSInteger index){
-        pageControl.currentPage = index;
-    };
+//    CustomLayout *layout = [[CustomLayout alloc] init];
+//    layout.sendIndexBlock = ^(NSInteger index){
+//        pageControl.currentPage = index;
+//    };
+    VerLayout *layout = [[VerLayout alloc] init];
+    
     
     self.collectionView.collectionViewLayout = layout;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.showsVerticalScrollIndicator = YES;
+    self.collectionView.scrollEnabled = NO;
     self.collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"CustomCollectionCell" bundle:nil] forCellWithReuseIdentifier:identifier];//这个方法只会加载xib上的控件
@@ -57,6 +77,7 @@ static NSString *identifier = @"colletionCell";
     
     pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 40)];
     pageControl.userInteractionEnabled = NO;
+    pageControl.hidden = YES;
     
     pageControl.numberOfPages = cellCount;
     
@@ -75,6 +96,26 @@ static NSString *identifier = @"colletionCell";
     
 }
 
+-(void)changeLayout:(UIButton *)sender
+{
+    self.isHorLayout = !self.isHorLayout;
+    if (self.isHorLayout) {
+        CustomLayout *layout = [[CustomLayout alloc] init];
+        layout.sendIndexBlock = ^(NSInteger index){
+            pageControl.currentPage = index;
+        };
+        pageControl.hidden = NO;
+
+        [self.collectionView setCollectionViewLayout:layout animated:YES];
+        [self.collectionView reloadData ];
+    }else{
+        pageControl.hidden = YES;
+        VerLayout *layout = [[VerLayout alloc] init];
+        [self.collectionView setCollectionViewLayout:layout animated:YES];
+        [self.collectionView reloadData ];
+    }
+}
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return cellCount;
@@ -83,13 +124,23 @@ static NSString *identifier = @"colletionCell";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    if (indexPath.item==0) {
-        cell.iconView.image = [UIImage imageNamed:@"one"];
-    }else if (indexPath.item == 1){
-        cell.iconView.image = [UIImage imageNamed:@"two"];
-    }else
-        cell.iconView.image = [UIImage imageNamed:@"one"];
-    
+    if (self.isHorLayout) {
+        if (indexPath.item==0) {
+            cell.iconView.image = [UIImage imageNamed:@"one"];
+        }else if (indexPath.item == 1){
+            cell.iconView.image = [UIImage imageNamed:@"two"];
+        }else
+            cell.iconView.image = [UIImage imageNamed:@"one"];
+        
+    }else{
+        if (indexPath.item==0) {
+            cell.iconView.image = [UIImage imageNamed:@"school"];
+        }else if (indexPath.item == 1){
+            cell.iconView.image = [UIImage imageNamed:@"campus"];
+        }else
+            cell.iconView.image = [UIImage imageNamed:@"shcool"];
+        
+    }
     return cell;
 }
 
@@ -97,15 +148,15 @@ static NSString *identifier = @"colletionCell";
 {
     if (indexPath.item == 0) {//去校约模块
         
-        PostDemandViewController *demandVC = [PostDemandViewController new];
+        DemandListViewController *demandVC = [DemandListViewController new];
         demandVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:demandVC animated:YES];
         
     }else if (indexPath.item == 1){//去兼职模块
         
-        ProfileViewController *profileVC = [ProfileViewController new];
-        profileVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:profileVC animated:YES];
+        HomeViewController *homeVC = [HomeViewController new];
+        homeVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:homeVC animated:YES];
         
     }else if (indexPath.row == 2){
         
@@ -138,6 +189,7 @@ static NSString *identifier = @"colletionCell";
     pageControl.frame = CGRectMake(0, self.collectionView.bottom-(SCREEN_W==320?40:60), SCREEN_W, 40);
     
 }
+
 
 
 @end

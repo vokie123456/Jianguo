@@ -25,7 +25,7 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="最近忙啥呢?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTx-fz-oFw" customClass="TTTAttributedLabel">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近忙啥呢?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTx-fz-oFw" customClass="TTTAttributedLabel">
                         <rect key="frame" x="68" y="34" width="249" height="24"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,8 +46,16 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lye-WZ-zgR">
+                        <rect key="frame" x="80" y="60" width="237" height="8"/>
+                        <color key="backgroundColor" red="0.94566205260000002" green="0.9435909536" blue="0.94741855429999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Kdt-tS-qVc"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="lye-WZ-zgR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0Sl-5H-CTH"/>
                     <constraint firstItem="N0W-PD-5yv" firstAttribute="top" secondItem="Evt-LJ-tSa" secondAttribute="top" id="AwY-qh-eBC"/>
                     <constraint firstItem="Evt-LJ-tSa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Nfk-IT-DTh"/>
                     <constraint firstAttribute="bottom" secondItem="nTx-fz-oFw" secondAttribute="bottom" constant="10" id="WCT-Ao-Gnf"/>
@@ -57,6 +65,8 @@
                     <constraint firstItem="N0W-PD-5yv" firstAttribute="leading" secondItem="Evt-LJ-tSa" secondAttribute="trailing" constant="15" id="iDe-Dj-TaM"/>
                     <constraint firstItem="nTx-fz-oFw" firstAttribute="top" secondItem="N0W-PD-5yv" secondAttribute="bottom" constant="5" id="m2O-BW-jYj"/>
                     <constraint firstAttribute="trailingMargin" secondItem="e71-1a-4i2" secondAttribute="trailing" constant="10" id="oC3-9O-9Cf"/>
+                    <constraint firstAttribute="bottom" secondItem="lye-WZ-zgR" secondAttribute="bottom" id="sqY-nI-Oeh"/>
+                    <constraint firstAttribute="trailing" secondItem="lye-WZ-zgR" secondAttribute="trailing" id="xMu-np-fEz"/>
                     <constraint firstItem="Evt-LJ-tSa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="zDO-hD-iKH"/>
                 </constraints>
             </tableViewCellContentView>

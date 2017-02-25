@@ -25,12 +25,12 @@
 {
     _model = model;
     
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
-    self.tittleL.text = model.job_name;
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    self.tittleL.text = model.logName;
     if (model.note.length&&![model.note isKindOfClass:[NSNull class]]&&![model.note isEqualToString:@"null"]) {
         self.remarkL.text = [@"备注:" stringByAppendingString:model.note];
     }
-    self.worKDateL.text = [self getWorkTimeStrStartTime:model.start_date endTime:model.end_date];
+//    self.worKDateL.text = [self getWorkTimeStrStartTime:model.start_date endTime:model.end_date];
     self.moneyL.text = [@"+" stringByAppendingString:model.money];
     
 }

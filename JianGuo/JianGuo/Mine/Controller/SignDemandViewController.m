@@ -22,9 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"申请人";
+    self.navigationItem.title = @"报名列表";
     
-    self.tableView.rowHeight = 75;
+    self.tableView.rowHeight = 118;
     
     [self requestWithCount:0];
     
@@ -47,28 +47,43 @@
     
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dataArr.count;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SignersCell *cell = [SignersCell cellWithTableView:tableView];
-    
-    if (self.dataArr.count>indexPath.row) {
-        cell.model = self.dataArr[indexPath.row];
-    }
+    cell.selectionStyle =  UITableViewCellSelectionStyleNone;
+//    if (self.dataArr.count>indexPath.row) {
+        cell.model = self.dataArr[indexPath.section];
+        cell.demandId = self.demandId;
+//    }
     cell.delegate = self;
     
     return cell;
 }
 
--(void)userSomeOne:(NSString *)userId
+-(void)userSomeOne:(NSString *)userId status:(NSString *)status
 {
     JGSVPROGRESSLOAD(@"请求中...")
-    [JGHTTPClient signDemandWithDemandId:self.demandId userId:userId status:@"2" Success:^(id responseObject) {
+    [JGHTTPClient signDemandWithDemandId:self.demandId userId:userId status:status reason:nil Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
     } failure:^(NSError *error) {

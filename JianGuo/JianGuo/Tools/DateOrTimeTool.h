@@ -35,4 +35,7 @@
  */
 +(NSString *)compareDate:(NSString *)timeStap;
 
+//根据日期计算星座
++(NSString *)getConstellation:(NSString *)dateStr;
+
 @end

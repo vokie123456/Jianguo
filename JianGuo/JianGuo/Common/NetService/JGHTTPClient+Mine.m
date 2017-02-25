@@ -202,6 +202,7 @@
                          nickName:(NSString *)nickName
                           iconUrl:(NSString *)iconUrl
                               sex:(NSString *)sex
+                           height:(NSString *)height
                          schoolId:(NSString *)schoolId
                            cityId:(NSString *)cityId
                            areaId:(NSString *)areaId
@@ -222,6 +223,8 @@
     !name?:[params setObject:name forKey:@"name"];
     
     iconUrl.length?[params setObject:iconUrl forKey:@"head_img_url"]:nil;
+    
+    !height?:[params setObject:height forKey:@"height"];
     
     schoolId.length?[params setObject:schoolId forKey:@"school_id"]:nil;
 
@@ -260,13 +263,16 @@
  *  查询学校的接口
  */
 +(void)searchSchoolByName:(NSString *)name
+                 cityCode:(NSString *)cityCode
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure
 {
     
     NSMutableDictionary *params = [self getAllBasedParams];
     
-    [params setObject:[CityModel city].code forKey:@"city_code"];
+    !cityCode?:[params setObject:cityCode forKey:@"city_code"];
+    
+    !name?:[params setObject:name forKey:@"name"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/school"];
     
@@ -288,13 +294,10 @@
                       Success:(void (^)(id responseObject))success
                       failure:(void (^)(NSError *error))failure
 {
-    NSString *timestamp = [self getTimeStamp];
-    
-    NSMutableDictionary *params = [self getBasedParams:USER.tel];
-    
-    [params setObject:timestamp forKey:@"timestamp"];
-    
-    [params setObject:[self getSign:timestamp] forKey:@"sign"];
+    NSMutableDictionary *params;
+    if (loginId && loginId.integerValue!=0) {
+        params = [self getAllBasedParams];
+    }
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/info"];
     

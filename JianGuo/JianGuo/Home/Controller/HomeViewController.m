@@ -16,6 +16,7 @@
 #import "AreaModel.h"
 #import "JGHTTPClient.h"
 #import "JGHTTPClient+Home.h"
+#import "JGHTTPClient+Job.h"
 #import "HeaderView.h"
 #import "JGUser.h"
 #import "JianzhiModel.h"
@@ -33,8 +34,9 @@
 #import "UpdateView.h"
 #import "PrefrenceViewController.h"
 #import "LCChatKit.h"
+#import "DOPDropDownMenu.h"
 
-@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate,AMapLocationManagerDelegate,JGHomeHeaderDelegate,AVIMClientDelegate,UIScrollViewDelegate>
+@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate,AMapLocationManagerDelegate,JGHomeHeaderDelegate,AVIMClientDelegate,UIScrollViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 {
     int pageCount;
     UIView *bgView;
@@ -52,9 +54,57 @@
 @property (nonatomic,strong) UIButton *cityBtn;
 @property (nonatomic,assign) BOOL isRequestedData;
 
+@property (nonatomic, strong) DOPDropDownMenu *selectMenu;
+
+@property (nonatomic,strong) NSMutableArray *jobTypeArr;
+@property (nonatomic,strong) NSMutableArray *sortTypeArr;
+@property (nonatomic,strong) NSMutableArray *areaTypeArr;
+
+
+/** 职业种类 */
+@property (nonatomic,copy) NSString *type;
+@property (nonatomic,copy) NSString *cityId;
+@property (nonatomic,copy) NSString *areaId;
+@property (nonatomic,copy) NSString *sequenceType;
+
 @end
 
 @implementation HomeViewController
+
+
+-(NSMutableArray *)jobTypeArr
+{
+    if (!_jobTypeArr) {
+        
+        NSMutableArray *arr  = (NSMutableArray *)JGKeyedUnarchiver(JGJobTypeArr);
+        PartTypeModel *model = [[PartTypeModel alloc] init];
+        model.id = @"0";
+        model.name = @"全部兼职";
+        [arr insertObject:model atIndex:0];
+        _jobTypeArr = arr;
+    }
+    return _jobTypeArr;
+}
+-(NSMutableArray *)sortTypeArr
+{
+    if (!_sortTypeArr) {
+        _sortTypeArr = [NSMutableArray arrayWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"JGSort" ofType:@"plist"]]];
+    }
+    return _sortTypeArr;
+}
+-(NSMutableArray *)areaTypeArr
+{
+    if (!_areaTypeArr) {
+        NSMutableArray *arr = (NSMutableArray *)[CityModel city].areaList;
+        AreaModel *model = [[AreaModel alloc] init];
+        model.id = @"0";
+        model.areaName = @"全部地区";
+        [arr insertObject:model atIndex:0];
+        _areaTypeArr = arr;
+    }
+    return _areaTypeArr;
+}
+
 -(AMapLocationManager *)manager
 {
     if (!_manager) {
@@ -72,7 +122,7 @@
 -(UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -64, SCREEN_W, SCREEN_H+64)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         headerView = [HeaderView aHeaderView];
@@ -95,6 +145,8 @@
     }
     return _dataArr;
 }
+
+
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -246,6 +298,8 @@
 //        [USERDEFAULTS setObject:currentVersion forKey:NSStringFromClass([self class])];
 //        [USERDEFAULTS synchronize];
 //    }
+    
+    [self initMenu];
 
 }
 
@@ -255,6 +309,14 @@
     [super viewDidAppear:animated];
     [self handleRemoteNotifcation];
     
+}
+
+-(void)initMenu{
+    self.selectMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    self.selectMenu.delegate = self;
+    self.selectMenu.dataSource = self;
+    self.selectMenu.textSelectedColor = GreenColor;
+    [self.view addSubview:self.selectMenu];
 }
 
 /**
@@ -308,7 +370,7 @@
 {
     self.isRequestedData = YES;
     JGSVPROGRESSLOAD(@"加载中...")
-    [JGHTTPClient getpartJobsListByHotType:nil count:count areaId:nil orderField:nil Success:^(id responseObject) {
+    [JGHTTPClient getJobsListByHotType:self.type cityId:self.cityId areaId:self.areaId sequenceType:self.sequenceType count:count Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
@@ -433,14 +495,14 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 40;
+    return 44;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
     if (section == 0) {
-        return [self customAheaderView];
+        return self.selectMenu;
     }
     return nil;
 }
@@ -719,6 +781,58 @@
     return image;
     
 }
+
+#pragma mark DOPDropDownMenuDataSource (三方筛选控件代理方法)
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
+{//有几列
+    return 3;
+}
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
+{//哪一列有几行
+    if (column == 0) {
+        return self.jobTypeArr.count;
+    }else if (column == 1){
+        return self.areaTypeArr.count;
+    }else {
+        return self.sortTypeArr.count;
+    }
+}
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{//设置哪一列的哪一行 的名字
+    
+    if (indexPath.column == 0) {
+        PartTypeModel *model = self.jobTypeArr[indexPath.row];
+        return model.name;
+    } else if (indexPath.column == 1){
+        AreaModel *model = self.areaTypeArr[indexPath.row];
+        return model.areaName;
+    } else {
+        return [self.sortTypeArr[indexPath.row] objectForKey:@"name"];
+    }
+    
+}
+#pragma mark - DOPDropDownMenuDelegate
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{//选择第几行执行什么操作
+    
+    if (indexPath.column == 0) {
+        
+        PartTypeModel *model = self.jobTypeArr[indexPath.row];
+        self.type = model.id;
+        
+    } else if (indexPath.column == 1){
+        
+        AreaModel *model = self.areaTypeArr[indexPath.row];
+        self.areaId = model.id;
+        
+    } else {
+        self.sequenceType = [self.sortTypeArr[indexPath.row] objectForKey:@"id"];
+    }
+    [self  requestList:@"1"];
+    
+}
+
+
 
 -(void)dealloc
 {

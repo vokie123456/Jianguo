@@ -7,9 +7,10 @@
 //
 
 #import "MySignDemandsViewController.h"
+#import "MySignDetailViewController.h"
 #import "JGHTTPClient+Demand.h"
 #import "DemandModel.h"
-#import "MySignDemandCell.h"
+#import "MyDemandCell.h"
 
 @interface MySignDemandsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -26,7 +27,7 @@
     
     //    self.view.backgroundColor = BACKCOLORGRAY;
     
-    self.tableView.rowHeight = 78;
+    self.tableView.rowHeight = 120;
     
     [self requestWithCount:0];
     
@@ -56,9 +57,21 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MySignDemandCell *cell = [MySignDemandCell cellWithTableView:tableView];
+    MyDemandCell *cell = [MyDemandCell cellWithTableView:tableView];
+    cell.isSelfSign = YES;
     cell.model = self.dataArr[indexPath.row];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MySignDetailViewController *detailVC = [[MySignDetailViewController alloc] init];
+    DemandModel *model  = self.dataArr[indexPath.row];
+    MyDemandCell *cell = (MyDemandCell *)[tableView cellForRowAtIndexPath:indexPath];
+    detailVC.statusStr = cell.stateL.text;
+    detailVC.demandId = model.id;
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
 }
 
 @end

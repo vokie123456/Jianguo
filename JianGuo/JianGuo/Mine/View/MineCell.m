@@ -29,12 +29,13 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.iconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, ToTopInstance+4, 20, 20)];
-        self.iconView.image = [UIImage imageNamed:@"icon-weixin"];
+        self.iconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, ToTopInstance+5, 18, 18)];
+//        self.iconView.image = [UIImage imageNamed:@"management"];
         [self.contentView addSubview:self.iconView];
         
-        self.labelLeft = [[UILabel alloc] initWithFrame:CGRectMake(self.iconView.right+5, ToTopInstance, 100, CELLSUBVIEWHEIGHT)];
-        self.labelLeft.textColor = LIGHTGRAYTEXT;
+        self.labelLeft = [[UILabel alloc] initWithFrame:CGRectMake(self.iconView.right+15, ToTopInstance, 100, CELLSUBVIEWHEIGHT)];
+        self.labelLeft.font = FONT(15);
+        self.labelLeft.textColor = [UIColor darkTextColor];
         [self.contentView addSubview:self.labelLeft];
         
         self.labelRight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_W-180, ToTopInstance, 150, CELLSUBVIEWHEIGHT)];
@@ -42,14 +43,15 @@
         self.labelRight.textColor = LIGHTGRAYTEXT;
         [self.contentView addSubview:self.labelRight];
         
-        self.jiantouView = [[UIImageView alloc] initWithFrame:CGRectMake(self.labelRight.right+10, ToTopInstance+10, 8, 13)];
-        self.jiantouView.image = [UIImage imageNamed:@"yjiantou"];
-        [self.contentView addSubview:self.jiantouView];
+//        self.jiantouView = [[UIImageView alloc] initWithFrame:CGRectMake(self.labelRight.right+10, ToTopInstance+10, 8, 13)];
+//        self.jiantouView.image = [UIImage imageNamed:@"yjiantou"];
+//        [self.contentView addSubview:self.jiantouView];
         
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, self.contentView.frame.size.height-1, SCREEN_W-20, 1)];
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(self.labelLeft.left, self.contentView.frame.size.height-1, SCREEN_W-20, 1)];
         self.lineView.backgroundColor = BACKCOLORGRAY;
         [self.contentView addSubview:self.lineView];
         
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }

@@ -90,7 +90,7 @@
 
     sureBtn.frame = CGRectMake(30, 330+(model.weixin.intValue==0?0:55), SCREEN_W-60, 40);
 
-    [sureBtn setBackgroundColor:YELLOWCOLOR];
+    [sureBtn setBackgroundColor:GreenColor];
     sureBtn.layer.cornerRadius = 5;
     sureBtn.layer.masksToBounds = YES;
     [sureBtn addTarget:self action:@selector(sureGetCash) forControlEvents:UIControlEventTouchUpInside];
@@ -105,7 +105,7 @@
     [telBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
     NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:010-53350021"];
     [attributeStr addAttribute:NSForegroundColorAttributeName value:LIGHTGRAYTEXT range:NSMakeRange(0, 14)];
-    [attributeStr addAttributes:@{NSForegroundColorAttributeName:BLUECOLOR,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
+    [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
     [telBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];
     [telBtn addTarget:self action:@selector(call) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView addSubview:telBtn];
@@ -291,11 +291,12 @@
         
         UIButton *getCodeBtn = [UIButton buttonWithType: UIButtonTypeCustom];
         getCodeBtn.layer.masksToBounds = YES;
-        getCodeBtn.layer.cornerRadius = 18;
-        getCodeBtn.frame = CGRectMake(phoneTf.right-100, 50, 90, 34);
+        getCodeBtn.layer.cornerRadius = 5;
+        getCodeBtn.titleLabel.font = FONT(14);
+        getCodeBtn.frame = CGRectMake(SCREEN_W-90, 55, 60, 25);
         [getCodeBtn setTitle:@"验证码" forState:UIControlStateNormal];
         [getCodeBtn addTarget:self action:@selector(getCodeByPhoneNum:) forControlEvents:UIControlEventTouchUpInside];
-        [getCodeBtn setBackgroundColor:YELLOWCOLOR];
+        [getCodeBtn setBackgroundColor:GreenColor];
         [cell.contentView addSubview:getCodeBtn];
         self.getCodeBtn = getCodeBtn;
         
@@ -552,7 +553,7 @@
         [_timer invalidate];
         count = SECONDCOUNT;
         [self.getCodeBtn setTitle:@"验证" forState:UIControlStateNormal];
-        [self.getCodeBtn setBackgroundColor:YELLOWCOLOR];
+        [self.getCodeBtn setBackgroundColor:GreenColor ];
         self.getCodeBtn.userInteractionEnabled = YES;
     }
 }

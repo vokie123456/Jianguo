@@ -57,20 +57,24 @@
         user.resume = dic[@"resume"];
         user.iconUrl = dic[@"head_img_url"];
         user.nickName = dic[@"nickName"];
-        
+        user.schoolId = dic[@"school_id"];
+        user.school_name = dic[@"school_name"];
+        user.name = dic[@"name"];
+        user.birthDay = dic[@"birth_date"];
+        user.introduce = dic[@"introduce"];
+        user.is_student = dic[@"is_student"];
+        user.height = dic[@"height"];
         
         /**** 以上为新接口返回字段 ****/
         
         
         
         user.hobby = dic[@"hobby"];
-        user.school = dic[@"school"];
         user.realname = dic[@"realname"];
         user.credit = dic[@"credit"];
         user.integral = dic[@"integral"];
         user.regedit_time = dic[@"regedit_time"];
         user.login_time = dic[@"login_time"];
-        user.name = dic[@"name"];
         user.gender = dic[@"user_sex"];
         if (loginType != 0) {
             user.loginType = loginType;

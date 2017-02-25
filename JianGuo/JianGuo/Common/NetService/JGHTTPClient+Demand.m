@@ -45,8 +45,8 @@
     [params setObject:type forKey:@"d_type"];
     [params setObject:city forKey:@"city"];
     [params setObject:area forKey:@"area"];
-    [params setObject:schoolId forKey:@"school_id"];
-    [params setObject:sex forKey:@"sex"];
+    !schoolId?:[params setObject:schoolId forKey:@"school_id"];
+    !sex?:[params setObject:sex forKey:@"sex"];
     
     [params setObject:anonymous forKey:@"anonymous"];
     
@@ -201,11 +201,39 @@
     }];
 }
 /**
+ *  获取需求详情
+ */
++(void)getProgressDetailsWithDemandId:(NSString *)Id
+                               userId:(NSString *)userId
+                                 type:(NSString *)type
+                              Success:(void (^)(id responseObject))success
+                              failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:Id?Id:@"0" forKey:@"id"];
+    [params setObject:type forKey:@"type"];
+//    [params setObject:userId?userId:@"0" forKey:@"user_id"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/getDemandPublish"];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
  *  我要接活儿
  */
 +(void)signDemandWithDemandId:(NSString *)Id
                        userId:(NSString *)userId
                        status:(NSString *)status
+                       reason:(NSString *)reason
                       Success:(void (^)(id responseObject))success
                       failure:(void (^)(NSError *error))failure
 {
@@ -213,7 +241,7 @@
     [params setObject:Id forKey:@"d_id"];
     [params setObject:userId forKey:@"user_id"];
     [params setObject:status forKey:@"enroll_status"];
-    
+    !reason?:[params setObject:reason forKey:@"reason"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/demandEnroll"];
     
@@ -227,6 +255,37 @@
         }
     }];
 }
+/**
+ *  投诉接口
+ */
++(void)complainSomeOneWithDemandId:(NSString *)Id
+                            userId:(NSString *)userId
+                            status:(NSString *)status
+                            reason:(NSString *)reason
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    [params setObject:Id forKey:@"d_id"];
+    [params setObject:userId forKey:@"enroll_user_id"];
+    [params setObject:status forKey:@"d_status"];
+    [params setObject:USER.login_id forKey:@"b_user_id"];
+    !reason?:[params setObject:reason forKey:@"reason"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/demandEnroll"];
+    
+    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
 /**
  *  报名申请人的列表
  */

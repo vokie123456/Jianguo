@@ -1,0 +1,1 @@
+../../../BeeCloud/BCPaySDK/Channel/AliPay/AliPayAdapter/AliPayAdapter.h

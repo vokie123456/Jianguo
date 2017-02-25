@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BillCell" rowHeight="65" id="KGk-i7-Jjw" customClass="BillCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cash" translatesAutoresizingMaskIntoConstraints="NO" id="Gxu-mp-T4E" customClass="IBImageView">
+                        <rect key="frame" x="15" y="10" width="45" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="45" id="Onf-DH-fIw"/>
+                            <constraint firstAttribute="width" secondItem="Gxu-mp-T4E" secondAttribute="height" multiplier="1:1" id="Z8e-Wm-lm2"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="22"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="一起吃饭" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-C9-N1K">
+                        <rect key="frame" x="53" y="10" width="60" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2月17  14:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3G-0a-eXZ">
+                        <rect key="frame" x="30" y="33" width="81" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="+666.66" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-yI-Vxo">
+                        <rect key="frame" x="233" y="23" width="72" height="21"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCT-EH-IXQ">
+                        <rect key="frame" x="15" y="64" width="305" height="1"/>
+                        <color key="backgroundColor" red="0.94566205260000002" green="0.9435909536" blue="0.94741855429999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="RAR-Hr-4zd"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Gxu-mp-T4E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="2bl-H1-woI"/>
+                    <constraint firstAttribute="bottom" secondItem="DCT-EH-IXQ" secondAttribute="bottom" id="DOj-wE-WGb"/>
+                    <constraint firstItem="apQ-C9-N1K" firstAttribute="leading" secondItem="Gxu-mp-T4E" secondAttribute="trailing" constant="15" id="DQ4-Xy-eJ4"/>
+                    <constraint firstItem="r3G-0a-eXZ" firstAttribute="top" secondItem="apQ-C9-N1K" secondAttribute="bottom" constant="5" id="Ehb-EM-Z3w"/>
+                    <constraint firstItem="MfT-yI-Vxo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OnP-oU-yvy"/>
+                    <constraint firstItem="apQ-C9-N1K" firstAttribute="top" secondItem="Gxu-mp-T4E" secondAttribute="top" id="afC-lm-G8V"/>
+                    <constraint firstItem="Gxu-mp-T4E" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cYg-Uj-tzh"/>
+                    <constraint firstAttribute="trailing" secondItem="MfT-yI-Vxo" secondAttribute="trailing" constant="15" id="dUH-EB-rcu"/>
+                    <constraint firstItem="r3G-0a-eXZ" firstAttribute="leading" secondItem="apQ-C9-N1K" secondAttribute="leading" id="fSb-gJ-Kff"/>
+                    <constraint firstItem="DCT-EH-IXQ" firstAttribute="leading" secondItem="Gxu-mp-T4E" secondAttribute="leading" id="fji-Bt-qcV"/>
+                    <constraint firstAttribute="trailing" secondItem="DCT-EH-IXQ" secondAttribute="trailing" id="p0r-gt-94m"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="iconView" destination="Gxu-mp-T4E" id="qoc-0W-adQ"/>
+                <outlet property="moneyL" destination="MfT-yI-Vxo" id="Adl-E9-mFy"/>
+                <outlet property="timeL" destination="r3G-0a-eXZ" id="AAf-sz-4vy"/>
+                <outlet property="titleL" destination="apQ-C9-N1K" id="fVT-H5-S58"/>
+            </connections>
+            <point key="canvasLocation" x="563" y="431.75"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="cash" width="33" height="33"/>
+    </resources>
+</document>

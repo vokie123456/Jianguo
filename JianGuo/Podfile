@@ -26,5 +26,5 @@ pod 'AVOSCloudIM', ‘~> 3.3.5’
 pod 'AMapSearch' #搜索服务SDK
 pod 'AMap2DMap' #2D地图SDK (2D和3D不能同时使⽤用)
 pod 'AMapLocation’, ‘~>1.2.2’ #定位SDK
-
+pod 'BeeCloud' #包含支付宝微信银联三个渠道
 end

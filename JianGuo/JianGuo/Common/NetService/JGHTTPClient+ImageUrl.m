@@ -19,7 +19,7 @@
                  failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:userId forKey:@"user_id"];
+    !userId?:[params setObject:userId forKey:@"user_id"];
     
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/getHeadImages"];

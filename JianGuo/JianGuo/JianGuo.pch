@@ -39,11 +39,11 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
 #define LIGHTGRAYTEXT RGBCOLOR(102, 102, 102)
-#define BACKCOLORGRAY RGBCOLOR(241, 241, 241)
+#define BACKCOLORGRAY RGBCOLOR(239, 239, 244)
 #define WHITECOLOR RGBCOLOR(255, 255, 255)
 #define YELLOWCOLOR RGBCOLOR(245, 201, 48)
 #define BLUECOLOR RGBCOLOR(59, 155, 255)
-#define RedColor RGBCOLOR(248, 124, 124)
+#define RedColor RGBCOLOR(228, 96, 73)
 #define GreenColor RGBCOLOR(170, 207, 83)
 
 
@@ -151,6 +151,7 @@ static NSString *kNotificationSendJobName = @"kNotificationSendJobName";
 #import <MJExtension/MJExtension.h>
 #import "JGIMClient.h"
 #import <Masonry.h>
+#import "RACEXTScope.h"
 #import "QLSVProgressHud.h"
 #endif
 

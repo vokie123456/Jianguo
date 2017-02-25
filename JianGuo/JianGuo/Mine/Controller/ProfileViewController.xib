@@ -7,8 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController">
             <connections>
-                <outlet property="bgScrollView" destination="evd-Vb-XXj" id="3zn-oE-Tel"/>
-                <outlet property="nextBtn" destination="vbT-bo-C4X" id="ECl-Ff-hXK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,59 +14,7 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="填写个人资料" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wm-po-Yrd">
-                    <rect key="frame" x="0.0" y="25" width="375" height="22"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="填写真实姓名  方便朋友找到你" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K3G-sc-imT">
-                    <rect key="frame" x="0.0" y="57" width="375" height="18"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbT-bo-C4X" customClass="IBButton">
-                    <rect key="frame" x="20" y="577" width="335" height="40"/>
-                    <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="Dmu-Lr-AtU"/>
-                    </constraints>
-                    <state key="normal" title="下一步">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="5"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="next:" destination="-1" eventType="touchUpInside" id="oSs-qN-O6E"/>
-                    </connections>
-                </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="evd-Vb-XXj">
-                    <rect key="frame" x="0.0" y="135" width="375" height="300"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="300" id="PBs-ru-ICB"/>
-                    </constraints>
-                </scrollView>
-            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="K3G-sc-imT" secondAttribute="trailing" id="17U-M5-8KD"/>
-                <constraint firstItem="vbT-bo-C4X" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="3zz-Ql-Vyi"/>
-                <constraint firstAttribute="trailing" secondItem="evd-Vb-XXj" secondAttribute="trailing" id="4vh-4G-QtL"/>
-                <constraint firstAttribute="bottom" secondItem="vbT-bo-C4X" secondAttribute="bottom" constant="50" id="7k6-tB-YJq"/>
-                <constraint firstItem="evd-Vb-XXj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Dna-VX-REp"/>
-                <constraint firstItem="K3G-sc-imT" firstAttribute="top" secondItem="6Wm-po-Yrd" secondAttribute="bottom" constant="10" id="QQH-dG-un9"/>
-                <constraint firstAttribute="trailing" secondItem="6Wm-po-Yrd" secondAttribute="trailing" id="TH2-p1-T9q"/>
-                <constraint firstItem="K3G-sc-imT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="co3-WU-3pH"/>
-                <constraint firstAttribute="trailing" secondItem="vbT-bo-C4X" secondAttribute="trailing" constant="20" id="g0K-s3-GWT"/>
-                <constraint firstItem="6Wm-po-Yrd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="mYS-dA-rfx"/>
-                <constraint firstItem="6Wm-po-Yrd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n18-0q-l42"/>
-                <constraint firstItem="evd-Vb-XXj" firstAttribute="top" secondItem="K3G-sc-imT" secondAttribute="bottom" constant="60" id="tAx-xb-Rdp"/>
-            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="599.5" y="360.5"/>
         </view>

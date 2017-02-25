@@ -35,4 +35,64 @@
 /** 用户头像 */
 @property (nonatomic, copy) NSString* head_img_url;
 
+/** 个人介绍 */
+@property (nonatomic, copy) NSString* introduce;
+
+/** ??? */
+@property (nonatomic, copy) NSString*  auth_time;
+
+/** ??? */
+@property (nonatomic, copy) NSString*  integral;
+
+/** 城市ID */
+@property (nonatomic, copy) NSString* city_id;
+
+/** 用户电话 */
+@property (nonatomic, copy) NSString*  tel;
+
+
+/** 用户出生日期 */
+@property (nonatomic, copy) NSString* birth_date;
+
+/** 性别 */
+@property (nonatomic, copy) NSString*  sex;
+
+/** ??? */
+@property (nonatomic, copy) NSString* sign_text;
+
+/** 学校ID */
+@property (nonatomic, copy) NSString* school_id;
+
+/** 星座 */
+@property (nonatomic, copy) NSString*  constellation;
+
+
+/** 学校名称 */
+@property (nonatomic, copy) NSString* school_name;
+
+/** ??? */
+@property (nonatomic, copy) NSString*  b_user_id;
+
+
+/** 入学日期 */
+@property (nonatomic, copy) NSString* intoschool_date;
+
+/** 邮箱 */
+@property (nonatomic, copy) NSString* email;
+
+/** 身高 */
+@property (nonatomic, copy) NSString*  height;
+
+/** ??? */
+@property (nonatomic, copy) NSString*  credit;
+
+/** 地区ID */
+@property (nonatomic, copy) NSString* area_id;
+
+/** QQ号 */
+@property (nonatomic, copy) NSString*  qq;
+
+/** 是否是学生 */
+@property (nonatomic, copy) NSString*  is_student;
+
 @end

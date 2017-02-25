@@ -19,10 +19,10 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName//
 {
     return @{
-             @"job_image" : @"jobEntity.job_image" ,
-             @"job_name" : @"jobEntity.job_name" ,
-             @"start_date" : @"jobEntity.start_date" ,
-             @"end_date" : @"jobEntity.end_date"    };
+             @"aboutId" : @"walletLogEntity.aboutId" ,
+             @"logImg" : @"walletLogEntity.logImg" ,
+             @"logName" : @"walletLogEntity.logName"
+             };
 }
 
 

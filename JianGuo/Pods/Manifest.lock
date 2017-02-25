@@ -29,6 +29,18 @@ PODS:
   - AVOSCloud (3.3.5)
   - AVOSCloudIM (3.3.5):
     - AVOSCloud
+  - BeeCloud (3.6.1):
+    - BeeCloud/Alipay (= 3.6.1)
+    - BeeCloud/Core (= 3.6.1)
+    - BeeCloud/UnionPay (= 3.6.1)
+    - BeeCloud/Wx (= 3.6.1)
+  - BeeCloud/Alipay (3.6.1):
+    - BeeCloud/Core
+  - BeeCloud/Core (3.6.1)
+  - BeeCloud/UnionPay (3.6.1):
+    - BeeCloud/Core
+  - BeeCloud/Wx (3.6.1):
+    - BeeCloud/Core
   - DACircularProgress (2.3.1)
   - FDStackView (1.0)
   - FMDB (2.6.2):
@@ -59,6 +71,7 @@ DEPENDENCIES:
   - AMapSearch
   - AVOSCloud (~> 3.3.5)
   - AVOSCloudIM (~> 3.3.5)
+  - BeeCloud
   - DACircularProgress (~> 2.3.1)
   - FDStackView (~> 1.0)
   - FMDB (~> 2.6.2)
@@ -83,6 +96,7 @@ SPEC CHECKSUMS:
   AMapSearch: 16a50b493ad419e8b6b81bafdeca7570db52f28e
   AVOSCloud: 1fe170768bee7e05bc3ea86e38d5bddb105cb957
   AVOSCloudIM: dc307c48e951fcd861f4ae6db6d807e7b40639c8
+  BeeCloud: 57bacb1d46d5d1001fc783a41d59688690f78936
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FDStackView: 3a4bbe0ce9c35e974246a585168b9da8c32213f1
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
@@ -99,6 +113,6 @@ SPEC CHECKSUMS:
   WZLBadge: 16c08aa0a645e2591690f21cbcb410a3d878c7ac
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 20507d7f3341b8302194981e9e1bc54d5676cd50
+PODFILE CHECKSUM: 538b5726ba7ab9d15c814c233bbb118159b81ff0
 
 COCOAPODS: 1.0.1

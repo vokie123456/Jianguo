@@ -16,6 +16,8 @@
 #import "JGHTTPClient+Demand.h"
 #import "PickerView.h"
 #import "CityModel.h"
+#import "QLAlertView.h"
+#import "AddMoneyViewController.h"
 
 @interface PostDemandViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -195,11 +197,13 @@
 {
     if (indexPath.section == 0) {
         if (indexPath.row == 3) {
-            [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
+            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
                 JianliCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                 cell.rightTf.text = title;
                 self.demandType = [NSString stringWithFormat:@"%ld",index];
             }];
+            view.titleArr = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
+            
         }else if (indexPath.row == 4) {
             PickerView *pickerView = [PickerView aPickerView:^(NSString *areaIdAndname) {
                 self.cityId = [CityModel city].id;
@@ -260,6 +264,15 @@
             [JGHTTPClient PostDemandWithMoney:self.moneyTF.text imageUrl:url title:self.titleTF.text description:self.descriptionTV.text type:self.demandType city:self.cityId area:self.areaId schoolId:USER.schoolId sex:USER.gender anonymous:isAnonymous Success:^(id responseObject) {
                 
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                if ([responseObject[@"code"] integerValue] == 201) {
+                    [QLAlertView showAlertTittle:@"余额不足,是否充值?" message:nil isOnlySureBtn:NO compeletBlock:^{//去充值
+                        
+                        AddMoneyViewController *addMoneyVC = [[AddMoneyViewController alloc] init];
+                        addMoneyVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:addMoneyVC animated:YES];
+                        
+                    }];
+                }else
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     [self.navigationController popViewControllerAnimated:YES];

@@ -39,6 +39,7 @@
 -(void)setChildController
 {
     HomeNewViewController *homeVC = [[HomeNewViewController alloc] init];
+//    HomeViewController *homeVC = [[HomeViewController alloc] init];
     homeVC.title = @"首页";
     
     homeVC.view.frame = CGRectMake(0, -64, SCREEN_W, SCREEN_H);

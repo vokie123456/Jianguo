@@ -132,6 +132,12 @@
 		184E3A871DE7D5640022A97A /* MyWalletHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E3A861DE7D5640022A97A /* MyWalletHeadView.m */; };
 		184E3A891DE7D57E0022A97A /* MyWalletHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184E3A881DE7D57E0022A97A /* MyWalletHeadView.xib */; };
 		184E3A8C1DE7E2760022A97A /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E3A8B1DE7E2760022A97A /* SelectScrollView.m */; };
+		185229781E57EEA50002B96C /* MyWalletNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185229761E57EEA50002B96C /* MyWalletNewViewController.m */; };
+		185229791E57EEA50002B96C /* MyWalletNewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185229771E57EEA50002B96C /* MyWalletNewViewController.xib */; };
+		1852297D1E57F5570002B96C /* WalletCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852297B1E57F5570002B96C /* WalletCollectionCell.m */; };
+		1852297E1E57F5570002B96C /* WalletCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1852297C1E57F5570002B96C /* WalletCollectionCell.xib */; };
+		185229821E583C030002B96C /* AddMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185229801E583C030002B96C /* AddMoneyViewController.m */; };
+		185229831E583C030002B96C /* AddMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185229811E583C030002B96C /* AddMoneyViewController.xib */; };
 		1852D2931CE41F1800D11F06 /* QLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852D2921CE41F1800D11F06 /* QLAlertView.m */; };
 		18574BFE1CE1BB8900115A62 /* AboutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18574BFC1CE1BB8900115A62 /* AboutCell.m */; };
 		18574BFF1CE1BB8900115A62 /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18574BFD1CE1BB8900115A62 /* AboutCell.xib */; };
@@ -269,6 +275,10 @@
 		186B632F1D26767F00FB73C1 /* LoginNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B632D1D26767F00FB73C1 /* LoginNewViewController.m */; };
 		186B63301D26767F00FB73C1 /* LoginNewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186B632E1D26767F00FB73C1 /* LoginNewViewController.xib */; };
 		186EF9761CE5922300329E4C /* GuideImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186EF9751CE5922300329E4C /* GuideImageView.m */; };
+		186F3C151E52D70E00D9DA66 /* MyPostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F3C131E52D70E00D9DA66 /* MyPostDetailViewController.m */; };
+		186F3C161E52D70E00D9DA66 /* MyPostDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186F3C141E52D70E00D9DA66 /* MyPostDetailViewController.xib */; };
+		186F3C1A1E52DB3100D9DA66 /* DemandProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F3C181E52DB3100D9DA66 /* DemandProgressCell.m */; };
+		186F3C1B1E52DB3100D9DA66 /* DemandProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186F3C191E52DB3100D9DA66 /* DemandProgressCell.xib */; };
 		187096241C891F2700D5257C /* UIImage+sretchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 187096231C891F2700D5257C /* UIImage+sretchImage.m */; };
 		187096271C892FA900D5257C /* CodeLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187096261C892FA900D5257C /* CodeLoginViewController.m */; };
 		1870962A1C8933D400D5257C /* FindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187096291C8933D400D5257C /* FindPassViewController.m */; };
@@ -280,7 +290,29 @@
 		1873321D1C8E7E7E004C637F /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1873321B1C8E7E7E004C637F /* TextFieldCell.xib */; };
 		18735D841E2A0B53003825EF /* CommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18735D831E2A0B52003825EF /* CommentView.m */; };
 		18735D871E2A171B003825EF /* CommentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18735D861E2A171B003825EF /* CommentInputView.m */; };
+		1875AFEF1E5E7E9C002DBDBA /* MineChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1875AFED1E5E7E9C002DBDBA /* MineChatCell.m */; };
+		1875AFF01E5E7E9C002DBDBA /* MineChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1875AFEE1E5E7E9C002DBDBA /* MineChatCell.xib */; };
 		1878B0D91C8C2EB700400BA3 /* JGHTTPClient+Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878B0D81C8C2EB700400BA3 /* JGHTTPClient+Home.m */; };
+		1878DD3A1E6123F8003B0809 /* VerLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD391E6123F8003B0809 /* VerLayout.m */; };
+		1878DD431E615E71003B0809 /* CitySchoolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD411E615E71003B0809 /* CitySchoolViewController.m */; };
+		1878DD441E615E71003B0809 /* CitySchoolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1878DD421E615E71003B0809 /* CitySchoolViewController.xib */; };
+		1878DD471E615F2C003B0809 /* MJNIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD461E615F2C003B0809 /* MJNIndexView.m */; };
+		1878DD4A1E615F5D003B0809 /* NavigatinViewController+Drawer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD491E615F5D003B0809 /* NavigatinViewController+Drawer.m */; };
+		1878DD4F1E6165A0003B0809 /* UITableViewCellEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD4E1E6165A0003B0809 /* UITableViewCellEx.m */; };
+		1878DD531E6165E9003B0809 /* BrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD511E6165E9003B0809 /* BrandCell.m */; };
+		1878DD541E6165E9003B0809 /* BrandCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1878DD521E6165E9003B0809 /* BrandCell.xib */; };
+		1878DD581E61669F003B0809 /* TitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD561E61669F003B0809 /* TitleCell.m */; };
+		1878DD591E61669F003B0809 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1878DD571E61669F003B0809 /* TitleCell.xib */; };
+		1878DD5C1E616878003B0809 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD5B1E616878003B0809 /* UIImage+Additions.m */; };
+		1878DD5F1E61689C003B0809 /* UIView+Autolayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878DD5E1E61689C003B0809 /* UIView+Autolayout.m */; };
+		187A8F451E5D34CE004695F4 /* TextReasonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187A8F431E5D34CE004695F4 /* TextReasonViewController.m */; };
+		187A8F461E5D34CE004695F4 /* TextReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 187A8F441E5D34CE004695F4 /* TextReasonViewController.xib */; };
+		187A8F491E5D6827004695F4 /* QLHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187A8F481E5D6827004695F4 /* QLHudView.m */; };
+		187A8F4C1E5D6C8C004695F4 /* NSObject+HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187A8F4B1E5D6C8C004695F4 /* NSObject+HudView.m */; };
+		187A8F501E5D7A39004695F4 /* MySignDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187A8F4E1E5D7A39004695F4 /* MySignDetailViewController.m */; };
+		187A8F511E5D7A39004695F4 /* MySignDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 187A8F4F1E5D7A39004695F4 /* MySignDetailViewController.xib */; };
+		187A8F551E5D8D07004695F4 /* MineChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187A8F531E5D8D07004695F4 /* MineChatViewController.m */; };
+		187A8F561E5D8D07004695F4 /* MineChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 187A8F541E5D8D07004695F4 /* MineChatViewController.xib */; };
 		187B05211C86BAC400C7F0A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187B05201C86BAC400C7F0A9 /* SystemConfiguration.framework */; };
 		187B05231C86BAD000C7F0A9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187B05221C86BAD000C7F0A9 /* QuartzCore.framework */; };
 		187B05251C86BADC00C7F0A9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187B05241C86BADC00C7F0A9 /* CoreTelephony.framework */; };
@@ -310,6 +342,12 @@
 		187D6A601C8A6FFF004BCB34 /* JGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D6A5F1C8A6FFF004BCB34 /* JGUser.m */; };
 		18805A8E1D82528D00BD2806 /* UIDevice+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18805A8D1D82528D00BD2806 /* UIDevice+Model.m */; };
 		188151501C92B8A500F664F8 /* JianliAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881514F1C92B8A500F664F8 /* JianliAccount.m */; };
+		18843E651E5A8A8A007E18C2 /* MineHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18843E631E5A8A8A007E18C2 /* MineHeaderCell.m */; };
+		18843E661E5A8A8A007E18C2 /* MineHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18843E641E5A8A8A007E18C2 /* MineHeaderCell.xib */; };
+		18843E6A1E5ABF17007E18C2 /* BillsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18843E681E5ABF17007E18C2 /* BillsViewController.m */; };
+		18843E6B1E5ABF17007E18C2 /* BillsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18843E691E5ABF17007E18C2 /* BillsViewController.xib */; };
+		18843E6F1E5ABFEF007E18C2 /* BillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18843E6D1E5ABFEF007E18C2 /* BillCell.m */; };
+		18843E701E5ABFEF007E18C2 /* BillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18843E6E1E5ABFEF007E18C2 /* BillCell.xib */; };
 		1888473C1CFD22B0006F6C26 /* NotiNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888473B1CFD22B0006F6C26 /* NotiNewsModel.m */; };
 		188C0B461C868C1400FEF500 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188C0B451C868C1400FEF500 /* LoginViewController.m */; };
 		188C0B971C86B72800FEF500 /* ShareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188C0B831C86B72800FEF500 /* ShareSDK.framework */; };
@@ -365,6 +403,8 @@
 		18A290391E2DFFAC00BF5B39 /* MineIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A290371E2DFFAC00BF5B39 /* MineIconCell.m */; };
 		18A2903A1E2DFFAC00BF5B39 /* MineIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */; };
 		18A2903D1E2E16A400BF5B39 /* MineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2903C1E2E16A400BF5B39 /* MineLayout.m */; };
+		18A3F3DE1E5BE5A80064392B /* DemandStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3F3DC1E5BE5A80064392B /* DemandStatusCell.m */; };
+		18A3F3DF1E5BE5A80064392B /* DemandStatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A3F3DD1E5BE5A80064392B /* DemandStatusCell.xib */; };
 		18A7BB3F1DE55AF300ACA1A9 /* StudentInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7BB3D1DE55AF300ACA1A9 /* StudentInfoCell.m */; };
 		18A7BB401DE55AF300ACA1A9 /* StudentInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7BB3E1DE55AF300ACA1A9 /* StudentInfoCell.xib */; };
 		18A88B231E233580005A212A /* QLSVProgressHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A88B221E233580005A212A /* QLSVProgressHud.m */; };
@@ -372,6 +412,8 @@
 		18AA38881E14BFDE00B398DF /* BindingTelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AA38861E14BFDE00B398DF /* BindingTelViewController.xib */; };
 		18AA388B1E14C37D00B398DF /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388A1E14C37D00B398DF /* DismissingAnimator.m */; };
 		18AA388E1E14C38D00B398DF /* PresentingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388D1E14C38D00B398DF /* PresentingAnimator.m */; };
+		18AD6C171E5842ED00A340B1 /* PaySelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD6C151E5842ED00A340B1 /* PaySelectCell.m */; };
+		18AD6C181E5842ED00A340B1 /* PaySelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AD6C161E5842ED00A340B1 /* PaySelectCell.xib */; };
 		18B04FBC1E51B811000F26EF /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B04FBA1E51B811000F26EF /* EditInfoViewController.m */; };
 		18B04FBD1E51B811000F26EF /* EditInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */; };
 		18B1CCF91C8D79FE00C2270C /* MineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B1CCF81C8D79FE00C2270C /* MineCell.m */; };
@@ -384,6 +426,7 @@
 		18C669A71C9F9E6600C30731 /* ReceivedJudgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C669A61C9F9E6600C30731 /* ReceivedJudgeViewController.m */; };
 		18C669A91C9F9E9700C30731 /* JudgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C669A81C9F9E9700C30731 /* JudgeCell.xib */; };
 		18C669AC1C9F9EB000C30731 /* JudgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C669AB1C9F9EB000C30731 /* JudgeCell.m */; };
+		18D6A0D01E558DF000C1E2AC /* JGHTTPClient+Money.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D6A0CF1E558DF000C1E2AC /* JGHTTPClient+Money.m */; };
 		18D6E60C1E1CB04A00BFD8E5 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D6E60A1E1CB04A00BFD8E5 /* ProfileViewController.m */; };
 		18D6E60D1E1CB04A00BFD8E5 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D6E60B1E1CB04A00BFD8E5 /* ProfileViewController.xib */; };
 		18D8540C1C9FD71100E0EB86 /* UserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D853FF1C9FD71100E0EB86 /* UserGuideViewController.m */; };
@@ -727,6 +770,15 @@
 		184E3A881DE7D57E0022A97A /* MyWalletHeadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyWalletHeadView.xib; sourceTree = "<group>"; };
 		184E3A8A1DE7E2760022A97A /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectScrollView.h; sourceTree = "<group>"; };
 		184E3A8B1DE7E2760022A97A /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectScrollView.m; sourceTree = "<group>"; };
+		185229751E57EEA50002B96C /* MyWalletNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletNewViewController.h; sourceTree = "<group>"; };
+		185229761E57EEA50002B96C /* MyWalletNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletNewViewController.m; sourceTree = "<group>"; };
+		185229771E57EEA50002B96C /* MyWalletNewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyWalletNewViewController.xib; sourceTree = "<group>"; };
+		1852297A1E57F5570002B96C /* WalletCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletCollectionCell.h; sourceTree = "<group>"; };
+		1852297B1E57F5570002B96C /* WalletCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletCollectionCell.m; sourceTree = "<group>"; };
+		1852297C1E57F5570002B96C /* WalletCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WalletCollectionCell.xib; sourceTree = "<group>"; };
+		1852297F1E583C030002B96C /* AddMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMoneyViewController.h; sourceTree = "<group>"; };
+		185229801E583C030002B96C /* AddMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMoneyViewController.m; sourceTree = "<group>"; };
+		185229811E583C030002B96C /* AddMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddMoneyViewController.xib; sourceTree = "<group>"; };
 		1852D2911CE41F1800D11F06 /* QLAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QLAlertView.h; sourceTree = "<group>"; };
 		1852D2921CE41F1800D11F06 /* QLAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QLAlertView.m; sourceTree = "<group>"; };
 		18574BFB1CE1BB8900115A62 /* AboutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutCell.h; sourceTree = "<group>"; };
@@ -989,6 +1041,12 @@
 		186B632E1D26767F00FB73C1 /* LoginNewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginNewViewController.xib; sourceTree = "<group>"; };
 		186EF9741CE5922300329E4C /* GuideImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideImageView.h; sourceTree = "<group>"; };
 		186EF9751CE5922300329E4C /* GuideImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideImageView.m; sourceTree = "<group>"; };
+		186F3C121E52D70E00D9DA66 /* MyPostDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPostDetailViewController.h; sourceTree = "<group>"; };
+		186F3C131E52D70E00D9DA66 /* MyPostDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostDetailViewController.m; sourceTree = "<group>"; };
+		186F3C141E52D70E00D9DA66 /* MyPostDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPostDetailViewController.xib; sourceTree = "<group>"; };
+		186F3C171E52DB3000D9DA66 /* DemandProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemandProgressCell.h; sourceTree = "<group>"; };
+		186F3C181E52DB3100D9DA66 /* DemandProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemandProgressCell.m; sourceTree = "<group>"; };
+		186F3C191E52DB3100D9DA66 /* DemandProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemandProgressCell.xib; sourceTree = "<group>"; };
 		187096221C891F2700D5257C /* UIImage+sretchImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+sretchImage.h"; sourceTree = "<group>"; };
 		187096231C891F2700D5257C /* UIImage+sretchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+sretchImage.m"; sourceTree = "<group>"; };
 		187096251C892FA900D5257C /* CodeLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeLoginViewController.h; sourceTree = "<group>"; };
@@ -1010,8 +1068,47 @@
 		18735D831E2A0B52003825EF /* CommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentView.m; sourceTree = "<group>"; };
 		18735D851E2A171B003825EF /* CommentInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentInputView.h; sourceTree = "<group>"; };
 		18735D861E2A171B003825EF /* CommentInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentInputView.m; sourceTree = "<group>"; };
+		1875AFEC1E5E7E9C002DBDBA /* MineChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineChatCell.h; sourceTree = "<group>"; };
+		1875AFED1E5E7E9C002DBDBA /* MineChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineChatCell.m; sourceTree = "<group>"; };
+		1875AFEE1E5E7E9C002DBDBA /* MineChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineChatCell.xib; sourceTree = "<group>"; };
 		1878B0D71C8C2EB700400BA3 /* JGHTTPClient+Home.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JGHTTPClient+Home.h"; sourceTree = "<group>"; };
 		1878B0D81C8C2EB700400BA3 /* JGHTTPClient+Home.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JGHTTPClient+Home.m"; sourceTree = "<group>"; };
+		1878DD381E6123F8003B0809 /* VerLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerLayout.h; sourceTree = "<group>"; };
+		1878DD391E6123F8003B0809 /* VerLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerLayout.m; sourceTree = "<group>"; };
+		1878DD401E615E71003B0809 /* CitySchoolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySchoolViewController.h; sourceTree = "<group>"; };
+		1878DD411E615E71003B0809 /* CitySchoolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySchoolViewController.m; sourceTree = "<group>"; };
+		1878DD421E615E71003B0809 /* CitySchoolViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CitySchoolViewController.xib; sourceTree = "<group>"; };
+		1878DD451E615F2C003B0809 /* MJNIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJNIndexView.h; sourceTree = "<group>"; };
+		1878DD461E615F2C003B0809 /* MJNIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJNIndexView.m; sourceTree = "<group>"; };
+		1878DD481E615F5D003B0809 /* NavigatinViewController+Drawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NavigatinViewController+Drawer.h"; sourceTree = "<group>"; };
+		1878DD491E615F5D003B0809 /* NavigatinViewController+Drawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NavigatinViewController+Drawer.m"; sourceTree = "<group>"; };
+		1878DD4B1E616341003B0809 /* RACEXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RACEXTScope.h; path = ../Tools/RACEXTScope.h; sourceTree = "<group>"; };
+		1878DD4C1E616341003B0809 /* RACmetamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RACmetamacros.h; path = ../Tools/RACmetamacros.h; sourceTree = "<group>"; };
+		1878DD4D1E6165A0003B0809 /* UITableViewCellEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellEx.h; sourceTree = "<group>"; };
+		1878DD4E1E6165A0003B0809 /* UITableViewCellEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewCellEx.m; sourceTree = "<group>"; };
+		1878DD501E6165E9003B0809 /* BrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandCell.h; sourceTree = "<group>"; };
+		1878DD511E6165E9003B0809 /* BrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandCell.m; sourceTree = "<group>"; };
+		1878DD521E6165E9003B0809 /* BrandCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrandCell.xib; sourceTree = "<group>"; };
+		1878DD551E61669F003B0809 /* TitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleCell.h; sourceTree = "<group>"; };
+		1878DD561E61669F003B0809 /* TitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleCell.m; sourceTree = "<group>"; };
+		1878DD571E61669F003B0809 /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
+		1878DD5A1E616878003B0809 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
+		1878DD5B1E616878003B0809 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
+		1878DD5D1E61689C003B0809 /* UIView+Autolayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Autolayout.h"; sourceTree = "<group>"; };
+		1878DD5E1E61689C003B0809 /* UIView+Autolayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Autolayout.m"; sourceTree = "<group>"; };
+		187A8F421E5D34CE004695F4 /* TextReasonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextReasonViewController.h; sourceTree = "<group>"; };
+		187A8F431E5D34CE004695F4 /* TextReasonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextReasonViewController.m; sourceTree = "<group>"; };
+		187A8F441E5D34CE004695F4 /* TextReasonViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextReasonViewController.xib; sourceTree = "<group>"; };
+		187A8F471E5D6827004695F4 /* QLHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QLHudView.h; sourceTree = "<group>"; };
+		187A8F481E5D6827004695F4 /* QLHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QLHudView.m; sourceTree = "<group>"; };
+		187A8F4A1E5D6C8C004695F4 /* NSObject+HudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+HudView.h"; sourceTree = "<group>"; };
+		187A8F4B1E5D6C8C004695F4 /* NSObject+HudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+HudView.m"; sourceTree = "<group>"; };
+		187A8F4D1E5D7A39004695F4 /* MySignDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySignDetailViewController.h; sourceTree = "<group>"; };
+		187A8F4E1E5D7A39004695F4 /* MySignDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySignDetailViewController.m; sourceTree = "<group>"; };
+		187A8F4F1E5D7A39004695F4 /* MySignDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySignDetailViewController.xib; sourceTree = "<group>"; };
+		187A8F521E5D8D07004695F4 /* MineChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineChatViewController.h; sourceTree = "<group>"; };
+		187A8F531E5D8D07004695F4 /* MineChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineChatViewController.m; sourceTree = "<group>"; };
+		187A8F541E5D8D07004695F4 /* MineChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineChatViewController.xib; sourceTree = "<group>"; };
 		187B05201C86BAC400C7F0A9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		187B05221C86BAD000C7F0A9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		187B05241C86BADC00C7F0A9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1056,6 +1153,15 @@
 		18805A8D1D82528D00BD2806 /* UIDevice+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Model.m"; sourceTree = "<group>"; };
 		1881514E1C92B8A500F664F8 /* JianliAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JianliAccount.h; sourceTree = "<group>"; };
 		1881514F1C92B8A500F664F8 /* JianliAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JianliAccount.m; sourceTree = "<group>"; };
+		18843E621E5A8A8A007E18C2 /* MineHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineHeaderCell.h; sourceTree = "<group>"; };
+		18843E631E5A8A8A007E18C2 /* MineHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeaderCell.m; sourceTree = "<group>"; };
+		18843E641E5A8A8A007E18C2 /* MineHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineHeaderCell.xib; sourceTree = "<group>"; };
+		18843E671E5ABF17007E18C2 /* BillsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillsViewController.h; sourceTree = "<group>"; };
+		18843E681E5ABF17007E18C2 /* BillsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillsViewController.m; sourceTree = "<group>"; };
+		18843E691E5ABF17007E18C2 /* BillsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillsViewController.xib; sourceTree = "<group>"; };
+		18843E6C1E5ABFEF007E18C2 /* BillCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillCell.h; sourceTree = "<group>"; };
+		18843E6D1E5ABFEF007E18C2 /* BillCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillCell.m; sourceTree = "<group>"; };
+		18843E6E1E5ABFEF007E18C2 /* BillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCell.xib; sourceTree = "<group>"; };
 		1888473A1CFD22B0006F6C26 /* NotiNewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiNewsModel.h; sourceTree = "<group>"; };
 		1888473B1CFD22B0006F6C26 /* NotiNewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiNewsModel.m; sourceTree = "<group>"; };
 		188C0B441C868C1400FEF500 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -1155,6 +1261,9 @@
 		18A290381E2DFFAC00BF5B39 /* MineIconCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineIconCell.xib; sourceTree = "<group>"; };
 		18A2903B1E2E16A400BF5B39 /* MineLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineLayout.h; sourceTree = "<group>"; };
 		18A2903C1E2E16A400BF5B39 /* MineLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineLayout.m; sourceTree = "<group>"; };
+		18A3F3DB1E5BE5A80064392B /* DemandStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemandStatusCell.h; sourceTree = "<group>"; };
+		18A3F3DC1E5BE5A80064392B /* DemandStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemandStatusCell.m; sourceTree = "<group>"; };
+		18A3F3DD1E5BE5A80064392B /* DemandStatusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemandStatusCell.xib; sourceTree = "<group>"; };
 		18A7BB3C1DE55AF300ACA1A9 /* StudentInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentInfoCell.h; sourceTree = "<group>"; };
 		18A7BB3D1DE55AF300ACA1A9 /* StudentInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentInfoCell.m; sourceTree = "<group>"; };
 		18A7BB3E1DE55AF300ACA1A9 /* StudentInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudentInfoCell.xib; sourceTree = "<group>"; };
@@ -1167,6 +1276,9 @@
 		18AA388A1E14C37D00B398DF /* DismissingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissingAnimator.m; sourceTree = "<group>"; };
 		18AA388C1E14C38D00B398DF /* PresentingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentingAnimator.h; sourceTree = "<group>"; };
 		18AA388D1E14C38D00B398DF /* PresentingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentingAnimator.m; sourceTree = "<group>"; };
+		18AD6C141E5842ED00A340B1 /* PaySelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaySelectCell.h; sourceTree = "<group>"; };
+		18AD6C151E5842ED00A340B1 /* PaySelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaySelectCell.m; sourceTree = "<group>"; };
+		18AD6C161E5842ED00A340B1 /* PaySelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaySelectCell.xib; sourceTree = "<group>"; };
 		18B04FB91E51B811000F26EF /* EditInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoViewController.h; sourceTree = "<group>"; };
 		18B04FBA1E51B811000F26EF /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
 		18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditInfoViewController.xib; sourceTree = "<group>"; };
@@ -1188,6 +1300,8 @@
 		18C669A81C9F9E9700C30731 /* JudgeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JudgeCell.xib; sourceTree = "<group>"; };
 		18C669AA1C9F9EB000C30731 /* JudgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JudgeCell.h; sourceTree = "<group>"; };
 		18C669AB1C9F9EB000C30731 /* JudgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JudgeCell.m; sourceTree = "<group>"; };
+		18D6A0CE1E558DF000C1E2AC /* JGHTTPClient+Money.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JGHTTPClient+Money.h"; sourceTree = "<group>"; };
+		18D6A0CF1E558DF000C1E2AC /* JGHTTPClient+Money.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JGHTTPClient+Money.m"; sourceTree = "<group>"; };
 		18D6E6091E1CB04A00BFD8E5 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		18D6E60A1E1CB04A00BFD8E5 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		18D6E60B1E1CB04A00BFD8E5 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -1444,6 +1558,9 @@
 				187C3B561CA269070051EE03 /* WebViewController.m */,
 				185C4CCE1C98587200510A3E /* JianZhiDetailController.h */,
 				185C4CCF1C98587200510A3E /* JianZhiDetailController.m */,
+				1878DD401E615E71003B0809 /* CitySchoolViewController.h */,
+				1878DD411E615E71003B0809 /* CitySchoolViewController.m */,
+				1878DD421E615E71003B0809 /* CitySchoolViewController.xib */,
 				18E5C89E1C9B9F28004E6E29 /* SelectCityController.h */,
 				18E5C89F1C9B9F28004E6E29 /* SelectCityController.m */,
 				18E5C91E1C9C54B9004E6E29 /* MerChantViewController.h */,
@@ -1465,6 +1582,9 @@
 				183055441E20995D008FB0B5 /* DemandDetailController.h */,
 				183055451E20995D008FB0B5 /* DemandDetailController.m */,
 				183055461E20995D008FB0B5 /* DemandDetailController.xib */,
+				187A8F421E5D34CE004695F4 /* TextReasonViewController.h */,
+				187A8F431E5D34CE004695F4 /* TextReasonViewController.m */,
+				187A8F441E5D34CE004695F4 /* TextReasonViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1501,6 +1621,14 @@
 		183906581C8592A000C5125B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1878DD551E61669F003B0809 /* TitleCell.h */,
+				1878DD561E61669F003B0809 /* TitleCell.m */,
+				1878DD571E61669F003B0809 /* TitleCell.xib */,
+				1878DD501E6165E9003B0809 /* BrandCell.h */,
+				1878DD511E6165E9003B0809 /* BrandCell.m */,
+				1878DD521E6165E9003B0809 /* BrandCell.xib */,
+				1878DD4D1E6165A0003B0809 /* UITableViewCellEx.h */,
+				1878DD4E1E6165A0003B0809 /* UITableViewCellEx.m */,
 				18F7232E1C9D26250040DA5E /* StarView.h */,
 				18F7232F1C9D26250040DA5E /* StarView.m */,
 				18FE549E1C859DCA00702074 /* HeaderView.h */,
@@ -1577,6 +1705,9 @@
 				183055501E20CEF8008FB0B5 /* CommentCell.xib */,
 				18735D821E2A0B52003825EF /* CommentView.h */,
 				18735D831E2A0B52003825EF /* CommentView.m */,
+				186F3C171E52DB3000D9DA66 /* DemandProgressCell.h */,
+				186F3C181E52DB3100D9DA66 /* DemandProgressCell.m */,
+				186F3C191E52DB3100D9DA66 /* DemandProgressCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1618,6 +1749,9 @@
 			children = (
 				188E6C211C854161000EE7B7 /* MineViewController.h */,
 				188E6C221C854161000EE7B7 /* MineViewController.m */,
+				187A8F521E5D8D07004695F4 /* MineChatViewController.h */,
+				187A8F531E5D8D07004695F4 /* MineChatViewController.m */,
+				187A8F541E5D8D07004695F4 /* MineChatViewController.xib */,
 				18A2902C1E2DFED400BF5B39 /* MineNewViewController.h */,
 				18A2902D1E2DFED400BF5B39 /* MineNewViewController.m */,
 				18A2902E1E2DFED400BF5B39 /* MineNewViewController.xib */,
@@ -1646,8 +1780,17 @@
 				18C669A61C9F9E6600C30731 /* ReceivedJudgeViewController.m */,
 				189F58FF1CC731E700F45E9B /* MyWalletViewController.h */,
 				189F59001CC731E700F45E9B /* MyWalletViewController.m */,
+				185229751E57EEA50002B96C /* MyWalletNewViewController.h */,
+				185229761E57EEA50002B96C /* MyWalletNewViewController.m */,
+				185229771E57EEA50002B96C /* MyWalletNewViewController.xib */,
 				187B72631CC87829006DF99E /* GetCashViewController.h */,
 				187B72641CC87829006DF99E /* GetCashViewController.m */,
+				1852297F1E583C030002B96C /* AddMoneyViewController.h */,
+				185229801E583C030002B96C /* AddMoneyViewController.m */,
+				185229811E583C030002B96C /* AddMoneyViewController.xib */,
+				18843E671E5ABF17007E18C2 /* BillsViewController.h */,
+				18843E681E5ABF17007E18C2 /* BillsViewController.m */,
+				18843E691E5ABF17007E18C2 /* BillsViewController.xib */,
 				187B726D1CC887E1006DF99E /* BindCardViewController.h */,
 				187B726E1CC887E1006DF99E /* BindCardViewController.m */,
 				187B72701CC88E63006DF99E /* BindAliPayViewController.h */,
@@ -1661,12 +1804,18 @@
 				180FFCD01E4C52F500E6A076 /* MyPostDemandViewController.h */,
 				180FFCD11E4C52F500E6A076 /* MyPostDemandViewController.m */,
 				180FFCD21E4C52F500E6A076 /* MyPostDemandViewController.xib */,
+				186F3C121E52D70E00D9DA66 /* MyPostDetailViewController.h */,
+				186F3C131E52D70E00D9DA66 /* MyPostDetailViewController.m */,
+				186F3C141E52D70E00D9DA66 /* MyPostDetailViewController.xib */,
 				1835D04B1E4C6FB500798208 /* SignDemandViewController.h */,
 				1835D04C1E4C6FB500798208 /* SignDemandViewController.m */,
 				1835D04D1E4C6FB500798208 /* SignDemandViewController.xib */,
 				18643C771E4DA82C00BEF756 /* MySignDemandsViewController.h */,
 				18643C781E4DA82C00BEF756 /* MySignDemandsViewController.m */,
 				18643C791E4DA82C00BEF756 /* MySignDemandsViewController.xib */,
+				187A8F4D1E5D7A39004695F4 /* MySignDetailViewController.h */,
+				187A8F4E1E5D7A39004695F4 /* MySignDetailViewController.m */,
+				187A8F4F1E5D7A39004695F4 /* MySignDetailViewController.xib */,
 				18B04FB91E51B811000F26EF /* EditInfoViewController.h */,
 				18B04FBA1E51B811000F26EF /* EditInfoViewController.m */,
 				18B04FBB1E51B811000F26EF /* EditInfoViewController.xib */,
@@ -1704,6 +1853,9 @@
 				18F33F181C8D745C0092788B /* MineHeaderView.m */,
 				18B1CCF71C8D79FE00C2270C /* MineCell.h */,
 				18B1CCF81C8D79FE00C2270C /* MineCell.m */,
+				18843E621E5A8A8A007E18C2 /* MineHeaderCell.h */,
+				18843E631E5A8A8A007E18C2 /* MineHeaderCell.m */,
+				18843E641E5A8A8A007E18C2 /* MineHeaderCell.xib */,
 				1801C2FF1C927CB000B73522 /* PickerView.h */,
 				1801C3001C927CB000B73522 /* PickerView.m */,
 				1801C3011C927CB000B73522 /* PickerView.xib */,
@@ -1769,6 +1921,21 @@
 				1835D0501E4C724A00798208 /* SignersCell.h */,
 				1835D0511E4C724A00798208 /* SignersCell.m */,
 				1835D0521E4C724A00798208 /* SignersCell.xib */,
+				1852297A1E57F5570002B96C /* WalletCollectionCell.h */,
+				1852297B1E57F5570002B96C /* WalletCollectionCell.m */,
+				1852297C1E57F5570002B96C /* WalletCollectionCell.xib */,
+				18AD6C141E5842ED00A340B1 /* PaySelectCell.h */,
+				18AD6C151E5842ED00A340B1 /* PaySelectCell.m */,
+				18AD6C161E5842ED00A340B1 /* PaySelectCell.xib */,
+				18843E6C1E5ABFEF007E18C2 /* BillCell.h */,
+				18843E6D1E5ABFEF007E18C2 /* BillCell.m */,
+				18843E6E1E5ABFEF007E18C2 /* BillCell.xib */,
+				18A3F3DB1E5BE5A80064392B /* DemandStatusCell.h */,
+				18A3F3DC1E5BE5A80064392B /* DemandStatusCell.m */,
+				18A3F3DD1E5BE5A80064392B /* DemandStatusCell.xib */,
+				1875AFEC1E5E7E9C002DBDBA /* MineChatCell.h */,
+				1875AFED1E5E7E9C002DBDBA /* MineChatCell.m */,
+				1875AFEE1E5E7E9C002DBDBA /* MineChatCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2673,6 +2840,8 @@
 				188E6C0B1C852F8C000EE7B7 /* MyTabBarController.m */,
 				181660301CA4D608003E9A44 /* NavigatinViewController.h */,
 				181660311CA4D608003E9A44 /* NavigatinViewController.m */,
+				1878DD481E615F5D003B0809 /* NavigatinViewController+Drawer.h */,
+				1878DD491E615F5D003B0809 /* NavigatinViewController+Drawer.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2680,6 +2849,12 @@
 		188E6C0D1C853DD0000EE7B7 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1878DD5D1E61689C003B0809 /* UIView+Autolayout.h */,
+				1878DD5E1E61689C003B0809 /* UIView+Autolayout.m */,
+				1878DD5A1E616878003B0809 /* UIImage+Additions.h */,
+				1878DD5B1E616878003B0809 /* UIImage+Additions.m */,
+				1878DD451E615F2C003B0809 /* MJNIndexView.h */,
+				1878DD461E615F2C003B0809 /* MJNIndexView.m */,
 				18468A491E24E775006169EA /* YYFPSLabel.h */,
 				18468A4A1E24E775006169EA /* YYFPSLabel.m */,
 				18A88B211E233580005A212A /* QLSVProgressHud.h */,
@@ -2688,10 +2863,16 @@
 				182DB84A1E16213400985887 /* CustomLayout.m */,
 				18A2903B1E2E16A400BF5B39 /* MineLayout.h */,
 				18A2903C1E2E16A400BF5B39 /* MineLayout.m */,
+				1878DD381E6123F8003B0809 /* VerLayout.h */,
+				1878DD391E6123F8003B0809 /* VerLayout.m */,
 				18AA388C1E14C38D00B398DF /* PresentingAnimator.h */,
 				18AA388D1E14C38D00B398DF /* PresentingAnimator.m */,
 				18AA38891E14C37D00B398DF /* DismissingAnimator.h */,
 				18AA388A1E14C37D00B398DF /* DismissingAnimator.m */,
+				187A8F471E5D6827004695F4 /* QLHudView.h */,
+				187A8F481E5D6827004695F4 /* QLHudView.m */,
+				187A8F4A1E5D6C8C004695F4 /* NSObject+HudView.h */,
+				187A8F4B1E5D6C8C004695F4 /* NSObject+HudView.m */,
 				182D81591E1124C1005F795B /* UIImage */,
 				18E5C8A11C9BB15A004E6E29 /* BCKeyBoard */,
 				1840ABA61C8ED26200D171A2 /* AvatarBrowser.h */,
@@ -2791,6 +2972,8 @@
 		188E6C271C854575000EE7B7 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1878DD4B1E616341003B0809 /* RACEXTScope.h */,
+				1878DD4C1E616341003B0809 /* RACmetamacros.h */,
 				187D6A5D1C8A6FE1004BCB34 /* JGUser */,
 				188E6C2A1C85504B000EE7B7 /* NetService */,
 			);
@@ -2814,6 +2997,8 @@
 				182190941CCB763F00CEC2E4 /* JGHTTPClient+Job.m */,
 				18643C841E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.h */,
 				18643C851E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m */,
+				18D6A0CE1E558DF000C1E2AC /* JGHTTPClient+Money.h */,
+				18D6A0CF1E558DF000C1E2AC /* JGHTTPClient+Money.m */,
 			);
 			path = NetService;
 			sourceTree = "<group>";
@@ -3095,6 +3280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				185C4CC71C97D33F00510A3E /* ChatCell.xib in Resources */,
+				187A8F461E5D34CE004695F4 /* TextReasonViewController.xib in Resources */,
 				18E5C8F21C9BB15A004E6E29 /* chatBar_keyboard@2x.png in Resources */,
 				18E5C90C1C9BB15A004E6E29 /* chatBar_more_camera@2x.png in Resources */,
 				18E5C8EF1C9BB15A004E6E29 /* chatBar_faceSelected.png in Resources */,
@@ -3117,16 +3303,20 @@
 				18E5C8F41C9BB15A004E6E29 /* chatBar_keyboardSelected@2x.png in Resources */,
 				18E5C8EB1C9BB15A004E6E29 /* faceDelete.png in Resources */,
 				18E4B4B61E124CA700849781 /* RegisterViewController.xib in Resources */,
+				186F3C161E52D70E00D9DA66 /* MyPostDetailViewController.xib in Resources */,
+				1878DD541E6165E9003B0809 /* BrandCell.xib in Resources */,
 				18E5C9001C9BB15A004E6E29 /* chatBar_recordSelectedBg@2x.png in Resources */,
 				189D64711D2E0867009FDC0D /* JobCollectionViewCell.xib in Resources */,
 				18E5C9111C9BB15A004E6E29 /* chatBar_more_locationSelected.png in Resources */,
 				18E5C8F81C9BB15A004E6E29 /* chatBar_moreSelected@2x.png in Resources */,
 				18E5C9081C9BB15A004E6E29 /* chatBar_colorMore_photoSelected@2x.png in Resources */,
 				1809EB1E1E1B67A00027BDF2 /* DemandCell.xib in Resources */,
+				18AD6C181E5842ED00A340B1 /* PaySelectCell.xib in Resources */,
 				186AA0241DF51F84008C0842 /* MessageBubble.bundle in Resources */,
 				18E5C8FA1C9BB15A004E6E29 /* chatBar_record@2x.png in Resources */,
 				1809EB161E1B39480027BDF2 /* PostDemandViewController.xib in Resources */,
 				18E5C90F1C9BB15A004E6E29 /* chatBar_more_location.png in Resources */,
+				185229791E57EEA50002B96C /* MyWalletNewViewController.xib in Resources */,
 				18971EF11E1F358F003EE4CD /* DemandListViewController.xib in Resources */,
 				18F723321C9D30580040DA5E /* SignUpView.xib in Resources */,
 				18574BFF1CE1BB8900115A62 /* AboutCell.xib in Resources */,
@@ -3145,6 +3335,7 @@
 				186AA0231DF51F84008C0842 /* MBProgressHUD.bundle in Resources */,
 				18E8D46C1C95125B00745B39 /* NoDataView.xib in Resources */,
 				18E5C9151C9BB15A004E6E29 /* chatBar_more_photoSelected.png in Resources */,
+				1878DD591E61669F003B0809 /* TitleCell.xib in Resources */,
 				186AA0221DF51F84008C0842 /* LCCKPhotoBrowser.bundle in Resources */,
 				180FFCCE1E4C1C3400E6A076 /* MineSelectCell.xib in Resources */,
 				18E5C9131C9BB15A004E6E29 /* chatBar_more_photo.png in Resources */,
@@ -3160,12 +3351,15 @@
 				18E5C8F51C9BB15A004E6E29 /* chatBar_more.png in Resources */,
 				18971EF61E1F36DE003EE4CD /* DemandListCell.xib in Resources */,
 				18F723481C9E348F0040DA5E /* icon_chose_arrow_sel@2x.png in Resources */,
+				1875AFF01E5E7E9C002DBDBA /* MineChatCell.xib in Resources */,
 				18E5C8FC1C9BB15A004E6E29 /* chatBar_recordBg@2x.png in Resources */,
 				186AA01E1DF51F84008C0842 /* ChatKeyboard.bundle in Resources */,
 				18A290301E2DFED400BF5B39 /* MineNewViewController.xib in Resources */,
 				18E5C8FF1C9BB15A004E6E29 /* chatBar_recordSelectedBg.png in Resources */,
 				186A43001C91621F00CFC236 /* CheckBox.xib in Resources */,
 				185C4CDE1C985A1700510A3E /* DetailHeaderCell.xib in Resources */,
+				185229831E583C030002B96C /* AddMoneyViewController.xib in Resources */,
+				18843E661E5A8A8A007E18C2 /* MineHeaderCell.xib in Resources */,
 				188C0B991C86B72800FEF500 /* ShareSDKUI.bundle in Resources */,
 				185C4CE41C985A4A00510A3E /* WorkDetailCell.xib in Resources */,
 				18042FD21CA53CE3002C3AFE /* MerchantCell.xib in Resources */,
@@ -3174,10 +3368,12 @@
 				18E5C8FB1C9BB15A004E6E29 /* chatBar_recordBg.png in Resources */,
 				18E5C9171C9BB15A004E6E29 /* messageToolbarBg@2x.png in Resources */,
 				186B63301D26767F00FB73C1 /* LoginNewViewController.xib in Resources */,
+				18843E6B1E5ABF17007E18C2 /* BillsViewController.xib in Resources */,
 				18407B551D2D012000F345B2 /* TimeCollectionViewCell.xib in Resources */,
 				1801C3031C927CB000B73522 /* PickerView.xib in Resources */,
 				18F723491C9E348F0040DA5E /* icon_chose_bottom@2x.png in Resources */,
 				187B05571C87C81B00C7F0A9 /* PushConfig.plist in Resources */,
+				1852297E1E57F5570002B96C /* WalletCollectionCell.xib in Resources */,
 				18643C7B1E4DA82C00BEF756 /* MySignDemandsViewController.xib in Resources */,
 				18F723371C9D435D0040DA5E /* ChatNoticeOrMetionView.xib in Resources */,
 				18E24E701CA1014E00C5A700 /* JGSort.plist in Resources */,
@@ -3197,6 +3393,7 @@
 				18E5C9091C9BB15A004E6E29 /* chatBar_colorMore_video@2x.png in Resources */,
 				18E5C8ED1C9BB15A004E6E29 /* chatBar_face.png in Resources */,
 				189F59061CC7329C00F45E9B /* WalletCell.xib in Resources */,
+				18A3F3DF1E5BE5A80064392B /* DemandStatusCell.xib in Resources */,
 				18E5C9251C9C572C004E6E29 /* MerCntHeaderView.xib in Resources */,
 				18E5C8F71C9BB15A004E6E29 /* chatBar_moreSelected.png in Resources */,
 				18E5C9041C9BB15A004E6E29 /* chatBar_colorMore_cameraSelected@2x.png in Resources */,
@@ -3205,11 +3402,14 @@
 				180A61FE1D6D7CF900AC89BF /* Info.plist in Resources */,
 				186A9FF31DF51F84008C0842 /* LCCKContactCell.xib in Resources */,
 				186AA01F1DF51F84008C0842 /* DateTools.bundle in Resources */,
+				187A8F511E5D7A39004695F4 /* MySignDetailViewController.xib in Resources */,
 				18C669A91C9F9E9700C30731 /* JudgeCell.xib in Resources */,
 				18E5C8FE1C9BB15A004E6E29 /* chatBar_recordSelected@2x.png in Resources */,
 				18E5C90A1C9BB15A004E6E29 /* chatBar_colorMore_videoSelected@2x.png in Resources */,
 				18E5C9071C9BB15A004E6E29 /* chatBar_colorMore_photo@2x.png in Resources */,
 				18E5C9161C9BB15A004E6E29 /* chatBar_more_photoSelected@2x.png in Resources */,
+				186F3C1B1E52DB3100D9DA66 /* DemandProgressCell.xib in Resources */,
+				1878DD441E615E71003B0809 /* CitySchoolViewController.xib in Resources */,
 				18E5C8F11C9BB15A004E6E29 /* chatBar_keyboard.png in Resources */,
 				18E5C8F01C9BB15A004E6E29 /* chatBar_faceSelected@2x.png in Resources */,
 				189BF6711D20CB54002530A5 /* UpdateView.xib in Resources */,
@@ -3217,7 +3417,9 @@
 				18D8540D1C9FD71100E0EB86 /* UserGuideViewController.xib in Resources */,
 				1873321D1C8E7E7E004C637F /* TextFieldCell.xib in Resources */,
 				185C4CE61C985A5C00510A3E /* BusinessCell.xib in Resources */,
+				18843E701E5ABFEF007E18C2 /* BillCell.xib in Resources */,
 				18E5C9031C9BB15A004E6E29 /* chatBar_colorMore_camera@2x.png in Resources */,
+				187A8F561E5D8D07004695F4 /* MineChatViewController.xib in Resources */,
 				18B04FBD1E51B811000F26EF /* EditInfoViewController.xib in Resources */,
 				18990B571D65A62F0087FCF6 /* SelectCollectionCell.xib in Resources */,
 				1899A6C11E12103900CA39D9 /* WeiboSDK.bundle in Resources */,
@@ -3315,6 +3517,7 @@
 				186AA00A1DF51F84008C0842 /* LCCKFacePageView.m in Sources */,
 				186AA02A1DF51F84008C0842 /* NSString+LCCKExtension.m in Sources */,
 				183055581E20E1E2008FB0B5 /* CommentModel.m in Sources */,
+				187A8F451E5D34CE004695F4 /* TextReasonViewController.m in Sources */,
 				1840AB8A1C8EB66700D171A2 /* QNFile.m in Sources */,
 				186AA0281DF51F84008C0842 /* NSBundle+LCCKExtension.m in Sources */,
 				18EE54731C9403000073809B /* JianZhiCell.m in Sources */,
@@ -3322,11 +3525,13 @@
 				183ED2921C96C1CD00BF1A9A /* JudgeViewController.m in Sources */,
 				1842877C1C9914F100416F3A /* ChatListCell.m in Sources */,
 				186AA0431DF51F84008C0842 /* LCCKZoomingScrollView.m in Sources */,
+				186F3C151E52D70E00D9DA66 /* MyPostDetailViewController.m in Sources */,
 				186A9FF91DF51F84008C0842 /* LCCKImageManager.m in Sources */,
 				186AA0391DF51F84008C0842 /* LCCKError.m in Sources */,
 				187B72661CC87829006DF99E /* GetCashViewController.m in Sources */,
 				1840AB851C8EB66700D171A2 /* GTM_Base64.m in Sources */,
 				18B2D8C51C994FDE0099BD90 /* DateOrTimeTool.m in Sources */,
+				1878DD471E615F2C003B0809 /* MJNIndexView.m in Sources */,
 				1809EB151E1B39480027BDF2 /* PostDemandViewController.m in Sources */,
 				186AA0471DF51F84008C0842 /* LCCKWebViewProgressView.m in Sources */,
 				18805A8E1D82528D00BD2806 /* UIDevice+Model.m in Sources */,
@@ -3341,6 +3546,7 @@
 				186AA0371DF51F84008C0842 /* LCCKUIService.m in Sources */,
 				186AA03E1DF51F84008C0842 /* LCCKCaptionView.m in Sources */,
 				18F723541C9F85A90040DA5E /* MyPartJobViewController.m in Sources */,
+				1878DD581E61669F003B0809 /* TitleCell.m in Sources */,
 				18643C861E4DBE5900BEF756 /* JGHTTPClient+ImageUrl.m in Sources */,
 				18E5C8A01C9B9F28004E6E29 /* SelectCityController.m in Sources */,
 				1840AB941C8EB66700D171A2 /* QNReachability.m in Sources */,
@@ -3362,6 +3568,7 @@
 				18E5C8EA1C9BB15A004E6E29 /* FacialView.m in Sources */,
 				18E5C8E91C9BB15A004E6E29 /* EmojiEmoticons.m in Sources */,
 				18407B541D2D012000F345B2 /* TimeCollectionViewCell.m in Sources */,
+				1875AFEF1E5E7E9C002DBDBA /* MineChatCell.m in Sources */,
 				188E6C121C853EFC000EE7B7 /* DMAlertView.m in Sources */,
 				186AA00E1DF51F84008C0842 /* LCCKInputViewPluginTakePhoto.m in Sources */,
 				18205A591CCB299B0015A55B /* CityModel.m in Sources */,
@@ -3372,6 +3579,7 @@
 				1840AB7F1C8EB66700D171A2 /* QNDnspodFree.m in Sources */,
 				186A9FED1DF51F84008C0842 /* LCCKBaseNavigationController.m in Sources */,
 				183ED28C1C96B11C00BF1A9A /* OpinionsViewController.m in Sources */,
+				18843E651E5A8A8A007E18C2 /* MineHeaderCell.m in Sources */,
 				184634091C9A89BE00CD94F5 /* MerchantModel.m in Sources */,
 				186306EC1D06BF4500911A2E /* MyImagePickerController.m in Sources */,
 				1840AB931C8EB66700D171A2 /* QNUserAgent.m in Sources */,
@@ -3379,6 +3587,7 @@
 				18B1CCF91C8D79FE00C2270C /* MineCell.m in Sources */,
 				1840AB961C8EB66700D171A2 /* QNConfiguration.m in Sources */,
 				188C0B461C868C1400FEF500 /* LoginViewController.m in Sources */,
+				1878DD5F1E61689C003B0809 /* UIView+Autolayout.m in Sources */,
 				1835D0531E4C724A00798208 /* SignersCell.m in Sources */,
 				180FFCCF1E4C1C3400E6A076 /* MineSelectCell.m in Sources */,
 				188E6C0C1C852F8C000EE7B7 /* MyTabBarController.m in Sources */,
@@ -3406,6 +3615,7 @@
 				186AA0121DF51F84008C0842 /* LCCKChatMessageCell.m in Sources */,
 				186A9FF81DF51F84008C0842 /* LCCKConversationViewModel.m in Sources */,
 				1840AB871C8EB66700D171A2 /* QNAsyncRun.m in Sources */,
+				185229821E583C030002B96C /* AddMoneyViewController.m in Sources */,
 				186AA0051DF51F84008C0842 /* LCCKMessageVoiceFactory.m in Sources */,
 				186A9FF61DF51F84008C0842 /* LCCKTextFullScreenViewController.m in Sources */,
 				1840AB811C8EB66700D171A2 /* QNHosts.m in Sources */,
@@ -3432,9 +3642,11 @@
 				18D8540C1C9FD71100E0EB86 /* UserGuideViewController.m in Sources */,
 				182D81541E112071005F795B /* HomeNewViewController.m in Sources */,
 				1840AB901C8EB66700D171A2 /* QNResponseInfo.m in Sources */,
+				18A3F3DE1E5BE5A80064392B /* DemandStatusCell.m in Sources */,
 				187B72611CC86E6E006DF99E /* PayDetailCell.m in Sources */,
 				187332121C8DCB3A004C637F /* RealNameViewController.m in Sources */,
 				18971EF01E1F358F003EE4CD /* DemandListViewController.m in Sources */,
+				1878DD3A1E6123F8003B0809 /* VerLayout.m in Sources */,
 				186AA04C1DF51F84008C0842 /* LCCKStatusView.m in Sources */,
 				18F723571C9F87F00040DA5E /* MyPartjobCell.m in Sources */,
 				1830554C1E209C15008FB0B5 /* DemandDetailCell.m in Sources */,
@@ -3442,6 +3654,7 @@
 				18F723461C9E348F0040DA5E /* DOPDropDownMenu.m in Sources */,
 				18468A4B1E24E775006169EA /* YYFPSLabel.m in Sources */,
 				1840AB8E1C8EB66700D171A2 /* QNDns.m in Sources */,
+				187A8F491E5D6827004695F4 /* QLHudView.m in Sources */,
 				18E5C91A1C9BE070004E6E29 /* HomeViewController+IMClient.m in Sources */,
 				186A9FF41DF51F84008C0842 /* LCCKConversationViewController.m in Sources */,
 				181660321CA4D608003E9A44 /* NavigatinViewController.m in Sources */,
@@ -3471,8 +3684,10 @@
 				187B72721CC88E63006DF99E /* BindAliPayViewController.m in Sources */,
 				186AA0361DF51F84008C0842 /* LCCKSignatureService.m in Sources */,
 				186AA0341DF51F84008C0842 /* LCCKSessionService.m in Sources */,
+				1878DD4F1E6165A0003B0809 /* UITableViewCellEx.m in Sources */,
 				180917EE1CFC40E500919019 /* NotiMsgCell.m in Sources */,
 				186AA00D1DF51F84008C0842 /* LCCKInputViewPluginPickImage.m in Sources */,
+				187A8F501E5D7A39004695F4 /* MySignDetailViewController.m in Sources */,
 				18DA7A1A1CB7ADC4000587DA /* IBLabel.m in Sources */,
 				182D816E1E1124C1005F795B /* UIImage+Color.m in Sources */,
 				187C3B571CA269070051EE03 /* WebViewController.m in Sources */,
@@ -3485,6 +3700,7 @@
 				186AA02D1DF51F84008C0842 /* UIImage+LCCKExtension.m in Sources */,
 				186AA0061DF51F84008C0842 /* LCCKSoundManager.m in Sources */,
 				188E6C161C853FFA000EE7B7 /* UITextView+placeholder.m in Sources */,
+				185229781E57EEA50002B96C /* MyWalletNewViewController.m in Sources */,
 				186AA0351DF51F84008C0842 /* LCCKSettingService.m in Sources */,
 				188E6C201C854153000EE7B7 /* PartJobViewController.m in Sources */,
 				182D81711E1124C1005F795B /* UIImage+FixOrientation.m in Sources */,
@@ -3492,6 +3708,7 @@
 				18C669AC1C9F9EB000C30731 /* JudgeCell.m in Sources */,
 				18E5C8E51C9BB15A004E6E29 /* BCMoreView.m in Sources */,
 				184634031C9A4ACE00CD94F5 /* JianzhiModel.m in Sources */,
+				1878DD531E6165E9003B0809 /* BrandCell.m in Sources */,
 				1899A6C51E1214CF00CA39D9 /* LoginNew2ViewController.m in Sources */,
 				1840AB881C8EB66700D171A2 /* QNCrc32.m in Sources */,
 				186A9FF71DF51F84008C0842 /* AVIMConversation+LCCKExtension.m in Sources */,
@@ -3503,6 +3720,7 @@
 				186AA0151DF51F84008C0842 /* LCCKChatVoiceMessageCell.m in Sources */,
 				18E8D4721C965C3100745B39 /* MessageListViewController.m in Sources */,
 				18F7234C1C9E39700040DA5E /* UIView+AlertView.m in Sources */,
+				187A8F551E5D8D07004695F4 /* MineChatViewController.m in Sources */,
 				186AA0461DF51F84008C0842 /* LCCKWebViewProgress.m in Sources */,
 				1840AB7A1C8EB66700D171A2 /* QNDnsManager.m in Sources */,
 				186AA0491DF51F84008C0842 /* Mp3Recorder.m in Sources */,
@@ -3541,6 +3759,7 @@
 				18C669A71C9F9E6600C30731 /* ReceivedJudgeViewController.m in Sources */,
 				189F59051CC7329C00F45E9B /* WalletCell.m in Sources */,
 				185C4CD91C9859C100510A3E /* WorkDetailCell.m in Sources */,
+				1878DD4A1E615F5D003B0809 /* NavigatinViewController+Drawer.m in Sources */,
 				186AA0021DF51F84008C0842 /* LCCKFaceManager.m in Sources */,
 				186AA03C1DF51F84008C0842 /* LCCKDeallocExecutor.m in Sources */,
 				187300B21DF8F50400FF42AF /* JGLCCKInputPickImage.m in Sources */,
@@ -3556,18 +3775,22 @@
 				186AA0161DF51F84008C0842 /* LCCKContentView.m in Sources */,
 				18643C7F1E4DA8FF00BEF756 /* MySignDemandCell.m in Sources */,
 				18B817421DE44F1700A8764D /* LabelModel.m in Sources */,
+				18843E6F1E5ABFEF007E18C2 /* BillCell.m in Sources */,
 				18B04FBC1E51B811000F26EF /* EditInfoViewController.m in Sources */,
 				184E3A871DE7D5640022A97A /* MyWalletHeadView.m in Sources */,
 				1840ABA81C8ED26200D171A2 /* AvatarBrowser.m in Sources */,
 				18F723301C9D26250040DA5E /* StarView.m in Sources */,
 				18205A581CCB299B0015A55B /* AreaModel.m in Sources */,
+				1878DD431E615E71003B0809 /* CitySchoolViewController.m in Sources */,
 				18E5C8E61C9BB15A004E6E29 /* BCTextView.m in Sources */,
 				18E5C8E71C9BB15A004E6E29 /* DXFaceView.m in Sources */,
+				1878DD5C1E616878003B0809 /* UIImage+Additions.m in Sources */,
 				188E6BF01C852CAD000EE7B7 /* main.m in Sources */,
 				189F59011CC731E700F45E9B /* MyWalletViewController.m in Sources */,
 				18F7233D1C9DA4C70040DA5E /* ShareView.m in Sources */,
 				186AA0331DF51F84008C0842 /* LCCKConversationService.m in Sources */,
 				182D81731E1124C1005F795B /* UIImage+RTTint.m in Sources */,
+				18D6A0D01E558DF000C1E2AC /* JGHTTPClient+Money.m in Sources */,
 				1888473C1CFD22B0006F6C26 /* NotiNewsModel.m in Sources */,
 				18A88B231E233580005A212A /* QLSVProgressHud.m in Sources */,
 				18F7233A1C9D43FC0040DA5E /* ChatNoticeOrMetionView.m in Sources */,
@@ -3575,6 +3798,7 @@
 				183ED2951C96C1DF00BF1A9A /* AboutUsViewController.m in Sources */,
 				186AA00F1DF51F84008C0842 /* LCCKProgressHUD.m in Sources */,
 				18D6E60C1E1CB04A00BFD8E5 /* ProfileViewController.m in Sources */,
+				187A8F4C1E5D6C8C004695F4 /* NSObject+HudView.m in Sources */,
 				189BF66F1D20CB3C002530A5 /* UpdateView.m in Sources */,
 				1840AB9B1C8EB66700D171A2 /* QNUpToken.m in Sources */,
 				186B632F1D26767F00FB73C1 /* LoginNewViewController.m in Sources */,
@@ -3584,6 +3808,7 @@
 				1809EB191E1B4C400027BDF2 /* QLTakePictures.m in Sources */,
 				185C4CBC1C97BC3400510A3E /* MyUser.m in Sources */,
 				188E92D41C897228006F4205 /* CoreLaunchCool.m in Sources */,
+				186F3C1A1E52DB3100D9DA66 /* DemandProgressCell.m in Sources */,
 				186AA03F1DF51F84008C0842 /* LCCKPhoto.m in Sources */,
 				1809EB211E1B7A9B0027BDF2 /* DemandCell.m in Sources */,
 				18990B561D65A62F0087FCF6 /* SelectCollectionCell.m in Sources */,
@@ -3595,17 +3820,20 @@
 				186AA01C1DF51F84008C0842 /* LCCKConversationListCell.m in Sources */,
 				18D95AFA1D0D146700C80FA6 /* LongDateViewController.m in Sources */,
 				1840AB7C1C8EB66700D171A2 /* QNNetworkInfo.m in Sources */,
+				18AD6C171E5842ED00A340B1 /* PaySelectCell.m in Sources */,
 				1840AB801C8EB66700D171A2 /* QNHijackingDetectWrapper.m in Sources */,
 				186AA0441DF51F84008C0842 /* LCCKSafariActivity.m in Sources */,
 				18E5C9231C9C5719004E6E29 /* MerCntHeaderView.m in Sources */,
 				18A2903D1E2E16A400BF5B39 /* MineLayout.m in Sources */,
 				18EBA4C41CC9D0C90075F270 /* ExportModel.m in Sources */,
+				18843E6A1E5ABF17007E18C2 /* BillsViewController.m in Sources */,
 				1840ABAB1C91184500D171A2 /* RealNameModel.m in Sources */,
 				188151501C92B8A500F664F8 /* JianliAccount.m in Sources */,
 				185C4CD01C98587200510A3E /* JianZhiDetailController.m in Sources */,
 				18B2D8C81C99589B0099BD90 /* NSDate+CalculateDay.m in Sources */,
 				186AA0411DF51F84008C0842 /* LCCKTapDetectingImageView.m in Sources */,
 				1840AB7D1C8EB66700D171A2 /* QNRecord.m in Sources */,
+				1852297D1E57F5570002B96C /* WalletCollectionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

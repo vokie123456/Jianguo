@@ -25,6 +25,13 @@
 #import "LoginNewViewController.h"
 #import "PrefrenceViewController.h"
 #import "LCChatKit.h"
+#import "MineHeaderCell.h"
+#import "MyWalletNewViewController.h"
+#import "MyPostDemandViewController.h"
+#import "MySignDemandsViewController.h"
+#import <UIButton+AFNetworking.h>
+#import "JGHTTPClient+Mine.h"
+#import "DateOrTimeTool.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,MineHeaderDelegate>
 {
@@ -33,6 +40,11 @@
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UIImageView *iconView;
 @property (nonatomic,strong) UIButton *LogoutBtn;
+@property (nonatomic,strong) UIButton *iconBtn;
+@property (nonatomic,strong) UILabel *nameL;
+@property (nonatomic,strong) UIButton *ageBtn;
+@property (nonatomic,strong) UILabel *starL;
+@property (nonatomic,strong) JianliAccount *account;
 
 @end
 
@@ -57,14 +69,14 @@
 -(UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -64, SCREEN_W, SCREEN_H+20)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H) style:UITableViewStyleGrouped];
         _tableView.backgroundColor = BACKCOLORGRAY;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        mineHeaderView = [MineHeaderView aMineHeaderView];
-        self.iconView = mineHeaderView.iconView;
-        mineHeaderView .delegate = self;
-        _tableView.tableHeaderView = mineHeaderView;
+//        mineHeaderView = [MineHeaderView aMineHeaderView];
+//        self.iconView = mineHeaderView.iconView;
+//        mineHeaderView .delegate = self;
+//        _tableView.tableHeaderView = mineHeaderView;
         _tableView.tableFooterView = nil;
         _tableView.rowHeight = 45;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -86,8 +98,44 @@
     
 //    [self.tableView addSubview:self.LogoutBtn];
     
-     [self setnavigationBarButton];
+    [self setnavigationBarButton];
+    
+    [self request];
 }
+
+-(void)request
+{
+    JGSVPROGRESSLOAD(@"正在拼命加载中...");
+    [JGHTTPClient getJianliInfoByloginId:[JGUser user].login_id Success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        JGLog(@"%@",responseObject);
+        if (responseObject) {
+            
+            self.account = [JianliAccount mj_objectWithKeyValues:responseObject[@"data"]];
+            
+            [self.iconBtn setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.account.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
+            NSInteger age = [timeNow substringToIndex:4].integerValue - [self.account.birth_date substringToIndex:4].integerValue;
+            [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
+            if (self.account.sex.integerValue == 1) {//女
+                [self.ageBtn setImage:[UIImage imageNamed:@"girlclear"] forState:UIControlStateNormal];
+            }else{
+                [self.ageBtn setImage:[UIImage imageNamed:@"boyclear"] forState:UIControlStateNormal];
+            }
+//            NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
+            self.starL.text = [DateOrTimeTool getConstellation:self.account.birth_date]?[DateOrTimeTool getConstellation:self.account.birth_date]:@"未填写";
+            self.nameL.text = self.account.nickname;
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+    }];
+}
+
+
 /**
  *  设置导航条上的按钮
  */
@@ -113,39 +161,47 @@
 {
     [super viewWillAppear:animated];
     
-    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:18]};
-    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController.navigationBar setTranslucent:YES];
-    [self.tableView reloadData];
+//    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
+//    [self.navigationController.navigationBar setTranslucent:YES];
+    
 }
 
 #pragma mark  tableView 的代理方法
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 12;
+    return 0.1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1;
+    return 10;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 100;
+    }
+    return 44;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 2;
+        return 1;
     }else if (section == 1){
         return 2;
     }else{
-        return 0;
+        return 2;
     }
 }
 
@@ -154,37 +210,50 @@
     MineCell *cell = [MineCell cellWithTableView:tableView];
 
     if (indexPath.section == 0) {
-//        if (indexPath.row == 0) {
-//            cell.labelLeft.text = @"求职意向";
-//
-//            cell.iconView.image = [UIImage imageNamed:@"select"];
-//            
-//            
-//        }
+       
+        MineHeaderCell *cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MineHeaderCell class]) owner:nil options:nil] lastObject];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.iconBtn = cell.iconBtn;
+        self.nameL = cell.nameL;
+        self.ageBtn = cell.ageBtn;
+        self.starL = cell.starL;
+        return cell;
+        
+    }
+    else if (indexPath.section == 1) {
+
         if (indexPath.row == 0) {
-            cell.labelLeft.text = @"我的资料";
-//            cell.labelRight.text = @"90";
-            cell.iconView.image = [UIImage imageNamed:@"icon_pingjia"];
+            cell.labelLeft.text = @"我的钱包";
+            cell.iconView.image = [UIImage imageNamed:@"wallet"];
             
         }else if (indexPath.row == 1){
-            cell.labelLeft.text = @"兼职管理";
+            cell.labelLeft.text = @"实名认证";
             cell.lineView.hidden = YES;
-            cell.iconView.image = [UIImage imageNamed:@"icon_guanli"];
+            cell.iconView.image = [UIImage imageNamed:@"name"];
         }
-//        else if (indexPath.row == 3){
-//            cell.labelLeft.text = @"我的收藏";
-//            cell.lineView.hidden = YES;
-//            cell.iconView.image = [UIImage imageNamed:@"shoucang"];
-//        }
+
     }
-    else if (indexPath.section==1){
+    else if (indexPath.section==2){
         
         if (indexPath.row == 0) {
-            cell.labelLeft.text = @"意见反馈";
-            cell.iconView.image = [UIImage imageNamed:@"icon_fankui"];
+            cell.labelLeft.text = @"我发布的任务";
+            cell.iconView.image = [UIImage imageNamed:@"release"];
         }else if (indexPath.row == 1){
-            cell.labelLeft.text = @"关于我们";
-            cell.iconView.image = [UIImage imageNamed:@"icon_we"];
+            cell.labelLeft.text = @"我报名的任务";
+            cell.iconView.image = [UIImage imageNamed:@"sign"];
+            cell.lineView.hidden = YES;
+        }
+        
+    }
+    
+    else if (indexPath.section==3){
+        
+        if (indexPath.row == 0) {
+            cell.labelLeft.text = @"兼职管理";
+            cell.iconView.image = [UIImage imageNamed:@"management"];
+        }else if (indexPath.row == 1){
+            cell.labelLeft.text = @"我的收藏";
+            cell.iconView.image = [UIImage imageNamed:@"xin"];
             cell.lineView.hidden = YES;
         }
         
@@ -195,6 +264,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //取消选中状态
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
@@ -223,7 +294,88 @@
                 [self gotoMyJianLiVC];
                 
                 break;
+           
+                
+            default:
+                break;
+        }
+    }
+    else if (indexPath.section == 1){
+    
+        switch (indexPath.row) {
+            case 0:
+                //我的钱包
+            {
+                if (![self checkExistPhoneNum]) {
+                    [self gotoLoginVC];
+                    return;
+                }
+                MyWalletNewViewController *walletVC = [[MyWalletNewViewController alloc] init];
+                walletVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:walletVC animated:YES];
+                
+            }
+                
+                break;
             case 1:
+                //实名认证
+            {
+                if (![self checkExistPhoneNum]) {
+                    [self gotoLoginVC];
+                    return;
+                }
+                RealNameViewController *realNameVC = [[RealNameViewController alloc] init];
+                realNameVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:realNameVC animated:YES];
+                
+            }
+                
+                break;
+                
+            default:
+                break;
+        }
+        
+    }else if (indexPath.section == 2){
+        
+        switch (indexPath.row) {
+            case 0:
+                //我发布的任务
+            {
+                if (![self checkExistPhoneNum]) {
+                    [self gotoLoginVC];
+                    return;
+                }
+                
+                MyPostDemandViewController *demandVC = [[MyPostDemandViewController alloc] init];
+                demandVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:demandVC animated:YES];
+                
+            }
+                
+                break;
+            case 1:
+                //我报名的任务
+            {
+                if (![self checkExistPhoneNum]) {
+                    [self gotoLoginVC];
+                    return;
+                }
+                
+                MySignDemandsViewController *demandVC = [[MySignDemandsViewController alloc] init];
+                demandVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:demandVC animated:YES];
+                
+            }
+                
+                break;
+            default:
+                break;
+        }
+        
+    }else if (indexPath.section == 3){
+        switch (indexPath.row) {
+            case 0:
                 //兼职管理
             {
                 if (![self checkExistPhoneNum]) {
@@ -235,12 +387,9 @@
                 [self.navigationController pushViewController:myPartjobVC animated:YES];
                 break;
             }
-            case 3:
+            case 1:
                 //收藏与关注
             {
-                
-//                LCCKContactListViewController*chatVC = [[LCCKContactListViewController alloc] initWithNibName:nil bundle:nil];
-//                [self.navigationController pushViewController:chatVC animated:YES];
                 if (![self checkExistPhoneNum]) {
                     [self gotoLoginVC];
                     return;
@@ -251,50 +400,11 @@
             }
                 
                 break;
-                
             default:
                 break;
         }
-    }
-    else if (indexPath.section == 1){
-    
-        switch (indexPath.row) {
-            case 0:
-                //意见反馈
-            {
-                if (![self checkExistPhoneNum]) {
-                    [self gotoLoginVC];
-                    return;
-                }
-                OpinionsViewController *opinionVC = [[OpinionsViewController alloc] init];
-                opinionVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:opinionVC animated:YES];
-                
-            }
-                
-                break;
-            case 1:
-                //设置
-            {
-                if (![self checkExistPhoneNum]) {
-                    [self gotoLoginVC];
-                return;
-                }
 
-                AboutUsViewController *aboutUs = [[AboutUsViewController alloc] init];
-                aboutUs.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:aboutUs animated:YES];
-            }
-                
-                break;
-                
-            default:
-                break;
-        }
-        
     }
-    //取消选中状态
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 /**
@@ -425,16 +535,16 @@
  */
 -(void)reloadHeaderView
 {
-    if (USER.tel.length == 11) {
-        [self.LogoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-    }else{
-        [self.LogoutBtn setTitle:@"登录" forState:UIControlStateNormal];
-    }
-    self.tableView.tableHeaderView = nil;
-    mineHeaderView = [MineHeaderView aMineHeaderView];
-    self.iconView = mineHeaderView.iconView;
-    mineHeaderView .delegate = self;
-    self.tableView.tableHeaderView = mineHeaderView;
+//    if (USER.tel.length == 11) {
+//        [self.LogoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+//    }else{
+//        [self.LogoutBtn setTitle:@"登录" forState:UIControlStateNormal];
+//    }
+//    self.tableView.tableHeaderView = nil;
+//    mineHeaderView = [MineHeaderView aMineHeaderView];
+//    self.iconView = mineHeaderView.iconView;
+//    mineHeaderView .delegate = self;
+//    self.tableView.tableHeaderView = mineHeaderView;
 
 }
 

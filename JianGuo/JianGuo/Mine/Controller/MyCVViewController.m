@@ -37,9 +37,9 @@
 
 @property (nonatomic,strong) NSMutableArray *heightArr;
 
-@property (nonatomic,strong) UITextField *nameTf;
+@property (nonatomic,strong) UITextField *nameTF;
 
-@property (nonatomic,strong) UITextField *nickNameTf;
+@property (nonatomic,strong) UITextField *nickNameTF;
 
 @property (nonatomic,strong) CheckBox *selectNo;
 
@@ -63,40 +63,40 @@
 
 @property (nonatomic,strong) UIImageView *iconView;
 
-@property (nonatomic,strong) UITextField *sexTf;
-@property (nonatomic,strong) UITextField *birthTf;
-@property (nonatomic,strong) UITextField *shoeSizeTf;
-@property (nonatomic,strong) UITextField *clothSizeTf;;
-@property (nonatomic,strong) UITextField *heightTf;;
-@property (nonatomic,strong) UITextField *schoolTf;
-@property (nonatomic,strong) UITextField *inSchoolTiemTf;
+@property (nonatomic,strong) UITextField *sexTF;
+@property (nonatomic,strong) UITextField *birthTF;
+@property (nonatomic,strong) UITextField *shoeSizeTF;
+@property (nonatomic,strong) UITextField *clothSizeTF;;
+@property (nonatomic,strong) UITextField *heightTF;;
+@property (nonatomic,strong) UITextField *schoolTF;
+@property (nonatomic,strong) UITextField *inSchoolTiemTF;
 @property (nonatomic,strong) NSDateFormatter *formatter;
-@property (nonatomic,strong) UITextField *emailTf;;
-@property (nonatomic,strong) UITextField *qqTf;
+@property (nonatomic,strong) UITextField *emailTF;;
+@property (nonatomic,strong) UITextField *qqTF;
 @property (nonatomic,strong) UITextView *introduceTF;
 
 @end
 @implementation MyCVViewController
 
--(UITextField *)schoolTf
+-(UITextField *)schoolTF
 {
-    if (!_schoolTf) {
-        _schoolTf = [[UITextField alloc] init];
+    if (!_schoolTF) {
+        _schoolTF = [[UITextField alloc] init];
         if (account) {
-            _schoolTf.text = account.school_name;
+            _schoolTF.text = account.school_name;
         }
     }
-    return _schoolTf;
+    return _schoolTF;
 }
--(UITextField *)inSchoolTiemTf
+-(UITextField *)inSchoolTiemTF
 {
-    if (!_inSchoolTiemTf) {
-        _inSchoolTiemTf = [[UITextField alloc] init];
+    if (!_inSchoolTiemTF) {
+        _inSchoolTiemTF = [[UITextField alloc] init];
         if (account) {
-            _inSchoolTiemTf.text = account.intoschool_date;
+            _inSchoolTiemTF.text = account.intoschool_date;
         }
     }
-    return _inSchoolTiemTf;
+    return _inSchoolTiemTF;
 }
 
 -(NSDateFormatter *)formatter
@@ -124,6 +124,7 @@
 {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) style:UITableViewStylePlain];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.bounces = NO;
@@ -217,15 +218,15 @@
         [editBtn setTitle:@"保存" forState:UIControlStateNormal];
         
         //使可编辑
-        self.nameTf.userInteractionEnabled = YES;
-        self.nickNameTf.userInteractionEnabled = YES;
+        self.nameTF.userInteractionEnabled = YES;
+        self.nickNameTF.userInteractionEnabled = YES;
         self.selectNo.userInteractionEnabled = YES;
-        [self.nameTf becomeFirstResponder];
+        [self.nameTF becomeFirstResponder];
         self.selectYes.userInteractionEnabled = YES;
         self.selectNo.userInteractionEnabled = YES;
         self.introduceTF.userInteractionEnabled = YES;
-        self.qqTf.userInteractionEnabled = YES;
-        self.emailTf.userInteractionEnabled = YES;
+        self.qqTF.userInteractionEnabled = YES;
+        self.emailTF.userInteractionEnabled = YES;
         
     }else{//保存 ----> 编辑 下面的为 保存操作
         //保存请求
@@ -330,7 +331,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 30)];
         
         label.font = FONT(14);
-        label.textColor = BLUECOLOR;
+        label.textColor = GreenColor;
         [sectionHeaderView addSubview:label];
         
         if (section == 0) {
@@ -358,7 +359,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2) {
-        return 198;
+        return 80;
     }else
         return 44;
 }
@@ -369,9 +370,9 @@
         return 5;
     }else if (section ==1){
         if ([self.isStudent integerValue] == 2) {
-            return 1;
+            return 1+1;
         }else{
-            return 3;
+            return 3+1;
         }
     }else{
         return 1;
@@ -396,8 +397,8 @@
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
                 cell.labelLeft.attributedText = nameStr;
                 cell.rightTf.userInteractionEnabled = YES;
-                self.nameTf = cell.rightTf;
-                self.nameTf.userInteractionEnabled = NO;
+                self.nameTF = cell.rightTf;
+                self.nameTF.userInteractionEnabled = NO;
                 cell.rightTf.delegate = self;
                 cell.lineViewTop.hidden = YES;
             break;
@@ -412,8 +413,8 @@
                 cell.labelLeft.attributedText = nameStr;
                 cell.rightTf.userInteractionEnabled = YES;
                 cell.rightTf.placeholder = @"请输入您的昵称";
-                self.nickNameTf = cell.rightTf;
-                self.nickNameTf.userInteractionEnabled = NO;
+                self.nickNameTF = cell.rightTf;
+                self.nickNameTF.userInteractionEnabled = NO;
                 cell.rightTf.delegate = self;
                 cell.lineViewTop.hidden = YES;
                 break;
@@ -431,7 +432,7 @@
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
                 cell.labelLeft.attributedText = nameStr;
                 cell.rightTf.placeholder = @"请选择您的性别";
-                self.sexTf = cell.rightTf;
+                self.sexTF = cell.rightTf;
                 
                 break;
             }
@@ -443,7 +444,7 @@
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
                 cell.labelLeft.attributedText = nameStr;
                 cell.rightTf.placeholder = @"请选择您的出生日期";
-                self.birthTf = cell.rightTf;
+                self.birthTF = cell.rightTf;
                 
                 break;
             }
@@ -456,7 +457,7 @@
                 }
                 cell.labelLeft.text = @"身高:";
                 cell.rightTf.placeholder = @"请选择您的身高";
-                self.heightTf = cell.rightTf;
+                self.heightTF = cell.rightTf;
                 cell.lineView.hidden = YES;
                 
 //                if (account) {
@@ -473,7 +474,7 @@
                 }
                 cell.labelLeft.text = @"服装尺码:";
                 cell.rightTf.placeholder = @"请选择您的服装尺码";
-                self.clothSizeTf = cell.rightTf;
+                self.clothSizeTF = cell.rightTf;
                 
                 break;
             case 6:
@@ -484,7 +485,7 @@
                 }
                 cell.labelLeft.text = @"身高:";
                 cell.rightTf.placeholder = @"请选择您的身高";
-                self.heightTf = cell.rightTf;
+                self.heightTF = cell.rightTf;
                 
                 break;
                 
@@ -499,9 +500,9 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (indexPath.row == 0) {
             if ([self.isStudent integerValue] == 1) {
-                cell.selectYes.selectImg.image = [UIImage imageNamed:@"icon_xuanzhong"];
+                cell.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
             }else if ([self.isStudent integerValue] == 2){
-                cell.selectNo.selectImg.image = [UIImage imageNamed:@"icon_xuanzhong"];
+                cell.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
             }
             cell.lineViewTop.hidden = NO;
             //@"1"是学生,@"2"不是
@@ -531,17 +532,26 @@
             };
         }
         else if (indexPath.row == 1){
-            if (!self.hadSelectedSchool) {
-                if (account) {
-                    cell.rightTf.text = account.school_name;
-                    self.school = account.school_id;
+            if (self.isStudent.integerValue == 1) {//是学生
+                if (!self.hadSelectedSchool) {
+                    if (account) {
+                        cell.rightTf.text = account.school_name;
+                        self.school = account.school_id;
+                    }
                 }
+                NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*所在学校:"];
+                [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
+                cell.labelLeft.attributedText = nameStr;
+                cell.rightTf.placeholder = @"请选择您的学校";
+                self.schoolTF = cell.rightTf;
+            }else if (self.isStudent.integerValue == 2){//不是学生
+                if (account) {
+                    cell.rightTf.text = account.qq;
+                }
+                cell.labelLeft.text = @"微信号";
+                cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
+                self.qqTF = cell.rightTf;
             }
-            NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*所在学校:"];
-            [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
-            cell.labelLeft.attributedText = nameStr;
-            cell.rightTf.placeholder = @"请选择您的学校";
-            self.schoolTf = cell.rightTf;
         }
         else if (indexPath.row == 2){
             if (account) {
@@ -551,26 +561,37 @@
             [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
             cell.labelLeft.attributedText = nameStr;
             cell.rightTf.placeholder = @"请选择您的入学时间";
-            self.inSchoolTiemTf = cell.rightTf;
+            self.inSchoolTiemTF = cell.rightTf;
+        }
+        else if (indexPath.row == 3){
+            if (account) {
+                cell.rightTf.text = account.qq;
+            }
+            cell.labelLeft.text = @"微信号:";
+            cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
+            self.qqTF = cell.rightTf;
         }
         return cell;
     }
     else{
         
-        StudentInfoCell *cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([StudentInfoCell class]) owner:nil options:nil]lastObject];
+        JianliCell *cell = [JianliCell cellWithTableView:tableView ];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.labelLeft.text = @"我的特长:";
+        cell.jiantouView.hidden = YES;
+        [cell.rightTf removeFromSuperview];
+        [cell.lineView removeFromSuperview];
+        UITextView *textV = [[UITextView alloc] initWithFrame:CGRectMake(cell.labelLeft.right-5, 5, SCREEN_W-cell.labelLeft.right-10, 70)];
+        textV.backgroundColor = BACKCOLORGRAY;
+        textV.font = FONT(15);
+        textV.placeholder = @"描述您的特长,例如:编程序,做PPT...";
+        [cell.contentView addSubview:textV];
+        self.introduceTF = textV;
         if (account) {
-            cell.emailTF.text = account.email;
-            cell.qqTF.text = account.qq.integerValue?account.qq:nil;
-            cell.introduceTF.placeholder = nil;
-            cell.introduceTF.text = account.introduce;
+            textV.placeholder = nil;
+            textV.text = account.introduce;
         }
-        self.introduceTF = cell.introduceTF;
-        self.emailTf = cell.emailTF;
-        self.qqTf = cell.qqTF;
         self.introduceTF.userInteractionEnabled = NO;
-        self.qqTf.userInteractionEnabled = NO;
-        self.emailTf.userInteractionEnabled = NO;
         return cell;
         
     }
@@ -585,7 +606,7 @@
     }
     [self.view endEditing:YES];
     JianliCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self.nameTf resignFirstResponder];
+    [self.nameTF resignFirstResponder];
     if (indexPath.section == 0) {
         if (indexPath.row == 2) {
             PickerView *pickerView = [PickerView aPickerView:^(NSString *sex) {
@@ -766,16 +787,16 @@
  */
 -(void)saveBasicInfo:(UIButton *)saveBtn
 {
-    if ([[self.nameTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+    if ([[self.nameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
         [self showAlertViewWithText:@"请填写您的姓名" duration:1];
         return;
-    }else if ([[self.nickNameTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0){
+    }else if ([[self.nickNameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0){
         [self showAlertViewWithText:@"请填写您的昵称" duration:1];
         return;
     }else if (self.sex == nil){
         [self showAlertViewWithText:@"请选择您的性别" duration:1];
         return;
-    }else if (self.birthTf.text == nil){
+    }else if (self.birthTF.text == nil){
         [self showAlertViewWithText:@"请选择您的出生日期" duration:1];
         return;
     }
@@ -801,10 +822,10 @@
 //        return;
 //    }
     if (self.isStudent.intValue == 1) {
-            if (!self.schoolTf.text.length){
+            if (!self.schoolTF.text.length){
                 [self showAlertViewWithText:@"请选择您的学校" duration:1];
                 return;
-            }else if (!self.inSchoolTiemTf.text.length){
+            }else if (!self.inSchoolTiemTF.text.length){
                 [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
                 return;
             }
@@ -833,43 +854,46 @@
             user.iconUrl = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
             [JGUser saveUser:user WithDictionary:nil loginType:0];
             
-//            [JGHTTPClient uploadUserJianliInfoByname:self.nameTf.text nickName:self.nickNameTf.text sex:self.sex loginId:[JGUser user].login_id iconUrl:[JGUser user].iconUrl school:self.school inSchoolTime:self.inSchoolTiemTf.text height:self.heightTf.text isStudent:self.isStudent birthDay:self.birthTf.text shoeSize:self.shoeSizeTf.text clothSize:self.clothSizeTf.text email:self.emailTf.text qq:self.qqTf.text introduce:self.introduceTF.text Success:^(id responseObject){
-//                
-//                [SVProgressHUD dismiss];
-//                JGLog(@"%@",responseObject);
-//                if (responseObject) {
-//                    [self showAlertViewWithText:responseObject[@"message"] duration:1];
-//                }
-//                if ([responseObject[@"code"] intValue] == 200) {
-//                    
-//                    editBtn.selected = NO;
-//                    [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
-//                    self.nameTf.userInteractionEnabled = NO;
-//                    self.nickNameTf.userInteractionEnabled = NO;
-//                    self.selectNo.userInteractionEnabled = NO;
-//                    
-//                    JGUser *user = [JGUser user];
-//                    user.resume = @"1";
-//                    user.nickName = self.nickNameTf.text;
-//                    user.name = self.nameTf.text;
-//                    user.gender = self.sex;
-//                    user.school = self.schoolTf.text;
-//                    [JGUser saveUser:user WithDictionary:nil loginType:0];
-//                    if (self.reloadView) {
-//                        self.reloadView();
-//                    }
-//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        [self.navigationController popViewControllerAnimated:YES];
-//                    });
-//                }
-//                
-//                
-//            } failure:^(NSError *error) {
-//                
-//                [SVProgressHUD dismiss];
-//                [self showAlertViewWithText:NETERROETEXT duration:1];
-//                
-//            }];
+            
+            
+            [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:user.iconUrl sex:self.sex height:self.heightTF.text schoolId:self.school cityId:nil areaId:nil inSchoolTime:self.inSchoolTiemTF.text birthDay:self.birthTF.text constellation:nil introduce:self.introduceTF.text qq:self.qqTF.text isStudent:self.isStudent Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
+                
+                [SVProgressHUD dismiss];
+                JGLog(@"%@",responseObject);
+                if (responseObject) {
+                    [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                }
+                if ([responseObject[@"code"] intValue] == 200) {
+                    
+                    editBtn.selected = NO;
+                    [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+                    self.nameTF.userInteractionEnabled = NO;
+                    self.nickNameTF.userInteractionEnabled = NO;
+                    self.selectNo.userInteractionEnabled = NO;
+                    
+                    JGUser *user = [JGUser user];
+                    user.resume = @"1";
+                    user.nickName = self.nickNameTF.text;
+                    user.name = self.nameTF.text;
+                    user.gender = self.sex;
+                    user.school_name = self.schoolTF.text;
+                    user.schoolId = self.school;
+                    [JGUser saveUser:user WithDictionary:nil loginType:0];
+                    if (self.reloadView) {
+                        self.reloadView();
+                    }
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+                }
+                
+                
+            } failure:^(NSError *error) {
+                
+                [SVProgressHUD dismiss];
+                [self showAlertViewWithText:NETERROETEXT duration:1];
+                
+            }];
 
             self.iconImageBlock(self.iconView.image);
         }
@@ -881,7 +905,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 //    [self.navigationController.navigationBar setBackgroundImage:[self imageWithBgColor:RGBACOLOR(59, 155, 255,self.tableView.contentOffset.y/100)] forBarMetrics:UIBarMetricsDefault];
-    [self.view endEditing:YES];
+//    [self.view endEditing:YES];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {

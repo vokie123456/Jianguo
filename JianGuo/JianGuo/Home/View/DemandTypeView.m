@@ -36,8 +36,8 @@
 {
     if (self = [super initWithFrame:frame]) {
         if (!self.titleArr.count) {
-            self.titleArr = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
-            [self setSubViews];
+//            self.titleArr = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
+//            [self setSubViews];
         }
     }
     return self;

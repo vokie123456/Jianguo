@@ -38,6 +38,15 @@
 /** 需求图片 */
 @property (nonatomic, copy) NSString* d_image;
 
+/** 需求状态 */
+@property (nonatomic, copy) NSString* d_status;
+
+/** 需求类型 */
+@property (nonatomic, copy) NSString* d_type;
+
+/** 需求描述 */
+@property (nonatomic, copy) NSString* d_describe;
+
 /** 需求标题 */
 @property (nonatomic, copy) NSString* title;
 
@@ -53,14 +62,11 @@
 /** 报名状态 */
 @property (nonatomic, copy) NSString*  enroll_status;
 
-/** 需求类型 */
-@property (nonatomic, copy) NSString*  d_type;
+/** 报名人数 */
+@property (nonatomic, copy) NSString*  enroll_count;
 
 /** 发需求者的用户ID */
 @property (nonatomic, copy) NSString*  b_user_id;
-
-/** 需求描述 */
-@property (nonatomic, copy) NSString* d_describe;
 
 /** 需求的发布时间 */
 @property (nonatomic, copy) NSString*  create_time;

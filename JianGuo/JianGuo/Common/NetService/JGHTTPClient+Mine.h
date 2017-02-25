@@ -70,6 +70,7 @@
                          nickName:(NSString *)nickName
                           iconUrl:(NSString *)iconUrl
                               sex:(NSString *)sex
+                           height:(NSString *)height
                          schoolId:(NSString *)schoolId
                            cityId:(NSString *)cityId
                            areaId:(NSString *)areaId
@@ -85,6 +86,7 @@
  *  查询学校的接口
  */
 +(void)searchSchoolByName:(NSString *)name
+                 cityCode:(NSString *)cityCode
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure;
 

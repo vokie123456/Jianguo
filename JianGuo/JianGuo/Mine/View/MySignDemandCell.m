@@ -23,7 +23,7 @@
 -(void)setModel:(DemandModel *)model
 {
     _model = model;
-    self.titleL.text = model.title;
+    self.titleL.text = model.title?model.title:@"未填写";
     self.moneyL.text = [NSString stringWithFormat:@"赏金 %@ 元",model.money];
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.d_image] placeholderImage:[UIImage imageNamed:@"img_renwu"]];
 }

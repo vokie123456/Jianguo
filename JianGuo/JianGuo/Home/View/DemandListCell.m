@@ -15,6 +15,7 @@
 #import "TTTAttributedLabel.h"
 #import "JGHTTPClient+Demand.h"
 #import "QLAlertView.h"
+#import "NSObject+HudView.h"
 
 @interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate>
 {
@@ -29,15 +30,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *commentCountL;
 @property (weak, nonatomic) IBOutlet UIButton *praiseBtn;
 @property (weak, nonatomic) IBOutlet UIButton *bigBtn;
-@property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (weak, nonatomic) IBOutlet UIButton *signBtn;
 @property (weak, nonatomic) IBOutlet UILabel *praiseCountL;
-@property (weak, nonatomic) IBOutlet UIImageView *selfIconView;
-@property (weak, nonatomic) IBOutlet UITextField *commentTF;
+@property (weak, nonatomic) IBOutlet UIButton *typeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *schoolBtn;
+
+@property (weak, nonatomic) IBOutlet UILabel *contentL;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *firstCommentL;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *secondCommentL;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *thirdCommentL;
+
 
 
 @end
@@ -51,46 +52,77 @@
 -(void)setModel:(DemandModel *)model
 {
     _model = model;
+    if (model.enroll_status.integerValue == 0) {
+        [self.signBtn setTitle:@"报名" forState:UIControlStateNormal];
+    }else{
+        [self.signBtn setTitle:@"已报名" forState:UIControlStateNormal];
+    }
     if (model.like_status.integerValue == 1) {
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"xin"] forState:UIControlStateNormal];
     }else{
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
     }
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"wechat"]];
-    self.nameL.text = model.anonymous.integerValue==1?@"匿名":model.nickname;
+    self.nameL.text = model.anonymous.integerValue==1?@"匿名":(model.nickname?model.nickname:@"未填写");
     self.genderView.image = [UIImage imageNamed:model.sex.integerValue==2?@"man":@"girl"];
     self.titleL.text = model.title;
     self.moneyL.text = [NSString stringWithFormat:@"%@元",model.money];
-    self.timeL.text = [DateOrTimeTool getDateStringBytimeStamp:model.create_time.floatValue];
+    self.contentL.text = model.d_describe;
+    NSArray *array = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
+    [self.typeBtn setTitle:[[@"  " stringByAppendingString:array[model.d_type.integerValue-1]] stringByAppendingString:@"  "] forState:UIControlStateNormal];
+    self.timeL.text = [@"发布于" stringByAppendingString:[[DateOrTimeTool getDateStringBytimeStamp:model.create_time.floatValue] substringFromIndex:5]];
     self.commentCountL.text = [NSString stringWithFormat:@"%@",model.comment_count];
     self.praiseCountL.text = model.like_count;
-    self.firstCommentL.text = self.secondCommentL.text = self.thirdCommentL.text = nil;
-    if (model.commentEntitys.count == 1){
-        
-        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-
-        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-        
-    }else if (model.commentEntitys.count==2){
-        
-        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-        
-        CommentModel *commentModel2 = model.commentEntitys.lastObject;
-        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
+//    self.firstCommentL.text = self.secondCommentL.text = self.thirdCommentL.text = nil;
+//    if (model.commentEntitys.count == 1){
+//        
+//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
+//
+//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
+//        
+//    }else if (model.commentEntitys.count==2){
+//        
+//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
+//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
+//        
+//        CommentModel *commentModel2 = model.commentEntitys.lastObject;
+//        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
+//    
+//    }else if (model.commentEntitys.count==3){
+//        
+//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
+//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
+//        
+//        CommentModel *commentModel2 =  [model.commentEntitys objectAtIndex:1];
+//        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
+//        
+//        CommentModel *commentModel3 = model.commentEntitys.lastObject;
+//        [self getStrToLabel:self.thirdCommentL WithCommentModel:commentModel3];
     
-    }else if (model.commentEntitys.count==3){
-        
-        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-        
-        CommentModel *commentModel2 =  [model.commentEntitys objectAtIndex:1];
-        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
-        
-        CommentModel *commentModel3 = model.commentEntitys.lastObject;
-        [self getStrToLabel:self.thirdCommentL WithCommentModel:commentModel3];
-        
+//    }
+    
+}
+- (IBAction)sign:(id)sender {
+    if (_model.enroll_status.integerValue!=0) {
+        return;
     }
+    JGSVPROGRESSLOAD(@"正在报名...")
+    [JGHTTPClient signDemandWithDemandId:_model.id userId:USER.login_id status:@"1"
+                                  reason:nil Success:^(id responseObject) {
+                                      [SVProgressHUD dismiss];
+                                      
+                                      [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                                      if ([responseObject[@"code"]integerValue]==200) {
+//                                          [sender setBackgroundColor:[UIColor lightGrayColor]];
+                                          [sender setTitle:@"已报名" forState:UIControlStateNormal];
+                                      }
+                                      
+                                      
+                                  } failure:^(NSError *error) {
+                                      [SVProgressHUD dismiss];
+                                      [self showAlertViewWithText:NETERROETEXT duration:1];
+                                      
+                                  }];
     
 }
 
@@ -176,18 +208,18 @@
 
 - (void)awakeFromNib {
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
-    self.commentTF.leftViewMode = UITextFieldViewModeAlways;
-    self.commentTF.leftView = leftView;
-    self.commentTF.layer.cornerRadius = 5;
-    self.commentTF.delegate = self;
+//    self.commentTF.leftViewMode = UITextFieldViewModeAlways;
+//    self.commentTF.leftView = leftView;
+//    self.commentTF.layer.cornerRadius = 5;
+//    self.commentTF.delegate = self;
 
     self.iconView.layer.cornerRadius = self.iconView.width/2;
     self.iconView.layer.masksToBounds = YES;
-    self.selfIconView.layer.cornerRadius = self.selfIconView.width/2;
-    self.selfIconView.layer.masksToBounds = YES;
-    self.firstCommentL.delegate = self;
-    self.secondCommentL.delegate = self;
-    self.thirdCommentL.delegate = self;
+//    self.selfIconView.layer.cornerRadius = self.selfIconView.width/2;
+//    self.selfIconView.layer.masksToBounds = YES;
+//    self.firstCommentL.delegate = self;
+//    self.secondCommentL.delegate = self;
+//    self.thirdCommentL.delegate = self;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickIcon)];
     [self.iconView addGestureRecognizer:tap];
@@ -201,18 +233,18 @@
     [self.praiseBtn addSubview:likeBtn];
     self.bigBtn=likeBtn;
     
-    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    [editBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    [self.commentTF addSubview:editBtn];
-    self.editBtn = editBtn;
+//    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//
+//    [editBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.commentTF addSubview:editBtn];
+//    self.editBtn = editBtn;
     
-    [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.commentTF.mas_leading);
-        make.trailing.equalTo(self.commentTF.mas_trailing);
-        make.top.equalTo(self.commentTF.mas_top);
-        make.bottom.equalTo(self.commentTF.mas_bottom);
-    }];
+//    [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.commentTF.mas_leading);
+//        make.trailing.equalTo(self.commentTF.mas_trailing);
+//        make.top.equalTo(self.commentTF.mas_top);
+//        make.bottom.equalTo(self.commentTF.mas_bottom);
+//    }];
 }
 
 //点赞
@@ -275,15 +307,15 @@
 //        [super touchesBegan:touches withEvent:event];
 //    }
 }
-- (IBAction)edit:(UITextField *)sender {
-
-    if (self.sendCellIndex) {
-        self.sendCellIndex(sender);
-    }
-
-    [self.commentTF becomeFirstResponder];
-    
-}
+//- (IBAction)edit:(UITextField *)sender {
+//
+//    if (self.sendCellIndex) {
+//        self.sendCellIndex(sender);
+//    }
+//
+//    [self.commentTF becomeFirstResponder];
+//    
+//}
 
 
 @end

@@ -36,7 +36,14 @@
 #import "LabelModel.h"
 #import "WelfareModel.h"
 #import "JGLCCKInputPickImage.h"
+#import <BeeCloud.h>
 #define SV_APP_EXTENSIONS
+
+static NSString *BeeCloudAppID = @"3a9ecbbb-d431-4cd8-9af9-5e44ba504f9a";
+static NSString *BeeCloudAppSecret = @"e202e675-e79e-45ed-af1b-113b53c46d5b";
+static NSString *BeeCloudTESTAppSecret = @"9b144fec-e105-443e-87f0-54b6c70f1c56";
+static NSString *BeeCloudMasterSecret = @"f5bd5b9b-62f4-4fdb-9a3b-4bba4caea88a";
+static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 
 @interface AppDelegate ()
 @property (nonatomic,strong) AVIMConversation *conversation;
@@ -58,6 +65,18 @@
     [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
     [SVProgressHUD setForegroundColor:WHITECOLOR];
     
+    
+    [BeeCloud initWithAppID:BeeCloudAppID andAppSecret:BeeCloudAppSecret];
+    //    [BeeCloud initWithAppID:@"c5d1cba1-5e3f-4ba0-941d-9b0a371fe719" andAppSecret:@"4bfdd244-574d-4bf3-b034-0c751ed34fee" sandbox:YES];
+    
+    //查看当前模式
+    // 返回YES代表沙箱测试模式；NO代表生产模式
+    [BeeCloud getCurrentMode];
+    
+    //初始化微信官方APP支付
+    //此处的微信appid必须是在微信开放平台创建的移动应用的appid，且必须与在『BeeCloud控制台-》微信APP支付』配置的"应用APPID"一致，否则会出现『跳转到微信客户端后只显示一个确定按钮的现象』。
+    [BeeCloud initWeChatPay:WX_appID];
+    
     application.applicationIconBadgeNumber = 0;
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if (userInfo) {
@@ -74,6 +93,7 @@
     [AVOSCloud setApplicationId:@"AtwJtfIJPKQFtti8D3gNjMmb-gzGzoHsz" clientKey:@"spNrDrtGWAXP633DkMMWT65B"];
 //    发布时改为YES
     [JPUSHService setupWithOption:launchOptions appKey:@"b7d6a9432f425319c952ffd3" channel:@"Publish channel" apsForProduction:YES];
+    
     [NotificationCenter addObserver:self selector:@selector(login) name:kNotificationLoginSuccessed object:nil];
     
     [AVOSCloud registerForRemoteNotification];
@@ -577,6 +597,21 @@
     } failure:^(NSError *error) {
         
     }];
+}
+
+//为保证从支付宝，微信返回本应用，须绑定openUrl. 用于iOS9之前版本
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if (![BeeCloud handleOpenUrl:url]) {
+        //handle其他类型的url
+    }
+    return YES;
+}
+//iOS9之后apple官方建议使用此方法
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    if (![BeeCloud handleOpenUrl:url]) {
+        //handle其他类型的url
+    }
+    return YES;
 }
 
 @end

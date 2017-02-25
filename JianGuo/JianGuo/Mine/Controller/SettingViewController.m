@@ -14,11 +14,13 @@
 #import "FindPassViewController.h"
 #import <AVOSCloudIM.h>
 #import "JPUSHService.h"
-#import "LoginNewViewController.h"
+#import "LoginNew2ViewController.h"
 #import "CodeLoginViewController.h"
 #import "LCChatKit.h"
 #import "JGHTTPClient.h"
 #import "ChatUser.h"
+#import "OpinionsViewController.h"
+#import "AboutUsViewController.h"
 
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -108,7 +110,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 4) {
         return 80;
     }else
     return 44;
@@ -116,7 +118,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return USER.tel.length? 3 :2;
+    return (USER.tel.length? 3 :2)+2;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -124,13 +126,23 @@
     MineCell *cell = [MineCell cellWithTableView:tableView];
     
     if(indexPath.row == 0){
-        cell.iconView.image = [UIImage imageNamed:@"icon_password"];
+//        cell.iconView.image = [UIImage imageNamed:@"icon_password"];
         cell.labelLeft.text = @"修改密码";
         return cell;
     }
     else if (indexPath.row == 1){
-        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
+//        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
         cell.labelLeft.text = @"更换手机号";
+        return cell; 
+    }
+    else if (indexPath.row == 2){
+//        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
+        cell.labelLeft.text = @"意见反馈";
+        return cell;
+    }
+    else if (indexPath.row == 3){
+//        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
+        cell.labelLeft.text = @"关于我们";
         return cell;
     }
     else{
@@ -158,9 +170,31 @@
     }
     else if (indexPath.row == 1) {
         
+        if (USER.tel.length != 11) {
+            [self gotoCodeVC];
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            return;
+        }
         CodeLoginViewController *codeVC = [[CodeLoginViewController alloc] init];
         codeVC.isChangePhoneNum = YES;
         [self.navigationController pushViewController:codeVC animated:YES];
+        
+    }
+    else if (indexPath.row == 2) {
+        if (USER.tel.length != 11) {
+            [self gotoCodeVC];
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            return;
+        }
+        OpinionsViewController *opinionVC = [[OpinionsViewController alloc] init];
+
+        [self.navigationController pushViewController:opinionVC animated:YES];
+        
+    }
+    else if (indexPath.row == 3) {
+        
+        AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
+        [self.navigationController pushViewController:aboutVC animated:YES];
         
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -218,10 +252,9 @@
  */
 -(void)gotoCodeVC
 {
-    LoginNewViewController *loginVC= [[LoginNewViewController alloc]init];
-    loginVC.hidesBottomBarWhenPushed = YES;
-    loginVC.isFromSettingVC = YES;
-    [self.navigationController pushViewController:loginVC animated:YES];
+    LoginNew2ViewController *loginVC= [[LoginNew2ViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end

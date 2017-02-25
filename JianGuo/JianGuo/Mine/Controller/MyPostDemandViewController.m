@@ -11,6 +11,7 @@
 #import "JGHTTPClient+Demand.h"
 #import "DemandModel.h"
 #import "SignDemandViewController.h"
+#import "MyPostDetailViewController.h"
 
 static NSString *const identifier = @"MyDemandCell";
 
@@ -62,6 +63,20 @@ static NSString *const identifier = @"MyDemandCell";
     cell.model = self.dataArr[indexPath.row];
     cell.delegate = self;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DemandModel *model = self.dataArr[indexPath.row];
+    MyDemandCell *cell = (MyDemandCell *)[tableView cellForRowAtIndexPath:indexPath];
+    
+    MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    detailVC.demandId = model.id;
+    detailVC.status = model.d_status;
+    detailVC.statusStr = cell.stateL.text;
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
 }
 
 -(void)getUsers:(NSString *)demandId

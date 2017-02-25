@@ -94,11 +94,29 @@
                             Success:(void (^)(id responseObject))success
                             failure:(void (^)(NSError *error))failure;
 /**
+ *  获取需求详情
+ */
++(void)getProgressDetailsWithDemandId:(NSString *)Id
+                               userId:(NSString *)userId
+                                 type:(NSString *)type
+                            Success:(void (^)(id responseObject))success
+                            failure:(void (^)(NSError *error))failure;
+/**
  *  我要接活儿(报名==1,录用==2)
  */
 +(void)signDemandWithDemandId:(NSString *)Id
                        userId:(NSString *)userId
                        status:(NSString *)status
+                       reason:(NSString *)reason
+                      Success:(void (^)(id responseObject))success
+                      failure:(void (^)(NSError *error))failure;
+/**
+ *  投诉接口
+ */
++(void)complainSomeOneWithDemandId:(NSString *)Id
+                       userId:(NSString *)userId
+                       status:(NSString *)status
+                       reason:(NSString *)reason
                       Success:(void (^)(id responseObject))success
                       failure:(void (^)(NSError *error))failure;
 
@@ -111,7 +129,7 @@
                       Success:(void (^)(id responseObject))success
                       failure:(void (^)(NSError *error))failure;
 /**
- *  更新需求状态 需求状态 (需求状态 1正常发布状态，2录取，3 参与者完成需求，4发布者支付，5发布者拒绝支付，6，参与者要求客服介入，7已解决,8=下架,9=删除)
+ *  更新需求状态 需求状态 (需求状态 1正常发布状态，2录取，3 参与者完成需求，4发布者确认完成任务并支付，5发布者投诉服务者，6，平台仲裁投诉，7发布者下架，8后台审核未通过下架了该需求)
  */
 +(void)updateDemandStatusWithDemandId:(NSString *)Id
                                status:(NSString *)status

@@ -7,6 +7,7 @@
 //
 
 #import "ProfileViewController.h"
+#import "QNUploadManager.h"
 #import "JianliCell.h"
 #import "UITextView+placeholder.h"
 #import "DemandTypeView.h"
@@ -15,21 +16,25 @@
 #import "SchoolModel.h"
 #import "JGHTTPClient+Mine.h"
 #import "CityModel.h"
+#import "QLTakePictures.h"
+#import "MineChatCell.h"
 
 #define scrollViewHeight 300
+
+#define iconWidth 80
 
 @interface ProfileViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 {
     NSInteger currentIndex;
+    
+    QLTakePictures *takePic;
+    
 }
-@property (weak, nonatomic) IBOutlet UIScrollView *bgScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
-@property (nonatomic,strong) UITableView *tableView1;
-@property (nonatomic,strong) UITableView *tableView2;
-@property (nonatomic,strong) UITableView *tableView3;
+@property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UITextField *nameTF;
 @property (nonatomic,strong) UITextField *nickNameTF;
-@property (nonatomic,strong) UITextField *starTF;
+@property (nonatomic,strong) UITextField *sexTF;
 @property (nonatomic,strong) UITextField *birthDateTF;
 @property (nonatomic,strong) UITextField *isStudentTF;
 @property (nonatomic,strong) UITextField *addressTF;
@@ -37,6 +42,7 @@
 @property (nonatomic,strong) UITextField *intoSchoolTimeTF;
 @property (nonatomic,strong) UITextField *QQTF;
 @property (nonatomic,strong) UITextView *introduceTF;
+@property (nonatomic,strong) UIButton *iconBtn;
 
 
 @property (nonatomic,copy) NSString *sex;
@@ -50,85 +56,110 @@
 
 @implementation ProfileViewController
 
--(UITableView *)tableView1{
-    if (!_tableView1) {
-        _tableView1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, scrollViewHeight)];
-        _tableView1.backgroundColor = BACKCOLORGRAY;
-        _tableView1.bounces = NO;
-        _tableView1.delegate = self;
-        _tableView1.dataSource = self;
-        _tableView1.separatorStyle = UITableViewCellSelectionStyleNone;
+-(UITableView *)tableView{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H) style:UITableViewStyleGrouped];
+        _tableView.backgroundColor = BACKCOLORGRAY;
+        _tableView.bounces = NO;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     }
-    return _tableView1;
-}
--(UITableView *)tableView2{
-    if (!_tableView2) {
-        _tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_W, 0, SCREEN_W, scrollViewHeight)];
-        _tableView2.backgroundColor = BACKCOLORGRAY;
-        _tableView2.bounces= NO;
-        _tableView2.delegate = self;
-        _tableView2.dataSource = self;
-        _tableView2.separatorStyle = UITableViewCellSelectionStyleNone;
-    }
-    return _tableView2;
-}
--(UITableView *)tableView3{
-    if (!_tableView3) {
-        _tableView3 = [[UITableView alloc] initWithFrame:CGRectMake(SCREEN_W*2, 0, SCREEN_W, scrollViewHeight)];
-        _tableView3.bounces = NO;
-        _tableView3.backgroundColor = BACKCOLORGRAY;
-        _tableView3.delegate = self;
-        _tableView3.dataSource = self;
-        _tableView3.separatorStyle = UITableViewCellSelectionStyleNone;
-    }
-    return _tableView3;
+    return _tableView;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"填写资料";
+    self.navigationItem.title = @"填写基本资料";
     
-    self.swipeGestureRecognizer.enabled = NO;
+    self.tableView.estimatedRowHeight = 44;
     
-    self.bgScrollView.contentSize = CGSizeMake(SCREEN_W*3, 0);
-    self.bgScrollView.pagingEnabled = YES;
-    self.bgScrollView.scrollEnabled = NO;
-    self.bgScrollView.delegate = self;
-    
-    [self.bgScrollView addSubview:self.tableView1];
-    [self.bgScrollView addSubview:self.tableView2];
-    [self.bgScrollView addSubview:self.tableView3];
+    [self.view addSubview:self.tableView];
     
     [self.view bringSubviewToFront:self.nextBtn];
     
+    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_r setTitle:@"确定" forState:UIControlStateNormal];
+    [btn_r addTarget:self action:@selector(commitInfo) forControlEvents:UIControlEventTouchUpInside];
+    btn_r.frame = CGRectMake(0, 0, 40, 30);
     
+    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    
+    self.navigationItem.rightBarButtonItem = rightBtn;
+}
+
+-(void)takePhoto
+{
+    takePic = [QLTakePictures aTakePhotoAToolWithComplectionBlock:^(UIImage *image) {
+        [self.iconBtn setBackgroundImage:image forState:UIControlStateNormal];
+        takePic = nil;//防止循环引用,导致 takePic 释放不了
+    }];
+    takePic.VC = self;
+    
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.tableView3 == tableView&&indexPath.row == 1) {
+    if (indexPath.section == 0) {
+        return 150;
+    }else if (indexPath.section == 3){
         return 80;
     }
     return 44;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 4;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.tableView1 == tableView) {
-        return 5;
-    }else if (self.tableView2 == tableView){
+    if (section == 0) {
+        return 1;
+    }else if (section == 1 || section == 2){
         return 3;
-    }else if (self.tableView3 == tableView){
-        return 2;
-    }
-    return 0;
+    }else
+        return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JianliCell *cell = [JianliCell cellWithTableView:tableView];
-    if (self.tableView1 == tableView) {
+    if (indexPath.section == 0) {
+        
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIButton *iconBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        iconBtn.frame = CGRectMake(SCREEN_W/2-iconWidth/2, 20, iconWidth, iconWidth);
+        [iconBtn addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
+        [iconBtn setBackgroundImage:[UIImage imageNamed:@"myicon"] forState:UIControlStateNormal];
+        iconBtn.layer.cornerRadius = iconWidth/2;
+        iconBtn.layer.masksToBounds = YES;
+        [cell.contentView addSubview:iconBtn];
+        self.iconBtn = iconBtn;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, iconBtn.bottom+10, SCREEN_W, 20)];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = LIGHTGRAYTEXT;
+        label.font = FONT(14);
+        label.text = @"请上传您的头像";
+        [cell.contentView addSubview:label];
+        
+        return cell;
+        
+    }else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"姓名";
@@ -138,40 +169,31 @@
             self.nameTF = cell.rightTf;
 
         }else if (indexPath.row == 1){
+            
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"性别";
-//            cell.rightTf.placeholder = @"想干啥?";
+            cell.rightTf.placeholder = @"您是男生还是女神?";
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = NO;
-            cell.selectYes.hidden = NO;
-            cell.selectNo.hidden = NO;
-            cell.selectNo.labeYysOrNo.text = @"我是女神";
-            cell.selectYes.labeYysOrNo.text = @"我是男神";
-            //用户性别(男=2,女=1)
-            cell.seletIsStudentBlock = ^(NSString *sex){
-                self.sex = sex;
-            };
-            
-        }else if (indexPath.row == 2){
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"昵称";
-            cell.rightTf.placeholder = @"您的江湖名号?";
-            cell.jiantouView.hidden = YES;
-            cell.rightTf.userInteractionEnabled = YES;
-            self.nickNameTF = cell.rightTf;
-            
-        }else if (indexPath.row == 3){
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"星座";
-            cell.rightTf.placeholder = @"是处女座吗?";
-            cell.jiantouView.hidden = YES;
-            cell.rightTf.userInteractionEnabled = NO;
-            self.starTF = cell.rightTf;
+            self.sexTF = cell.rightTf;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-        }else if (indexPath.row == 4){
+            
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            cell.labelLeft.text = @"性别";
+//            cell.jiantouView.hidden = YES;
+//            cell.rightTf.userInteractionEnabled = NO;
+//            cell.selectYes.hidden = NO;
+//            cell.selectNo.hidden = NO;
+//            cell.selectNo.labeYysOrNo.text = @"我是女神";
+//            cell.selectYes.labeYysOrNo.text = @"我是男神";
+//            //用户性别(男=2,女=1)
+//            cell.seletIsStudentBlock = ^(NSString *sex){
+//                self.sex = sex;
+//            };
+            
+        }else if (indexPath.row == 2){
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"出生日期";
@@ -179,74 +201,53 @@
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = NO;
             self.birthDateTF = cell.rightTf;
+            cell.lineView.hidden = YES;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
-    }
-    
-    if (self.tableView2 == tableView) {
-//        if (indexPath.row == 0) {
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            cell.labelLeft.text = @"学生";
-//            cell.rightTf.placeholder = @"您还在象牙塔里吗?";
-//            cell.jiantouView.hidden = YES;
-//            cell.rightTf.userInteractionEnabled = NO;
-//            self.isStudentTF = cell.rightTf;
-//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//            
-//        }else
-            if (indexPath.row == 0){
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 0) {
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"所在地址";
-            cell.rightTf.placeholder = @"北京 朝阳";
+            cell.labelLeft.text = @"是否学生";
+            cell.rightTf.placeholder = @"您还在象牙塔里吗?";
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = NO;
-            self.addressTF = cell.rightTf;
+            self.isStudentTF = cell.rightTf;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            
         }else if (indexPath.row == 1){
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"所在学校";
-            cell.rightTf.placeholder = @"北京大学";
+            cell.rightTf.placeholder = @"您在哪所大学学习?";
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = NO;
             self.schoolTF = cell.rightTf;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }else if (indexPath.row == 2){
             
+        }else if (indexPath.row == 2){
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"入学时间";
-            cell.rightTf.placeholder = @"2014-09-01";
+            cell.rightTf.placeholder = @"请选择您的入学时间";
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = NO;
             self.intoSchoolTimeTF = cell.rightTf;
+            cell.lineView.hidden = YES;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    }
-    
-    if (self.tableView3 == tableView) {
-        if (indexPath.row == 0) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"QQ";
-            cell.rightTf.placeholder = @"留下您的QQ号,交到更多朋友";
-            cell.jiantouView.hidden = YES;
-            cell.rightTf.userInteractionEnabled = YES;
-            self.QQTF = cell.rightTf;
-        }else if (indexPath.row == 1){
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"个性签名";
-            cell.jiantouView.hidden = YES;
-            [cell.rightTf removeFromSuperview];
-            [cell.lineView removeFromSuperview];
-            UITextView *textV = [[UITextView alloc] initWithFrame:CGRectMake(cell.labelLeft.right-5, 5, SCREEN_W-cell.labelLeft.right-10, 70)];
-            textV.backgroundColor = BACKCOLORGRAY;
-            textV.font = FONT(15);
-            textV.placeholder = @"一段介绍你自己的文字";
-            [cell.contentView addSubview:textV];
-            self.introduceTF = textV;
-            
-        }
+    }else if (indexPath.section == 3){
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.labelLeft.text = @"我的特长";
+        cell.jiantouView.hidden = YES;
+        [cell.rightTf removeFromSuperview];
+        [cell.lineView removeFromSuperview];
+        UITextView *textV = [[UITextView alloc] initWithFrame:CGRectMake(cell.labelLeft.right-5, 5, SCREEN_W-cell.labelLeft.right-10, 70)];
+        textV.backgroundColor = BACKCOLORGRAY;
+        textV.font = FONT(15);
+        textV.placeholder = @"描述您的特长,例如:编程序,做PPT...";
+        [cell.contentView addSubview:textV];
     }
     
     return cell;
@@ -255,15 +256,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.view endEditing:YES];
-    if (self.tableView1 == tableView) {
+    if (indexPath.section == 1 ) {
         
-        if (indexPath.row == 3) {
+        if (indexPath.row == 1) {//性别
             DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
-                self.starTF.text = title;
-                self.starSet = [NSString stringWithFormat:@"%ld",index];
+                self.sexTF.text = title;
+                self.sex = [NSString stringWithFormat:@"%ld",index];
             }];
-            view.titleArr = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
-        }else if (indexPath.row == 4){
+            view.titleArr = @[@"女神",@"男神"];
+        }else if (indexPath.row == 2){//出生日期
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.birthDateTF.text = inSchoolTime;
             }];
@@ -272,38 +273,15 @@
             [pickerView show];
         }
         
-    }else if (self.tableView2 == tableView){
-        
-//        if (indexPath.row == 0) {
-//            PickerView *pickerView = [PickerView aPickerView:^(NSString *sex) {
-//                //TODO: 写完赋值转换
-//                self.isStudentTF.text = sex;
-//                if ([sex isEqualToString:@"是"]) {
-//                    
-//                }else if ([sex isEqualToString:@"否"]){
-//                    
-//                    [self.tableView2 reloadData];
-//                    
-//                }
-//            }];
-//            pickerView.arrayData = @[@"是",@"否"];
-//            [pickerView show];
-//        }else
-            if (indexPath.row == 0) {
-            //选择城市
-                
-                PickerView *pickerView = [PickerView aPickerView:^(NSString *areaIdAndname) {
-                    self.cityId = [CityModel city].id;
-                    self.areaId = [areaIdAndname componentsSeparatedByString:@"="].firstObject;
-                    self.addressTF.text = [areaIdAndname componentsSeparatedByString:@"="].lastObject;
-                }];
-                pickerView.isAreaPicker = YES;
-                pickerView.arrayData = [CityModel city].areaList;
-                [pickerView show];
-
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 0) {//是否是学生
+            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
+                self.isStudentTF.text = title;
+                self.isStudent = [NSString stringWithFormat:@"%ld",index-1];
+            }];
+            view.titleArr = @[@"否",@"是"];
+        }else if (indexPath.row == 1){//所在学校
             
-            
-        }else if (indexPath.row == 1){
             SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
             
             searchVC.seletSchoolBlock = ^(SchoolModel *school){
@@ -313,103 +291,103 @@
             
             [self.navigationController pushViewController:searchVC animated:YES];
             
-        }else if (indexPath.row == 2) {
+        }else if (indexPath.row == 2){//入学时间
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.intoSchoolTimeTF.text = inSchoolTime;
             }];
             pickerView.isDatePicker = YES;
             pickerView.initalDateStr = @"2016-09-01";
             [pickerView show];
+            
         }
-        
-    }else if (self.tableView3 == tableView){
-        
     }
 }
 
 - (IBAction)next:(UIButton *)sender {
     
-    if (currentIndex == 0 || currentIndex == 1) {
-        
-        if (currentIndex==0) {
-            if (self.nameTF.text.length==0) {
-                [self showAlertViewWithText:@"请填写您的姓名" duration:1];
-                return;
-            }else if (self.sex.length==0){
-                [self showAlertViewWithText:@"请选择您的性别" duration:1];
-                return;
-            }else if (self.nickNameTF.text.length==0){
-                [self showAlertViewWithText:@"请给自己一个昵称" duration:1];
-                return;
-            }else if (self.starSet.length==0){
-                [self showAlertViewWithText:@"请选择您的星座" duration:1];
-                return;
-            }else if (self.birthDateTF.text.length==0){
-                [self showAlertViewWithText:@"请选择您的出生日期" duration:1];
-                return;
-            }
-        }else{
-            if (self.addressTF.text.length==0) {
-                [self showAlertViewWithText:@"请选择您所在的地址" duration:1];
-                return;
-            }else if (self.schoolTF.text.length==0){
-                [self showAlertViewWithText:@"请选择您的大学" duration:1];
-                return;
-            }else if (self.intoSchoolTimeTF.text.length==0){
-                [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
-                return;
-            }
-        }
-        
-        sender.userInteractionEnabled = NO;
-        [self.bgScrollView setContentOffset:CGPointMake(self.bgScrollView.contentOffset.x+SCREEN_W, 0) animated:YES];
-    }else{//确定提交信息
-        
-        if (self.QQTF.text.length==0) {
-            [self showAlertViewWithText:@"留下您的QQ号吧" duration:1];
-            return;
-        }
-        
-        [self commitInfo];
-        
+    if (self.nameTF.text.length==0) {
+        [self showAlertViewWithText:@"请填写您的姓名" duration:1];
+        return;
+    }else if (self.sex.length==0){
+        [self showAlertViewWithText:@"请选择您的性别" duration:1];
+        return;
+    }else if (self.nickNameTF.text.length==0){
+        [self showAlertViewWithText:@"请给自己一个昵称" duration:1];
+        return;
+    }else if (self.starSet.length==0){
+        [self showAlertViewWithText:@"请选择您的星座" duration:1];
+        return;
+    }else if (self.birthDateTF.text.length==0){
+        [self showAlertViewWithText:@"请选择您的出生日期" duration:1];
+        return;
+    }else if (self.addressTF.text.length==0) {
+        [self showAlertViewWithText:@"请选择您所在的地址" duration:1];
+        return;
+    }else if (self.schoolTF.text.length==0){
+        [self showAlertViewWithText:@"请选择您的大学" duration:1];
+        return;
+    }else if (self.intoSchoolTimeTF.text.length==0){
+        [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
+        return;
+    }else if (self.QQTF.text.length==0) {
+    [self showAlertViewWithText:@"留下您的QQ号吧" duration:1];
+    return;
     }
-        
+    
+    [self commitInfo];
     
 }
 
 -(void)commitInfo
 {
     
-
-    [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:USER.iconUrl sex:self.sex schoolId:self.schoolId cityId:self.cityId areaId:self.areaId inSchoolTime:self.intoSchoolTimeTF.text birthDay:self.birthDateTF.text constellation:self.starSet introduce:self.introduceTF.text qq:self.QQTF.text isStudent:nil Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
+    QNUploadManager *manager = [[QNUploadManager alloc] init];
+    
+    NSData *data = UIImageJPEGRepresentation(self.iconBtn.currentBackgroundImage, 1);
+    [manager putData:data key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         
-        [SVProgressHUD dismiss];
-        JGLog(@"%@",responseObject);
-        if (responseObject) {
-            [self showAlertViewWithText:responseObject[@"message"] duration:1];
-        }
-        if ([responseObject[@"code"] intValue] == 200) {
-         
-            JGUser *user = [JGUser user];
-            user.resume = @"1";
-            user.nickName = self.nickNameTF.text;
-            user.name = self.nameTF.text;
-            user.gender = self.sex;
-            user.schoolId = self.schoolId;
-            [JGUser saveUser:user WithDictionary:nil loginType:0];
+        if (resp == nil) {
+            [self showAlertViewWithText:@"上传图片失败" duration:1];
+            [SVProgressHUD dismiss];
+            return ;
+        }else{//上传图片成功后再上传个人资料
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
-            });
+            NSString *url = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+            
+            
+            [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:url sex:self.sex height:nil schoolId:self.schoolId cityId:self.cityId areaId:self.areaId inSchoolTime:self.intoSchoolTimeTF.text birthDay:self.birthDateTF.text constellation:nil introduce:self.introduceTF.text qq:self.QQTF.text isStudent:nil Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
+                
+                [SVProgressHUD dismiss];
+                JGLog(@"%@",responseObject);
+                if (responseObject) {
+                    [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                }
+                if ([responseObject[@"code"] intValue] == 200) {
+                    
+                    JGUser *user = [JGUser user];
+                    user.resume = @"1";
+                    user.nickName = self.nickNameTF.text;
+                    user.name = self.nameTF.text;
+                    user.gender = self.sex;
+                    user.schoolId = self.schoolId;
+                    [JGUser saveUser:user WithDictionary:nil loginType:0];
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+                }
+                
+                
+            } failure:^(NSError *error) {
+                
+                [SVProgressHUD dismiss];
+                [self showAlertViewWithText:NETERROETEXT duration:1];
+                
+            }];
+            
         }
         
-        
-    } failure:^(NSError *error) {
-        
-        [SVProgressHUD dismiss];
-        [self showAlertViewWithText:NETERROETEXT duration:1];
-        
-    }];
+    } option:nil];
 
 }
 
@@ -418,24 +396,11 @@
  */
 -(void)popToLoginVC
 {
-    if (currentIndex==0) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
-        [self.bgScrollView setContentOffset:CGPointMake(self.bgScrollView.contentOffset.x-SCREEN_W, 0) animated:YES];
-    }
+
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    self.nextBtn.userInteractionEnabled = YES;
-    if (self.bgScrollView == scrollView) {
-        currentIndex = scrollView.contentOffset.x/SCREEN_W;
-        if (currentIndex == 2) {
-            [self.nextBtn setTitle:@"完成" forState:UIControlStateNormal];
-        }else
-            [self.nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    }
-}
 
 
 

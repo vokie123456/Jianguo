@@ -26,6 +26,8 @@
     CGFloat currentPostion;
     CGFloat lastPosition;
 
+    __weak IBOutlet NSLayoutConstraint *bottomCons;
+
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
@@ -55,7 +57,7 @@
     self.tableView.estimatedRowHeight = 110;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    [self customNavigationBtn];
+//    [self customNavigationBtn];
     
     [self addInsetScaleImageView];
     
@@ -63,7 +65,13 @@
     
     [self requestDemandDetail];
     
-    [self customBottomView];
+    if (self.isSelf) {
+        bottomCons.constant = 0;
+    }else{
+        [self customBottomView];
+    }
+    
+    
     
 }
 
@@ -253,6 +261,7 @@
 {
     //点击回复
     if (indexPath.section == 1) {
+        
         CommentModel *model = self.dataArr[indexPath.row];
         CommentCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         
@@ -362,7 +371,8 @@
 -(void)sign:(UIButton *)sender//点击报名
 {
     JGSVPROGRESSLOAD(@"正在报名...")
-    [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1" Success:^(id responseObject) {
+    [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1"
+                                  reason:nil Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         
         [self showAlertViewWithText:responseObject[@"message"] duration:1];

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TextReasonViewController">
+            <connections>
+                <outlet property="reasonTV" destination="a4B-3Y-x9E" id="bxK-Iw-UA0"/>
+                <outlet property="sureBtn" destination="pWl-hN-EuD" id="xhP-yb-0ms"/>
+                <outlet property="titleL" destination="WZR-Bg-PmX" id="uPL-bQ-Isd"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWl-hN-EuD" customClass="IBButton">
+                    <rect key="frame" x="30" y="475" width="540" height="45"/>
+                    <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="YHG-NI-qz3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="确定">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="sure:" destination="-1" eventType="touchUpInside" id="od0-KI-LzB"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuI-6E-H6k">
+                    <rect key="frame" x="283" y="550" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="2nv-3J-cJu"/>
+                        <constraint firstAttribute="width" secondItem="fuI-6E-H6k" secondAttribute="height" id="ULF-qP-Tqf"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="garden"/>
+                    <connections>
+                        <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="rJ0-Cl-hac"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拒绝理由:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZR-Bg-PmX">
+                    <rect key="frame" x="30" y="15" width="73" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-3Y-x9E">
+                    <rect key="frame" x="30" y="60" width="540" height="365"/>
+                    <color key="backgroundColor" red="0.94566205260000002" green="0.9435909536" blue="0.94741855429999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="8rJ-fA-2Ko"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="8rJ-fA-2Ko"/>
+                        </mask>
+                    </variation>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="WZR-Bg-PmX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="2cL-V7-zkf"/>
+                <constraint firstItem="a4B-3Y-x9E" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="2kz-oy-ymE"/>
+                <constraint firstAttribute="bottom" secondItem="a4B-3Y-x9E" secondAttribute="bottom" constant="100" id="3Fl-iB-oPr"/>
+                <constraint firstItem="a4B-3Y-x9E" firstAttribute="top" secondItem="WZR-Bg-PmX" secondAttribute="bottom" constant="15" id="FUm-Jv-rqe"/>
+                <constraint firstAttribute="trailing" secondItem="a4B-3Y-x9E" secondAttribute="trailing" constant="30" id="IlI-sC-Dcy"/>
+                <constraint firstAttribute="bottom" secondItem="fuI-6E-H6k" secondAttribute="bottom" constant="15" id="NVb-47-rCc"/>
+                <constraint firstItem="a4B-3Y-x9E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="OWQ-6y-db3"/>
+                <constraint firstItem="pWl-hN-EuD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PRy-eG-iGD"/>
+                <constraint firstItem="pWl-hN-EuD" firstAttribute="top" secondItem="a4B-3Y-x9E" secondAttribute="bottom" constant="50" id="exJ-2U-bw6"/>
+                <constraint firstAttribute="trailing" secondItem="pWl-hN-EuD" secondAttribute="trailing" constant="30" id="iVv-gS-G60"/>
+                <constraint firstItem="a4B-3Y-x9E" firstAttribute="leading" secondItem="WZR-Bg-PmX" secondAttribute="leading" id="jg2-5L-O34"/>
+                <constraint firstItem="fuI-6E-H6k" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="kMc-xy-Fq2"/>
+                <constraint firstItem="fuI-6E-H6k" firstAttribute="top" secondItem="pWl-hN-EuD" secondAttribute="bottom" constant="30" id="kU8-Hw-yYc"/>
+                <constraint firstItem="pWl-hN-EuD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="l6E-gD-Yd4"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="3Fl-iB-oPr"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="garden" width="29" height="29"/>
+    </resources>
+</document>

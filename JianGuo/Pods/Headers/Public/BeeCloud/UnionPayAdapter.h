@@ -1,0 +1,1 @@
+../../../BeeCloud/BCPaySDK/Channel/UnionPay/UnionPayAdapter/UnionPayAdapter.h

@@ -18,7 +18,9 @@
 #import "UIImageView+WebCache.h"
 #import "JGHTTPClient+ImageUrl.h"
 #import "QNUploadManager.h"
-
+#import "LoginNew2ViewController.h"
+#import "SettingViewController.h"
+#import "MyWalletNewViewController.h"
 
 static NSString *const identifier = @"MineIconCell";
 static NSString *const identifier2 = @"MineCollectionCell";
@@ -53,9 +55,38 @@ static NSString *const identifier3 = @"MineSelectCell";
     
     self.collectionView.backgroundColor = BACKCOLORGRAY;
     
-    [self getImages];
+    
+    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    [btn_r addTarget:self action:@selector(gotoSetting) forControlEvents:UIControlEventTouchUpInside];
+    btn_r.frame = CGRectMake(0, 0, 20, 20);
+    [btn_r setBackgroundImage:[UIImage imageNamed:@"icon_shezhi"] forState:UIControlStateNormal];
     
     
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    
+    self.navigationItem.rightBarButtonItem = rightBtn;
+    
+    
+}
+
+-(void)gotoSetting
+{
+    SettingViewController *settingVC = [[SettingViewController alloc] init];
+    settingVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:settingVC animated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if ([self checkExistPhoneNum]) {
+        
+        [self getImages];
+        
+    }else{
+        self.images = [NSMutableArray arrayWithArray:@[@"",@"",@"",@"",@""]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    }
 }
 
 -(void)getImages
@@ -121,6 +152,10 @@ static NSString *const identifier3 = @"MineSelectCell";
 {
     JGLog(@"%ld === %ld",indexPath.section,indexPath.item);
     
+    if (![self checkExistPhoneNum]) {
+        [self gotoLoginVC];
+        return;
+    }
     
     if (indexPath.section == 0) {
         
@@ -177,7 +212,9 @@ static NSString *const identifier3 = @"MineSelectCell";
             
         }else if (indexPath.item == 1) {
             
-            
+            MyWalletNewViewController *walletVC = [[MyWalletNewViewController alloc] init];
+            walletVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:walletVC animated:YES];
             
         }else if (indexPath.item == 2){
             
@@ -190,7 +227,7 @@ static NSString *const identifier3 = @"MineSelectCell";
             MySignDemandsViewController *demandVC = [[MySignDemandsViewController alloc] init];
             demandVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:demandVC animated:YES];
-            
+
         }else if (indexPath.item == 4){
             
             
@@ -198,6 +235,20 @@ static NSString *const identifier3 = @"MineSelectCell";
         }
     }
     
+}
+
+/**
+ *  去登录
+ */
+-(void)gotoLoginVC
+{
+    LoginNew2ViewController *loginVC= [[LoginNew2ViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:nav animated:YES completion:nil];
+    
+    //    LoginNewViewController *oldLoginVC= [[LoginNewViewController alloc]init];
+    //
+    //    [self.navigationController pushViewController:oldLoginVC animated:YES];
 }
 
 //-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

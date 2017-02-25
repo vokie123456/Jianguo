@@ -117,5 +117,25 @@
     }
 }
 
+//根据日期计算星座
++(NSString *)getConstellation:(NSString *)dateStr
+{
+    //dateStr–––>  2017-02-08
+    NSInteger month = [dateStr substringWithRange:NSMakeRange(5, 2)].integerValue;
+    NSInteger day = [dateStr substringWithRange:NSMakeRange(8, 2)].integerValue;
+    return [self getConstellationWithMonth:month day:day];
+}
+
++ (NSString *)getConstellationWithMonth:(NSInteger)month day:(NSInteger)day
+{
+    NSString * astroString = @"摩羯座水瓶座双鱼座白羊座金牛座双子座巨蟹座狮子座处女座天秤座天蝎座射手座摩羯座";
+    NSString * astroFormat = @"102123444543";
+    NSString * result;
+    
+    result = [NSString stringWithFormat:@"%@",[astroString substringWithRange:NSMakeRange(month*3-(day < [[astroFormat substringWithRange:NSMakeRange((month-1), 1)] intValue] - (-19))*3, 3)]];
+    
+    return result;
+}
+
 
 @end

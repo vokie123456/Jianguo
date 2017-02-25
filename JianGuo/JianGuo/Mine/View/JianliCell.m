@@ -58,7 +58,7 @@
     CheckBox *boxYes = [CheckBox aCheckBox];
     boxYes.frame = CGRectMake(labelL.right, 0, 100, 44);
     boxYes.hidden = YES;
-    boxYes.labeYysOrNo.text = @"我是女神";
+    boxYes.labeYysOrNo.text = @"是";
     boxYes.Btn.tag = 1000;
     [boxYes.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:boxYes];
@@ -67,7 +67,7 @@
     CheckBox *boxNo = [CheckBox aCheckBox];
     boxNo.frame = CGRectMake(boxYes.right, 0, 100, 44);
     boxNo.hidden = YES;
-    boxNo.labeYysOrNo.text = @"我是男神";
+    boxNo.labeYysOrNo.text = @"否";
     boxNo.Btn.tag = 1001;
     [boxNo.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:boxNo];
@@ -88,13 +88,13 @@
         self.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
         self.selectNo.selectImg.image = [UIImage imageNamed:@"button"];
         if(self.seletIsStudentBlock){
-            self.seletIsStudentBlock(@"2");//男
+            self.seletIsStudentBlock(@"1");//是
         }
     }else if (sender.tag == 1001){
         self.selectYes.selectImg.image = [UIImage imageNamed:@"button"];
         self.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
         if (self.seletIsStudentBlock) {
-            self.seletIsStudentBlock(@"1");//女
+            self.seletIsStudentBlock(@"2");//否
         }
     }
     

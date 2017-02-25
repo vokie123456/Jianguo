@@ -21,6 +21,7 @@
 
 @property (nonatomic,strong) DemandModel *model;
 
+@property (nonatomic,assign) BOOL isSelfSign;
 
 @property (nonatomic,weak) id<MyDemandClickDelegate> delegate;
 
@@ -30,7 +31,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *moneyL;
 @property (weak, nonatomic) IBOutlet UIButton *usersBtn;
-@property (weak, nonatomic) IBOutlet UIButton *offStoreBtn;
+@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
+@property (weak, nonatomic) IBOutlet UILabel *stateL;
 
 @end

@@ -12,4 +12,6 @@
 
 @property (nonatomic,strong) NSString *demandId;
 
+@property (nonatomic,assign) BOOL isSelf;
+
 @end

@@ -17,16 +17,16 @@
 
 - (void)awakeFromNib {
     
-    self.contentL.layer.cornerRadius = 27/2;
-    self.contentL.layer.masksToBounds = YES;
+//    self.contentL.layer.cornerRadius = 27/2;
+//    self.contentL.layer.masksToBounds = YES;
     
 }
 
 
 -(void)layoutMarginsDidChange
 {
-    self.contentL.layer.cornerRadius = 35/2;
-    self.contentL.layer.masksToBounds = YES;
+//    self.contentL.layer.cornerRadius = 35/2;
+//    self.contentL.layer.masksToBounds = YES;
 }
 
 @end
