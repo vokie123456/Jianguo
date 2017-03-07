@@ -25,8 +25,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hiA-Mp-W0c">
                         <rect key="frame" x="0.0" y="0.0" width="347" height="70"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-ou-KQg">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-ou-KQg">
                                 <rect key="frame" x="15" y="10" width="50" height="49"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="cf3-un-Gqi"/>
                                     <constraint firstAttribute="width" secondItem="GWJ-ou-KQg" secondAttribute="height" multiplier="50:49" id="lhS-OP-2cd"/>
@@ -136,7 +137,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="acceptSomeOne:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aIe-H1-kUm"/>
                                     <action selector="chat:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="TVh-9z-wqf"/>
                                 </connections>
                             </button>
@@ -152,7 +152,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="acceptSomeOne:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="tVm-2i-C35"/>
                                     <action selector="call:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eue-hr-FgN"/>
                                 </connections>
                             </button>

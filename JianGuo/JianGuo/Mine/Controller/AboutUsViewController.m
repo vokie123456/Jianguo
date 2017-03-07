@@ -47,7 +47,7 @@
     UIView *bgView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 200)];
     
     UIImageView *logoView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-LOGOWIDTHEQUELHEIGHT/2, LOGOWIDTHEQUELHEIGHT, LOGOWIDTHEQUELHEIGHT, LOGOWIDTHEQUELHEIGHT)];
-    logoView.image = [UIImage imageNamed:@"img_logo"];
+    logoView.image = [UIImage imageNamed:@"logogreen"];
     
     [bgView1 addSubview:logoView];
     
@@ -220,7 +220,7 @@
     UIButton *rightBtn = [UIButton buttonWithType: UIButtonTypeCustom];
     rightBtn.frame = CGRectMake(SCREEN_W-150, 2, 130, 40);
     [rightBtn setTitle:@"0898-88557707" forState:UIControlStateNormal];
-    [rightBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [rightBtn setTitleColor:GreenColor forState:UIControlStateNormal];
     rightBtn.titleLabel.font = FONT(14);
     rightBtn.tag = 1000;
     [rightBtn addTarget:self action:@selector(CallAphone:) forControlEvents:UIControlEventTouchUpInside];
@@ -238,7 +238,7 @@
     UIButton *rightBtnBottom = [UIButton buttonWithType: UIButtonTypeCustom];
     rightBtnBottom.frame = CGRectMake(SCREEN_W-170, 45, 150, 40);
     [rightBtnBottom setTitle:@"www.jianguojob.com" forState:UIControlStateNormal];
-    [rightBtnBottom setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [rightBtnBottom setTitleColor:GreenColor forState:UIControlStateNormal];
     rightBtnBottom.titleLabel.font = FONT(14);
     rightBtnBottom.tag = 1001;
     [rightBtnBottom addTarget:self action:@selector(CallAphone:) forControlEvents:UIControlEventTouchUpInside];

@@ -23,7 +23,38 @@
     [self.navigationItem setHidesBackButton:YES];
     [self customBackBtn];
     
+    [self showANopartJobView];
 }
+
+-(void)showANopartJobView
+{
+    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_H/2-125, SCREEN_W, 250)];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(bgView.center.x-60, 0, 120, 120*79/100)];
+    imgView.image = [UIImage imageNamed:@"defaultpicture"];
+    [bgView addSubview:imgView];
+    
+    UILabel *labelMiddle = [[UILabel alloc] initWithFrame:CGRectMake(0, imgView.bottom+5, SCREEN_W, 25)];
+    labelMiddle.text = @"没有数据哦!";
+    labelMiddle.font = FONT(16);
+    labelMiddle.textColor = LIGHTGRAYTEXT;
+    labelMiddle.textAlignment = NSTextAlignmentCenter;
+    [bgView addSubview:labelMiddle];
+    
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setTitle:@"去找工作" forState:UIControlStateNormal];
+//    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+//    btn.frame = CGRectMake(bgView.center.x-50, labelMiddle.bottom, 100, 30);
+//    [btn addTarget:self action:@selector(gotoPartJobVC:) forControlEvents:UIControlEventTouchUpInside];
+//    btn.titleLabel.font = FONT(16);
+//    [bgView addSubview:btn];
+    
+    [self.view addSubview:bgView];
+    [self.view bringSubviewToFront:bgView];
+    
+    bgView.hidden = YES;
+}
+
 /**
  *  自定义返回按钮
  */

@@ -98,7 +98,7 @@
 -(void)requestBy:(NSString *)searchText
 {
     JGSVPROGRESSLOAD(@"正在加载...");
-    [JGHTTPClient searchSchoolByName:searchText cityCode:nil Success:^(id responseObject) {
+    [JGHTTPClient searchSchoolByName:searchText Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         if (self.dataArr.count) {
             [self.dataArr removeAllObjects];

@@ -277,7 +277,7 @@
         JobCollectionViewCell *cell = (JobCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
         if (!cell.isSelected) {
-            cell.contentL.backgroundColor = BLUECOLOR;
+            cell.contentL.backgroundColor = GreenColor;
             cell.contentL.textColor = WHITECOLOR;
         }else{
             cell.contentL.backgroundColor = WHITECOLOR;

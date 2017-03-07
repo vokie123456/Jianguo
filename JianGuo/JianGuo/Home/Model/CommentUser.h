@@ -13,7 +13,7 @@
 /**
  *  用户昵称
  */
-@property (nonatomic,copy) NSString *nickName;
+@property (nonatomic,copy) NSString *nickname;
 /**
  *  用户ID
  */

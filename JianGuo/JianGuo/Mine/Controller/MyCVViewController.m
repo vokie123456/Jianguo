@@ -367,7 +367,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 5;
+        return 4;
     }else if (section ==1){
         if ([self.isStudent integerValue] == 2) {
             return 1+1;
@@ -387,7 +387,7 @@
     if (indexPath.section == 0) {
         JianliCell *cell = [JianliCell cellWithTableView:tableView ];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        switch (indexPath.row) {
+        switch (indexPath.row+1) {
             case 0:{
                 if (account) {
                     cell.rightTf.text = account.name;
@@ -421,9 +421,9 @@
             }
             case 2:{
                 if (account) {
-                    if ([account.sex integerValue] == 0) {
+                    if ([account.sex integerValue] == 1) {
                         cell.rightTf.text = @"女";
-                    }else{
+                    }else if([account.sex integerValue] == 2){
                         cell.rightTf.text = @"男";
                     }
                     self.sex = account.sex;
@@ -532,7 +532,7 @@
             };
         }
         else if (indexPath.row == 1){
-            if (self.isStudent.integerValue == 1) {//是学生
+            if (self.isStudent.integerValue == 1||self.isStudent.integerValue == 0) {//是学生
                 if (!self.hadSelectedSchool) {
                     if (account) {
                         cell.rightTf.text = account.school_name;
@@ -545,11 +545,15 @@
                 cell.rightTf.placeholder = @"请选择您的学校";
                 self.schoolTF = cell.rightTf;
             }else if (self.isStudent.integerValue == 2){//不是学生
-                if (account) {
-                    cell.rightTf.text = account.qq;
-                }
+               
                 cell.labelLeft.text = @"微信号";
                 cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
+                if (account) {
+                    cell.rightTf.text = account.qq.integerValue?account.qq:nil;
+                }
+                if (editBtn.selected) {
+                    cell.rightTf.userInteractionEnabled = YES;
+                }
                 self.qqTF = cell.rightTf;
             }
         }
@@ -564,11 +568,15 @@
             self.inSchoolTiemTF = cell.rightTf;
         }
         else if (indexPath.row == 3){
-            if (account) {
-                cell.rightTf.text = account.qq;
-            }
+            
             cell.labelLeft.text = @"微信号:";
             cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
+            if (account) {
+                cell.rightTf.text = account.qq.integerValue?account.qq:nil;
+            }
+            if (editBtn.selected) {
+                cell.rightTf.userInteractionEnabled = YES;
+            }
             self.qqTF = cell.rightTf;
         }
         return cell;
@@ -582,7 +590,7 @@
         [cell.rightTf removeFromSuperview];
         [cell.lineView removeFromSuperview];
         UITextView *textV = [[UITextView alloc] initWithFrame:CGRectMake(cell.labelLeft.right-5, 5, SCREEN_W-cell.labelLeft.right-10, 70)];
-        textV.backgroundColor = BACKCOLORGRAY;
+//        textV.backgroundColor = BACKCOLORGRAY;
         textV.font = FONT(15);
         textV.placeholder = @"描述您的特长,例如:编程序,做PPT...";
         [cell.contentView addSubview:textV];
@@ -604,11 +612,12 @@
         [self showAlertViewWithText:@"点击编辑按钮才可以编辑哟" duration:1];
         return;
     }
-    [self.view endEditing:YES];
+//    [self.view endEditing:YES];
+//    [self.nameTF resignFirstResponder];
+
     JianliCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self.nameTF resignFirstResponder];
     if (indexPath.section == 0) {
-        if (indexPath.row == 2) {
+        if (indexPath.row+1 == 2) {
             PickerView *pickerView = [PickerView aPickerView:^(NSString *sex) {
                 if ([sex isEqualToString:@"男"]) {
                     self.sex = @"2";
@@ -619,7 +628,7 @@
             }];
             pickerView.arrayData = @[@"男",@"女"];
             [pickerView show];
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row+1 == 3){
             PickerView *pickerView = [PickerView aPickerView:^(NSString *birthDay) {
                 self.birthDay = birthDay;
                 cell.rightTf.text = birthDay;
@@ -628,7 +637,7 @@
             NSString *timeString = @"1997-01-01";
             pickerView.datePickerView.date = [self.formatter dateFromString:timeString];
             [pickerView show];
-        }else if (indexPath.row == 4){
+        }else if (indexPath.row+1 == 4){
             
             PickerView *pickerView = [PickerView aPickerView:^(NSString *height) {
                 self.height = height;
@@ -643,7 +652,7 @@
 //            }];
 //            pickerView.arrayData = @[@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42",@"43",@"44",@"45",@"46",@"47"];
 //            [pickerView show];
-        }else if (indexPath.row == 5){
+        }else if (indexPath.row+1 == 5){
             PickerView *pickerView = [PickerView aPickerView:^(NSString *clothSize) {
                 self.clothSize = clothSize;
                 cell.rightTf.text = clothSize;
@@ -666,17 +675,22 @@
             
         }else if (indexPath.row == 1) {//查询学校
            
-            SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
-            
-            searchVC.seletSchoolBlock = ^(SchoolModel *school){
+            if (self.isStudent.integerValue ==2) {//不是学生
                 
-                cell.rightTf.text = school.name;
-                self.school = school.id;
-                self.hadSelectedSchool = YES;
+            }else if (self.isStudent.integerValue == 1){//是学生
                 
-            };
-            
-            [self.navigationController pushViewController:searchVC animated:YES];
+                SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
+                
+                searchVC.seletSchoolBlock = ^(SchoolModel *school){
+                    
+                    cell.rightTf.text = school.name;
+                    self.school = school.id;
+                    self.hadSelectedSchool = YES;
+                    
+                };
+                
+                [self.navigationController pushViewController:searchVC animated:YES];
+            }
             
         }else if (indexPath.row == 2){
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
@@ -788,8 +802,8 @@
 -(void)saveBasicInfo:(UIButton *)saveBtn
 {
     if ([[self.nameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
-        [self showAlertViewWithText:@"请填写您的姓名" duration:1];
-        return;
+//        [self showAlertViewWithText:@"请填写您的姓名" duration:1];
+//        return;
     }else if ([[self.nickNameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0){
         [self showAlertViewWithText:@"请填写您的昵称" duration:1];
         return;
@@ -873,7 +887,7 @@
                     
                     JGUser *user = [JGUser user];
                     user.resume = @"1";
-                    user.nickName = self.nickNameTF.text;
+                    user.nickname = self.nickNameTF.text;
                     user.name = self.nameTF.text;
                     user.gender = self.sex;
                     user.school_name = self.schoolTF.text;

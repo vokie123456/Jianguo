@@ -13,6 +13,7 @@
 #import "JianzhiModel.h"
 #import "SignListCell.h"
 #import "JianZhiDetailController.h"
+#import "HomeViewController.h"
 
 @interface MyPartJobViewController()<UITableViewDataSource,UITableViewDelegate,ClickCancelBtnDeleagte>
 {
@@ -182,13 +183,13 @@
     labelMiddle.textAlignment = NSTextAlignmentCenter;
     [bgView addSubview:labelMiddle];
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"去找工作" forState:UIControlStateNormal];
-    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
-    btn.frame = CGRectMake(bgView.center.x-50, labelMiddle.bottom, 100, 30);
-    [btn addTarget:self action:@selector(gotoPartJobVC:) forControlEvents:UIControlEventTouchUpInside];
-    btn.titleLabel.font = FONT(16);
-    [bgView addSubview:btn];
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setTitle:@"去找工作" forState:UIControlStateNormal];
+//    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+//    btn.frame = CGRectMake(bgView.center.x-50, labelMiddle.bottom, 100, 30);
+//    [btn addTarget:self action:@selector(gotoPartJobVC:) forControlEvents:UIControlEventTouchUpInside];
+//    btn.titleLabel.font = FONT(16);
+//    [bgView addSubview:btn];
     [self.tableView addSubview:bgView];
     bgView.hidden = YES;
 }
@@ -197,10 +198,9 @@
  */
 -(void)gotoPartJobVC:(UIButton *)btn
 {
-    [self.tabBarController setSelectedIndex:1];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    });
+    HomeViewController *homeVC = [[HomeViewController alloc] init];
+    homeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:homeVC animated:YES];
 }
 
 -(void)clickLeftBtn:(UIButton *)btn

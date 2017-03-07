@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "MyWalletViewController.h"
 #import "RealNameViewController.h"
+#import "SignDemandViewController.h"
 #import "GuideImageView.h"
 #import "JobTypeViewController.h"
 #import "PartTypeModel.h"
@@ -122,7 +123,7 @@
 -(UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64-49)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         headerView = [HeaderView aHeaderView];
@@ -159,7 +160,7 @@
     return  self;
 }
 
--(void)clickNotification:(NSNotification *)noti
+-(void)clickNotification:(NSNotification *)noti//点击通知进入应用
 {
     NSDictionary *userInfo = noti.object;
     [self fromNotiToMyjobVC:userInfo];
@@ -183,6 +184,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"兼职";
     
     JGLog(@"%@====%@",[CityModel city].cityName,[CityModel city].code);
     
@@ -215,47 +218,7 @@
     
 //     self.navigationController.navigationBar.layer.masksToBounds = YES;
     
-    [[AMapLocationServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
-    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-        
-        if (regeocode) {
-            
-            [USERDEFAULTS setObject:regeocode.citycode forKey:CityCode];
-            
-            NSString *cityName = regeocode.city?regeocode.city:regeocode.province;
-            
-            [USERDEFAULTS setObject:cityName forKey:CityName];
-            
-            if (cityName.length>1) {
-                cityName = [cityName substringWithRange:NSMakeRange(0, cityName.length-1)];
-                if ([cityName isEqualToString:[CityModel city].cityName]) {
-                    return ;
-                }else{
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"定位成功" message:@"是否切换到当前定位城市" preferredStyle:UIAlertControllerStyleAlert];
-                    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        
-                    }]];
-                    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        
-                        NSArray *array = JGKeyedUnarchiver(JGCityArr);
-                        for (CityModel *model in array) {
-                            if ([model.cityName isEqualToString:cityName]) {
-                                [CityModel saveCity:model];
-                                [self.cityBtn setTitle:model.cityName forState:UIControlStateNormal];
-                            }
-                        }
-                        
-                        [self requestList:@"1"];
-                        [NotificationCenter postNotificationName:kNotificationCity object:nil];
-                        
-                    }]];
-                    [self presentViewController:alert animated:YES completion:nil];
-                    
-                }
-            }
-        }
-
-    }];
+//    [self location];
     
     if (!self.isRequestedData) {
         
@@ -301,6 +264,52 @@
     
     [self initMenu];
 
+}
+
+//定位
+-(void)location
+{
+    [[AMapLocationServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
+    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        if (regeocode) {
+            
+            [USERDEFAULTS setObject:regeocode.citycode forKey:CityCode];
+            
+            NSString *cityName = regeocode.city?regeocode.city:regeocode.province;
+            
+            [USERDEFAULTS setObject:cityName forKey:CityName];
+            
+            if (cityName.length>1) {
+                cityName = [cityName substringWithRange:NSMakeRange(0, cityName.length-1)];
+                if ([cityName isEqualToString:[CityModel city].cityName]) {
+                    return ;
+                }else{
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"定位成功" message:@"是否切换到当前定位城市" preferredStyle:UIAlertControllerStyleAlert];
+                    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }]];
+                    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        NSArray *array = JGKeyedUnarchiver(JGCityArr);
+                        for (CityModel *model in array) {
+                            if ([model.cityName isEqualToString:cityName]) {
+                                [CityModel saveCity:model];
+                                [self.cityBtn setTitle:model.cityName forState:UIControlStateNormal];
+                            }
+                        }
+                        
+                        [self requestList:@"1"];
+                        [NotificationCenter postNotificationName:kNotificationCity object:nil];
+                        
+                    }]];
+                    [self presentViewController:alert animated:YES completion:nil];
+                    
+                }
+            }
+        }
+        
+    }];
 }
 
 
@@ -370,6 +379,7 @@
 {
     self.isRequestedData = YES;
     JGSVPROGRESSLOAD(@"加载中...")
+    self.cityId = [[CityModel city] code];
     [JGHTTPClient getJobsListByHotType:self.type cityId:self.cityId areaId:self.areaId sequenceType:self.sequenceType count:count Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
@@ -417,18 +427,18 @@
 -(void)setnavigationBarButton
 {
     
-    btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn_r setBackgroundImage:[UIImage imageNamed:@"icon_message"] forState:UIControlStateNormal];
-    [btn_r addTarget:self action:@selector(ClickMessage) forControlEvents:UIControlEventTouchUpInside];
-    btn_r.frame = CGRectMake(0, 0, 19, 14);
-   
-    
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
-    if([USERDEFAULTS objectForKey:isHaveNewNews]){
-        [btn_r showBadgeWithStyle:WBadgeStyleRedDot value:1 animationType:WBadgeAnimTypeShake];
-    }
-    
-    self.navigationItem.rightBarButtonItem = rightBtn;
+//    btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn_r setBackgroundImage:[UIImage imageNamed:@"icon_message"] forState:UIControlStateNormal];
+//    [btn_r addTarget:self action:@selector(ClickMessage) forControlEvents:UIControlEventTouchUpInside];
+//    btn_r.frame = CGRectMake(0, 0, 19, 14);
+//   
+//    
+//    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+//    if([USERDEFAULTS objectForKey:isHaveNewNews]){
+//        [btn_r showBadgeWithStyle:WBadgeStyleRedDot value:1 animationType:WBadgeAnimTypeShake];
+//    }
+//    
+//    self.navigationItem.rightBarButtonItem = rightBtn;
     
     
     
@@ -446,7 +456,7 @@
     
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_l];
     UIBarButtonItem *bbtLocation = [[UIBarButtonItem alloc] initWithCustomView:btnLocation];
-    self.navigationItem.leftBarButtonItems = @[bbtLocation,leftBtn];
+    self.navigationItem.rightBarButtonItems = @[bbtLocation,leftBtn];
 }
 
 #pragma mark  tableView 的代理方法
@@ -702,41 +712,18 @@
     int intType = [userInfo[@"type"] intValue];
     UIViewController *VC;
     switch (intType) {
-        case 0:{//报名推送
+        case 4:
+        case 1:{//报名推送
             
             VC = [[MyPartJobViewController alloc] init];
             VC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:VC animated:YES];
             
             break;
-        } case 1:{//钱包推送
+        }
+        case 2:
+        case 3:{//主页推送,留在主页就行,不用额外操作
             
-            VC = [[MyWalletViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-            break;
-        } case 2:{//实名推送
-            
-            VC = [[RealNameViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-            break;
-        } case 3:{//主页推送,留在主页就行,不用额外操作
-            
-            
-            
-            break;
-        } case 4:{//活动推送(H5)
-            
-            WebViewController *webVC = [[WebViewController alloc] init];
-            webVC.url = userInfo[@"html_url"];
-            
-            webVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:webVC animated:YES];
-            break;
-        } case 5:{//推送一条兼职详情
             
             JianZhiDetailController *jzdetailVC = [[JianZhiDetailController alloc] init];
             
@@ -745,6 +732,71 @@
             jzdetailVC.jobId = userInfo[@"job_id"];
             
             [self.navigationController pushViewController:jzdetailVC animated:YES];
+            break;
+            
+            break;
+        }
+        case 5:{//钱包推送
+            
+            VC = [[MyWalletViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+            break;
+        }
+        case 7:
+        case 6:{//实名推送
+            
+            VC = [[RealNameViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+            break;
+        }
+        case 8:{//收到了果聊消息 –––> 果聊联系人页面
+            
+            [self.tabBarController setSelectedIndex:1];
+            
+            break;
+        }
+        case 9:{//报名了外露的兼职(主要是发短信的形式) –––>不做处理
+            
+            break;
+        }
+        case 10:{//发布的任务收到了新报名(–––>我发布的报名列表)
+            
+            SignDemandViewController *signVC = [SignDemandViewController new];
+            signVC.demandId = userInfo[@"jobid"];
+            signVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:signVC animated:YES];
+            
+            break;
+        }
+        case 14://被投诉,收到投诉处理结果(––––>任务详情页面)
+        case 13://被雇主投诉(––––>任务详情页面)
+        case 12://主动投诉,收到了处理结果(––––>任务详情页面)
+        case 11:{//发布的任务收到了新报名(–––>我发布的报名列表)
+            
+            break;
+        }
+        case 15:{//任务服务费用到账(–––>钱包明细,收入明细)
+            
+            break;
+        }
+        case 19:
+        case 18:
+        case 17:
+        case 16:{//报名的任务被录用(–––>也是任务详情页)
+            
+            break;
+        }
+        case 100:{//活动推送(H5)
+            
+            WebViewController *webVC = [[WebViewController alloc] init];
+            webVC.url = userInfo[@"html_url"];
+            
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
             break;
         }
     }

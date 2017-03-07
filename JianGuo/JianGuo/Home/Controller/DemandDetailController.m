@@ -18,6 +18,8 @@
 #import "UITextView+placeholder.h"
 #import <UIImageView+WebCache.h>
 #import <IQKeyboardManager.h>
+#import "XLPhotoBrowser.h"
+#import "LCChatKit.h"
 
 #define HeaderImageHeight 747/3
 
@@ -61,20 +63,37 @@
     
     [self addInsetScaleImageView];
     
-    [self requestCommentsWithPageCount:@"0"];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        pageCount = 0;
+        [self requestDemandDetail];
+        [self requestCommentsWithPageCount:@"1"];
+        
+    }];
+    
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        
+        [self requestCommentsWithPageCount:[NSString stringWithFormat:@"%ld",pageCount]];
+        
+    }];
     
     [self requestDemandDetail];
+    [self requestCommentsWithPageCount:@"1"];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     if (self.isSelf) {
         bottomCons.constant = 0;
     }else{
         [self customBottomView];
     }
-    
-    
-    
 }
-
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -126,36 +145,77 @@
 {
     JGSVPROGRESSLOAD(@"加载中...");
     [JGHTTPClient getCommentsListWithDemandId:self.demandId pageNum:count pageSize:nil Success:^(id responseObject) {
+        
         [SVProgressHUD dismiss];
-        if ([responseObject[@"code"] integerValue] == 200) {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        JGLog(@"%@",responseObject);
+        
+        if (count.integerValue>1) {//上拉加载
             
-            self.dataArr = [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            if ([[CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            
+            NSMutableArray *sections = [NSMutableArray array];
+            for (CommentModel *model in [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.dataArr addObject:model];
+                NSIndexSet* section = [NSIndexSet indexSetWithIndex:self.dataArr.count-1];
+                [sections addObject:section];
+            }
+            
+            //            [_tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-
+            
+            return;
+            
         }else{
-            [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            self.dataArr = [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+//            if (self.dataArr.count == 0) {
+//                bgView.hidden = NO;
+//            }else{
+//                bgView.hidden = YES;
+//            }
         }
+        
+        [self.tableView reloadData];
+        if ([CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
+            [self showAlertViewWithText:@"没有更多数据" duration:1];
+            return ;
+        }
+        
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
 }
 
 -(void)addInsetScaleImageView
 {
-    
+    UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImg)];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -HeaderImageHeight, SCREEN_W, HeaderImageHeight)];
     self.demandView = imageView;
+    imageView.userInteractionEnabled = YES;
     imageView.image = [UIImage imageNamed:@"kobe"];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
+    
+    [imageView addGestureRecognizer:tap];
 
     imageView.tag = 101;
     [self.tableView addSubview:imageView];
     self.tableView.contentInset = UIEdgeInsetsMake(HeaderImageHeight, 0, 0, 0);
 //    self.tableView.tableHeaderView = imageView;
+}
+
+-(void)showImg
+{
+    [XLPhotoBrowser showPhotoBrowserWithImages:@[self.demandView.image] currentImageIndex:0];
 }
 
 -(void)customNavigationBtn
@@ -262,7 +322,15 @@
     //点击回复
     if (indexPath.section == 1) {
         
+        
         CommentModel *model = self.dataArr[indexPath.row];
+        
+        
+        if (model.user_id.integerValue == USER.login_id.integerValue) {
+            [self showAlertViewWithText:@"您不能回复自己的评论" duration:1];
+            return;
+        }
+        
         CommentCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         
         [self customCommentKeyboard];
@@ -324,27 +392,41 @@
 //        make.height.mas_equalTo(49);
 //    }];
 
-    CheckBoxButton *chat = [[CheckBoxButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W/5, view.height)];
+    CheckBoxButton *chat = [[CheckBoxButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W*1.5/5, view.height)];
     chat.imageV.image = [UIImage imageNamed:@"chat"];
     chat.label.text = @"果聊";
     chat.clickBlock = ^(UIButton *sender){
+        if (USER.login_id.integerValue<1) {
+            [self gotoCodeVC];
+            return;
+        }
+        
+        LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
+        
+        [self.navigationController pushViewController:conversationViewController animated:YES];
         
     };
     [view addSubview:chat];
     
-    CheckBoxButton *colletion = [[CheckBoxButton alloc] initWithFrame:CGRectMake(chat.right, 0, chat.width, chat.height)];
-    colletion.imageV.image = [UIImage imageNamed:@"demandshare"];
-    colletion.label.text = @"分享";
-    colletion.clickBlock = ^(UIButton *sender){
-        
-    };
-    [view addSubview:colletion];
+//    CheckBoxButton *colletion = [[CheckBoxButton alloc] initWithFrame:CGRectMake(chat.right, 0, chat.width, chat.height)];
+//    colletion.imageV.image = [UIImage imageNamed:@"demandshare"];
+//    colletion.label.text = @"分享";
+//    colletion.clickBlock = ^(UIButton *sender){
+//        if (USER.login_id.integerValue<1) {
+//            [self gotoCodeVC];
+//            return;
+//        }
+//    };
+//    [view addSubview:colletion];
     
-    CheckBoxButton *comment = [[CheckBoxButton alloc] initWithFrame:CGRectMake(colletion.right, 0, chat.width, chat.height)];
+    CheckBoxButton *comment = [[CheckBoxButton alloc] initWithFrame:CGRectMake(chat.right, 0, chat.width, chat.height)];
     comment.imageV.image = [UIImage imageNamed:@"writecomment"];
     comment.label.text = @"评论";
     comment.clickBlock = ^(UIButton *sender){//评论
-        
+        if (USER.login_id.integerValue<1) {
+            [self gotoCodeVC];
+            return;
+        }
         [self customCommentKeyboard];
         self.to_user_id = self.demandModel.b_user_id;
         [self.commentTV becomeFirstResponder];
@@ -370,6 +452,11 @@
 
 -(void)sign:(UIButton *)sender//点击报名
 {
+    if (USER.login_id.integerValue<1) {
+        [self gotoCodeVC];
+        return;
+    }
+    
     JGSVPROGRESSLOAD(@"正在报名...")
     [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1"
                                   reason:nil Success:^(id responseObject) {

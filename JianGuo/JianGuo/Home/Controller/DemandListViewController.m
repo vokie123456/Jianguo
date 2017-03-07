@@ -18,6 +18,9 @@
 #import "LabelCell.h"
 #import "CommentInputView.h"
 #import "CitySchoolViewController.h"
+#import "SchoolModel.h"
+#import "CityModel.h"
+#import "MineChatViewController.h"
 
 #define lineViewHeight 3
 #define sizeWidth 50
@@ -41,6 +44,7 @@ static NSString *identifier = @"DemandListCell";
 @property (nonatomic,weak) CommentInputView *commentView;
 @property (nonatomic,strong) DemandModel *currentModel;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (nonatomic,strong) UIButton *cityBtn;
 @property (nonatomic,copy) NSString *type;
 
 @end
@@ -60,16 +64,33 @@ static NSString *identifier = @"DemandListCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.schoolId = USER.schoolId?USER.schoolId:@"0";
     
-    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn_r setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
-    [btn_r addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
-    btn_r.frame = CGRectMake(0, 0, 20, 20);
+    UIButton *btn_l = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_l setBackgroundImage:[UIImage imageNamed:@"icon_location"] forState:UIControlStateNormal];
+    [btn_l addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
+    btn_l.frame = CGRectMake(-10, 0, 10, 12);
     
+    UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
+    btnLocation.titleLabel.font = FONT(14);
+    [btnLocation addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
+    btnLocation.frame = CGRectMake(0, 0, 30, 20);
+    self.cityBtn = btnLocation;
     
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_l];
+    UIBarButtonItem *bbtLocation = [[UIBarButtonItem alloc] initWithCustomView:btnLocation];
+    self.navigationItem.rightBarButtonItems = @[bbtLocation,leftBtn];
     
-    self.navigationItem.rightBarButtonItem = rightBtn;
+//    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn_r setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
+//    [btn_r addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
+//    btn_r.frame = CGRectMake(0, 0, 20, 20);
+//    
+//    
+//    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+//    
+//    self.navigationItem.rightBarButtonItem = rightBtn;
 
     
     
@@ -97,7 +118,21 @@ static NSString *identifier = @"DemandListCell";
     
     [self configCollectionView];
     
-    [self requestWithCount:1];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        pageCount = 0;
+        [self requestWithCount:@"1"];
+        
+    }];
+    
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        
+        [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
+
+    }];
+    
+    [self requestWithCount:@"1"];
     
     
     
@@ -107,8 +142,14 @@ static NSString *identifier = @"DemandListCell";
 {
     CitySchoolViewController *schoolVC = [[CitySchoolViewController alloc] init];
     schoolVC.hidesBottomBarWhenPushed = YES;
-    schoolVC.selectSchoolBlock = ^(SchoolModel *model){
-        
+    schoolVC.selectSchoolBlock = ^(SchoolModel *school,CityModel *city){
+        if (school) {
+             self.schoolId = school.id;
+        }else if (city){
+            [CityModel saveCity:city];
+            [self.cityBtn setTitle:city.cityName forState:UIControlStateNormal];
+        }
+        [self requestWithCount:@"1"];
     };
     [self.navigationController pushViewController:schoolVC animated:YES];
 }
@@ -143,7 +184,8 @@ static NSString *identifier = @"DemandListCell";
     if (indexPath.item == 0) {
         cell.contentL.textColor = GreenColor;
     }
-    cell.contentL.text = titleArr[indexPath.item];
+        cell.contentL.text = titleArr[indexPath.item];
+    
     return cell;
 }
 
@@ -175,7 +217,7 @@ static NSString *identifier = @"DemandListCell";
         cell.contentL.textColor = GreenColor;
     }];
     self.type = [NSString stringWithFormat:@"%ld",indexPath.item];
-    [self requestWithCount:1];
+    [self requestWithCount:@"1"];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -209,7 +251,7 @@ static NSString *identifier = @"DemandListCell";
     [super viewDidAppear:animated];
     
     [IQKeyboardManager sharedManager].enable = NO;
-    [self customCommentKeyboard];
+//    [self customCommentKeyboard];
 
 }
 
@@ -223,18 +265,59 @@ static NSString *identifier = @"DemandListCell";
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
 }
 
--(void)requestWithCount:(NSInteger)pageCount
+-(void)requestWithCount:(NSString *)count
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getDemandListWithSchoolId:@"1" type:self.type sex:@"1" userId:USER.login_id pageCount:[NSString stringWithFormat:@"%ld",pageCount] Success:^(id responseObject) {
+    [JGHTTPClient getDemandListWithSchoolId:self.schoolId type:self.type sex:nil userId:USER.login_id pageCount:count Success:^(id responseObject) {
+//        [SVProgressHUD dismiss];
+//        JGLog(@"%@",responseObject);
+//        self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+//        [self.tableView reloadData];
+        
         [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         JGLog(@"%@",responseObject);
-        self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+        
+        if (count.integerValue>1) {//上拉加载
+            
+            if ([[DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            
+            NSMutableArray *sections = [NSMutableArray array];
+            for (DemandModel *model in [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.dataArr addObject:model];
+                NSIndexSet* section = [NSIndexSet indexSetWithIndex:self.dataArr.count-1];
+                [sections addObject:section];
+            }
+            
+//            [_tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.dataArr.count-sections.count, sections.count)] withRowAnimation:UITableViewRowAnimationFade];
+
+            return;
+            
+        }else{
+            self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            if (self.dataArr.count == 0) {
+                bgView.hidden = NO;
+            }else{
+                bgView.hidden = YES;
+            }
+        }
+        
         [self.tableView reloadData];
+        if ([DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
+            [self showAlertViewWithText:@"没有更多数据" duration:1];
+            return ;
+        }
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self showAlertViewWithText:NETERROETEXT duration:1];
         
     }];
@@ -290,10 +373,16 @@ static NSString *identifier = @"DemandListCell";
     }];
 }
 
+-(void)signDemand:(UIButton *)sender
+{
+    [self gotoCodeVC];
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DemandDetailController *detailVC = [DemandDetailController new];
     detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.section] id];
+    detailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -373,10 +462,22 @@ static NSString *identifier = @"DemandListCell";
 }
 - (IBAction)postDemand:(id)sender {
     
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
     PostDemandViewController *postDemandVC = [[PostDemandViewController alloc] init];
     postDemandVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:postDemandVC animated:YES];
     
+}
+
+-(void)clickIcon:(NSString *)userId
+{
+    MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+    mineChatVC.hidesBottomBarWhenPushed = YES;
+    mineChatVC.userId = userId;
+    [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
 -(void)dealloc
@@ -384,6 +485,7 @@ static NSString *identifier = @"DemandListCell";
     [NotificationCenter removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [NotificationCenter removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
+
 
 
 

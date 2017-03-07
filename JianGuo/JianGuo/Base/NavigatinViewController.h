@@ -10,6 +10,11 @@
 
 @interface NavigatinViewController : BaseViewController
 
+{
+    UIView *bgView;
+    NSInteger pageCount;
+}
+
 // 抽屉交互封装的属性
 @property (nonatomic,strong) UIView *drawerView;
 

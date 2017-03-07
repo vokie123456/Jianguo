@@ -11,6 +11,7 @@
 #import "JGHTTPClient+LoginOrRegister.h"
 #import "WebViewController.h"
 #import "TTTAttributedLabel.h"
+#import "ProfileViewController.h"
 
 
 #define SECONDCOUNT 60
@@ -116,8 +117,11 @@
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"]integerValue]==200) {
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
+            [JGUser saveUser:[JGUser shareUser] WithDictionary:responseObject[@"data"] loginType:LoginTypeByPhone];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{//填写基本资料
+                ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+                [self.navigationController pushViewController:profileVC animated:YES];
             });
             
         }

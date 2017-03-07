@@ -86,6 +86,12 @@
  *  查询学校的接口
  */
 +(void)searchSchoolByName:(NSString *)name
+                  Success:(void (^)(id responseObject))success
+                  failure:(void (^)(NSError *error))failure;
+/**
+ *  查询学校的接口
+ */
++(void)searchSchoolByName:(NSString *)name
                  cityCode:(NSString *)cityCode
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure;
@@ -181,12 +187,19 @@
 +(void)PayWageByCode:(NSString *)code
              jsonStr:(NSString *)jsonStr
                 Success:(void (^)(id responseObject))success
-                failure:(void (^)(NSError *error))failure;
+             failure:(void (^)(NSError *error))failure;
 
 /**
  *  用户提现获取验证码
  */
 +(void)getCodeForCashByphoneNo:(NSString *)phoneNo
+                       Success:(void (^)(id responseObject))success
+                       failure:(void (^)(NSError *error))failure;
+
+/**
+ *  拉取别人的个人信息
+ */
++(void)getUserInfoWithUserId:(NSString *)userId
                        Success:(void (^)(id responseObject))success
                        failure:(void (^)(NSError *error))failure;
 @end

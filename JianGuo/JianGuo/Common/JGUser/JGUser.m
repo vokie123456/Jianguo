@@ -56,7 +56,7 @@
         user.login_id = dic[@"id"];
         user.resume = dic[@"resume"];
         user.iconUrl = dic[@"head_img_url"];
-        user.nickName = dic[@"nickName"];
+        user.nickname = dic[@"nickname"];
         user.schoolId = dic[@"school_id"];
         user.school_name = dic[@"school_name"];
         user.name = dic[@"name"];
@@ -64,6 +64,7 @@
         user.introduce = dic[@"introduce"];
         user.is_student = dic[@"is_student"];
         user.height = dic[@"height"];
+        user.gender = dic[@"sex"];
         
         /**** 以上为新接口返回字段 ****/
         
@@ -75,7 +76,6 @@
         user.integral = dic[@"integral"];
         user.regedit_time = dic[@"regedit_time"];
         user.login_time = dic[@"login_time"];
-        user.gender = dic[@"user_sex"];
         if (loginType != 0) {
             user.loginType = loginType;
         }

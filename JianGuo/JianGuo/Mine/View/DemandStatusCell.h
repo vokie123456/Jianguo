@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class DemandStatusModel;
 @interface DemandStatusCell : UITableViewCell
+
+@property (nonatomic,strong) DemandStatusModel *model;
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 

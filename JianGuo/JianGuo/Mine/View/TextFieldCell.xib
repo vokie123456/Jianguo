@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QwH-JF-OBS">
@@ -24,31 +25,45 @@
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cuh-fB-cyg">
-                        <rect key="frame" x="20" y="43" width="300" height="1"/>
+                        <rect key="frame" x="48" y="43" width="272" height="1"/>
                         <color key="backgroundColor" red="0.94566205257270686" green="0.94359095357941825" blue="0.94741855425055921" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="AeV-mu-wag"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon-weixin" translatesAutoresizingMaskIntoConstraints="NO" id="A1S-nC-kLc">
-                        <rect key="frame" x="10" y="11" width="20" height="21"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-weixin" translatesAutoresizingMaskIntoConstraints="NO" id="A1S-nC-kLc">
+                        <rect key="frame" x="15" y="13" width="18" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="A1S-nC-kLc" secondAttribute="height" multiplier="1:1" id="hRK-6S-ElI"/>
+                            <constraint firstAttribute="width" constant="18" id="jZr-Yp-PSH"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbf-SB-7gL">
-                        <rect key="frame" x="36" y="11" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbf-SB-7gL">
+                        <rect key="frame" x="48" y="12" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="Cuh-fB-cyg" secondAttribute="trailing" id="5oQ-la-FxH"/>
+                    <constraint firstItem="A1S-nC-kLc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5oY-5K-byI"/>
+                    <constraint firstItem="A1S-nC-kLc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="765-V0-gkA"/>
+                    <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="Cuh-fB-cyg" secondAttribute="leading" id="99I-Xc-q8f"/>
                     <constraint firstAttribute="bottom" secondItem="Cuh-fB-cyg" secondAttribute="bottom" id="KVk-u3-JVo"/>
                     <constraint firstAttribute="centerY" secondItem="QwH-JF-OBS" secondAttribute="centerY" constant="-0.5" id="UjL-Zn-PXI"/>
                     <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="36" id="YCZ-5P-f72"/>
                     <constraint firstAttribute="centerY" secondItem="gbf-SB-7gL" secondAttribute="centerY" id="aMk-rT-Fve"/>
+                    <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="A1S-nC-kLc" secondAttribute="trailing" constant="15" id="kBz-Dv-Bp2"/>
                     <constraint firstItem="Cuh-fB-cyg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="qmx-LF-14Y"/>
                     <constraint firstAttribute="trailing" secondItem="QwH-JF-OBS" secondAttribute="trailing" constant="19" id="uAQ-YS-b6I"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="qmx-LF-14Y"/>
+                        <exclude reference="YCZ-5P-f72"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconView" destination="A1S-nC-kLc" id="sDM-14-ULB"/>

@@ -12,7 +12,8 @@
 @protocol ClickLikeBtnDelegate <NSObject>
 
 -(void)clickLike:(DemandModel *)model;
--(void)clickIcon;
+-(void)clickIcon:(NSString *)userId;
+-(void)signDemand:(UIButton *)sender;
 
 @end
 

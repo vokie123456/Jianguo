@@ -108,7 +108,10 @@ CGFloat const LCCKConversationListCellDefaultHeight = 61; //LCCKImageSize + LCCK
         UILabel *timestampLabel = [[UILabel alloc] initWithFrame:CGRectMake(LCCKAutoResizingDefaultScreenWidth - LCCKHorizontalSpacing - LCCKTimestampeLabelWidth, CGRectGetMinY(_avatarImageView.frame), LCCKTimestampeLabelWidth, LCCKNameLabelHeight)];
         timestampLabel.font = [UIFont systemFontOfSize:13];
         timestampLabel.textAlignment = NSTextAlignmentRight;
-        timestampLabel.textColor = [[LCCKSettingService sharedInstance] defaultThemeColorForKey:@"TableView-CellMinor"];
+//        timestampLabel.textColor = [[LCCKSettingService sharedInstance] defaultThemeColorForKey:@"TableView-CellMinor"];// 原来 源代码
+        
+        timestampLabel.textColor = GreenColor;//自己工程需要改的代码
+        
         timestampLabel.autoresizingMask =  UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         _timestampLabel = timestampLabel;
     }

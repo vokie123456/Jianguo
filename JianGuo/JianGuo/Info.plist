@@ -41,7 +41,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>weixin</string>
+			<string>weixinpay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx8c1fd6e2e9c4fd49</string>
@@ -51,7 +51,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>qq</string>
+			<string>qqqq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tencent1104770733</string>
@@ -73,6 +73,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>alipay</string>
+		<string>weixin</string>
+		<string>wechat</string>
 		<string>mqq</string>
 		<string>mqzone</string>
 		<string>mqqwpa</string>
@@ -85,8 +87,6 @@
 		<string>mqzoneopensdkapi19</string>
 		<string>mqzoneopensdkapi</string>
 		<string>mqzoneopensdk</string>
-		<string>weixin</string>
-		<string>wechat</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

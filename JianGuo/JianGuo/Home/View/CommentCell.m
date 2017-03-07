@@ -47,16 +47,17 @@ static NSString*const identifier = @"CommentCell";
         CommentUser *user2 = commentModel1.users.lastObject;
         
         if (user1.userId.integerValue == model.user_id.integerValue) {//user1是评论者
-            name = user1.nickName;
-            content = [NSString stringWithFormat:@"回复 %@ :",user2.nickName];
-            range = [content rangeOfString:user2.nickName];
+            name = user1.nickname;
+            content = [NSString stringWithFormat:@"回复 %@ :",user2.nickname];
+            range = [content rangeOfString:user2.nickname];
             url = [NSURL URLWithString:user2.userId];
             
             [self.iconView sd_setImageWithURL:[NSURL URLWithString:user1.userImage] placeholderImage:[UIImage imageNamed:@"wechat"]];
         }else{//user2是评论者
-            name = user2.nickName;
-            content = [NSString stringWithFormat:@"回复 %@ :",user1.nickName];
-            range = [content rangeOfString:user1.nickName];
+            name = user2.nickname;
+//            content = [NSString stringWithFormat:@"回复 %@ :",user1.nickname];
+            content = @"";
+            range = [content rangeOfString:user1.nickname];
             url = [NSURL URLWithString:user1.userId];
             
             [self.iconView sd_setImageWithURL:[NSURL URLWithString:user2.userImage] placeholderImage:[UIImage imageNamed:@"wechat"]];
@@ -81,7 +82,7 @@ static NSString*const identifier = @"CommentCell";
     }else{//评论对象中只有一个用户,即 <自己评论自己的需求> 情况
         
         CommentUser *user1 = commentModel1.users.firstObject;
-        name = user1.nickName;
+        name = user1.nickname;
         [self.contentL setText:model.content afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
             [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
             

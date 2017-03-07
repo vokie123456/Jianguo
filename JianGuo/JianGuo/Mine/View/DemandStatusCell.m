@@ -7,9 +7,16 @@
 //
 
 #import "DemandStatusCell.h"
+#import "DemandStatusModel.h"
 
 @implementation DemandStatusCell
 
+-(void)setModel:(DemandStatusModel *)model
+{
+    _model = model;
+    self.contentL.text = model.content;
+    self.timeL.text = nil;
+}
 
 +(instancetype)cellWithTableView:(UITableView *)tableView
 {

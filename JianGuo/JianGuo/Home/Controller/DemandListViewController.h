@@ -10,6 +10,10 @@
 
 @interface DemandListViewController : NavigatinViewController
 
+
+@property (nonatomic,copy) NSString *schoolId;
+-(void)requestWithCount:(NSString *)count;
+
 @end
 
 

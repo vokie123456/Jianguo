@@ -38,7 +38,7 @@ static NSString *identifier = @"colletionCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"找兼职";
+    self.navigationItem.title = @"首页";
     
 //    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [btn_r setTitle:@"切换布局" forState:UIControlStateNormal];
@@ -149,13 +149,13 @@ static NSString *identifier = @"colletionCell";
     if (indexPath.item == 0) {//去校约模块
         
         DemandListViewController *demandVC = [DemandListViewController new];
-        demandVC.hidesBottomBarWhenPushed = YES;
+//        demandVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:demandVC animated:YES];
         
     }else if (indexPath.item == 1){//去兼职模块
         
         HomeViewController *homeVC = [HomeViewController new];
-        homeVC.hidesBottomBarWhenPushed = YES;
+//        homeVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:homeVC animated:YES];
         
     }else if (indexPath.row == 2){

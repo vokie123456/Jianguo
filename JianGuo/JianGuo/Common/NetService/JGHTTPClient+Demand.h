@@ -19,7 +19,7 @@
  *  @param type        需求类型
  *  @param city        所在城市ID
  *  @param area        地区ID
- *  @param anonymous   是否匿名
+ *  @param anonymous   是否匿名(1==匿名 2==实名)
  *  @param success     成功回调
  *  @param failure     失败回调
  */

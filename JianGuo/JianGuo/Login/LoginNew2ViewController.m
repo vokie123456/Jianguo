@@ -19,6 +19,7 @@
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
 
+#define LoginTypeCount 2
 #define leftViewH 18
 #define leftViewY 13
 #define bottomViewH 80
@@ -74,18 +75,21 @@
     self.passwTF.leftView = leftView2;
     
     
-    
+    /* 第三方登录暂时隐藏起来
+     
     SEL selectorQQ = NSSelectorFromString(@"loginByQQ");
-    UIView *qqView = [self createThirdLoginBtnWithTitle:@"QQ" imageName:@"qq" selector:selectorQQ frame:CGRectMake(0, SCREEN_H-bottomViewH, SCREEN_W/3, bottomViewH)];
+    UIView *qqView = [self createThirdLoginBtnWithTitle:@"QQ" imageName:@"qq" selector:selectorQQ frame:CGRectMake(0, SCREEN_H-bottomViewH, SCREEN_W/LoginTypeCount, bottomViewH)];
     [self.view addSubview:qqView];
     
     SEL selectorWX = NSSelectorFromString(@"loginByWX");
-    UIView *wxView = [self createThirdLoginBtnWithTitle:@"微信" imageName:@"wechat1" selector:selectorWX frame:CGRectMake(SCREEN_W/3, SCREEN_H-bottomViewH, SCREEN_W/3, bottomViewH)];
+    UIView *wxView = [self createThirdLoginBtnWithTitle:@"微信" imageName:@"wechat1" selector:selectorWX frame:CGRectMake(SCREEN_W/LoginTypeCount, SCREEN_H-bottomViewH, SCREEN_W/LoginTypeCount, bottomViewH)];
     [self.view addSubview:wxView];
     
     SEL selectorWB = NSSelectorFromString(@"loginByWB");
-    UIView *wbView = [self createThirdLoginBtnWithTitle:@"微博" imageName:@"microblog" selector:selectorWB frame:CGRectMake(2*SCREEN_W/3, SCREEN_H-bottomViewH, SCREEN_W/3, bottomViewH)];
+    UIView *wbView = [self createThirdLoginBtnWithTitle:@"微博" imageName:@"microblog" selector:selectorWB frame:CGRectMake(2*SCREEN_W/LoginTypeCount, SCREEN_H-bottomViewH, SCREEN_W/LoginTypeCount, bottomViewH)];
     [self.view addSubview:wbView];
+     
+     */
 }
 
 -(void)changeFrame:(NSNotification *)noti

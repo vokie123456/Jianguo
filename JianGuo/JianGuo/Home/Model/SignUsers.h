@@ -27,7 +27,7 @@
 @property (nonatomic, copy) NSString*  create_time;
 
 /** 用户ID */
-@property (nonatomic, copy) NSString*  user_id;
+@property (nonatomic, copy) NSString*  b_user_id;
 
 /** 需求ID */
 @property (nonatomic, copy) NSString*  d_id;
@@ -70,8 +70,6 @@
 /** 学校名称 */
 @property (nonatomic, copy) NSString* school_name;
 
-/** ??? */
-@property (nonatomic, copy) NSString*  b_user_id;
 
 
 /** 入学日期 */

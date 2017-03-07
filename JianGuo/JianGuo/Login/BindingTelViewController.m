@@ -8,6 +8,7 @@
 
 #import "BindingTelViewController.h"
 #import "JGHTTPClient+LoginOrRegister.h"
+#import "ProfileViewController.h"
 
 #define SECONDCOUNT 60
 
@@ -88,6 +89,11 @@
         
         [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
+        if ([responseObject[@"code"]integerValue] == 200) {//去填写资料
+            
+            ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+            [self.navigationController pushViewController:profileVC animated:YES];
+        }
         
         
     } failure:^(NSError *error) {

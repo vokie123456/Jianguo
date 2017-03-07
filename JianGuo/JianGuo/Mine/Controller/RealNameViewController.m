@@ -214,7 +214,7 @@
             TextFieldCell *cell = [TextFieldCell aTextFieldCell];
             cell.iconView.image = [UIImage imageNamed:@"icon_i"];
             cell.lblText.text = @"姓名";
-            cell.lblText.textColor = LIGHTGRAYTEXT;
+            cell.lblText.textColor = [UIColor darkTextColor];
             cell.txfName.delegate = self;
             cell.txfName.borderStyle = UITextBorderStyleNone;
             
@@ -231,7 +231,7 @@
             cell.iconView.image = [UIImage imageNamed:@"icon_card"];
             cell.lblText.text = @"身份证号";
             cell.txfName.delegate = self;
-            cell.lblText.textColor = LIGHTGRAYTEXT;
+            cell.lblText.textColor = [UIColor darkTextColor];
             cell.txfName.borderStyle = UITextBorderStyleNone;
             cell.txfName.font = [UIFont systemFontOfSize:14];
           
@@ -296,7 +296,7 @@
             [commitCheckBtn setTitle:@"正在审核" forState:UIControlStateNormal];
         }
         else{
-            commitCheckBtn.backgroundColor = BLUECOLOR;
+            commitCheckBtn.backgroundColor = GreenColor;
             [commitCheckBtn setTitle:@"提交审核" forState:UIControlStateNormal];
         }
         commitCheckBtn.layer.cornerRadius = 15;
@@ -859,15 +859,15 @@
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, height)];
     bgView.backgroundColor = WHITECOLOR;
     
-//    if(USER.status.intValue != 2){
-//        CGFloat height2;
-//        if (SCREEN_W == 320) {
-//            height2 = 220*(SCREEN_W/375);
-//        }else if (SCREEN_W == 375){
-//            height2 = 220*(SCREEN_W/375);
-//        }else if (SCREEN_W == 414){
-//            height2 = 220*(SCREEN_W/375)-20;
-//        }
+    if(USER.status.intValue != 2){
+        CGFloat height2;
+        if (SCREEN_W == 320) {
+            height2 = 220*(SCREEN_W/375);
+        }else if (SCREEN_W == 375){
+            height2 = 220*(SCREEN_W/375);
+        }else if (SCREEN_W == 414){
+            height2 = 220*(SCREEN_W/375)-20;
+        }
         UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, height)];
         headerView.backgroundColor = WHITECOLOR;
         headerView.userInteractionEnabled = YES;
@@ -944,32 +944,32 @@
          [bgView addSubview:label];
          }
          */
-//    }
-    /*
+    }
+    
     else{
         bgView.backgroundColor = BLUECOLOR;
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-70, 80, 140, 200)];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-70, 10, 140, 200)];
         if (SCREEN_W == 320) {
-            imgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-50, 80, 100, 160)];
+            imgView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-50, 10, 100, 160)];
         }
         imgView.image = [UIImage imageNamed:@"junmao2"];
         [bgView addSubview:imgView];
         
-        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, imgView.bottom, SCREEN_W, 40)];
-        label1.textAlignment = NSTextAlignmentCenter;
-        label1.font = FONT(20);
-        label1.textColor = WHITECOLOR;
-        label1.text = @"您已完成认证";
-        [bgView addSubview:label1];
-        
-        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, label1.bottom, SCREEN_W, 40)];
-        label2.textAlignment = NSTextAlignmentCenter;
-        label2.font = FONT(15);
-        label2.textColor = WHITECOLOR;
-        label2.text = @"为保证您的信息安全,兼果为您隐藏个人信息";
-        [bgView addSubview:label2];
+//        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, imgView.bottom, SCREEN_W, 40)];
+//        label1.textAlignment = NSTextAlignmentCenter;
+//        label1.font = FONT(20);
+//        label1.textColor = WHITECOLOR;
+//        label1.text = @"您已完成认证";
+//        [bgView addSubview:label1];
+//        
+//        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, label1.bottom, SCREEN_W, 40)];
+//        label2.textAlignment = NSTextAlignmentCenter;
+//        label2.font = FONT(15);
+//        label2.textColor = WHITECOLOR;
+//        label2.text = @"为保证您的信息安全,兼果为您隐藏个人信息";
+//        [bgView addSubview:label2];
     }
-    */
+    
     return bgView;
 }
 

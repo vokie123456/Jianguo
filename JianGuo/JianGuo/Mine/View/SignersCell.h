@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 @class SignUsers;
-
+@class SignersCell;
 @protocol AgreeUserSomeOneDelegate <NSObject>
 
--(void)userSomeOne:(NSString *)userId status:(NSString *)status;
+-(void)userSomeOne:(NSString *)userId status:(NSString *)status cell:(SignersCell *)cell;
 
 @end
 

@@ -267,7 +267,7 @@
     getCodeBtn.frame = CGRectMake(phoneTf.right-100, 6, 90, 34);
     [getCodeBtn setTitle:@"验证" forState:UIControlStateNormal];
     [getCodeBtn addTarget:self action:@selector(getCodeByPhoneNum:) forControlEvents:UIControlEventTouchUpInside];
-    [getCodeBtn setBackgroundColor:YELLOWCOLOR];
+    [getCodeBtn setBackgroundColor:GreenColor];
     [backGoundView addSubview:getCodeBtn];
     self.getCodeBtn = getCodeBtn;
     
@@ -303,10 +303,10 @@
         UIButton *agreementBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         agreementBtn.frame=CGRectMake(imgView.right, backGoundView.bottom+5, 150, 30);
         agreementBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [agreementBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+        [agreementBtn setTitleColor:GreenColor forState:UIControlStateNormal];
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"我已阅读并同意兼果协议"];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:LIGHTGRAYTEXT range:NSMakeRange(0, 7)];
-        [attributeStr addAttributes:@{NSForegroundColorAttributeName:BLUECOLOR,NSFontAttributeName:FONT(15)} range:NSMakeRange(7, 4)];
+        [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(7, 4)];
         [agreementBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];
         [agreementBtn addTarget:self action:@selector(lookAgreement) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:agreementBtn];
@@ -335,7 +335,7 @@
         [loginBtn addTarget:self action:@selector(loginByTelNum:) forControlEvents:UIControlEventTouchUpInside];
         [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     }
-    [loginBtn setBackgroundColor:YELLOWCOLOR];
+    [loginBtn setBackgroundColor:GreenColor];
     [self.view addSubview:loginBtn];
     self.loginBtn = loginBtn;
 }
@@ -370,7 +370,7 @@
         [_timer invalidate];
         count = SECONDCOUNT;
         [self.getCodeBtn setTitle:@"验证" forState:UIControlStateNormal];
-        [self.getCodeBtn setBackgroundColor:YELLOWCOLOR];
+        [self.getCodeBtn setBackgroundColor:GreenColor];
         self.getCodeBtn.userInteractionEnabled = YES;
     }
 }

@@ -10,6 +10,7 @@
 //#define CYLDebugging 1
 
 #import "LCCKConversationViewController.h"
+#import <IQKeyboardManager.h>
 
 #if __has_include(<ChatKit/LCChatKit.h>)
 #import <ChatKit/LCChatKit.h>
@@ -264,6 +265,8 @@ NSString *const LCCKConversationViewControllerErrorDomain = @"LCCKConversationVi
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self conversation];
+    [IQKeyboardManager sharedManager].enable = NO;
+    
     !self.viewWillAppearBlock ?: self.viewWillAppearBlock(self, animated);
 }
 
@@ -296,6 +299,8 @@ NSString *const LCCKConversationViewControllerErrorDomain = @"LCCKConversationVi
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = YES;
     if (_conversation && (self.chatViewModel.avimTypedMessage.count > 0)) {
         [[LCCKConversationService sharedInstance] updateConversationAsRead];
     }

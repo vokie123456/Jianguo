@@ -10,6 +10,8 @@
 #import "SignUsers.h"
 #import "UIImageView+WebCache.h"
 #import "DateOrTimeTool.h"
+#import "QLAlertView.h"
+#import "XLPhotoBrowser.h"
 
 
 #import "PresentingAnimator.h"
@@ -58,8 +60,8 @@
 }
 - (IBAction)acceptSomeOne:(id)sender {//录用
     
-    if ([self.delegate respondsToSelector:@selector(userSomeOne: status:)]) {
-        [self.delegate userSomeOne:_model.user_id status:@"2"];
+    if ([self.delegate respondsToSelector:@selector(userSomeOne: status: cell:)]) {
+        [self.delegate userSomeOne:_model.b_user_id status:@"2" cell:self];
     }
     
 }
@@ -68,7 +70,7 @@
     TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
     reasonVC.transitioningDelegate = self;
     reasonVC.modalPresentationStyle = UIModalPresentationCustom;
-    reasonVC.userId = _model.user_id;
+    reasonVC.userId = _model.b_user_id;
     reasonVC.demandId = self.demandId;
     [self.window.rootViewController presentViewController:reasonVC
                                                  animated:YES
@@ -77,9 +79,18 @@
 }
 - (IBAction)call:(id)sender {
     
-    
+    [QLAlertView showAlertTittle:@"确定呼叫用户吗?" message:nil isOnlySureBtn:NO compeletBlock:^{
+        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",_model.tel]]];
+    }];
     
 }
+
+- (void)showIcon:(UITapGestureRecognizer *)sender {
+    
+    [XLPhotoBrowser showPhotoBrowserWithImages:@[self.iconView.image] currentImageIndex:0];
+    
+}
+
 - (IBAction)chat:(id)sender {
     
     
@@ -101,7 +112,10 @@
 }
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showIcon:)];
+    [self.iconView addGestureRecognizer:tap];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

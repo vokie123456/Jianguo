@@ -187,7 +187,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
             }else{
                 
                 UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
-                [tabVc setSelectedIndex:2];
+                [tabVc setSelectedIndex:1];
                 
             }
             
@@ -217,7 +217,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                 [NotificationCenter postNotificationName:kNotificationClickNotification object:notification.userInfo];
             }else{
                 UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
-                [tabVc setSelectedIndex:2];
+                [tabVc setSelectedIndex:1];
                 
             }
         }
@@ -471,12 +471,29 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                     [JGUser saveUser:user WithDictionary:responseObject[@"data"] loginType:LoginTypeByPhone];
                     [self login];
                 }else{
+                    
+                    
+                    [[LCChatKit sharedInstance] closeWithCallback:^(BOOL succeeded, NSError *error) {
+                        if (succeeded) {
+                            JGLog(@"关闭果聊成功!!!!");
+                            
+                            [NotificationCenter postNotificationName:kNotificationClosedChatKit object:nil];
+                            
+                        } else {
+                            JGLog(@"关闭果聊失败????");
+                        }
+                    }];
+                    
                     [JGUser deleteuser];
+                    [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:nil];
+                    
                     MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                     UINavigationController *navVC = tabVC.childViewControllers.firstObject;
+
                     LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc] init];
                     loginVC.hidesBottomBarWhenPushed = YES;
-                    [navVC presentViewController:loginVC animated:YES completion:nil];
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+                    [navVC presentViewController:nav animated:YES completion:nil];
                 }
                 
             } failure:^(NSError *error) {
@@ -489,12 +506,26 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 //                });
                 
                 
+                [[LCChatKit sharedInstance] closeWithCallback:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        JGLog(@"关闭果聊成功!!!!");
+                        
+                        [NotificationCenter postNotificationName:kNotificationClosedChatKit object:nil];
+                        
+                    } else {
+                        JGLog(@"关闭果聊失败????");
+                    }
+                }];
+                
                 [JGUser deleteuser];
+                [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:nil];
+                
                 MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                 UINavigationController *navVC = tabVC.childViewControllers.firstObject;
                 LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc] init];
                 loginVC.hidesBottomBarWhenPushed = YES;
-                [navVC presentViewController:loginVC animated:YES completion:nil];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+                [navVC presentViewController:nav animated:YES completion:nil];
                 
             }];
 /*

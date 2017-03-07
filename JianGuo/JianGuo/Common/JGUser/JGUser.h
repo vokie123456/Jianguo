@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger,LoginType)
 /**
  *  用户昵称
  */
-@property (nonatomic, copy) NSString *nickName;
+@property (nonatomic, copy) NSString *nickname;
 /**
  *  用户头像
  */
@@ -59,9 +59,9 @@ typedef NS_ENUM(NSUInteger,LoginType)
 /**
  *  用户出生日期
  */
-@property (nonatomic, assign) NSString* birthDay;
+@property (nonatomic, copy) NSString* birthDay;
 /**
- *  用户是否是学生
+ *  用户是否是学生(1==是,2==否)
  */
 @property (nonatomic, assign) NSString* is_student;
 /**

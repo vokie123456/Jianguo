@@ -137,7 +137,7 @@
                         <constraint firstItem="PBY-oo-l2F" firstAttribute="top" secondItem="5sE-UO-KL9" secondAttribute="bottom" id="z0e-0W-Gt0"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Afm-jj-06N">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Afm-jj-06N">
                     <rect key="frame" x="264" y="295" width="91" height="27"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" title="获取不到验证码?">

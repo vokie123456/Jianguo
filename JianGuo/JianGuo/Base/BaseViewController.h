@@ -40,4 +40,9 @@
  */
 -(void)addShakeAnimation:(UIButton *)button;
 
+/**
+ *  去登录
+ */
+-(void)gotoCodeVC;
+
 @end

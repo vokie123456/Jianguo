@@ -14,4 +14,6 @@
 @property (nonatomic,strong) UIView *msgRemindView;
 @property (nonatomic,strong) AVIMClient *client;
 
+-(void)requestList:(NSString *)count;
+
 @end

@@ -37,7 +37,7 @@
     !order_id?:[params setObject:order_id forKey:@"order_no"];
     !pay_user_id?:[params setObject:pay_user_id forKey:@"pay_user_id"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"bill/add"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"wallet/recharge"];
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){

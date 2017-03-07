@@ -52,7 +52,7 @@ static NSString *placeholder = @"请输入您的意见,我们将不断优化";
     btn.frame = CGRectMake(30, rightPlaeView.bottom+30, SCREEN_W-60, 40);
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 20;
-    [btn setBackgroundColor:RGBCOLOR(252, 230, 152)];
+    [btn setBackgroundColor:GreenColor];
     [btn setTitle:@"提交" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(commitOpinion:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
@@ -85,17 +85,17 @@ static NSString *placeholder = @"请输入您的意见,我们将不断优化";
     //str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];//去掉字符串两头的空格和换行符
     if ([self.opinionTV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
         
-        [self.btn setBackgroundColor:YELLOWCOLOR];
+        [self.btn setBackgroundColor:GreenColor];
     }
 }
 -(void)editChange:(UITextField *)textField
 {
     if ([self.phoneOrQQTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0&&[self.opinionTV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
         
-        [self.btn setBackgroundColor:YELLOWCOLOR];
+        [self.btn setBackgroundColor:GreenColor];
     }else if ([self.phoneOrQQTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0||[self.opinionTV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0){
         
-        [self.btn setBackgroundColor:RGBCOLOR(252, 230, 152)];
+        [self.btn setBackgroundColor:GreenColor];
     }
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

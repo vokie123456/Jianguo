@@ -39,7 +39,7 @@
         _LogoutBtn.frame = CGRectMake(0, 35, SCREEN_W, 44);
         [_LogoutBtn setBackgroundColor:WHITECOLOR];
         [_LogoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-        [_LogoutBtn setTitleColor:RGBCOLOR(255, 148, 147) forState:UIControlStateNormal];
+        [_LogoutBtn setTitleColor:RedColor forState:UIControlStateNormal];
         _LogoutBtn.layer.masksToBounds = YES;
 //        [_LogoutBtn setBackgroundColor:RGBCOLOR(255, 148, 147)];
 //        _LogoutBtn.layer.cornerRadius = 22;
@@ -110,7 +110,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 4) {
+    if (indexPath.row == 3) {
         return 80;
     }else
     return 44;
@@ -118,29 +118,37 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (USER.tel.length? 3 :2)+2;
+    return (USER.tel.length? 3 :2)+1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MineCell *cell = [MineCell cellWithTableView:tableView];
     
+    CGRect frame = cell.labelLeft.frame;
+    frame.origin.x = 15;
+    cell.labelLeft.frame = frame;
+    
+    CGRect lineFrame = cell.lineView.frame;
+    lineFrame.origin.x = 15;
+    cell.lineView.frame = lineFrame;
+    
     if(indexPath.row == 0){
 //        cell.iconView.image = [UIImage imageNamed:@"icon_password"];
         cell.labelLeft.text = @"修改密码";
         return cell;
     }
+//    else if (indexPath.row == 1){
+////        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
+//        cell.labelLeft.text = @"更换手机号";
+//        return cell; 
+//    }
     else if (indexPath.row == 1){
-//        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
-        cell.labelLeft.text = @"更换手机号";
-        return cell; 
-    }
-    else if (indexPath.row == 2){
 //        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
         cell.labelLeft.text = @"意见反馈";
         return cell;
     }
-    else if (indexPath.row == 3){
+    else if (indexPath.row == 2){
 //        cell.iconView.image = [UIImage imageNamed:@"jiebang"];
         cell.labelLeft.text = @"关于我们";
         return cell;
@@ -168,19 +176,19 @@
         FindPassViewController *findVC = [[FindPassViewController alloc] init];
         [self.navigationController pushViewController:findVC animated:YES];
     }
+//    else if (indexPath.row == 1) {
+//        
+//        if (USER.tel.length != 11) {
+//            [self gotoCodeVC];
+//            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//            return;
+//        }
+//        CodeLoginViewController *codeVC = [[CodeLoginViewController alloc] init];
+//        codeVC.isChangePhoneNum = YES;
+//        [self.navigationController pushViewController:codeVC animated:YES];
+//        
+//    }
     else if (indexPath.row == 1) {
-        
-        if (USER.tel.length != 11) {
-            [self gotoCodeVC];
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            return;
-        }
-        CodeLoginViewController *codeVC = [[CodeLoginViewController alloc] init];
-        codeVC.isChangePhoneNum = YES;
-        [self.navigationController pushViewController:codeVC animated:YES];
-        
-    }
-    else if (indexPath.row == 2) {
         if (USER.tel.length != 11) {
             [self gotoCodeVC];
             [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -191,7 +199,7 @@
         [self.navigationController pushViewController:opinionVC animated:YES];
         
     }
-    else if (indexPath.row == 3) {
+    else if (indexPath.row == 2) {
         
         AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];

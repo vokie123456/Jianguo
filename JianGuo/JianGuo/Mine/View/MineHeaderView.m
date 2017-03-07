@@ -68,7 +68,7 @@
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconView.bottom+5, SCREEN_W, 20)];
     if ([[[JGUser user] tel] length] == 11) {
-        nameLabel.text = [JGUser user].nickName.length != 0&&[[JGUser user] nickName]?[JGUser user].nickName:@"未填写";
+        nameLabel.text = [JGUser user].nickname.length != 0&&[[JGUser user] nickname]?[JGUser user].nickname:@"未填写";
     }else{
         nameLabel.text = @"登录/注册";
     }

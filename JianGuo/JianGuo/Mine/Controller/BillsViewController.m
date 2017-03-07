@@ -25,7 +25,20 @@
     
     self.navigationItem.title = @"账单";
     self.tableView.rowHeight = 65;
-    [self requestList:@"1"];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        pageCount = 0;
+        [self requestList:@"0"];
+        
+    }];
+    
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        pageCount += 10;
+        
+        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
+        
+    }];
+    [self requestList:@"0"];
     
 }
 
@@ -64,11 +77,11 @@
             
             [self.dataArr removeAllObjects];
             self.dataArr = [MoneyRecordModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"] ];
-//            if (self.dataArr.count == 0) {
-//                bgView.hidden = NO;
-//            }else{
-//                bgView.hidden = YES;
-//            }
+            if (self.dataArr.count == 0) {
+                bgView.hidden = NO;
+            }else{
+                bgView.hidden = YES;
+            }
         }
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];

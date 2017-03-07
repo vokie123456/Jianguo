@@ -11,6 +11,7 @@
 #import "MineNewViewController.h"
 #import "HomeViewController.h"
 #import "HomeNewViewController.h"
+#import "HomeSegmentViewController.h"
 #import "PartJobViewController.h"
 #import "MessageListViewController.h"
 #import "ChatMsgViewController.h"
@@ -38,7 +39,9 @@
 
 -(void)setChildController
 {
-    HomeNewViewController *homeVC = [[HomeNewViewController alloc] init];
+    
+    HomeSegmentViewController *homeVC = [[HomeSegmentViewController alloc] init];
+//    HomeNewViewController *homeVC = [[HomeNewViewController alloc] init];
 //    HomeViewController *homeVC = [[HomeViewController alloc] init];
     homeVC.title = @"首页";
     

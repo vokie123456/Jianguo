@@ -9,9 +9,11 @@
 #import "MineChatViewController.h"
 #import "MineChatCell.h"
 #import "JGHTTPClient+Mine.h"
-#import "JianliAccount.h"
+#import "signUsers.h"
 #import "UIImageView+WebCache.h"
 #import "DateOrTimeTool.h"
+#import "XLPhotoBrowser.h"
+#import "LCChatKit.h"
 
 #define HeaderImageHeight 747/3
 #define iconWidth 90
@@ -22,7 +24,7 @@
 @property (nonatomic,strong) UILabel *nameL;
 @property (nonatomic,strong) UIButton *ageBtn;
 @property (nonatomic,strong) UILabel *starL;
-@property (nonatomic,strong) JianliAccount *account;
+@property (nonatomic,strong) SignUsers *user;
 
 @end
 
@@ -40,30 +42,35 @@
 }
 
 
-- (IBAction)contact:(id)sender {
+- (IBAction)contact:(id)sender {//果聊
+    
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.userId]];
+    
+    [self.navigationController pushViewController:conversationViewController animated:YES];
+    
 }
 
 -(void)request
 {
     JGSVPROGRESSLOAD(@"正在拼命加载中...");
-    [JGHTTPClient getJianliInfoByloginId:[JGUser user].login_id Success:^(id responseObject) {
+    [JGHTTPClient getUserInfoWithUserId:self.userId Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         JGLog(@"%@",responseObject);
         if (responseObject) {
             
-            self.account = [JianliAccount mj_objectWithKeyValues:responseObject[@"data"]];
-            [self.iconView sd_setImageWithURL:[NSURL URLWithString:self.account.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            self.user = [SignUsers mj_objectWithKeyValues:responseObject[@"data"]];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:self.user.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
             NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
-            NSInteger age = [timeNow substringToIndex:4].integerValue - [self.account.birth_date substringToIndex:4].integerValue;
+            NSInteger age = [timeNow substringToIndex:4].integerValue - [self.user.birth_date substringToIndex:4].integerValue;
             [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
-            if (self.account.sex.integerValue == 1) {//女
+            if (self.user.sex.integerValue == 1) {//女
                 [self.ageBtn setImage:[UIImage imageNamed:@"girlclear"] forState:UIControlStateNormal];
             }else{
                 [self.ageBtn setImage:[UIImage imageNamed:@"boyclear"] forState:UIControlStateNormal];
             }
 //            NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
-            self.starL.text = [DateOrTimeTool getConstellation:self.account.birth_date]?[DateOrTimeTool getConstellation:self.account.birth_date]:@"未填写";
-            self.nameL.text = self.account.nickname;
+            self.starL.text = [DateOrTimeTool getConstellation:self.user.birth_date]?[DateOrTimeTool getConstellation:self.user.birth_date]:@"未填写";
+            self.nameL.text = self.user.nickname;
             
             [self.tableView reloadData];
         }
@@ -87,7 +94,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.account.is_student? 4:3;
+    return self.user.is_student.integerValue == 1? 4:2;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -95,25 +102,21 @@
     MineChatCell *cell = [MineChatCell cellWithTableView:tableView];
     if (indexPath.row == 0) {
         cell.leftL.text = @"身高:";
-        cell.contentL.text = self.account.height.integerValue == 0?@"未填写":self.account.height;
+        cell.contentL.text = self.user.height.integerValue == 0?@"未填写":self.user.height;
     }else if (indexPath.row == 1){
         cell.leftL.text = @"学校:";
-        cell.contentL.text = self.account.school_name;
-        if (!self.account.is_student) {
-            cell.leftL.text = @"地址:";
-            cell.contentL.text = self.account.school_name;
+        cell.contentL.text = self.user.school_name;
+        if (!self.user.is_student.integerValue==1) {
+            cell.leftL.text = @"我的特长:";
+            cell.contentL.text = self.user.introduce;
         }
     }else if (indexPath.row == 2){
         cell.leftL.text = @"入学时间:";
-        cell.contentL.text = self.account.intoschool_date;
+        cell.contentL.text = self.user.intoschool_date;
         
-        if (!self.account.is_student) {
-            cell.leftL.text = @"我的特长:";
-            cell.contentL.text = self.account.introduce;
-        }
     }else if (indexPath.row == 3){
         cell.leftL.text = @"我的特长:";
-        cell.contentL.text = self.account.introduce;
+        cell.contentL.text = self.user.introduce;
     }
     return cell;
 }
@@ -147,14 +150,17 @@
 }
 -(void)addInsetScaleImageView
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showIcon)];
     
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -HeaderImageHeight, SCREEN_W, HeaderImageHeight)];
     //    self.demandView = imageView;
+    imageView.userInteractionEnabled = YES;
     imageView.image = [UIImage imageNamed:@"chart2"];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.tag = 101;
+    
     
     
     [self.tableView addSubview:imageView];
@@ -163,7 +169,9 @@
     iconView.layer.cornerRadius = iconWidth/2;
     iconView.layer.masksToBounds = YES;
     iconView.contentMode = UIViewContentModeScaleAspectFill;
-    iconView.image = [UIImage imageNamed:@"kobe"];
+    iconView.image = [UIImage imageNamed:@"myicon"];
+    iconView.userInteractionEnabled = YES;
+    [iconView addGestureRecognizer:tap];
     
     [imageView addSubview:iconView];
     self.iconView = iconView;
@@ -171,7 +179,7 @@
     UILabel *nameL = [[UILabel alloc] initWithFrame:CGRectMake(0, imageView.height-90, SCREEN_W, 25)];
     nameL.textAlignment = NSTextAlignmentCenter;
     nameL.textColor = WHITECOLOR;
-    nameL.text = @"科比";
+    nameL.text = @"未填写";
     nameL.font = [UIFont boldSystemFontOfSize:18];
     
     [imageView addSubview:nameL];
@@ -201,6 +209,11 @@
     self.tableView.contentInset = UIEdgeInsetsMake(HeaderImageHeight, 0, 0, 0);
     //    self.tableView.tableHeaderView = imageView;
     
+}
+
+-(void)showIcon
+{
+    [XLPhotoBrowser showPhotoBrowserWithImages:@[self.iconView.image] currentImageIndex:0];
 }
 
 @end

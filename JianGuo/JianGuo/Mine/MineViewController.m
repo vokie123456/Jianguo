@@ -7,7 +7,7 @@
 //
 
 #import "MineViewController.h"
-#import "AvatarBrowser.h"
+#import "XLPhotoBrowser.h"
 #import "JPUSHService.h"
 #import "AboutUsViewController.h"
 #import <AVOSCloudIM.h>
@@ -33,7 +33,7 @@
 #import "JGHTTPClient+Mine.h"
 #import "DateOrTimeTool.h"
 
-@interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,MineHeaderDelegate>
+@interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,MineHeaderDelegate,ClickPersonDelegate>
 {
     MineHeaderView *mineHeaderView;
 }
@@ -100,7 +100,7 @@
     
     [self setnavigationBarButton];
     
-    [self request];
+//    [self request];//拉取资料的数据
 }
 
 -(void)request
@@ -191,7 +191,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -200,6 +200,10 @@
         return 1;
     }else if (section == 1){
         return 2;
+    }else if (section == 4){
+        return 1;
+    }else if (section == 3){
+        return 1;//先把我的收藏隐藏
     }else{
         return 2;
     }
@@ -213,10 +217,9 @@
        
         MineHeaderCell *cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MineHeaderCell class]) owner:nil options:nil] lastObject];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.iconBtn = cell.iconBtn;
-        self.nameL = cell.nameL;
-        self.ageBtn = cell.ageBtn;
-        self.starL = cell.starL;
+        cell.data = @"";//用setter方法赋值
+        cell.delegate = self;
+        
         return cell;
         
     }
@@ -251,9 +254,18 @@
         if (indexPath.row == 0) {
             cell.labelLeft.text = @"兼职管理";
             cell.iconView.image = [UIImage imageNamed:@"management"];
+            cell.lineView.hidden = YES;
         }else if (indexPath.row == 1){
             cell.labelLeft.text = @"我的收藏";
             cell.iconView.image = [UIImage imageNamed:@"xin"];
+            cell.lineView.hidden = YES;
+        }
+        
+    }else if (indexPath.section==4){
+        
+        if (indexPath.row == 0) {
+            cell.labelLeft.text = @"兼职学堂";
+            cell.iconView.image = [UIImage imageNamed:@"xuexi"];
             cell.lineView.hidden = YES;
         }
         
@@ -446,7 +458,7 @@
         [self gotoLoginVC];
         return;
     }else{
-        [AvatarBrowser showImage:self.iconView];
+        
     }
 }
 
@@ -535,6 +547,9 @@
  */
 -(void)reloadHeaderView
 {
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    
 //    if (USER.tel.length == 11) {
 //        [self.LogoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
 //    }else{
@@ -546,6 +561,16 @@
 //    mineHeaderView .delegate = self;
 //    self.tableView.tableHeaderView = mineHeaderView;
 
+}
+
+-(void)clickPerson:(NSString *)userId
+{
+    if (USER.tel.length != 11) {
+        [self gotoLoginVC];
+        return;
+    }else{
+        [XLPhotoBrowser showPhotoBrowserWithImages:@[[NSURL URLWithString:USER.iconUrl]] currentImageIndex:0];
+    }
 }
 
 -(void)dealloc

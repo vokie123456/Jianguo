@@ -7,6 +7,7 @@
 //
 
 #import "JGHTTPClient+Demand.h"
+#import "CityModel.h"
 
 @implementation JGHTTPClient (Demand)
 
@@ -79,6 +80,8 @@
     !type?:[params setObject:type forKey:@"d_type"];
     !sex?:[params setObject:sex forKey:@"sex"];
     [params setObject:userId?userId:@"0" forKey:@"user_id"];
+    ![CityModel city].code?:[params setObject:[CityModel city].code forKey:@"city_code"];
+    [params setObject:pageCount forKey:@"pageNum"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demand/getList/%@",schoolId]];
     

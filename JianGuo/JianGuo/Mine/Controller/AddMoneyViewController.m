@@ -7,12 +7,15 @@
 //
 
 #import "AddMoneyViewController.h"
+#import "PostSuccessViewController.h"
 #import "PaySelectCell.h"
 #import <BeeCloud.h>
 #import "JGHTTPClient+Money.h"
 #import "JGHTTPClient+Mine.h"
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
 
-@interface AddMoneyViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,UITextFieldDelegate>
+@interface AddMoneyViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate>
 {
     PayChannel payType;
 }
@@ -35,7 +38,6 @@
     self.payType = @"2";//支付宝
     self.moneyTF.delegate = self;
     
-    [self requestData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -43,6 +45,8 @@
     [super viewWillAppear:animated];
     //设置BeeCloud代理
     [BeeCloud setBeeCloudDelegate:self];
+    
+    [self requestData];
 }
 
 -(void)requestData
@@ -116,9 +120,14 @@
     BCPayReq *payReq = [[BCPayReq alloc] init];
     payReq.channel = channel; //支付渠道
     payReq.title = @"兼果测试"; //订单标题
-    payReq.totalFee = @"10"; //订单价格
+    NSInteger money = self.moneyTF.text.floatValue*100;
+    payReq.totalFee = [NSString stringWithFormat:@"%ld",money]; //订单价格
     payReq.billNo = billno; //商户自定义订单号
-    payReq.scheme = @"payDemo"; //URL Scheme,在Info.plist中配置;
+    if (channel == PayChannelAliApp) {
+        payReq.scheme = @"2017021505677502"; //URL Scheme,在Info.plist中配置;
+    }else if (channel == PayChannelWxApp){
+        payReq.scheme = @"wx8c1fd6e2e9c4fd49"; //URL Scheme,在Info.plist中配置;
+    }
     payReq.billTimeOut = 300; //订单超时时间
     payReq.optional = dict;//商户业务扩展参数，会在webhook回调时返回
     [BeeCloud sendBCReq:payReq];
@@ -175,7 +184,20 @@
         }
         [JGHTTPClient uploadOrderPayResultWithType:self.payType title:request.title money:request.totalFee detail:tempResp.resultMsg code:[NSString stringWithFormat:@"%ld",tempResp.resultCode] beeNo:tempResp.bcId orderId:request.billNo userId:USER.login_id Success:^(id responseObject) {
             
-            
+            [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            if ([responseObject[@"code"] integerValue] == 200) {
+                
+                PostSuccessViewController *postVC = [[PostSuccessViewController alloc] init];
+                postVC.labelStr = @"充值成功";
+                postVC.callBackBlock = ^(){
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+                };
+                postVC.transitioningDelegate = self;
+                postVC.modalPresentationStyle = UIModalPresentationCustom;
+                [self presentViewController:postVC animated:YES completion:nil];
+            }
             
         } failure:^(NSError *error) {
             
@@ -245,6 +267,22 @@
     }
     
 }
+
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return [PresentingAnimator new];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
+}
+
 
 
 @end

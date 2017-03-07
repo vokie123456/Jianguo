@@ -7,7 +7,7 @@
 //
 
 #import "SelectCollectionCell.h"
-#import "LabelCell.h"
+#import "LabelJobCell.h"
 #import "LimitModel.h"
 #import "LabelModel.h"
 #import "WelfareModel.h"
@@ -149,7 +149,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"LabelCell";
-    LabelCell *cell = (LabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    LabelJobCell *cell = (LabelJobCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.contentL.text = self.dataArr[indexPath.row];
     return cell;
 }

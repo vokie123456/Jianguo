@@ -528,7 +528,7 @@
     NSString *titleStr;
     if (self.detailModel.status.intValue == 0) {
         titleStr = @"我要报名";
-        [signUpBtn setBackgroundColor:YELLOWCOLOR];
+        [signUpBtn setBackgroundColor:GreenColor];
     }else{
         titleStr = @"已过期";
         signUpBtn.backgroundColor = LIGHTGRAYTEXT;

@@ -248,6 +248,7 @@
         textV.font = FONT(15);
         textV.placeholder = @"描述您的特长,例如:编程序,做PPT...";
         [cell.contentView addSubview:textV];
+        self.introduceTF = textV;
     }
     
     return cell;
@@ -277,9 +278,9 @@
         if (indexPath.row == 0) {//是否是学生
             DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
                 self.isStudentTF.text = title;
-                self.isStudent = [NSString stringWithFormat:@"%ld",index-1];
+                self.isStudent = [NSString stringWithFormat:@"%ld",index];
             }];
-            view.titleArr = @[@"否",@"是"];
+            view.titleArr = @[@"是",@"否"];
         }else if (indexPath.row == 1){//所在学校
             
             SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
@@ -341,21 +342,22 @@
 -(void)commitInfo
 {
     
+    JGSVPROGRESSLOAD(@"上传中...")
     QNUploadManager *manager = [[QNUploadManager alloc] init];
     
     NSData *data = UIImageJPEGRepresentation(self.iconBtn.currentBackgroundImage, 1);
     [manager putData:data key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         
         if (resp == nil) {
-            [self showAlertViewWithText:@"上传图片失败" duration:1];
             [SVProgressHUD dismiss];
+            [self showAlertViewWithText:@"上传图片失败" duration:1];
             return ;
         }else{//上传图片成功后再上传个人资料
             
             NSString *url = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
             
             
-            [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:url sex:self.sex height:nil schoolId:self.schoolId cityId:self.cityId areaId:self.areaId inSchoolTime:self.intoSchoolTimeTF.text birthDay:self.birthDateTF.text constellation:nil introduce:self.introduceTF.text qq:self.QQTF.text isStudent:nil Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
+            [JGHTTPClient uploadUserJianliInfoByname:nil nickName:self.nameTF.text iconUrl:url sex:self.sex height:nil schoolId:self.schoolId cityId:self.cityId areaId:self.areaId inSchoolTime:self.intoSchoolTimeTF.text birthDay:self.birthDateTF.text constellation:nil introduce:self.introduceTF.text qq:self.QQTF.text isStudent:self.isStudent Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
                 
                 [SVProgressHUD dismiss];
                 JGLog(@"%@",responseObject);
@@ -366,14 +368,17 @@
                     
                     JGUser *user = [JGUser user];
                     user.resume = @"1";
-                    user.nickName = self.nickNameTF.text;
-                    user.name = self.nameTF.text;
+                    user.nickname = self.nameTF.text;
                     user.gender = self.sex;
                     user.schoolId = self.schoolId;
+                    user.iconUrl = url;
+                    user.birthDay = self.birthDateTF.text;
                     [JGUser saveUser:user WithDictionary:nil loginType:0];
                     
+                    [NotificationCenter postNotificationName:kNotificationLoginSuccessed object:nil];
+                    
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController.topViewController dismissViewControllerAnimated:YES completion:nil];
                     });
                 }
                 

@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "LoginNew2ViewController.h"
 #import "DMAlertView.h"
 #import "MobClick.h"
 #import <POP.h>
@@ -115,6 +116,16 @@
             button.userInteractionEnabled = YES;
         }
     }];
+}
+
+/**
+ *  去登录
+ */
+-(void)gotoCodeVC
+{
+    LoginNew2ViewController *loginVC= [[LoginNew2ViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end

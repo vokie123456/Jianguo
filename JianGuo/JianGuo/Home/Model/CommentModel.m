@@ -10,7 +10,7 @@
 
 @interface CommentUser : NSObject
 
-@property (nonatomic,copy) NSString *nickName;
+@property (nonatomic,copy) NSString *nickname;
 
 @property (nonatomic,copy) NSString *userId;
 

@@ -37,7 +37,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="魔杰座" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUf-Ky-uuL" customClass="IBLabel">
-                        <rect key="frame" x="150" y="55" width="40" height="15"/>
+                        <rect key="frame" x="150" y="45" width="40" height="15"/>
                         <color key="backgroundColor" red="0.14509803921568626" green="0.70588235294117641" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="kY9-Ba-ehR"/>
@@ -53,7 +53,7 @@
                         </userDefinedRuntimeAttributes>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dM0-Tf-r7e" customClass="IBButton">
-                        <rect key="frame" x="100" y="55" width="35" height="15"/>
+                        <rect key="frame" x="100" y="45" width="35" height="15"/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="7fD-Xj-KXb"/>
@@ -74,6 +74,12 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击立即登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RtD-ld-gMf">
+                        <rect key="frame" x="100" y="64" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="dM0-Tf-r7e" firstAttribute="leading" secondItem="gHM-FR-npp" secondAttribute="leading" id="8LD-LP-qIw"/>
@@ -82,9 +88,11 @@
                     <constraint firstItem="dM0-Tf-r7e" firstAttribute="top" secondItem="gHM-FR-npp" secondAttribute="bottom" constant="10" id="UTl-kl-t0u"/>
                     <constraint firstItem="mUf-Ky-uuL" firstAttribute="leading" secondItem="dM0-Tf-r7e" secondAttribute="trailing" constant="15" id="VaM-8K-vUI"/>
                     <constraint firstItem="gHM-FR-npp" firstAttribute="leading" secondItem="ujs-aN-080" secondAttribute="trailing" constant="15" id="asv-sY-QLR"/>
+                    <constraint firstItem="RtD-ld-gMf" firstAttribute="leading" secondItem="gHM-FR-npp" secondAttribute="leading" id="bUo-RD-euM"/>
                     <constraint firstItem="ujs-aN-080" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="dWn-TB-JgY"/>
                     <constraint firstAttribute="bottom" secondItem="ujs-aN-080" secondAttribute="bottom" constant="15" id="euO-Ed-vpB"/>
                     <constraint firstItem="ujs-aN-080" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="grP-Sp-vGk"/>
+                    <constraint firstItem="RtD-ld-gMf" firstAttribute="top" secondItem="gHM-FR-npp" secondAttribute="bottom" constant="10" id="ixP-zz-cPP"/>
                     <constraint firstItem="gHM-FR-npp" firstAttribute="top" secondItem="ujs-aN-080" secondAttribute="top" id="kl9-nB-eb1"/>
                 </constraints>
             </tableViewCellContentView>
@@ -93,6 +101,7 @@
                 <outlet property="iconBtn" destination="ujs-aN-080" id="Gj7-AU-lBB"/>
                 <outlet property="nameL" destination="gHM-FR-npp" id="E1o-Sd-DJh"/>
                 <outlet property="starL" destination="mUf-Ky-uuL" id="0xG-oy-3Ta"/>
+                <outlet property="unLoginL" destination="RtD-ld-gMf" id="HMd-8c-fPr"/>
             </connections>
             <point key="canvasLocation" x="353" y="408"/>
         </tableViewCell>

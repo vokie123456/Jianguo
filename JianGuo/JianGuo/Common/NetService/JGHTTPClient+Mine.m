@@ -32,6 +32,8 @@
     [params setObject:CardIdNum forKey:@"IDcard"];
     [params setObject:frontUrl?frontUrl:@"" forKey:@"front_img_url"];
     [params setObject:backUrl?backUrl:@"" forKey:@"behind_img_url"];
+    NSString *cityId = [USERDEFAULTS objectForKey:CityCode]?[USERDEFAULTS objectForKey:CityCode]:@"1";
+    [params setObject:cityId forKey:@"city_id"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"auth/info"];
     
@@ -48,7 +50,7 @@
 
 }
 /**
- *  更改实名认证接口
+ *  更改实名认证接口 <不用的接口>
  *
  */
 +(void)upDateUserInfoByCardIdFront:(NSString *)frontUrl
@@ -263,18 +265,45 @@
  *  查询学校的接口
  */
 +(void)searchSchoolByName:(NSString *)name
+                  Success:(void (^)(id responseObject))success
+                  failure:(void (^)(NSError *error))failure
+{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+//    [params setObject:[CityModel city].code forKey:@"city_code"];
+    
+    !name?:[params setObject:name forKey:@"name"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/school"];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  查询学校的接口
+ */
++(void)searchSchoolByName:(NSString *)name
                  cityCode:(NSString *)cityCode
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure
 {
     
-    NSMutableDictionary *params = [self getAllBasedParams];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     !cityCode?:[params setObject:cityCode forKey:@"city_code"];
     
     !name?:[params setObject:name forKey:@"name"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/school"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/schoolByCity"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -639,6 +668,32 @@
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"IsmsCkeck"];
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  拉取别人的个人信息
+ */
++(void)getUserInfoWithUserId:(NSString *)userId
+                     Success:(void (^)(id responseObject))success
+                     failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    !userId?:[params setObject:userId  forKey:@"user_id"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/otherinfo"]];
+    
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
             success(responseObject);
         }

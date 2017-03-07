@@ -16,10 +16,11 @@
 #import "JGHTTPClient+Demand.h"
 #import "QLAlertView.h"
 #import "NSObject+HudView.h"
+#import "UIColor+Hex.h"
 
 @interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate>
 {
-    
+    NSMutableArray *colorArr;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
@@ -38,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
+@property (weak, nonatomic) IBOutlet UIImageView *finishView;
 
 
 
@@ -46,15 +48,17 @@
 
 -(void)prepareForReuse
 {
+    self.finishView.hidden = YES;
     [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
 }
 
 -(void)setModel:(DemandModel *)model
 {
     _model = model;
-    if (model.enroll_status.integerValue == 0) {
+    if (model.enroll_status.integerValue == 0&&model.d_status.integerValue==1) {
         [self.signBtn setTitle:@"报名" forState:UIControlStateNormal];
     }else{
+        
         [self.signBtn setTitle:@"已报名" forState:UIControlStateNormal];
     }
     if (model.like_status.integerValue == 1) {
@@ -62,7 +66,7 @@
     }else{
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
     }
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"wechat"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.nameL.text = model.anonymous.integerValue==1?@"匿名":(model.nickname?model.nickname:@"未填写");
     self.genderView.image = [UIImage imageNamed:model.sex.integerValue==2?@"man":@"girl"];
     self.titleL.text = model.title;
@@ -70,9 +74,17 @@
     self.contentL.text = model.d_describe;
     NSArray *array = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
     [self.typeBtn setTitle:[[@"  " stringByAppendingString:array[model.d_type.integerValue-1]] stringByAppendingString:@"  "] forState:UIControlStateNormal];
+    self.typeBtn.layer.borderColor = [colorArr[model.d_type.integerValue-1] CGColor];
+    [self.typeBtn setTitleColor:colorArr[model.d_type.integerValue-1] forState:UIControlStateNormal];
+    [self.schoolBtn setTitle:[[@"  " stringByAppendingString:model.school_name] stringByAppendingString:@"  "] forState:UIControlStateNormal];
     self.timeL.text = [@"发布于" stringByAppendingString:[[DateOrTimeTool getDateStringBytimeStamp:model.create_time.floatValue] substringFromIndex:5]];
     self.commentCountL.text = [NSString stringWithFormat:@"%@",model.comment_count];
     self.praiseCountL.text = model.like_count;
+    
+    if (model.d_status.integerValue >= 4) {
+        self.finishView.hidden = NO;
+    }
+    
 //    self.firstCommentL.text = self.secondCommentL.text = self.thirdCommentL.text = nil;
 //    if (model.commentEntitys.count == 1){
 //        
@@ -106,6 +118,15 @@
     if (_model.enroll_status.integerValue!=0) {
         return;
     }
+    
+    
+    if ([self.delegate respondsToSelector:@selector(signDemand:)]) {
+        if (USER.tel.length!=11) {
+            [self.delegate signDemand:sender];
+            return;
+        }
+    }
+    
     JGSVPROGRESSLOAD(@"正在报名...")
     [JGHTTPClient signDemandWithDemandId:_model.id userId:USER.login_id status:@"1"
                                   reason:nil Success:^(id responseObject) {
@@ -142,14 +163,14 @@
         CommentUser *commentUser2 = commentModel1.users.lastObject;
         if (bo1) {
             if (_model.b_user_id.integerValue == commentUser2.userId.integerValue) {
-                str = [NSString stringWithFormat:@"%@ :",commentUser1.nickName];
+                str = [NSString stringWithFormat:@"%@ :",commentUser1.nickname];
             }else
-            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser1.nickName,commentUser2.nickName];
+            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser1.nickname,commentUser2.nickname];
         }else{
             if (_model.b_user_id.integerValue == commentUser1.userId.integerValue) {
-                str = [NSString stringWithFormat:@"%@ :",commentUser2.nickName];
+                str = [NSString stringWithFormat:@"%@ :",commentUser2.nickname];
             }else
-            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser2.nickName,commentUser1.nickName];
+            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser2.nickname,commentUser1.nickname];
         }
         NSString *attStr = [str stringByAppendingString:commentModel1.content];
         
@@ -170,15 +191,15 @@
         CFRelease(font);
 
         
-        NSRange range1 = [attStr rangeOfString:commentUser1.nickName];
-        NSRange range2 = [attStr rangeOfString:commentUser2.nickName];
+        NSRange range1 = [attStr rangeOfString:commentUser1.nickname];
+        NSRange range2 = [attStr rangeOfString:commentUser2.nickname];
         NSURL *url1 = [NSURL URLWithString:commentUser1.userId];
         NSURL *url2 = [NSURL URLWithString:commentUser2.userId];
         [label addLinkToURL:url1 withRange:range1];
         [label addLinkToURL:url2 withRange:range2];
         
     }else{
-        NSString *attStr = [NSString stringWithFormat:@"%@ : %@",commentUser1.nickName,commentModel1.content];
+        NSString *attStr = [NSString stringWithFormat:@"%@ : %@",commentUser1.nickname,commentModel1.content];
         
         [label setText:attStr afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
             
@@ -197,7 +218,7 @@
         CFRelease(font);
         
         
-        NSRange range1 = [attStr rangeOfString:commentUser1.nickName];
+        NSRange range1 = [attStr rangeOfString:commentUser1.nickname];
 
         NSURL *url1 = [NSURL URLWithString:commentUser1.userId];
 
@@ -207,7 +228,14 @@
 }
 
 - (void)awakeFromNib {
-    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
+    
+    NSArray *array = @[@"#e29c45",@"#815463",@"#65318e",@"#f8b500",@"#b7282e",@"#006e54"];
+    colorArr = [NSMutableArray array];
+    for (NSString *colorStr in array) {
+        [colorArr addObject:[UIColor colorWithHexString:colorStr]];
+    }
+    
+//    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
 //    self.commentTF.leftViewMode = UITextFieldViewModeAlways;
 //    self.commentTF.leftView = leftView;
 //    self.commentTF.layer.cornerRadius = 5;
@@ -245,7 +273,10 @@
 //        make.top.equalTo(self.commentTF.mas_top);
 //        make.bottom.equalTo(self.commentTF.mas_bottom);
 //    }];
+    
+    
 }
+
 
 //点赞
 -(void)likeTheDemand:(UIButton *)btn
@@ -270,7 +301,9 @@
 
 -(void)clickIcon//点击头像
 {
-    
+    if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
+        [self.delegate clickIcon:_model.b_user_id];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -286,27 +319,29 @@
     JGLog(@"%@",userId);
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = touches.anyObject;
 
-    CGPoint point = [touch locationInView:touch.view];
-    CGPoint point1 = [touch.view convertPoint:point toView:self.bigBtn];//获取点击点在按钮上的坐标
-    CGRect rect = self.bigBtn.bounds;
-    
-    if (CGRectContainsPoint(rect, point1)) {//这个方法也可以,但是rect必须是self.bigBtn的bounds,不能是它的frame<下边的方法 pointInside: withEvent: 就是这个道理> 因为bounds才是自己的坐标体系,frame是在父控件的坐标体系
-        
-        [self likeTheDemand:self.bigBtn];
-    }else{
-        [super touchesBegan:touches withEvent:event];
-    }
-    
-//    if ([self.bigBtn pointInside:point1 withEvent:nil]) {//这个判断方法好使(判断点是不是在调用者<self.bigBtn>范围内)
+//-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+//{
+//    
+//    UITouch *touch = touches.anyObject;
+//
+//    CGPoint point = [touch locationInView:touch.view];
+//    CGPoint point1 = [touch.view convertPoint:point toView:self.bigBtn];//获取点击点在按钮上的坐标
+//    CGRect rect = self.bigBtn.bounds;
+// /* 第一种方式 */
+//    if (CGRectContainsPoint(rect, point1)) {//这个方法也可以,但是rect必须是self.bigBtn的bounds,不能是它的frame<下边的方法 pointInside: withEvent: 就是这个道理> 因为bounds才是自己的坐标体系,frame是在父控件的坐标体系
+//        
 //        [self likeTheDemand:self.bigBtn];
 //    }else{
 //        [super touchesBegan:touches withEvent:event];
 //    }
-}
+// /* 第二种方式 */
+////    if ([self.bigBtn pointInside:point1 withEvent:nil]) {//这个判断方法好使(判断点是不是在调用者<self.bigBtn>范围内)
+////        [self likeTheDemand:self.bigBtn];
+////    }else{
+////        [super touchesBegan:touches withEvent:event];
+////    }
+//}
 //- (IBAction)edit:(UITextField *)sender {
 //
 //    if (self.sendCellIndex) {

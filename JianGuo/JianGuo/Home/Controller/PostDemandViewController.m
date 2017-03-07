@@ -18,10 +18,14 @@
 #import "CityModel.h"
 #import "QLAlertView.h"
 #import "AddMoneyViewController.h"
+#import "PostSuccessViewController.h"
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
 
-@interface PostDemandViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface PostDemandViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate>
 {
     QLTakePictures *takePic;
+    BOOL isSelectedPicture;
     
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -80,6 +84,7 @@
 -(void)takePhoto
 {
     takePic = [QLTakePictures aTakePhotoAToolWithComplectionBlock:^(UIImage *image) {
+        isSelectedPicture = YES;
         [self.photoBtn setBackgroundImage:image forState:UIControlStateNormal];
         takePic = nil;//防止循环引用,导致 takePic 释放不了
     }];
@@ -109,7 +114,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0&&indexPath.row == 1) {
-        return 80;
+        return 70;
     }
     return 44;
 }
@@ -139,7 +144,7 @@
                     [cell.rightTf removeFromSuperview];
                     [cell.lineView removeFromSuperview];
                     UITextView *textV = [[UITextView alloc] initWithFrame:CGRectMake(cell.labelLeft.right-5, 5, SCREEN_W-cell.labelLeft.right-10, 60)];
-                    textV.backgroundColor = BACKCOLORGRAY;
+                    textV.backgroundColor = WHITECOLOR;
                     textV.font = FONT(15);
                     textV.textColor  =LIGHTGRAYTEXT;
                     textV.placeholder = @"您具体想让别人干点儿啥?";
@@ -153,6 +158,8 @@
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     cell.labelLeft.text = @"赏金";
                     cell.rightTf.placeholder = @"打算怎么打赏?";
+                    cell.rightTf.keyboardType = UIKeyboardTypeDecimalPad;
+                    cell.rightTf.delegate = self;
                     cell.jiantouView.hidden = YES;
                     cell.rightTf.userInteractionEnabled = YES;
                     self.moneyTF = cell.rightTf;
@@ -206,7 +213,7 @@
             
         }else if (indexPath.row == 4) {
             PickerView *pickerView = [PickerView aPickerView:^(NSString *areaIdAndname) {
-                self.cityId = [CityModel city].id;
+                self.cityId = [CityModel city].code;
                 self.areaId = [areaIdAndname componentsSeparatedByString:@"="].firstObject;
                 self.addressTF.text = [areaIdAndname componentsSeparatedByString:@"="].lastObject;
             }];
@@ -222,7 +229,11 @@
 - (IBAction)surePostDemand:(UIButton *)sender {
     
     
-    if(self.titleTF.text.length == 0){
+    if(!isSelectedPicture){
+        [self showAlertViewWithText:@"请选择一张照片" duration:1];
+        [self addShakeAnimation:self.sureBtn];
+        return;
+    }else if(self.titleTF.text.length == 0){
         [self showAlertViewWithText:@"您还没告诉我您要干啥呢?" duration:1];
         [self addShakeAnimation:self.sureBtn];
         return;
@@ -230,7 +241,7 @@
         [self showAlertViewWithText:@"需求能再具体点儿吗?" duration:1];
         [self addShakeAnimation:self.sureBtn];
         return;
-    }else if (self.moneyTF.text.length==0){
+    }else if (self.moneyTF.text.length==0||self.moneyTF.text.floatValue == 0){
         [self showAlertViewWithText:@"您还没给赏钱呢" duration:1];
         [self addShakeAnimation:self.sureBtn];
         return;
@@ -246,8 +257,9 @@
     
     QNUploadManager *manager = [[QNUploadManager alloc] init];
     
-    NSData *data = UIImageJPEGRepresentation(self.photoBtn.currentBackgroundImage, 0.5);
+    NSData *data = UIImageJPEGRepresentation(self.photoBtn.currentBackgroundImage, 0.8);
     
+    JGSVPROGRESSLOAD(@"正在发布...");
     [manager putData:data key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         
         if (resp == nil) {
@@ -262,9 +274,8 @@
             
             
             [JGHTTPClient PostDemandWithMoney:self.moneyTF.text imageUrl:url title:self.titleTF.text description:self.descriptionTV.text type:self.demandType city:self.cityId area:self.areaId schoolId:USER.schoolId sex:USER.gender anonymous:isAnonymous Success:^(id responseObject) {
-                
-                [self showAlertViewWithText:responseObject[@"message"] duration:1];
-                if ([responseObject[@"code"] integerValue] == 201) {
+                [SVProgressHUD dismiss];
+                if ([responseObject[@"code"] integerValue] == 603) {
                     [QLAlertView showAlertTittle:@"余额不足,是否充值?" message:nil isOnlySureBtn:NO compeletBlock:^{//去充值
                         
                         AddMoneyViewController *addMoneyVC = [[AddMoneyViewController alloc] init];
@@ -272,14 +283,28 @@
                         [self.navigationController pushViewController:addMoneyVC animated:YES];
                         
                     }];
-                }else
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
+                }else{
+//                    [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                    if ([responseObject[@"code"] integerValue] == 200) {
+                        
+                        PostSuccessViewController *postVC = [[PostSuccessViewController alloc] init];
+                        postVC.labelStr = @"发布成功";
+                        postVC.callBackBlock = ^(){
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                
+                                [self.navigationController popViewControllerAnimated:YES];
+                            });
+                        };
+                        postVC.transitioningDelegate = self;
+                        postVC.modalPresentationStyle = UIModalPresentationCustom;
+                        [self presentViewController:postVC animated:YES completion:nil];
+                    }
+                }
+                
                 
             } failure:^(NSError *error) {
-                
+                [self showAlertViewWithText:NETERROETEXT duration:1];
+                [SVProgressHUD dismiss];
             }];
             
         }
@@ -288,5 +313,31 @@
     
 }
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{//textField 的text内容是不包括当前输入的字符的字符串,string就是当前输入的字符<即 texgField.text+string 就是最终显示的内容>
+    if ([textField.text rangeOfString:@"."].location!=NSNotFound) {//包含'.'
+        if ([[textField.text componentsSeparatedByString:@"."].lastObject length]>=2) {
+            if ([@"0123456789." containsString:string]) {
+                return NO;
+            }else
+                return YES;
+        }
+    }
+    return YES;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return [PresentingAnimator new];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
+}
 
 @end

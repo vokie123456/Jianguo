@@ -37,6 +37,12 @@ static NSString *identifier = @"WalletCollectionCell";
     
     [self.collectionView reloadData];
     
+//    [self requestData];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self requestData];
 }
 

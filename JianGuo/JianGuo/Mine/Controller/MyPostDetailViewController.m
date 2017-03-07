@@ -22,10 +22,13 @@
 #import "DemandStatusCell.h"
 #import <UIButton+AFNetworking.h>
 #import "QLAlertView.h"
+#import "LCChatKit.h"
+#import "DemandStatusModel.h"
 
 
 @interface MyPostDetailViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,ClickPersonDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) DemandModel *demandModel;
 @property (nonatomic,strong) SignUsers *user;
 @property (nonatomic,copy) NSString *payType;
@@ -37,6 +40,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataArr = [NSMutableArray array];
     
     self.navigationItem.title = @"任务详情";
     
@@ -91,6 +96,9 @@
  */
 -(void)chat
 {
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
+    
+    [self.navigationController pushViewController:conversationViewController animated:YES];
     
 }
 /**
@@ -100,7 +108,7 @@
 -(void)clickPerson:(NSString *)userId
 {
     MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-    mineChatVC.userId = self.user.user_id;
+    mineChatVC.userId = self.user.b_user_id;
     [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
@@ -112,6 +120,73 @@
     [BeeCloud setBeeCloudDelegate:self];
 }
 
+//先自己创建一个数组<为了后期从服务器请求时改动小点儿>
+-(void)createModelArr
+{
+    NSInteger status = self.demandModel.d_status.integerValue;
+    if (status == 1) {
+        DemandStatusModel *model = [[DemandStatusModel alloc] init];
+        model.content = [NSString stringWithFormat:@"发布成功"];
+        [self.dataArr addObject:model];
+    }else if (status == 2){
+        NSArray *array = @[[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
+        for (int i=0; i<status; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 3){
+        NSArray *array = @[[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
+        for (int i=0; i<status; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 4){
+        NSArray *array = @[@"您已完成支付,交易已完成",[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
+        for (int i=0; i<status; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 5){
+        NSArray *array = @[[NSString stringWithFormat:@"您投诉了 %@ ,等待平台仲裁",self.user.nickname],[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
+        for (int i=0; i<status-1; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 6){
+        NSArray *array = @[[NSString stringWithFormat:@"平台已仲裁"],[NSString stringWithFormat:@"您投诉了 %@ ,等待平台仲裁",self.user.nickname],[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
+        for (int i=0; i<status-1; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 7){
+        NSArray *array = @[@"该需求已下架",@"发布成功"];
+        for (int i=0; i<2; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 8){
+        NSArray *array = @[@"该需求被平台下架",@"发布成功"];
+        for (int i=0; i<2; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }
+}
+
 -(void)requestDemandDetail
 {
     
@@ -120,6 +195,9 @@
             
             self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
             self.user = [SignUsers mj_objectWithKeyValues:[responseObject[@"data"] objectForKey:@"userInfoEntity"]];
+            
+            [self createModelArr];
+            
             [self.tableView reloadData];
 //            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 //            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -149,7 +227,7 @@
     }else if (indexPath.section == 1){
         return 70;
     }else if (indexPath.section == 3){
-        if (self.status.integerValue>1) {
+        if (self.status.integerValue>1&&self.user.b_user_id) {
             if (indexPath.row == 0) {
                 return 44;
             }else{
@@ -165,7 +243,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.status.integerValue>1? 5:4;
+    return self.status.integerValue>1? (self.user.b_user_id?5:4):4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -180,16 +258,16 @@
 
         case 3:
             
-            if (self.status.integerValue>1) {
+            if (self.status.integerValue>1&&self.user.b_user_id) {
                 return 2;
             }else{
-                return 4;//进度显示
+                return self.dataArr.count;//进度显示
             }
             
 
         case 4:
             
-            return 4;//进度显示
+            return self.dataArr.count;//进度显示
             
         default:
         return 0;
@@ -231,7 +309,7 @@
         
     }else if (indexPath.section == 3){
         
-        if(self.status.integerValue>1){
+        if(self.status.integerValue>1&&self.user.b_user_id){
             if (indexPath.row == 0) {
                 UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
                 
@@ -261,7 +339,10 @@
                 cell.contentL.textColor = GreenColor;
                 cell.timeL.textColor = GreenColor;
                 cell.iconView.image = [UIImage imageNamed:@"lastStatus"];
+            }else if (indexPath.row == self.dataArr.count-1){
+                cell.bottomView.hidden = YES;
             }
+            cell.model = self.dataArr[indexPath.row];
             return cell;
         }
         
@@ -272,7 +353,10 @@
             cell.contentL.textColor = GreenColor;
             cell.timeL.textColor = GreenColor;
             cell.iconView.image = [UIImage imageNamed:@"lastStatus"];
+        }else if (indexPath.row == self.dataArr.count-1){
+            cell.bottomView.hidden = YES;
         }
+        cell.model = self.dataArr[self.dataArr.count-1-indexPath.row];
         return cell;
     }else
         return nil;
@@ -295,7 +379,7 @@
     }else if (indexPath.row == 1&&indexPath.section == 3){
         
         MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-        mineChatVC.userId = self.user.user_id;
+        mineChatVC.userId = self.demandModel.enroll_user_id;
         [self.navigationController pushViewController:mineChatVC animated:YES];
     }
 }

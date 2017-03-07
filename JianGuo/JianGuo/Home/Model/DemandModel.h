@@ -65,6 +65,9 @@
 /** 报名人数 */
 @property (nonatomic, copy) NSString*  enroll_count;
 
+/** 报名人ID */
+@property (nonatomic, copy) NSString*  enroll_user_id;
+
 /** 发需求者的用户ID */
 @property (nonatomic, copy) NSString*  b_user_id;
 
@@ -76,5 +79,11 @@
 
 /** 学校ID */
 @property (nonatomic, copy) NSString*  school_id;
+
+/** 学校名称 */
+@property (nonatomic, copy) NSString*  school_name;
+
+/** 发布者电话 */
+@property (nonatomic, copy) NSString*  tel;
 
 @end

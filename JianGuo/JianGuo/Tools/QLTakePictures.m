@@ -91,12 +91,12 @@
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     
     //压缩图片
-    image = [self imageByScalingAndCroppingForSize:CGSizeMake(image.size.width/8, image.size.height/8) sourceImage:image];
+//    image = [self imageByScalingAndCroppingForSize:CGSizeMake(image.size.width/8, image.size.height/8) sourceImage:image];
     
 
-    NSData *data = UIImageJPEGRepresentation(image, 0.5);
+//    NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
-    JGLog(@"%lu",(unsigned long)data.length);
+//    JGLog(@"%lu",(unsigned long)data.length);
     if(image.imageOrientation != UIImageOrientationUp)
     {
         // 原始图片可以根据照相时的角度来显示，但UIImage无法判定，于是出现获取的图片会向左转９０度的现象。

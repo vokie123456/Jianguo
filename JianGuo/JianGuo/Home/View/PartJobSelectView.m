@@ -36,7 +36,7 @@
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.leftBtn.frame = CGRectMake(0, 0, SCREEN_W/3, 40);
     [self.leftBtn setTitle:@"待录取" forState:UIControlStateNormal];
-    [self.leftBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [self.leftBtn setTitleColor:GreenColor forState:UIControlStateNormal];
     [self.leftBtn addTarget:self action:@selector(clickLeft:) forControlEvents:UIControlEventTouchUpInside];
     [selectView addSubview:selectView.leftBtn];
     
@@ -73,7 +73,7 @@
     [selectView addSubview:bottomLine];
     
     UIImageView *bottonLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 45, SCREEN_W/3, 2)];
-    bottonLine.backgroundColor = BLUECOLOR;
+    bottonLine.backgroundColor = GreenColor;
     bottonLine.image = [UIImage imageNamed:@"icon_fubiao"];
     [selectView addSubview:bottonLine];
     self.bottomLine = bottonLine;
@@ -87,7 +87,7 @@
 {
     [self.rightBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [self.middleBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
-    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [btn setTitleColor:GreenColor forState:UIControlStateNormal];
     [UIView animateWithDuration:SPEEDSECOND animations:^{
         
         CGRect rect = self.bottomLine.frame;
@@ -110,7 +110,7 @@
 {
     [self.leftBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [self.middleBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
-    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [btn setTitleColor:GreenColor forState:UIControlStateNormal];
     [UIView animateWithDuration:SPEEDSECOND animations:^{
         
         CGRect rect = self.bottomLine.frame;
@@ -132,7 +132,7 @@
 {
     [self.leftBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [self.rightBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
-    [btn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+    [btn setTitleColor:GreenColor forState:UIControlStateNormal];
     [UIView animateWithDuration:SPEEDSECOND animations:^{
         
         CGRect rect = self.bottomLine.frame;

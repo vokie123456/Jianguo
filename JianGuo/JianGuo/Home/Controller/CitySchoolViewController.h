@@ -9,8 +9,9 @@
 #import "NavigatinViewController.h"
 
 @class SchoolModel;
+@class CityModel;
 @interface CitySchoolViewController : NavigatinViewController
 
-@property (nonatomic,copy) void(^selectSchoolBlock)(SchoolModel *school);
+@property (nonatomic,copy) void(^selectSchoolBlock)(SchoolModel *school,CityModel *city);
 
 @end

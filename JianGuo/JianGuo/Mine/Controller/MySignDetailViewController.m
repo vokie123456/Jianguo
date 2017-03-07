@@ -14,11 +14,15 @@
 #import "JGHTTPClient+Demand.h"
 #import "DemandModel.h"
 #import "SignUsers.h"
+#import "QLAlertView.h"
+#import "LCChatKit.h"
+#import "DemandStatusModel.h"
 
 
 @interface MySignDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) DemandModel *demandModel;
 @property (nonatomic,strong) SignUsers *user;
 
@@ -28,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataArr = [NSMutableArray array];
     
     self.navigationItem.title = @"报名详情页";
     self.tableView.estimatedRowHeight = 70;
@@ -61,6 +67,7 @@
         if ([responseObject[@"code"] integerValue] == 200) {
             
             self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
+            [self createModelArr];
             [self.tableView reloadData];
             //            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             //            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -73,19 +80,95 @@
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
 }
+//先自己创建一个数组<为了后期从服务器请求时改动小点儿>
+-(void)createModelArr
+{
+    NSInteger status = self.demandModel.d_status.integerValue;
+    if (status == 1) {
+        DemandStatusModel *model = [[DemandStatusModel alloc] init];
+        model.content = [NSString stringWithFormat:@"报名成功"];
+        [self.dataArr addObject:model];
+    }else if (status == 2){
+        NSArray *array = @[[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 3){
+        NSArray *array = @[[NSString stringWithFormat:@"发布者拒绝了您"],@"报名成功"];
+        for (int i=0; i<status-1; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 4){
+        NSArray *array = @[@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-1; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 5){
+        NSArray *array = @[@"发布者确认完工,交易已完成",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-1; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 6){
+        NSArray *array = @[@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-2; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 7){
+        NSArray *array = @[@"平台已仲裁",@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-2; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }else if (status == 8){
+        NSArray *array = @[@"平台冻结了该需求",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-5; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+        }
+    }
+}
+
+
 
 /**
  *  电话联系
  */
 -(void)callSomeOne
 {
-    
+    [QLAlertView showAlertTittle:@"确定呼叫?" message:nil isOnlySureBtn:NO compeletBlock:^{
+        
+        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.demandModel.tel]]];
+        
+    }];
 }
 /**
  *  聊天
  */
 -(void)chat
 {
+    
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
+    
+    [self.navigationController pushViewController:conversationViewController animated:YES];
     
 }
 
@@ -114,7 +197,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section==0?1:1;
+    return section==0?1:self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,7 +211,15 @@
         if (indexPath.row == 0) {
             cell.stateL.hidden = NO;
             cell.stateL.text = self.statusStr;
+            cell.topView.hidden = YES;
+            cell.contentL.textColor = GreenColor;
+            cell.timeL.textColor = GreenColor;
+            cell.iconView.image = [UIImage imageNamed:@"lastStatus"];
         }
+        else if (indexPath.row == self.dataArr.count-1){
+            cell.bottomView.hidden = YES;
+        }
+        cell.model = self.dataArr[indexPath.row];
         return cell;
     }
 }

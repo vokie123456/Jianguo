@@ -53,6 +53,7 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:kBrandCellId bundle:nil] forCellReuseIdentifier:kBrandCellId];
     self.tableView.sectionHeaderHeight = 0;
+    self.tableView.tableFooterView = [UIView new];
     //自定义indexView
     self.indexView = [[MJNIndexView alloc] initWithFrame:self.tableView.frame];
     self.indexView.dataSource = self;
@@ -94,12 +95,29 @@
 #pragma mark - UITableView Datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
+    if (self.tableView == tableView) {
+        return 2;
+    }
     return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.tableView) {
+        if (indexPath.section == 0) {
+            return 60;
+        }
+        return 44;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
-        return self.cityArr.count;
+        return section?self.cityArr.count:1;
     }
     else
     {
@@ -107,12 +125,43 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (self.tableView == tableView) {
+        return section?@"当前开通城市":@"定位城市";
+    }else
+        return nil;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (tableView == self.tableView) {
-        BrandCell *cell = [BrandCell cellWithTableView:tableView];
-        cell.titleLabel.text = [self.cityArr[indexPath.row] cityName];
-        return cell;
+        if(indexPath.section == 0){
+            
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UILabel *locationL = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 80, 40)];
+            locationL.textAlignment = NSTextAlignmentCenter;
+            locationL.textColor = GreenColor;
+            locationL.font = [UIFont boldSystemFontOfSize:16];
+            locationL.layer.cornerRadius = 5;
+            locationL.layer.borderWidth = 1.5;
+            
+            locationL.layer.borderColor = GreenColor.CGColor;
+            locationL.text = [USERDEFAULTS objectForKey:CityName];
+            [cell.contentView addSubview:locationL];
+            return cell;
+            
+        }else{
+            BrandCell *cell = [BrandCell cellWithTableView:tableView];
+            cell.titleLabel.text = [self.cityArr[indexPath.row] cityName];
+            return cell;
+        }
     }
     else
     {
@@ -126,9 +175,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.tableView) {
-        
+        if (indexPath.section == 0) {
+            return;
+        }
         CityModel *model = self.cityArr[indexPath.row];
         self.cityCode = model.code;
+        if (self.selectSchoolBlock) {
+            self.selectSchoolBlock(nil,model);
+        }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell setSelected:YES animated:YES];
         [self showDrawer];
@@ -147,7 +201,7 @@
     {
         if (self.selectSchoolBlock) {
             SchoolModel *model = self.schoolArr[indexPath.row];
-            self.selectSchoolBlock(model);
+            self.selectSchoolBlock(model,nil);
         }
         [self.navigationController popViewControllerAnimated:YES];
     }

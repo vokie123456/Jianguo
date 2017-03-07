@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController"/>
@@ -12,19 +13,25 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="还没有任何热门数据哦!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjJ-T1-R0X">
-                    <rect key="frame" x="80" y="128" width="175" height="22"/>
+                    <rect key="frame" x="80" y="109" width="175" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_renwu1" translatesAutoresizingMaskIntoConstraints="NO" id="e4R-zg-wMY">
-                    <rect key="frame" x="123" y="33" width="90" height="90"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultpicture" translatesAutoresizingMaskIntoConstraints="NO" id="e4R-zg-wMY">
+                    <rect key="frame" x="123" y="33" width="90" height="71"/>
                     <constraints>
+                        <constraint firstAttribute="width" secondItem="e4R-zg-wMY" secondAttribute="height" multiplier="200:157" id="HOQ-ib-U58"/>
                         <constraint firstAttribute="width" constant="90" id="Xbi-M0-vT1"/>
                         <constraint firstAttribute="height" constant="90" id="dDj-Pp-qyX"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="dDj-Pp-qyX"/>
+                        </mask>
+                    </variation>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FmI-15-D7E">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FmI-15-D7E">
                     <rect key="frame" x="68" y="165" width="199" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -57,6 +64,6 @@
         </view>
     </objects>
     <resources>
-        <image name="img_renwu1" width="140" height="140"/>
+        <image name="defaultpicture" width="100" height="78"/>
     </resources>
 </document>
