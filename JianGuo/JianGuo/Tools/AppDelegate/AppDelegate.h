@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVOSCloud/AVOSCloud.h>
-//如果使用了实时通信模块，请添加下列导入语句到头部：
+//如果使用了实时通信模块，请添加下列导入语句到头部：///
 #import <AVOSCloudIM/AVOSCloudIM.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

@@ -48,7 +48,7 @@ static NSString *BeeCloudAppID = @"3a9ecbbb-d431-4cd8-9af9-5e44ba504f9a";
 static NSString *BeeCloudAppSecret = @"e202e675-e79e-45ed-af1b-113b53c46d5b";
 static NSString *BeeCloudTESTAppSecret = @"9b144fec-e105-443e-87f0-54b6c70f1c56";
 static NSString *BeeCloudMasterSecret = @"f5bd5b9b-62f4-4fdb-9a3b-4bba4caea88a";
-static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
+static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
 
 @interface AppDelegate ()<AMapLocationManagerDelegate>
 @property (nonatomic,strong) AVIMConversation *conversation;
