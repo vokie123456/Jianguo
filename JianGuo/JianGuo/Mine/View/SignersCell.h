@@ -12,6 +12,8 @@
 @protocol AgreeUserSomeOneDelegate <NSObject>
 
 -(void)userSomeOne:(NSString *)userId status:(NSString *)status cell:(SignersCell *)cell;
+-(void)refreshData;
+-(void)chatUser:(NSString *)userId;
 
 @end
 

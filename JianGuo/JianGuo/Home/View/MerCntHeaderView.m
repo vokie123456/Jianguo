@@ -106,7 +106,7 @@
 -(void)setModel:(MerchantModel *)model
 {
     _model = model;
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.name_image] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.name_image] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.merchentNameL.text = model.name;
     self.merchantcontentL.text = model.about;
     

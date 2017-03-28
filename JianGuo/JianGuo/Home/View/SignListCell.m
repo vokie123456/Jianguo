@@ -45,8 +45,8 @@
     if (model.max.intValue==1) {
         self.typeView.hidden = NO;
     }
-    status = model.user_status.intValue;
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    status = model.status.intValue;
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.tittleL.text = model.job_name;
     NSTimeInterval timeStart = model.start_date.longLongValue;
     NSRange range = NSMakeRange(5, 5);
@@ -54,7 +54,7 @@
     
     NSTimeInterval timeEnd = model.end_date.longLongValue;
     NSString *endDateStr = [[DateOrTimeTool getDateStringBytimeStamp:timeEnd] substringWithRange:range];
-    self.workDateL.text = [[startDateStr stringByAppendingString:@"-"] stringByAppendingString:endDateStr];
+    self.workDateL.text = [[startDateStr stringByAppendingString:@" 至 "] stringByAppendingString:endDateStr];
     
     if (model.term.intValue == 5||model.term.intValue == 6) {
         self.moneyL.text = [NameIdManger getTermNameById:model.term];
@@ -62,7 +62,42 @@
         self.moneyL.text = [model.money stringByAppendingString:[NameIdManger getTermNameById:model.term]];
     }
     
-
+    if (status<=1) {//已报名,未录取
+        [self updateConstraint];
+        [self.leftBtn setEnableGrayAndWhite:@"取消报名"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_dailuqu"];
+        self.rightBtn.hidden = YES;
+    }else if (status == 2){//被拒绝
+        [self updateConstraint];
+        //            [self.leftBtn setGrayBGAndWhiteTittle:@"未被录取"];
+        self.leftBtn.hidden = YES;
+        self.stateRightView.hidden = NO;
+        self.stateRightView.image = [UIImage imageNamed:@"icon_weiluqu"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_dailuqu"];
+    }else if (status == 3){//已录用
+        self.leftBtn.hidden = YES;
+        //            [self.rightBtn setGrayBGAndWhiteTittle:@"已完成"];
+        
+        self.rightBtn.hidden = YES;
+        self.stateRightView.hidden = NO;
+        self.stateRightView.image = [UIImage imageNamed:@"icon_yiwancheng-1"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_yiwancheng"];
+    }else if (status == 4){//已取消
+        self.rightBtn.hidden = YES;
+        self.stateRightView.hidden = NO;
+        self.stateRightView.image = [UIImage imageNamed:@"icon_woyiquxiao"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_yiluqu"];
+        self.leftBtn.hidden = YES;
+    }else{//已结算
+        self.leftBtn.hidden = YES;
+        //            [self.rightBtn setGrayBGAndWhiteTittle:@"已完成"];
+        
+        self.rightBtn.hidden = YES;
+        self.stateRightView.hidden = NO;
+        self.stateRightView.image = [UIImage imageNamed:@"icon_yiwancheng-1"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_yiwancheng"];
+    }
+/*
     switch (status) {
         case 0:{
             
@@ -205,7 +240,7 @@
             break;
     }
 
-
+*/
     
 }
 -(void)updateConstraint

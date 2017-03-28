@@ -91,7 +91,7 @@
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     
     //压缩图片
-//    image = [self imageByScalingAndCroppingForSize:CGSizeMake(image.size.width/8, image.size.height/8) sourceImage:image];
+    image = [self imageByScalingAndCroppingForSize:CGSizeMake(image.size.width/8, image.size.height/8) sourceImage:image];
     
 
 //    NSData *data = UIImageJPEGRepresentation(image, 0.5);
@@ -164,7 +164,7 @@
     
     newImage = UIGraphicsGetImageFromCurrentImageContext();
     if(newImage == nil)
-        NSLog(@"could not scale image");
+        JGLog(@"could not scale image");
     
     //pop the context to get back to the default
     UIGraphicsEndImageContext();

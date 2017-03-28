@@ -39,7 +39,7 @@
     if (USER.login_id&&USER.login_id.integerValue!=0) {
         [self.iconBtn setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:USER.iconUrl] placeholderImage:[UIImage imageNamed:@"myicon"]];
         
-        if (USER.birthDay.length) {
+        if (USER.birthDay.length==10) {
             NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
             NSInteger age = [timeNow substringToIndex:4].integerValue - [USER.birthDay substringToIndex:4].integerValue;
             [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
@@ -53,8 +53,9 @@
             [self.ageBtn setImage:[UIImage imageNamed:@"boyclear"] forState:UIControlStateNormal];
         }
         //            NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
-        self.starL.text = [DateOrTimeTool getConstellation:USER.birthDay]?[DateOrTimeTool getConstellation:USER.birthDay]:@"未填写";
-        self.nameL.text = USER.nickname;
+        
+        self.starL.text = USER.birthDay.length == 10?[DateOrTimeTool getConstellation:USER.birthDay]:@"未填写";
+        self.nameL.text = USER.nickname.length?USER.nickname:@"未填写";
     }else{
         self.ageBtn.hidden = YES;
         self.starL.hidden = YES;

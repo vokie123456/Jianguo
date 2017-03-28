@@ -25,7 +25,7 @@
 {
     _model = model;
     
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.tittleL.text = model.logName;
     if (model.note.length&&![model.note isKindOfClass:[NSNull class]]&&![model.note isEqualToString:@"null"]) {
         self.remarkL.text = [@"备注:" stringByAppendingString:model.note];

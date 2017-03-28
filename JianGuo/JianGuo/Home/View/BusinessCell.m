@@ -8,6 +8,7 @@
 
 #import "BusinessCell.h"
 #import "UIImageView+WebCache.h"
+#import "DetailModel.h"
 
 @implementation BusinessCell
 

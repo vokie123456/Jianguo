@@ -12,7 +12,7 @@
 #import "MineCell.h"
 #import "TextFieldCell.h"
 #import "QiniuSDK.h"
-#import "AvatarBrowser.h"
+#import "XLPhotoBrowser.h"
 #import "PickerView.h"
 #import "QiniuSDK.h"
 #import "RealNameModel.h"
@@ -369,14 +369,14 @@
             if ([JGUser user].status.intValue != 3) {
                 [self showAalertView];
             }else{
-                [AvatarBrowser showImage:self.cardImgLeft];
+                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft] currentImageIndex:0];
             }
             
         }else if (btn.tag == 10001){
             if ([JGUser user].status.intValue != 3) {
                 [self showAalertView];
             }else{
-                [AvatarBrowser showImage:self.cardImgRight];
+                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight] currentImageIndex:0];
             }
         }
     }else{
@@ -450,9 +450,12 @@
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * action) {
                                                         if (btn.tag == 10000) {
-                                                            [AvatarBrowser showImage:self.cardImgLeft];
+                                                            
+                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft] currentImageIndex:0];
+                                                            
                                                         }else{
-                                                            [AvatarBrowser showImage:self.cardImgRight];
+                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight] currentImageIndex:0];
+                                                            
                                                         }
                                                         
                                                     }];

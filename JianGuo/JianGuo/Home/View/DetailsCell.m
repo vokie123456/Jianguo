@@ -163,7 +163,7 @@
     NSString *startStr = [[NSString stringWithFormat:@"%@", startDate] substringFromIndex:12];
     
     NSString *endStr = [[NSString stringWithFormat:@"%@", endDate]substringFromIndex:12];
-    return [startStr stringByAppendingString:[NSString stringWithFormat:@"-%@",endStr]];
+    return [startStr stringByAppendingString:[NSString stringWithFormat:@"至 %@",endStr]];
 }
 
 @end

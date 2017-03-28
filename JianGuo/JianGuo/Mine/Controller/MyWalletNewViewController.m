@@ -11,7 +11,9 @@
 #import "GetCashViewController.h"
 #import "AddMoneyViewController.h"
 #import "BillsViewController.h"
+#import "RealNameViewController.h"
 #import "JGHTTPClient+Mine.h"
+#import "QLAlertView.h"
 
 static NSString *identifier = @"WalletCollectionCell";
 
@@ -99,7 +101,44 @@ static NSString *identifier = @"WalletCollectionCell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.item == 0) {//提现
-        
+        if (USER.status.intValue != 2) {
+            NSString *message;
+            switch (USER.status.intValue) {
+                case 0:{
+                    
+                    message = @"您的兼果账号被封,不能提现";
+                    
+                    break;
+                } case 1:{
+                    
+//                    message = @"您还没有实名认证,不能提现";
+                    [QLAlertView showAlertTittle:@"是否去实名认证?" message:@"您还没有实名认证,不能提现" isOnlySureBtn:NO compeletBlock:^{
+                        
+                        RealNameViewController *realNameVC = [[RealNameViewController alloc] init];
+                        realNameVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:realNameVC animated:YES];
+                    }];
+                    return;
+                    break;
+                } case 3:{
+                    
+                    message = @"您的实名认证正在审核中,不能提现";
+                    
+                    break;
+                } case 4:{
+                    
+                    message = @"您的实名认证未通过,不能提现";
+                    
+                    break;
+                }
+                default:
+                    break;
+            }
+            
+            
+            [self showAlertViewWithText:message duration:1];
+            return;
+        }
         GetCashViewController *cashVC = [[GetCashViewController alloc] init];
         cashVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:cashVC animated:YES];

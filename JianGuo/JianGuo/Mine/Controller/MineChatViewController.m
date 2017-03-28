@@ -44,6 +44,14 @@
 
 - (IBAction)contact:(id)sender {//果聊
     
+    if (USER.login_id.integerValue<1) {
+        [self gotoCodeVC];
+        return;
+    }
+    if (self.userId.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+        return ;
+    }
     LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.userId]];
     
     [self.navigationController pushViewController:conversationViewController animated:YES];

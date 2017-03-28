@@ -60,6 +60,10 @@
 
 - (IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.callBackBlock) {
+        self.callBackBlock();
+    }
+    
 }
 
 @end

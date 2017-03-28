@@ -43,7 +43,7 @@
 
 -(void)setModel:(JianzhiModel *)model
 {
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.partTittleLabel.text = model.job_name;
     self.moneyTypeLabel.text = [self moneyType:model.mode];
     self.workTimeLabel.text = [self getWorkTimeStrStartTime:model.start_date endTime:model.end_date];
@@ -80,7 +80,7 @@
         [self.stateBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         self.leftCountL.hidden = YES;
     }else{
-        if (model.status.intValue!=0) {
+        if (model.status.intValue!=1) {
             [self.stateBtn setImage:[UIImage imageNamed:@"enoughIcon"] forState:UIControlStateNormal];
             [self.stateBtn setTitle:@"已经招满" forState:UIControlStateNormal];
             [self.stateBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -166,7 +166,7 @@
     
     NSString *endStr = [self getWantedTimeFormatter:endDate];
     
-    return  [startStr stringByAppendingString:[NSString stringWithFormat:@"-%@",endStr]];
+    return  [startStr stringByAppendingString:[NSString stringWithFormat:@"至 %@",endStr]];
 }
 
 /**

@@ -126,7 +126,7 @@
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestList:[NSString stringWithFormat:@"%d",pageCount]];
     }];

@@ -10,4 +10,6 @@
 
 @interface PresentingAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
+@property (nonatomic,assign) CGFloat scale;
+
 @end

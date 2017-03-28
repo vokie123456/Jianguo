@@ -32,6 +32,9 @@
 #import <UIButton+AFNetworking.h>
 #import "JGHTTPClient+Mine.h"
 #import "DateOrTimeTool.h"
+#import "CourseViewController.h"
+#import "MyTabBarController.h"
+#import "WebViewController.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,MineHeaderDelegate,ClickPersonDelegate>
 {
@@ -219,6 +222,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.data = @"";//用setter方法赋值
         cell.delegate = self;
+        self.iconBtn = cell.iconBtn;
         
         return cell;
         
@@ -416,6 +420,14 @@
                 break;
         }
 
+    }else if (indexPath.section == 4){//兼果学堂
+        
+        WebViewController *webVC = [[WebViewController alloc] init];
+        webVC.hidesBottomBarWhenPushed = YES;
+        webVC.title = @"兼果学堂";
+        webVC.url = @"http://101.200.195.147:8888/school.html";
+        [self.navigationController pushViewController:webVC animated:YES];
+        
     }
 }
 
@@ -569,7 +581,11 @@
         [self gotoLoginVC];
         return;
     }else{
-        [XLPhotoBrowser showPhotoBrowserWithImages:@[[NSURL URLWithString:USER.iconUrl]] currentImageIndex:0];
+        if (USER.iconUrl.length!=0) {
+            [XLPhotoBrowser showPhotoBrowserWithImages:@[[NSURL URLWithString:USER.iconUrl]] currentImageIndex:0];
+        }else{
+            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.iconBtn.currentBackgroundImage] currentImageIndex:0];
+        }
     }
 }
 

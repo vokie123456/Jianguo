@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "MyTabBarController.h"
 
-#define IMGCOUNT 3
+#define IMGCOUNT 2
 
 @interface UserGuideViewController ()<UIScrollViewDelegate>
 
@@ -35,9 +35,12 @@
             guideView.userInteractionEnabled = YES;
             UIButton *goinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 
-            [goinBtn setBackgroundImage:[UIImage imageNamed:@"button_no"] forState:UIControlStateNormal];
-//            goinBtn.layer.cornerRadius = 5;
-//            goinBtn.layer.masksToBounds = YES;
+//            [goinBtn setBackgroundImage:[UIImage imageNamed:@"button_no"] forState:UIControlStateNormal];
+            [goinBtn setBackgroundColor:WHITECOLOR];
+            [goinBtn setTitle:@"立即体验" forState:UIControlStateNormal];
+            [goinBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
+            goinBtn.layer.cornerRadius = 5;
+            goinBtn.layer.masksToBounds = YES;
             [goinBtn addTarget:self action:@selector(goinApp) forControlEvents:UIControlEventTouchUpInside];
             [guideView addSubview:goinBtn];
             [goinBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -50,20 +53,20 @@
         }
     }
     
-    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(SCREEN_W/2-50-(SCREEN_W-320)/2, SCREEN_H-50, 100, 50)];
-    self.pageControl.numberOfPages = IMGCOUNT;
-    self.pageControl.userInteractionEnabled = NO;
-    self.pageControl.pageIndicatorTintColor = RGBCOLOR(224, 224, 224);
-    self.pageControl.currentPageIndicatorTintColor = BLUECOLOR;
-    [self.view addSubview:self.pageControl];
+//    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(SCREEN_W/2-50-(SCREEN_W-320)/2, SCREEN_H-50, 100, 50)];
+//    self.pageControl.numberOfPages = IMGCOUNT;
+//    self.pageControl.userInteractionEnabled = NO;
+//    self.pageControl.pageIndicatorTintColor = RGBCOLOR(224, 224, 224);
+//    self.pageControl.currentPageIndicatorTintColor = BLUECOLOR;
+//    [self.view addSubview:self.pageControl];
 }
 
 #pragma mark =====  scrollView 的代理方法  =====
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.pageControl.currentPage = scrollView.contentOffset.x/SCREEN_W;
-}
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    self.pageControl.currentPage = scrollView.contentOffset.x/SCREEN_W;
+//}
 -(void)goinApp
 {
     [UIApplication sharedApplication].keyWindow.rootViewController = [[MyTabBarController alloc] init];

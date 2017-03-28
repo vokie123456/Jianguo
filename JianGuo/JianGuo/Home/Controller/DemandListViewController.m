@@ -14,16 +14,17 @@
 #import "DemandDetailController.h"
 #import "JGHTTPClient+Demand.h"
 #import "DemandModel.h"
-#import "YYFPSLabel.h"
+//#import "YYFPSLabel.h"
 #import "LabelCell.h"
 #import "CommentInputView.h"
 #import "CitySchoolViewController.h"
 #import "SchoolModel.h"
 #import "CityModel.h"
+#import "DemandTypeModel.h"
 #import "MineChatViewController.h"
 
 #define lineViewHeight 3
-#define sizeWidth 50
+#define sizeWidth SCREEN_W/titleArr.count
 #define spaceWidth 20
 
 static NSString *identifier = @"DemandListCell";
@@ -33,7 +34,7 @@ static NSString *identifier = @"DemandListCell";
     UIView *inputView;
     
     __weak IBOutlet NSLayoutConstraint *leftCons;
-    NSArray *titleArr;
+    NSMutableArray *titleArr;
     
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -63,6 +64,8 @@ static NSString *identifier = @"DemandListCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    titleArr = @[].mutableCopy;
     
     self.schoolId = USER.schoolId?USER.schoolId:@"0";
     
@@ -95,13 +98,17 @@ static NSString *identifier = @"DemandListCell";
     
     
     self.type = @"0";
-    titleArr = @[@"全部",@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
+    NSArray *demandTypeArr= JGKeyedUnarchiver(JGDemandTypeArr);
+    for (DemandTypeModel *model in demandTypeArr) {
+        [titleArr addObject:model.type_name];
+    }
+//    titleArr = @[@"全部",@"学习",@"代办",@"求助",@"娱乐"];
     
-    YYFPSLabel *fps = [YYFPSLabel new];
-    fps.center = CGPointMake(60, self.view.bottom-100);
-    [self.view addSubview:fps];
+//    YYFPSLabel *fps = [YYFPSLabel new];
+//    fps.center = CGPointMake(60, self.view.bottom-100);
+//    [self.view addSubview:fps];
     
-    self.navigationItem.title = @"需求大厅";
+    self.navigationItem.title = @"任务大厅";
     
     [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -126,16 +133,33 @@ static NSString *identifier = @"DemandListCell";
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
 
     }];
     
-    [self requestWithCount:@"1"];
+    [self.tableView.mj_header beginRefreshing];
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    
+    [IQKeyboardManager sharedManager].enable = NO;
+    //    [self customCommentKeyboard];
+//    [self.tableView.mj_header beginRefreshing];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
+    [self.commentView removeFromSuperview];//从父视图上删除并没有把对象置空
+    self.commentView = nil;
+    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
 }
 
 -(void)selectCitySChool:(UIButton *)btn
@@ -154,77 +178,6 @@ static NSString *identifier = @"DemandListCell";
     [self.navigationController pushViewController:schoolVC animated:YES];
 }
 
--(void)configCollectionView
-{
-    self.collectionView.backgroundColor = WHITECOLOR;
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([LabelCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([LabelCell class])];
-    
-    UIView*lineView = [[UIView alloc] initWithFrame:CGRectMake(spaceWidth/2, self.collectionView.height-lineViewHeight, sizeWidth-spaceWidth, lineViewHeight)];
-    lineView.backgroundColor = GreenColor;
-    [self.collectionView addSubview:lineView];
-    self.lineView = lineView;
-    
-    
-}
-
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return titleArr.count;
-}
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    LabelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([LabelCell class]) forIndexPath:indexPath];
-    cell.contentL.textColor = [UIColor darkTextColor];
-    if (indexPath.item == 0) {
-        cell.contentL.textColor = GreenColor;
-    }
-        cell.contentL.text = titleArr[indexPath.item];
-    
-    return cell;
-}
-
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(sizeWidth, self.collectionView.height);
-}
-
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0;
-}
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    LabelCell *cell0 = (LabelCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    cell0.contentL.textColor = [UIColor darkTextColor];
-    
-    LabelCell *cell = (LabelCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    
-    CGRect frame = self.lineView.frame;
-    frame.origin.x = sizeWidth*indexPath.item+spaceWidth/2;
-    [UIView animateWithDuration:0.2 animations:^{
-        self.lineView.frame = frame;
-        cell.contentL.textColor = GreenColor;
-    }];
-    self.type = [NSString stringWithFormat:@"%ld",indexPath.item];
-    [self requestWithCount:@"1"];
-}
-
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    LabelCell *cell = (LabelCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.contentL.textColor = [UIColor darkTextColor];
-}
 
 -(void)customCommentKeyboard
 {
@@ -246,24 +199,7 @@ static NSString *identifier = @"DemandListCell";
     self.commentView.center = CGPointMake(SCREEN_W/2,self.view.bottom+100);
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [IQKeyboardManager sharedManager].enable = NO;
-//    [self customCommentKeyboard];
 
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [IQKeyboardManager sharedManager].enable = YES;
-    [self.commentView removeFromSuperview];//从父视图上删除并没有把对象置空
-    self.commentView = nil;
-    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
-}
 
 -(void)requestWithCount:(NSString *)count
 {
@@ -373,9 +309,19 @@ static NSString *identifier = @"DemandListCell";
     }];
 }
 
--(void)signDemand:(UIButton *)sender
+-(void)signDemand:(UIButton *)userId
 {
-    [self gotoCodeVC];
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -383,6 +329,9 @@ static NSString *identifier = @"DemandListCell";
     DemandDetailController *detailVC = [DemandDetailController new];
     detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.section] id];
     detailVC.hidesBottomBarWhenPushed = YES;
+    detailVC.callBackBlock = ^(){
+        [self requestWithCount:@"1"];
+    };
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -466,6 +415,13 @@ static NSString *identifier = @"DemandListCell";
         [self gotoCodeVC];
         return;
     }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
     PostDemandViewController *postDemandVC = [[PostDemandViewController alloc] init];
     postDemandVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:postDemandVC animated:YES];
@@ -474,16 +430,97 @@ static NSString *identifier = @"DemandListCell";
 
 -(void)clickIcon:(NSString *)userId
 {
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
     MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
     mineChatVC.hidesBottomBarWhenPushed = YES;
     mineChatVC.userId = userId;
     [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
+#pragma mark 设置头部滑动的标题 <UICollectionView>
+-(void)configCollectionView
+{
+    self.collectionView.backgroundColor = WHITECOLOR;
+    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([LabelCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([LabelCell class])];
+    
+    UIView*lineView = [[UIView alloc] initWithFrame:CGRectMake(spaceWidth/2, self.collectionView.height-lineViewHeight, sizeWidth-spaceWidth, lineViewHeight)];
+    lineView.backgroundColor = GreenColor;
+    [self.collectionView addSubview:lineView];
+    self.lineView = lineView;
+    
+    
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return titleArr.count;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    LabelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([LabelCell class]) forIndexPath:indexPath];
+    cell.contentL.textColor = [UIColor darkTextColor];
+    if (indexPath.item == 0) {
+        cell.contentL.textColor = GreenColor;
+    }
+    cell.contentL.text = titleArr[indexPath.item];
+    
+    return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    return CGSizeMake(sizeWidth, self.collectionView.height);
+}
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    LabelCell *cell0 = (LabelCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    cell0.contentL.textColor = [UIColor darkTextColor];
+    
+    LabelCell *cell = (LabelCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    CGRect frame = self.lineView.frame;
+    frame.origin.x = sizeWidth*indexPath.item+spaceWidth/2;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.lineView.frame = frame;
+        cell.contentL.textColor = GreenColor;
+    }];
+    self.type = [NSString stringWithFormat:@"%ld",indexPath.item];
+    [self requestWithCount:@"1"];
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    LabelCell *cell = (LabelCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.contentL.textColor = [UIColor darkTextColor];
+}
+
+
+
 -(void)dealloc
 {
     [NotificationCenter removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [NotificationCenter removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    
 }
 
 

@@ -226,7 +226,13 @@
     
     iconUrl.length?[params setObject:iconUrl forKey:@"head_img_url"]:nil;
     
-    !height?:[params setObject:height forKey:@"height"];
+    if (height.integerValue == 0) {
+        [params setObject:@"165" forKey:@"height"];
+    }else{
+        [params setObject:height forKey:@"height"];
+    }
+    
+    !cityId?:[params setObject:cityId forKey:@"city_id"];
     
     schoolId.length?[params setObject:schoolId forKey:@"school_id"]:nil;
 

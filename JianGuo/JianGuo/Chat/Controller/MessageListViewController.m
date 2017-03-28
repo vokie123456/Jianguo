@@ -217,7 +217,7 @@
     
     cell.nickNameLabel.text = [conversation.attributes objectForKey:@"othername"];
     
-    [cell.leftIcon sd_setImageWithURL:[NSURL URLWithString:conversation.attributes[@"otherimg"]] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    [cell.leftIcon sd_setImageWithURL:[NSURL URLWithString:conversation.attributes[@"otherimg"]] placeholderImage:[UIImage imageNamed:@"myicon"]];
     
     return cell;
 }

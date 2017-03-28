@@ -56,7 +56,7 @@
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 32.5;
     iconView.userInteractionEnabled = YES;
-    [iconView sd_setImageWithURL:[NSURL URLWithString:[JGUser user].iconUrl] placeholderImage:[UIImage imageNamed:@"minetouxiang"]];
+    [iconView sd_setImageWithURL:[NSURL URLWithString:[JGUser user].iconUrl] placeholderImage:[UIImage imageNamed:@"myicon"]];
     [headerView addSubview:iconView];
     self.iconView = iconView;
     

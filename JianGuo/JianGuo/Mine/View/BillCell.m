@@ -13,6 +13,15 @@
 
 @implementation BillCell
 
+/**
+ 1;//兼职工资
+ 5;//充值
+ 7;//用户下架任务退回的钱
+ –––––––––––––––––––––
+ 2;//提现
+ 4;//商家支出工资款（商家端记录信息备用）
+ 6;//用户发布需求冻结（发需求扣款记录）
+ */
 -(void)setModel:(MoneyRecordModel *)model
 {
     _model = model;
@@ -26,7 +35,7 @@
     self.titleL.text = model.logName;
     self.timeL.text = [[DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue] substringFromIndex:5];
     
-    if (model.type.integerValue == 1||model.type.integerValue == 5) {//加钱
+    if (model.type.integerValue == 1||model.type.integerValue == 5||model.type.integerValue == 7) {//加钱
         self.moneyL.text = [NSString stringWithFormat:@"+ %.2f",model.money.floatValue];
     }else{//减钱
         self.moneyL.text = [NSString stringWithFormat:@"- %.2f",model.money.floatValue];

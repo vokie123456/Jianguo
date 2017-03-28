@@ -11,6 +11,7 @@
 @interface TextReasonViewController : BaseViewController
 
 
+@property (nonatomic,copy) void(^callBackBlock)();
 @property (nonatomic,copy) NSString *demandId;
 @property (nonatomic,assign) BOOL isComplain;
 @property (nonatomic,copy) NSString *userId;

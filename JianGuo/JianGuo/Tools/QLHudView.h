@@ -10,6 +10,8 @@
 
 @interface QLHudView : NSObject
 
++(instancetype)shareInstance;
+-(void)showNotificationNews:(NSString *)message;
 + (void)showErrorViewWithText:(NSString *)text;
 + (void)showAlertViewWithText:(NSString *)text duration:(NSTimeInterval)duration;
 

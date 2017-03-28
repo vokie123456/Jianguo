@@ -13,7 +13,7 @@
 
 -(void)clickLike:(DemandModel *)model;
 -(void)clickIcon:(NSString *)userId;
--(void)signDemand:(UIButton *)sender;
+-(void)signDemand:(NSString *)userId;
 
 @end
 

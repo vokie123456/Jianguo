@@ -10,6 +10,8 @@
 @class TTTAttributedLabel;
 @class CommentModel;
 @interface CommentCell : UITableViewCell
+
+@property (nonatomic,copy) NSString *postUserId;
 @property (nonatomic,strong) CommentModel *model;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *contentL;
 @property (weak, nonatomic) IBOutlet UILabel *timeL;

@@ -8,6 +8,8 @@
 
 #import "BaseViewController.h"
 
-@interface HomeSegmentViewController : BaseViewController
+@interface HomeSegmentViewController : BaseViewController<UIViewControllerTransitioningDelegate>
+
+-(void)refreshData;
 
 @end

@@ -59,7 +59,7 @@ static FMDatabaseQueue *_queue;
         self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
-//        self.responseSerializer = [AFHTTPResponseSerializer serializer];设置以后收到的返回数据就是没有经过解析的二进制data数据
+//        self.responseSerializer = [AFJSONResponseSerializer serializer];//设置以后收到的返回数据就是没有经过解析的二进制data数据
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/javascript", @"text/json", @"text/html", nil];
         
         self.securityPolicy.allowInvalidCertificates = YES;

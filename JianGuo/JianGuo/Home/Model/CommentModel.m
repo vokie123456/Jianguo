@@ -14,6 +14,8 @@
 
 @property (nonatomic,copy) NSString *userId;
 
+@property (nonatomic,copy) NSString *userImage;
+
 @end
 
 @implementation CommentModel

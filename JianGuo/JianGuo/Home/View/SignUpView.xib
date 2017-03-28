@@ -152,7 +152,7 @@
                                 <constraint firstAttribute="height" constant="32" id="U5I-JU-YdJ"/>
                                 <constraint firstAttribute="width" constant="33" id="kkA-WQ-XR3"/>
                             </constraints>
-                            <state key="normal" backgroundImage="icon_guanbi"/>
+                            <state key="normal" backgroundImage="garden"/>
                             <connections>
                                 <action selector="closeClick:" destination="Cac-nE-LG8" eventType="touchUpInside" id="ZLn-4W-s8q"/>
                             </connections>
@@ -195,6 +195,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_guanbi" width="22" height="22"/>
+        <image name="garden" width="29" height="29"/>
     </resources>
 </document>

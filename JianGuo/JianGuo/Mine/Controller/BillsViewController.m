@@ -28,17 +28,18 @@
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
-        [self requestList:@"0"];
+        [self requestList:@"1"];
         
     }];
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        pageCount += 10;
+        
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
-    [self requestList:@"0"];
+    [self requestList:@"1"];
     
 }
 
@@ -107,6 +108,11 @@
     BillCell *cell = [BillCell cellWithTableView:tableView];
     cell.model = self.dataArr[indexPath.row];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

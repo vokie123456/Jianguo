@@ -16,7 +16,6 @@
 #import "DemandModel.h"
 #import "SignUsers.h"
 #import "DemandProgressCell.h"
-#import <BeeCloud.h>
 #import "JGHTTPClient+Money.h"
 #import "MineHeaderCell.h"
 #import "DemandStatusCell.h"
@@ -26,13 +25,20 @@
 #import "DemandStatusModel.h"
 
 
-@interface MyPostDetailViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,ClickPersonDelegate>
+@interface MyPostDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ClickPersonDelegate>
+{
+    
+    __weak IBOutlet NSLayoutConstraint *bottomCons;
+    
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) DemandModel *demandModel;
 @property (nonatomic,strong) SignUsers *user;
 @property (nonatomic,copy) NSString *payType;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (nonatomic,strong) UIButton  *telBtn;
+@property (nonatomic,strong) UIButton *chatBtn;
 
 @end
 
@@ -51,7 +57,7 @@
         [btn_r addTarget:self action:@selector(callSomeOne) forControlEvents:UIControlEventTouchUpInside];
         btn_r.frame = CGRectMake(0, 0, 20, 20);
         
-        
+        self.telBtn = btn_r;
         UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
  
         
@@ -59,7 +65,7 @@
         [btn_r2 setBackgroundImage:[UIImage imageNamed:@"xiaoxi"] forState:UIControlStateNormal];
         [btn_r2 addTarget:self action:@selector(chat) forControlEvents:UIControlEventTouchUpInside];
         btn_r2.frame = CGRectMake(0, 0, 20, 20);
-        
+        self.chatBtn = btn_r2;
         
         UIBarButtonItem *rightBtn2 = [[UIBarButtonItem alloc] initWithCustomView:btn_r2];
         
@@ -74,9 +80,8 @@
         [self.bottomBtn setTitle:@"下架此任务" forState:UIControlStateNormal];
     }else if ([self.statusStr isEqualToString:@"待确认完工"]){
         [self.bottomBtn setTitle:@"确认完工" forState:UIControlStateNormal];
-    }else if ([self.statusStr isEqualToString:@"平台仲裁中"]||[self.statusStr isEqualToString:@"已仲裁"]){
-        [self.bottomBtn setTitle:@"联系客服" forState:UIControlStateNormal];
     }else{
+        bottomCons.constant = -40;
         self.bottomBtn.hidden = YES;
     }
     
@@ -87,6 +92,10 @@
  */
 -(void)callSomeOne
 {
+    if (self.user.b_user_id.integerValue ==0) {
+        [self showAlertViewWithText:@"还没有人报名呢" duration:1];
+        return;
+    }
     [QLAlertView showAlertTittle:@"确认呼叫服务人员?" message:nil isOnlySureBtn:NO compeletBlock:^{
         [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.user.tel]]];
     }];
@@ -96,7 +105,15 @@
  */
 -(void)chat
 {
-    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
+    if (self.user.b_user_id.integerValue ==0) {
+    [self showAlertViewWithText:@"还没有人报名呢" duration:1];
+    return;
+    }
+    if (self.user.b_user_id.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+        return ;
+    }
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.user.b_user_id]];
     
     [self.navigationController pushViewController:conversationViewController animated:YES];
     
@@ -116,8 +133,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //设置BeeCloud代理
-    [BeeCloud setBeeCloudDelegate:self];
+
 }
 
 //先自己创建一个数组<为了后期从服务器请求时改动小点儿>
@@ -195,6 +211,10 @@
             
             self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
             self.user = [SignUsers mj_objectWithKeyValues:[responseObject[@"data"] objectForKey:@"userInfoEntity"]];
+            if (self.user.b_user_id.integerValue == 0) {
+                self.telBtn.hidden  = YES;
+                self.chatBtn.hidden = YES;
+            }
             
             [self createModelArr];
             
@@ -356,7 +376,7 @@
         }else if (indexPath.row == self.dataArr.count-1){
             cell.bottomView.hidden = YES;
         }
-        cell.model = self.dataArr[self.dataArr.count-1-indexPath.row];
+        cell.model = self.dataArr[indexPath.row];
         return cell;
     }else
         return nil;
@@ -379,7 +399,7 @@
     }else if (indexPath.row == 1&&indexPath.section == 3){
         
         MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-        mineChatVC.userId = self.demandModel.enroll_user_id;
+        mineChatVC.userId = self.user.b_user_id;
         [self.navigationController pushViewController:mineChatVC animated:YES];
     }
 }
@@ -391,8 +411,11 @@
         [QLAlertView showAlertTittle:@"确认完成后，平台将会把款项支付给服务者" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者确认完成
             [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"4" Success:^(id responseObject) {
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                if ([responseObject[@"code"] integerValue] == 200) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             } failure:^(NSError *error) {
-                
+                [self showAlertViewWithText:NETERROETEXT duration:1];
             }];
         }];
         
@@ -401,12 +424,15 @@
         [QLAlertView showAlertTittle:@"下架后，所有的报名者将自动拒绝，确定要下架吗?" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者下架需求
             [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"7" Success:^(id responseObject) {
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                if ([responseObject[@"code"] integerValue] == 200) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             } failure:^(NSError *error) {
-                
+                [self showAlertViewWithText:NETERROETEXT duration:1];
             }];
         }];
         
-    }else if ([sender.currentTitle containsString:@"仲裁"]){
+    }else if ([sender.currentTitle containsString:@"联系客服"]){
         [QLAlertView showAlertTittle:@"确认呼叫服务人员?" message:nil isOnlySureBtn:NO compeletBlock:^{
             [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:@"010-53350021"]]];
         }];

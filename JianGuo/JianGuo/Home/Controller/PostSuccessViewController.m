@@ -11,6 +11,8 @@
 @interface PostSuccessViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UILabel *detailL;
+@property (weak, nonatomic) IBOutlet UIImageView *iconView;
 
 @end
 
@@ -19,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.label.text = self.labelStr;
+    self.detailL.text = self.detailStr;
+    self.iconView.image = [UIImage imageNamed:self.labelStr];
 }
 
 -(void)viewWillAppear:(BOOL)animated

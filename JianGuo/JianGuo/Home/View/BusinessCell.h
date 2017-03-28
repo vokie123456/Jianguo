@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DetailModel.h"
 
+@class DetailModel;
 @protocol ClickCallPhoneDelegate <NSObject>
 
 -(void)callPhoneNum:(NSString *)phoneNo;

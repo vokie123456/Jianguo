@@ -9,6 +9,9 @@
 #import "ShareView.h"
 #import <ShareSDK/ShareSDK.h>
 #import "UIView+AlertView.h"
+#import "DetailModel.h"
+#import "JianzhiModel.h"
+#import "DemandModel.h"
 
 #define INSTANCE_Y 30
 
@@ -103,10 +106,10 @@
 -(void)goShare:(SSDKPlatformType)type{
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    NSString *backURL = [NSString stringWithFormat:@"%@Html_Job_Id_Servlet?job_id=%@",APIURLCOMMON,self.model.id];
-    NSArray* imageArray = @[self.model.job_image];
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",self.model.job_name,self.money,self.address];
-    [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"小伙伴给您分享了一条兼职!" type:SSDKContentTypeAuto];
+    NSString *backURL = [NSString stringWithFormat:@"%@detaila?id=%@",@"http://www.woniukeji.com.cn:8888/",self.demandModel.id];
+    NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
+    NSString *text = [NSString stringWithFormat:@"【%@】––> %@",self.demandModel.title,[NSString stringWithFormat:@"赏金:%@ 元",self.demandModel.money]];
+    [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"来嘛~帮帮忙，反正有大把时光" type:SSDKContentTypeAuto];
     
     [ShareSDK share:type
          parameters:shareParams
@@ -125,7 +128,7 @@
                  break;
              }
                  
-default:
+             default:
                  break;
          }
      }];

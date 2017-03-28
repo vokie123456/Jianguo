@@ -31,7 +31,7 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_renwu" translatesAutoresizingMaskIntoConstraints="NO" id="Evt-LJ-tSa">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myicon" translatesAutoresizingMaskIntoConstraints="NO" id="Evt-LJ-tSa">
                         <rect key="frame" x="8" y="8" width="45" height="45"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Evt-LJ-tSa" secondAttribute="height" multiplier="45:45" id="OyY-SY-WEB"/>
@@ -80,6 +80,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="img_renwu" width="88" height="95"/>
+        <image name="myicon" width="70" height="70"/>
     </resources>
 </document>

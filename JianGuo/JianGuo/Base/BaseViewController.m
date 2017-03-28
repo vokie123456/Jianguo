@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "LoginNew2ViewController.h"
+#import "ProfileViewController.h"
 #import "DMAlertView.h"
 #import "MobClick.h"
 #import <POP.h>
@@ -127,5 +128,17 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
     [self presentViewController:nav animated:YES completion:nil];
 }
+/**
+ *  去填写资料
+ */
+-(void)gotoProfileVC
+{
+    ProfileViewController *profileVC= [[ProfileViewController alloc]init];
+    profileVC.hidesBottomBarWhenPushed = YES;
+
+    [self.navigationController pushViewController:profileVC animated:YES];
+}
+
+
 
 @end

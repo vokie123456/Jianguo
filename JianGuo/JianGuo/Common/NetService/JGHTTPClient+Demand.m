@@ -188,8 +188,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:Id?Id:@"0" forKey:@"id"];
-    [params setObject:userId?userId:@"0" forKey:@"user_id"];
-    
+    [params setObject:userId.integerValue?userId:@"0" forKey:@"user_id"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/getDemand"];
     
@@ -275,7 +274,7 @@
     [params setObject:USER.login_id forKey:@"b_user_id"];
     !reason?:[params setObject:reason forKey:@"reason"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/demandEnroll"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/complaint"];
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){

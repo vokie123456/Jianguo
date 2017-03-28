@@ -7,6 +7,7 @@
 //
 
 #import "SignDemandViewController.h"
+#import "LCCKConversationViewController.h"
 #import "JGHTTPClient+Demand.h"
 #import "SignersCell.h"
 #import "SignUsers.h"
@@ -34,7 +35,7 @@
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
         
@@ -49,13 +50,50 @@
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient signerListWithDemandId:self.demandId pageNum:[NSString stringWithFormat:@"%@",count] pageSize:nil Success:^(id responseObject) {
+    [JGHTTPClient signerListWithDemandId:self.demandId pageNum:count pageSize:nil Success:^(id responseObject) {
+        
         [SVProgressHUD dismiss];
-        self.dataArr = [SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        
+        if (count.intValue>1) {//上拉加载
+            
+            if ([[SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            NSMutableArray *sections = [NSMutableArray array];
+            for (SignUsers *model in [SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.dataArr addObject:model];
+                NSIndexSet* section = [NSIndexSet indexSetWithIndex:self.dataArr.count-1];
+                [sections addObject:section];
+            }
+            
+            //            [_tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.dataArr.count-sections.count, sections.count)] withRowAnimation:UITableViewRowAnimationFade];
+            return;
+            
+        }else{
+            
+            [self.dataArr removeAllObjects];
+            self.dataArr = [SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"] ];
+            if (self.dataArr.count == 0) {
+                bgView.hidden = NO;
+            }else{
+                bgView.hidden = YES;
+            }
+        }
+        
         [self.tableView reloadData];
+        if ([SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
+            [self showAlertViewWithText:@"没有更多数据" duration:1];
+            return ;
+        }
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
     
@@ -101,13 +139,29 @@
         [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"] integerValue] == 200) {
-            SignUsers *model = cell.model;
-            model.enroll_status = @"2";
-            cell.model = model;
+            [self refreshData];
         }
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
+}
+
+-(void)refreshData
+{
+    [self requestWithCount:@"1"];
+}
+
+-(void)chatUser:(NSString *)userId
+{
+    if (userId.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+        return ;
+    }
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:userId]];
+    
+    [self.navigationController pushViewController:conversationViewController animated:YES];
+    
+
 }
 
 

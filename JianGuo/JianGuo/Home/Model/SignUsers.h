@@ -29,6 +29,9 @@
 /** 用户ID */
 @property (nonatomic, copy) NSString*  b_user_id;
 
+/** 也是用户ID */
+@property (nonatomic, copy) NSString*  user_id;
+
 /** 需求ID */
 @property (nonatomic, copy) NSString*  d_id;
 

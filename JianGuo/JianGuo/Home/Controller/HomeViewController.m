@@ -10,6 +10,12 @@
 #import "MyWalletViewController.h"
 #import "RealNameViewController.h"
 #import "SignDemandViewController.h"
+
+#import "MyPostDetailViewController.h"
+#import "BillsViewController.h"
+#import "DemandDetailController.h"
+#import "MySignDetailViewController.h"
+
 #import "GuideImageView.h"
 #import "JobTypeViewController.h"
 #import "PartTypeModel.h"
@@ -28,6 +34,7 @@
 #import "MyPartJobViewController.h"
 #import "WebViewController.h"
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import "QLAlertView.h"
 #import "RemindMsgViewController.h"
 #import "WZLBadgeImport.h"
@@ -190,7 +197,7 @@
     JGLog(@"%@====%@",[CityModel city].cityName,[CityModel city].code);
     
     
-//    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.automaticallyAdjustsScrollViewInsets = YES;
 
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
     [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -241,7 +248,8 @@
 
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
        
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
+        JGLog(@"%d",(self.dataArr.count%10)>0?1:0);
         [self requestList:[NSString stringWithFormat:@"%d",pageCount]];
     }];
 
@@ -262,14 +270,20 @@
 //        [USERDEFAULTS synchronize];
 //    }
     
-    [self initMenu];
+//    [self initMenu];
 
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.tableView.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H-64-49);
 }
 
 //定位
 -(void)location
 {
-    [[AMapLocationServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
+    [[AMapServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
     [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         
         if (regeocode) {
@@ -503,19 +517,19 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 44;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 44;
+//}
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    
-    if (section == 0) {
-        return self.selectMenu;
-    }
-    return nil;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    
+//    if (section == 0) {
+//        return self.selectMenu;
+//    }
+//    return nil;
+//}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(self.dataArr.count == 0){
@@ -772,24 +786,43 @@
             
             break;
         }
+        // ***  报名的需求  ***
         case 14://被投诉,收到投诉处理结果(––––>任务详情页面)
         case 13://被雇主投诉(––––>任务详情页面)
-        case 12://主动投诉,收到了处理结果(––––>任务详情页面)
-        case 11:{//发布的任务收到了新报名(–––>我发布的报名列表)
-            
+        case 16://报名的需求被录用(––––>任务详情页面)
+        case 17:{//报名的需求被拒绝(–––>我发布的报名列表)
+            MySignDetailViewController *detailVC = [[MySignDetailViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
             break;
         }
         case 15:{//任务服务费用到账(–––>钱包明细,收入明细)
             
+            BillsViewController *billVC = [[BillsViewController alloc] init];
+            billVC.hidesBottomBarWhenPushed = YES;
+            billVC.type = @"1";
+            [self.navigationController pushViewController:billVC animated:YES];
             break;
         }
-        case 19:
-        case 18:
-        case 17:
-        case 16:{//报名的任务被录用(–––>也是任务详情页)
+        // ***  发布的需求  ***
+        case 11://发布的任务未通过审核
+        case 12://发布需求,投诉了服务者,收到了投诉处理结果
+        case 18:{//发布的需求收到了新评论(–––>也是任务详情页)
+            MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
+            break;
+        }
+        case 19:{//收到了评论,去普通的需求详情页
+            DemandDetailController *detailVC = [[DemandDetailController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
+            break;
+        }
             
-            break;
-        }
         case 100:{//活动推送(H5)
             
             WebViewController *webVC = [[WebViewController alloc] init];

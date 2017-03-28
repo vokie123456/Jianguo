@@ -48,19 +48,44 @@ static NSString*const identifier = @"CommentCell";
         
         if (user1.userId.integerValue == model.user_id.integerValue) {//user1是评论者
             name = user1.nickname;
-            content = [NSString stringWithFormat:@"回复 %@ :",user2.nickname];
-            range = [content rangeOfString:user2.nickname];
-            url = [NSURL URLWithString:user2.userId];
             
-            [self.iconView sd_setImageWithURL:[NSURL URLWithString:user1.userImage] placeholderImage:[UIImage imageNamed:@"wechat"]];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:user1.userImage] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            if (user2.userId.integerValue!=self.postUserId.integerValue) {//即 "C<自己>" 在 "A" 的任务下边回复 "B" 的评论
+                
+                content = [NSString stringWithFormat:@"回复 %@ :",user2.nickname];
+                range = [content rangeOfString:user2.nickname];
+                url = [NSURL URLWithString:user2.userId];
+                
+                [self.iconView sd_setImageWithURL:[NSURL URLWithString:user1.userImage] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            }else{// "A<自己>" 评论 "B" 的任务
+                [self.contentL setText:model.content afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+                    [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
+                    
+                    return mutableAttributedString;
+                }];
+                
+                self.nameL.text = name;
+                return;
+            }
         }else{//user2是评论者
             name = user2.nickname;
-//            content = [NSString stringWithFormat:@"回复 %@ :",user1.nickname];
-            content = @"";
-            range = [content rangeOfString:user1.nickname];
-            url = [NSURL URLWithString:user1.userId];
-            
-            [self.iconView sd_setImageWithURL:[NSURL URLWithString:user2.userImage] placeholderImage:[UIImage imageNamed:@"wechat"]];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:user2.userImage] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            if (user1.userId.integerValue != self.postUserId.integerValue) {//即 "C<自己>" 在 "A" 的任务下边回复 "B" 的评论
+                content = [NSString stringWithFormat:@"回复 %@ :",user1.nickname];
+//                content = @"";
+                range = [content rangeOfString:user1.nickname];
+                url = [NSURL URLWithString:user1.userId];
+                
+                [self.iconView sd_setImageWithURL:[NSURL URLWithString:user2.userImage] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            }else{// "A<自己>" 评论 "B" 的任务
+                [self.contentL setText:model.content afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+                    [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
+                    
+                    return mutableAttributedString;
+                }];
+                self.nameL.text = name;
+                return;
+            }
         }
         [self.contentL setText:[content stringByAppendingString:model.content] afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
             [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
@@ -88,10 +113,10 @@ static NSString*const identifier = @"CommentCell";
             
             return mutableAttributedString;
         }];
+        [self.iconView sd_setImageWithURL:[NSURL URLWithString:user1.userImage] placeholderImage:[UIImage imageNamed:@"myicon"]];
     }
     
     self.nameL.text = name;
-    
     
     
     

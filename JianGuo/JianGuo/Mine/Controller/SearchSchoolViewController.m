@@ -19,6 +19,7 @@
 }
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) NSArray *resultArr;
 
 @end
 
@@ -92,7 +93,12 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText;
 {
-    [self requestBy:searchText];
+    // 这个有点类似sql语句
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains %@", searchText]; // name\pinYin\pinYinHead不是随便写的, 是模型中的属性; contains是包含后面%@这个字符串
+    self.resultArr = [self.dataArr filteredArrayUsingPredicate:predicate]; // 这个self.resultCities可以是一个不可变数组
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+
 }
 
 -(void)requestBy:(NSString *)searchText
@@ -129,7 +135,11 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    if (self.resultArr.count) {
+        return self.resultArr.count;
+    }
+    else
+        return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,18 +151,30 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Identifier];
     }
     
-    SchoolModel *schoolModel = self.dataArr[indexPath.row];
-    
-    cell.textLabel.text = schoolModel.name;
-    
+    if (self.resultArr.count) {
+        SchoolModel *schoolModel = self.resultArr[indexPath.row];
+        
+        cell.textLabel.text = schoolModel.name;
+    }else{
+        SchoolModel *schoolModel = self.dataArr[indexPath.row];
+        
+        cell.textLabel.text = schoolModel.name;
+    }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SchoolModel *schoolModel = self.dataArr[indexPath.row];
-    if (self.seletSchoolBlock) {
-        self.seletSchoolBlock(schoolModel);
+    if (self.resultArr.count) {
+        SchoolModel *schoolModel = self.resultArr[indexPath.row];
+        if (self.seletSchoolBlock) {
+            self.seletSchoolBlock(schoolModel);
+        }
+    }else{
+        SchoolModel *schoolModel = self.dataArr[indexPath.row];
+        if (self.seletSchoolBlock) {
+            self.seletSchoolBlock(schoolModel);
+        }
     }
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(self.navigationController.viewControllers.count - 2)] animated:YES];
 }

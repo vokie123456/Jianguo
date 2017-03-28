@@ -35,8 +35,13 @@
 #import "LimitModel.h"
 #import "LabelModel.h"
 #import "WelfareModel.h"
+#import "DemandTypeModel.h"
 #import "JGLCCKInputPickImage.h"
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import <BeeCloud.h>
+#import "QLHudView.h"
+#import "CoreLaunchCool.h"
 #define SV_APP_EXTENSIONS
 
 static NSString *BeeCloudAppID = @"3a9ecbbb-d431-4cd8-9af9-5e44ba504f9a";
@@ -45,21 +50,57 @@ static NSString *BeeCloudTESTAppSecret = @"9b144fec-e105-443e-87f0-54b6c70f1c56"
 static NSString *BeeCloudMasterSecret = @"f5bd5b9b-62f4-4fdb-9a3b-4bba4caea88a";
 static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 
-@interface AppDelegate ()
+@interface AppDelegate ()<AMapLocationManagerDelegate>
 @property (nonatomic,strong) AVIMConversation *conversation;
+
+@property (nonatomic,strong) AMapLocationManager *manager;
 
 @end
 
 @implementation AppDelegate
 
+-(AMapLocationManager *)manager
+{
+    if (!_manager) {
+        _manager = [[AMapLocationManager alloc] init];
+        //设置精确度
+        [_manager setPausesLocationUpdatesAutomatically:YES];
+        _manager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        [_manager setAllowsBackgroundLocationUpdates:NO];
+        _manager.delegate = self;
+        [_manager setLocationTimeout:6];
+        [_manager setReGeocodeTimeout:3];
+    }
+    return _manager;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //从自己公司的服务器获取一些数据
+    [self getData];
 
     // 上一次的使用版本（存储在沙盒中的版本号）
-//    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"CFBundleShortVersionString"];
-//    if ([@"3.0.10" compare:lastVersion options:NSNumericSearch] == NSOrderedDescending ) {
-//        [JGUser deleteuser];
-//    }
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"CFBundleShortVersionString"];
+    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+    
+    if ([@"3.2.0" compare:bundleVersion options:NSNumericSearch] == NSOrderedSame && [@"3.2.0" compare:lastVersion options:NSNumericSearch] == NSOrderedAscending) {
+        
+        [[LCChatKit sharedInstance] closeWithCallback:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                JGLog(@"关闭果聊成功!!!!");
+                
+                [NotificationCenter postNotificationName:kNotificationClosedChatKit object:nil];
+                
+            } else {
+                JGLog(@"关闭果聊失败????");
+            }
+        }];
+        
+        [JGUser deleteuser];
+        
+        [JPUSHService setTags:nil alias:[NSString string] fetchCompletionHandle:nil];
+        
+    }
     
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
@@ -94,13 +135,15 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 //    发布时改为YES
     [JPUSHService setupWithOption:launchOptions appKey:@"b7d6a9432f425319c952ffd3" channel:@"Publish channel" apsForProduction:YES];
     
+    [[AMapServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
+    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+    }];
+    
     [NotificationCenter addObserver:self selector:@selector(login) name:kNotificationLoginSuccessed object:nil];
     
     [AVOSCloud registerForRemoteNotification];
     
-   
-   //从自己公司的服务器获取一些数据
-    [self getData];
     
     //设置导航栏
     [self configNavigationBar];
@@ -128,6 +171,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     
     [self.window switchRootViewController];
     
+    [CoreLaunchCool animWithWindow:self.window image:nil];
     [self.window makeKeyAndVisible];
     
     
@@ -137,7 +181,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 
 #pragma mark 推送设置
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
+    JGLog(@"注册推送成功");
     // Required
     [JPUSHService registerDeviceToken:deviceToken];
     
@@ -150,7 +194,9 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
     JGLog(@"%@",userInfo);
+    
     [JPUSHService handleRemoteNotification:userInfo];
     [JPUSHService setBadge:application.applicationIconBadgeNumber];
     
@@ -159,7 +205,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     if(application.applicationState==UIApplicationStateActive)
         
     {//前台运行时，收到推送的通知会弹出alertview提醒
-        
+        /*
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
         localNotification.repeatInterval=0;
         localNotification.userInfo = userInfo;
@@ -168,7 +214,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
         localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
         localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
         [application scheduleLocalNotification:localNotification];
-        
+        */
+        [[QLHudView shareInstance] showNotificationNews:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]];
         
     }
     
@@ -186,8 +233,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                 [NotificationCenter postNotificationName:kNotificationClickNotification object:userInfo];
             }else{
                 
-                UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
-                [tabVc setSelectedIndex:1];
+//                UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
+//                [tabVc setSelectedIndex:1];
                 
             }
             
@@ -216,8 +263,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                 [tabVc setSelectedIndex:0];
                 [NotificationCenter postNotificationName:kNotificationClickNotification object:notification.userInfo];
             }else{
-                UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
-                [tabVc setSelectedIndex:1];
+//                UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
+//                [tabVc setSelectedIndex:1];
                 
             }
         }
@@ -233,6 +280,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
   
+    
+    
     [JPUSHService setBadge:0];
     
     NSInteger num=application.applicationIconBadgeNumber;
@@ -245,7 +294,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     }
     [application cancelAllLocalNotifications];
     
-    [self checkVersionToUpdate];
+    [self checkVersionToUpdate];//确保每次都检查,让用户去升级
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -271,7 +320,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     
     //设置别名
     [JPUSHService setTags:nil alias:[NSString stringWithFormat:@"jg%@",USER.login_id] fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-        JGLog(@"%@,%@",iTags,iAlias);
+        JGLog(@"%@,%@ == 设置别名成功",iTags,iAlias);
     }];
     
     //添加输入框底部插件，如需更换图标标题，可子类化，然后调用 `+registerSubclass`
@@ -322,7 +371,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                 if (users.count>1) {
                     NSString *title;
                     for (ChatUser *chatUser in users) {
-                        if (![[LCChatKit sharedInstance].clientId isEqualToString:chatUser.userId]) {
+                        if ([LCChatKit sharedInstance].clientId.integerValue != chatUser.userId.integerValue) {
                             title = chatUser.name;
                         }
                     }
@@ -339,6 +388,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     [[LCChatKit sharedInstance] openWithClientId:[NSString stringWithFormat:@"%@",USER.login_id] callback:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             JGLog(@"client 打开成功!!!");
+            [NotificationCenter postNotificationName:kNotificationOpenClientSuccessed object:nil];
         }else{
             JGLog(@"client 打开失败!!!");
             JGLog(@"error == %@",error);
@@ -571,11 +621,16 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
     //获取城市地区 兼职种类
     [JGHTTPClient getAreaInfoByloginId:USER.login_id Success:^(id responseObject) {
         
+        JGLog(@"–––––––––––––––>>>>%@",responseObject);
+        
         //保存兼职种类的数组
         [NSKeyedArchiver archiveRootObject:[PartTypeModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"type_list"]]  toFile:JGJobTypeArr];
-        //保存城市的数组
         
+        //保存城市的数组
         [NSKeyedArchiver archiveRootObject:[CityModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"city_list"]] toFile:JGCityArr];
+        
+        //保存需求分类的数组
+        [NSKeyedArchiver archiveRootObject:[DemandTypeModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"d_type_list"]] toFile:JGDemandTypeArr];
         
         
         //保存限制条件数组
@@ -603,7 +658,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
 {
     
     [JGHTTPClient checkVersionSuccess:^(id responseObject) {
-        
+        JGLog(@"–––––––––>>>>>>>>x%@",responseObject);
         if (responseObject) {
             NSString *version = [responseObject[@"data"] objectForKey:@"ios_user_version"];
             NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
@@ -620,6 +675,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
                     {
                         [[UIApplication sharedApplication] openURL:url];
                     }
+                    
+                    [updateView dismiss];
                 }];
                 [updateView show];
             }
@@ -627,6 +684,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";
         
     } failure:^(NSError *error) {
         
+        JGLog(@"–––––––––>>>>>>>>x%@",error);
     }];
 }
 

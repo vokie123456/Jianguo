@@ -83,6 +83,18 @@
 //先自己创建一个数组<为了后期从服务器请求时改动小点儿>
 -(void)createModelArr
 {
+    if (self.demandModel.enroll_status.integerValue == 3) {
+        NSArray *array = @[[NSString stringWithFormat:@"发布者拒绝了您"],@"报名成功"];
+        for (int i=0; i<2; i++) {
+            
+            DemandStatusModel *model = [[DemandStatusModel alloc] init];
+            model.content = array[i];
+            [self.dataArr addObject:model];
+            
+        }
+        return;
+    }
+    
     NSInteger status = self.demandModel.d_status.integerValue;
     if (status == 1) {
         DemandStatusModel *model = [[DemandStatusModel alloc] init];
@@ -97,23 +109,23 @@
             [self.dataArr addObject:model];
         }
     }else if (status == 3){
-        NSArray *array = @[[NSString stringWithFormat:@"发布者拒绝了您"],@"报名成功"];
-        for (int i=0; i<status-1; i++) {
+        NSArray *array = @[[NSString stringWithFormat:@"您已确认完工,等待雇主确认"],[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
             model.content = array[i];
             [self.dataArr addObject:model];
         }
     }else if (status == 4){
-        NSArray *array = @[@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
-        for (int i=0; i<status-1; i++) {
+        NSArray *array = @[@"发布者确认完工,交易已完成",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
             model.content = array[i];
             [self.dataArr addObject:model];
         }
     }else if (status == 5){
-        NSArray *array = @[@"发布者确认完工,交易已完成",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        NSArray *array = @[@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
         for (int i=0; i<status-1; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
@@ -121,24 +133,24 @@
             [self.dataArr addObject:model];
         }
     }else if (status == 6){
-        NSArray *array = @[@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
-        for (int i=0; i<status-2; i++) {
+        NSArray *array = @[@"平台已仲裁",@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
+        for (int i=0; i<status-1; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
             model.content = array[i];
             [self.dataArr addObject:model];
         }
     }else if (status == 7){
-        NSArray *array = @[@"平台已仲裁",@"发布者投诉了你,等待平台仲裁",@"您已确认完工,等待雇主确认",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
-        for (int i=0; i<status-2; i++) {
+        NSArray *array = @[@"发布者下架了此任务"];
+        for (int i=0; i<1; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
             model.content = array[i];
             [self.dataArr addObject:model];
         }
     }else if (status == 8){
-        NSArray *array = @[@"平台冻结了该需求",[NSString stringWithFormat:@"你被录用了,快去完成工作吧"],@"报名成功"];
-        for (int i=0; i<status-5; i++) {
+        NSArray *array = @[@"任务被平台下架了"];
+        for (int i=0; i<1; i++) {
             
             DemandStatusModel *model = [[DemandStatusModel alloc] init];
             model.content = array[i];
@@ -154,7 +166,7 @@
  */
 -(void)callSomeOne
 {
-    [QLAlertView showAlertTittle:@"确定呼叫?" message:nil isOnlySureBtn:NO compeletBlock:^{
+    [QLAlertView showAlertTittle:@"确定呼叫发布者?" message:nil isOnlySureBtn:NO compeletBlock:^{
         
         [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.demandModel.tel]]];
         
@@ -166,6 +178,10 @@
 -(void)chat
 {
     
+    if (self.demandModel.b_user_id.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+        return ;
+    }
     LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
     
     [self.navigationController pushViewController:conversationViewController animated:YES];
@@ -226,7 +242,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0&&indexPath.section == 0) {
         DemandDetailController *detailVC = [[DemandDetailController alloc] init];
         detailVC.hidesBottomBarWhenPushed = YES;
         detailVC.demandId = self.demandId;

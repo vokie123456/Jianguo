@@ -17,6 +17,8 @@
 #import "ChatMsgViewController.h"
 #import "LCChatKit.h"
 #import <POP.h>
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
 
 @interface MyTabBarController ()<UITabBarControllerDelegate>
 
@@ -136,6 +138,22 @@
     
     return YES;
 }
+
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return [PresentingAnimator new];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
+}
+
 
 
 

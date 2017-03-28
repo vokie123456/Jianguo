@@ -9,6 +9,7 @@
 #import "NSObject+HudView.h"
 #import "DMAlertView.h"
 
+
 @implementation NSObject (HudView)
 
 
@@ -24,5 +25,6 @@
     [APPLICATION.keyWindow addSubview:hud];
     [hud showText:text duration:duration];
 }
+
 
 @end

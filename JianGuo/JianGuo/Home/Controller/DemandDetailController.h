@@ -10,6 +10,8 @@
 
 @interface DemandDetailController : NavigatinViewController
 
+@property (nonatomic,copy) void(^callBackBlock)();
+
 @property (nonatomic,strong) NSString *demandId;
 
 @property (nonatomic,assign) BOOL isSelf;

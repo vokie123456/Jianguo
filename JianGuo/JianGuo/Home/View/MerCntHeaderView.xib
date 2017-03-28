@@ -22,7 +22,7 @@
                     <color key="textColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_touxiang" id="9IM-Fc-Oyo">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myicon" id="9IM-Fc-Oyo">
                     <rect key="frame" x="14" y="71" width="52" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -225,7 +225,7 @@
     <resources>
         <image name="icon_shangjia" width="12" height="12"/>
         <image name="icon_star" width="15" height="15"/>
-        <image name="icon_touxiang" width="60" height="60"/>
         <image name="img_bg" width="375" height="204"/>
+        <image name="myicon" width="70" height="70"/>
     </resources>
 </document>

@@ -126,7 +126,7 @@
     <resources>
         <image name="icon_attention" width="30" height="30"/>
         <image name="img_renwu" width="88" height="95"/>
-        <image name="phone" width="21" height="21"/>
+        <image name="phone" width="20" height="20"/>
         <image name="rz" width="59" height="15"/>
         <image name="yjiantou" width="8" height="13"/>
     </resources>

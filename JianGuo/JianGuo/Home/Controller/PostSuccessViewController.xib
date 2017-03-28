@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostSuccessViewController">
             <connections>
+                <outlet property="iconView" destination="hjV-AA-9jV" id="d5U-Jp-era"/>
                 <outlet property="label" destination="DKH-Bv-7ai" id="H4t-l4-0jt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -35,7 +36,7 @@
                         <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="Ww1-hv-bMF"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发布成功" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKH-Bv-7ai">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发布成功" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKH-Bv-7ai">
                     <rect key="frame" x="0.0" y="249" width="414" height="165"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="28"/>
@@ -56,6 +57,7 @@
                 <constraint firstItem="hjV-AA-9jV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="mKT-5P-EYL"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <point key="canvasLocation" x="150" y="296"/>
         </view>
     </objects>
     <resources>

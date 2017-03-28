@@ -14,6 +14,7 @@
 -(void)getUsers:(NSString *)demandId;
 -(void)deleteDemand:(NSString *)demandId;
 -(void)offStoreDemand:(NSString *)demandId;
+-(void)refreshData;
 
 @end
 

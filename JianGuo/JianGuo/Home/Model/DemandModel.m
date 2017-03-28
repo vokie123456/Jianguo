@@ -34,5 +34,12 @@
 }
 
 
++ (NSDictionary *)mj_replacedKeyFromPropertyName//
+{
+    return @{
+             @"enroll_user_id" : @"demandUserEntity.enroll_user_id"
+             };
+}
+
 
 @end

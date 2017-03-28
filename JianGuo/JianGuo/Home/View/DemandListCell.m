@@ -17,6 +17,7 @@
 #import "QLAlertView.h"
 #import "NSObject+HudView.h"
 #import "UIColor+Hex.h"
+#import "DemandTypeModel.h"
 
 @interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate>
 {
@@ -40,6 +41,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UIImageView *finishView;
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 
 
@@ -50,6 +52,7 @@
 {
     self.finishView.hidden = YES;
     [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+    self.coverView.hidden = YES;
 }
 
 -(void)setModel:(DemandModel *)model
@@ -57,9 +60,11 @@
     _model = model;
     if (model.enroll_status.integerValue == 0&&model.d_status.integerValue==1) {
         [self.signBtn setTitle:@"报名" forState:UIControlStateNormal];
+        [self.signBtn setBackgroundColor:GreenColor];
     }else{
         
         [self.signBtn setTitle:@"已报名" forState:UIControlStateNormal];
+        [self.signBtn setBackgroundColor:LIGHTGRAYTEXT];
     }
     if (model.like_status.integerValue == 1) {
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"xin"] forState:UIControlStateNormal];
@@ -72,17 +77,29 @@
     self.titleL.text = model.title;
     self.moneyL.text = [NSString stringWithFormat:@"%@元",model.money];
     self.contentL.text = model.d_describe;
-    NSArray *array = @[@"学习",@"代办",@"求助",@"娱乐",@"情感",@"生活"];
-    [self.typeBtn setTitle:[[@"  " stringByAppendingString:array[model.d_type.integerValue-1]] stringByAppendingString:@"  "] forState:UIControlStateNormal];
+//    NSArray *array = @[@"学习",@"代办",@"求助",@"娱乐"];
+    
+    NSArray *demandTypeArr= JGKeyedUnarchiver(JGDemandTypeArr);
+    NSMutableArray *arr = @[].mutableCopy;
+    for (DemandTypeModel *model in demandTypeArr) {
+        if (model.type_id.integerValue == 0) {
+            continue;
+        }
+        [arr addObject:model.type_name];
+    }
+    
+    [self.typeBtn setTitle:[[@"  " stringByAppendingString:arr[model.d_type.integerValue-1]] stringByAppendingString:@"  "] forState:UIControlStateNormal];
     self.typeBtn.layer.borderColor = [colorArr[model.d_type.integerValue-1] CGColor];
     [self.typeBtn setTitleColor:colorArr[model.d_type.integerValue-1] forState:UIControlStateNormal];
-    [self.schoolBtn setTitle:[[@"  " stringByAppendingString:model.school_name] stringByAppendingString:@"  "] forState:UIControlStateNormal];
+    [self.schoolBtn setTitle:[[@"  " stringByAppendingString:model.school_name?model.school_name:@"未填写"] stringByAppendingString:@"  "] forState:UIControlStateNormal];
     self.timeL.text = [@"发布于" stringByAppendingString:[[DateOrTimeTool getDateStringBytimeStamp:model.create_time.floatValue] substringFromIndex:5]];
     self.commentCountL.text = [NSString stringWithFormat:@"%@",model.comment_count];
     self.praiseCountL.text = model.like_count;
     
-    if (model.d_status.integerValue >= 4) {
+    if (model.d_status.integerValue>1) {
+        self.coverView.hidden = NO;
         self.finishView.hidden = NO;
+        [self.contentView bringSubviewToFront:self.finishView];
     }
     
 //    self.firstCommentL.text = self.secondCommentL.text = self.thirdCommentL.text = nil;
@@ -114,17 +131,25 @@
 //    }
     
 }
-- (IBAction)sign:(id)sender {
+- (IBAction)sign:(UIButton *)sender {
     if (_model.enroll_status.integerValue!=0) {
         return;
     }
     
     
     if ([self.delegate respondsToSelector:@selector(signDemand:)]) {
-        if (USER.tel.length!=11) {
-            [self.delegate signDemand:sender];
+        if (USER.tel.length!=11||USER.resume.integerValue == 0 ) {
+            [self.delegate signDemand:USER.login_id];
             return;
         }
+    }
+    if (_model.b_user_id.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能报自己发布的任务!" duration:1];
+        return ;
+    }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        return;
     }
     
     JGSVPROGRESSLOAD(@"正在报名...")
@@ -136,6 +161,8 @@
                                       if ([responseObject[@"code"]integerValue]==200) {
 //                                          [sender setBackgroundColor:[UIColor lightGrayColor]];
                                           [sender setTitle:@"已报名" forState:UIControlStateNormal];
+                                          [sender setBackgroundColor:LIGHTGRAYTEXT];
+                                          sender.userInteractionEnabled = NO;
                                       }
                                       
                                       

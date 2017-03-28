@@ -13,6 +13,7 @@
 #import "WelfareModel.h"
 
 #define FontSize 14
+static NSString *identifier = @"LabelJobCell";
 
 @interface SelectCollectionCell()<UICollectionViewDataSource , UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout>
 {
@@ -86,7 +87,7 @@
         }];
     }
     */
-    [self.collectionView reloadData];
+//    [self.collectionView reloadData];
 }
 
 
@@ -109,7 +110,7 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LabelCell" bundle:[NSBundle mainBundle]]forCellWithReuseIdentifier:@"LabelCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:identifier bundle:[NSBundle mainBundle]]forCellWithReuseIdentifier:identifier];
     
     //添加监听者
     [self.collectionView addObserver: self forKeyPath: @"contentSize" options: NSKeyValueObservingOptionNew context: nil];
@@ -148,7 +149,6 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"LabelCell";
     LabelJobCell *cell = (LabelJobCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.contentL.text = self.dataArr[indexPath.row];
     return cell;

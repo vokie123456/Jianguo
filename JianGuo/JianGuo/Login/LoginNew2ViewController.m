@@ -40,6 +40,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    #ifdef DEBUG
+    self.telTF.text = @"13614093590";
+    self.passwTF.text = @"123456";
+    #else
+    
+    #endif
+    
     [NotificationCenter addObserver:self selector:@selector(changeFrame:) name:UIKeyboardDidChangeFrameNotification object:nil];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"picture"]];

@@ -13,5 +13,6 @@
 @property (nonatomic,copy) void(^callBackBlock)();
 
 @property (nonatomic,copy) NSString *labelStr;
+@property (nonatomic,copy) NSString *detailStr;
 
 @end

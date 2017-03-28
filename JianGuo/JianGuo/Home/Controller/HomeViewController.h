@@ -6,10 +6,10 @@
 //  Copyright © 2016年 ningcol. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "NavigatinViewController.h"
 #import <AVOSCloudIM.h>
 
-@interface HomeViewController : BaseViewController
+@interface HomeViewController : NavigatinViewController
 
 @property (nonatomic,strong) UIView *msgRemindView;
 @property (nonatomic,strong) AVIMClient *client;

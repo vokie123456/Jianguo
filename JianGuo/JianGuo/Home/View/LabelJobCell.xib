@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LabelJobCell" id="XK4-O0-IVO" customClass="LabelCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LabelJobCell" id="XK4-O0-IVO" customClass="LabelJobCell">
             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -21,7 +21,7 @@
                         <nil key="highlightedColor"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.2784313725" green="0.62352941179999999" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                 <real key="value" value="1"/>
@@ -37,6 +37,9 @@
                 <constraint firstAttribute="trailing" secondItem="SEE-Si-076" secondAttribute="trailing" id="fjT-Bi-rkI"/>
                 <constraint firstItem="SEE-Si-076" firstAttribute="top" secondItem="XK4-O0-IVO" secondAttribute="top" id="rJH-hs-8vo"/>
             </constraints>
+            <connections>
+                <outlet property="contentL" destination="SEE-Si-076" id="chd-9D-jQe"/>
+            </connections>
             <point key="canvasLocation" x="245" y="228"/>
         </collectionViewCell>
     </objects>

@@ -65,7 +65,7 @@
         
     }else if (model.type.integerValue == 2){
         
-        cell.iconView.image = [UIImage imageNamed:@"icon_zhifu"];
+        cell.iconView.image = [UIImage imageNamed:@"aliPay"];
         cell.bindTypeL.text = @"支付宝";
         cell.bindStateL.text = model.receive_name;
         

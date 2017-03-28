@@ -44,5 +44,9 @@
  *  去登录
  */
 -(void)gotoCodeVC;
+/**
+ *  去填写资料
+ */
+-(void)gotoProfileVC;
 
 @end

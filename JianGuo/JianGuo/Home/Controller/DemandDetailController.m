@@ -7,6 +7,8 @@
 //
 
 #import "DemandDetailController.h"
+#import "HomeSegmentViewController.h"
+#import "PostSuccessViewController.h"
 #import "DemandDetailCell.h"
 #import "CommentCell.h"
 #import "JGHTTPClient+Demand.h"
@@ -20,10 +22,11 @@
 #import <IQKeyboardManager.h>
 #import "XLPhotoBrowser.h"
 #import "LCChatKit.h"
+#import "DemandModel.h"
 
 #define HeaderImageHeight 747/3
 
-@interface DemandDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,FinishEditDelegate>
+@interface DemandDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,FinishEditDelegate,UITextFieldDelegate>
 {
     CGFloat currentPostion;
     CGFloat lastPosition;
@@ -50,7 +53,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"需求详情";
+    self.navigationItem.title = @"任务详情";
     
     [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -63,21 +66,23 @@
     
     [self addInsetScaleImageView];
     
-    
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        pageCount = 0;
-        [self requestDemandDetail];
-        [self requestCommentsWithPageCount:@"1"];
-        
-    }];
+//    
+//    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        pageCount = 0;
+//        [self requestDemandDetail];
+//        [self requestCommentsWithPageCount:@"1"];
+//        
+//    }];
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestCommentsWithPageCount:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
+    
+    [self setNavigationBar];//导航栏上的分享按钮
     
     [self requestDemandDetail];
     [self requestCommentsWithPageCount:@"1"];
@@ -108,7 +113,7 @@
 {
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].enable = YES;
-    
+    [APPLICATION.keyWindow endEditing:YES];
     [self.bottomView removeFromSuperview];
 }
 
@@ -118,6 +123,28 @@
     
 }
 
+
+-(void)setNavigationBar
+{
+    UIButton *btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_r setBackgroundImage:[UIImage imageNamed:@"icon_fenxiang"] forState:UIControlStateNormal];
+    [btn_r addTarget:self action:@selector(shareDemand:) forControlEvents:UIControlEventTouchUpInside];
+    btn_r.frame = CGRectMake(0, 0, 20, 20);
+    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    self.navigationItem.rightBarButtonItem = rightBtn;
+}
+/**
+ *  分享
+ */
+-(void)shareDemand:(UIButton *)btn
+{
+    ShareView *shareView = [ShareView aShareView];
+    shareView.demandModel = self.demandModel;
+    [shareView show];
+}
+
+
 -(void)requestDemandDetail
 {
     
@@ -126,11 +153,19 @@
             
             self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
             [self.demandView sd_setImageWithURL:[NSURL URLWithString:self.demandModel.d_image] placeholderImage:[UIImage imageNamed:@"kobe"]];
-            if (self.demandModel.enroll_status.integerValue==1) {
+            if (self.demandModel.enroll_status.integerValue!=0||self.demandModel.d_status.integerValue!=1) {
                 self.signButton.userInteractionEnabled = NO;
                 [self.signButton setBackgroundColor:[UIColor lightGrayColor]];
-                [self.signButton setTitle:@"已经约了" forState:UIControlStateNormal];
+                [self.signButton setTitle:@"已经报名" forState:UIControlStateNormal];
+                
+            }else if (self.demandModel.d_status.integerValue == 7||self.demandModel.d_status.integerValue == 8){
+                
+                self.signButton.userInteractionEnabled = NO;
+                
+                [self.signButton setTitle:@"已下架" forState:UIControlStateNormal];
+                
             }
+            
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             
         }else{
@@ -161,13 +196,13 @@
             NSMutableArray *sections = [NSMutableArray array];
             for (CommentModel *model in [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
                 [self.dataArr addObject:model];
-                NSIndexSet* section = [NSIndexSet indexSetWithIndex:self.dataArr.count-1];
-                [sections addObject:section];
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:1];
+                [sections addObject:indexPath];
             }
             
-            //            [_tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
+//            [self.tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
+//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView reloadData];
             return;
             
         }else{
@@ -230,11 +265,7 @@
     self.navigationItem.rightBarButtonItem = rightBtn;
 }
 
--(void)shareDemand:(UIButton *)btn
-{
-    ShareView *shareView = [ShareView aShareView];
-    [shareView show];
-}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -265,17 +296,17 @@
         DemandDetailCell *cell = [DemandDetailCell cellWithTableView:tableView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (indexPath.row == 0) {
-            cell.leftL.text = @"需求";
+            cell.leftL.text = @"任务名称";
             cell.rightL.text = self.demandModel.title;
         }else if (indexPath.row == 1) {
-            cell.leftL.text = @"赏金";
+            cell.leftL.text = @"任务赏金";
             cell.rightL.textColor = RedColor;
             cell.rightL.text = [NSString stringWithFormat:@"赏金 %@ 元",self.demandModel.money];
         }else if (indexPath.row == 2){
-            cell.leftL.text = @"描述";
+            cell.leftL.text = @"任务描述";
             cell.rightL.text = self.demandModel.d_describe;
         }else if (indexPath.row == 3){
-            cell.leftL.text = @"工作地点";
+            cell.leftL.text = @"任务地点";
             cell.rightL.text = self.demandModel.area;
         }else if (indexPath.row == 4){
             
@@ -310,6 +341,7 @@
     }else{
         
         CommentCell *cell = [CommentCell  cellWithTableView:tableView];
+        cell.postUserId = self.demandModel.b_user_id;
         cell.model = self.dataArr[indexPath.row];
         return cell;
         
@@ -319,6 +351,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (USER.login_id.integerValue<1) {
+        [self gotoCodeVC];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
     //点击回复
     if (indexPath.section == 1) {
         
@@ -400,6 +444,17 @@
             [self gotoCodeVC];
             return;
         }
+        if (USER.resume.intValue == 0){
+            [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self gotoProfileVC];
+            });
+            return;
+        }
+        if (self.demandModel.b_user_id.integerValue == USER.login_id.integerValue) {
+            [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+            return ;
+        }
         
         LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.b_user_id]];
         
@@ -427,6 +482,13 @@
             [self gotoCodeVC];
             return;
         }
+        if (USER.resume.intValue == 0){
+            [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self gotoProfileVC];
+            });
+            return;
+        }
         [self customCommentKeyboard];
         self.to_user_id = self.demandModel.b_user_id;
         [self.commentTV becomeFirstResponder];
@@ -436,7 +498,7 @@
     
     
     UIButton *signButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [signButton setTitle:@"我要笑约" forState:UIControlStateNormal];
+    [signButton setTitle:@"我要报名" forState:UIControlStateNormal];
     [signButton addTarget:self action:@selector(sign:) forControlEvents:UIControlEventTouchUpInside];
     [signButton setBackgroundColor:GreenColor];
     [view addSubview:signButton];
@@ -457,6 +519,19 @@
         return;
     }
     
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
+    
+    if (self.demandModel.b_user_id.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能报自己发布的任务!" duration:1];
+        return ;
+    }
+    
     JGSVPROGRESSLOAD(@"正在报名...")
     [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1"
                                   reason:nil Success:^(id responseObject) {
@@ -464,8 +539,23 @@
         
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"]integerValue]==200) {
+            
+            if (self.callBackBlock) {
+                self.callBackBlock();
+            }
+            
             [self.signButton setBackgroundColor:[UIColor lightGrayColor]];
             [self.signButton setTitle:@"已经约了" forState:UIControlStateNormal];
+            
+            HomeSegmentViewController *vc = (HomeSegmentViewController *)self.navigationController.viewControllers.firstObject;
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            PostSuccessViewController *postVC = [[PostSuccessViewController alloc] init];
+            postVC.labelStr = @"register";
+            postVC.transitioningDelegate = vc;//代理必须遵守这个专场协议
+            postVC.modalPresentationStyle = UIModalPresentationCustom;
+            [self.navigationController.viewControllers.firstObject presentViewController:postVC animated:YES completion:nil];
+            
         }
         
         
@@ -532,6 +622,7 @@
 
 -(void)finishEdit//点击完成按钮
 {
+    
     if (self.commentTV.text.length==0) {
         [APPLICATION.keyWindow endEditing:YES];
         [self showAlertViewWithText:@"您还没输入内容呢" duration:1];
@@ -542,7 +633,7 @@
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"]integerValue]==200) {
             
-            [self requestCommentsWithPageCount:@"0"];
+            [self requestCommentsWithPageCount:@"1"];
             
         }
         

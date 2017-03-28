@@ -151,7 +151,7 @@
     
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(-40, logoView.bottom, LOGOWIDTHEQUELHEIGHT+80, 20)];
     versionLabel.font = FONT(12);
-    versionLabel.text = [@"兼果:V" stringByAppendingString:[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]];
+    versionLabel.text = [@"兼果校园:V" stringByAppendingString:[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]];
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.textColor = LIGHTGRAYTEXT;
     
@@ -245,7 +245,7 @@
     [bgView3 addSubview:rightBtnBottom];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, bgView3.bottom+50, SCREEN_W, 30)];
-    label.text = @"兼果在手,兼职我有";
+    label.text = @"上大学,上兼果";
     label.textAlignment = NSTextAlignmentCenter;
     label.font = FONT(14);
     label.textColor = LIGHTGRAYTEXT;

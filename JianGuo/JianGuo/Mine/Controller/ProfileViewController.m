@@ -18,18 +18,23 @@
 #import "CityModel.h"
 #import "QLTakePictures.h"
 #import "MineChatCell.h"
+#import <AMapLocationKit/AMapLocationKit.h>
 
 #define scrollViewHeight 300
 
 #define iconWidth 80
 
-@interface ProfileViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+@interface ProfileViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,AMapLocationManagerDelegate>
 {
     NSInteger currentIndex;
     
     QLTakePictures *takePic;
     
+    BOOL isSelectIconImage;
+    
 }
+
+@property (nonatomic,strong) AMapLocationManager *manager;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UITextField *nameTF;
@@ -70,6 +75,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self location];//定位
+    
+    self.isStudent = @"1";
     
     self.navigationItem.title = @"填写基本资料";
     
@@ -128,8 +137,10 @@
 {
     if (section == 0) {
         return 1;
-    }else if (section == 1 || section == 2){
+    }else if (section == 1){
         return 3;
+    }else if (section == 2){
+        return 2;
     }else
         return 1;
 }
@@ -206,18 +217,19 @@
         }
         
     }else if (indexPath.section == 2){
-        if (indexPath.row == 0) {
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.labelLeft.text = @"是否学生";
-            cell.rightTf.placeholder = @"您还在象牙塔里吗?";
-            cell.jiantouView.hidden = YES;
-            cell.rightTf.userInteractionEnabled = NO;
-            self.isStudentTF = cell.rightTf;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            
-        }else if (indexPath.row == 1){
+//        if (indexPath.row == 0) {
+//            
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            cell.labelLeft.text = @"是否学生";
+//            cell.rightTf.placeholder = @"您还在象牙塔里吗?";
+//            cell.jiantouView.hidden = YES;
+//            cell.rightTf.userInteractionEnabled = NO;
+//            self.isStudentTF = cell.rightTf;
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//            
+//            
+//        }
+        if (indexPath.row == 0){
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"所在学校";
@@ -227,7 +239,7 @@
             self.schoolTF = cell.rightTf;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 1){
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"入学时间";
             cell.rightTf.placeholder = @"请选择您的入学时间";
@@ -275,13 +287,14 @@
         }
         
     }else if (indexPath.section == 2){
-        if (indexPath.row == 0) {//是否是学生
-            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
-                self.isStudentTF.text = title;
-                self.isStudent = [NSString stringWithFormat:@"%ld",index];
-            }];
-            view.titleArr = @[@"是",@"否"];
-        }else if (indexPath.row == 1){//所在学校
+//        if (indexPath.row == 0) {//是否是学生
+//            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
+//                self.isStudentTF.text = title;
+//                self.isStudent = [NSString stringWithFormat:@"%ld",index];
+//            }];
+//            view.titleArr = @[@"是",@"否"];
+//        }else
+        if (indexPath.row == 0){//所在学校
             
             SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
             
@@ -292,7 +305,8 @@
             
             [self.navigationController pushViewController:searchVC animated:YES];
             
-        }else if (indexPath.row == 2){//入学时间
+        }else if (indexPath.row == 1){//入学时间
+            
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.intoSchoolTimeTF.text = inSchoolTime;
             }];
@@ -315,25 +329,30 @@
     }else if (self.nickNameTF.text.length==0){
         [self showAlertViewWithText:@"请给自己一个昵称" duration:1];
         return;
-    }else if (self.starSet.length==0){
-        [self showAlertViewWithText:@"请选择您的星座" duration:1];
-        return;
-    }else if (self.birthDateTF.text.length==0){
+    }
+//    else if (self.starSet.length==0){
+//        [self showAlertViewWithText:@"请选择您的星座" duration:1];
+//        return;
+//    }
+    else if (self.birthDateTF.text.length==0){
         [self showAlertViewWithText:@"请选择您的出生日期" duration:1];
         return;
-    }else if (self.addressTF.text.length==0) {
-        [self showAlertViewWithText:@"请选择您所在的地址" duration:1];
-        return;
-    }else if (self.schoolTF.text.length==0){
+    }
+//    else if (self.addressTF.text.length==0) {
+//        [self showAlertViewWithText:@"请选择您所在的地址" duration:1];
+//        return;
+//    }
+    else if (self.schoolTF.text.length==0){
         [self showAlertViewWithText:@"请选择您的大学" duration:1];
         return;
     }else if (self.intoSchoolTimeTF.text.length==0){
         [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
         return;
-    }else if (self.QQTF.text.length==0) {
-    [self showAlertViewWithText:@"留下您的QQ号吧" duration:1];
-    return;
     }
+//    else if (self.QQTF.text.length==0) {
+//        [self showAlertViewWithText:@"留下您的微信号吧" duration:1];
+//        return;
+//    }
     
     [self commitInfo];
     
@@ -372,6 +391,7 @@
                     user.gender = self.sex;
                     user.schoolId = self.schoolId;
                     user.iconUrl = url;
+                    user.is_student = @"1";//1==是,2==不是
                     user.birthDay = self.birthDateTF.text;
                     [JGUser saveUser:user WithDictionary:nil loginType:0];
                     
@@ -401,9 +421,42 @@
  */
 -(void)popToLoginVC
 {
-
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+
+
+-(AMapLocationManager *)manager
+{
+    if (!_manager) {
+        _manager = [[AMapLocationManager alloc] init];
+        //设置精确度
+        [_manager setPausesLocationUpdatesAutomatically:YES];
+        _manager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        [_manager setAllowsBackgroundLocationUpdates:NO];
+        _manager.delegate = self;
+        [_manager setLocationTimeout:6];
+        [_manager setReGeocodeTimeout:3];
+    }
+    return _manager;
+}
+
+//定位
+-(void)location
+{
+    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        if (regeocode) {//定位成功
+            
+            self.cityId = regeocode.citycode;
+           
+        }else{//定位失败
+
+            self.cityId = nil;
+
+        }
+        
+    }];
 }
 
 

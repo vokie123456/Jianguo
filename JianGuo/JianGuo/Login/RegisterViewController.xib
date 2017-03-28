@@ -39,7 +39,7 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入(6~16位)密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBY-oo-l2F">
                             <rect key="frame" x="0.0" y="97" width="375" height="45"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                            <textInputTraits key="textInputTraits" keyboardType="alphabet" secureTextEntry="YES"/>
                             <connections>
                                 <action selector="ensureRightInPut:" destination="-1" eventType="editingChanged" id="q7c-CC-eno"/>
                             </connections>
@@ -98,7 +98,7 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请确认(6~16位)密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ViB-zA-Kl8">
                             <rect key="frame" x="0.0" y="143" width="375" height="45"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                            <textInputTraits key="textInputTraits" keyboardType="alphabet" secureTextEntry="YES"/>
                             <connections>
                                 <action selector="ensureRightInPut:" destination="-1" eventType="editingChanged" id="jYj-DA-biq"/>
                             </connections>

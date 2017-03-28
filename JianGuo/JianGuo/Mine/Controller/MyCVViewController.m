@@ -21,17 +21,21 @@
 #import "SchoolModel.h"
 #import "StudentInfoCell.h"
 #import "UITextView+placeholder.h"
+#import <AMapLocationKit/AMapLocationKit.h>
+
 
 #define ICONIMAGEDATA [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"icon.data"]
 
-@interface MyCVViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIScrollViewDelegate>
+@interface MyCVViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIScrollViewDelegate,AMapLocationManagerDelegate>
 {
     JianliAccount *account;
     BOOL isFirstViewWillAppear;
     BOOL isLoadDataFromNet;
+    BOOL isSelectImage;
     UIButton *editBtn;
     UIView *bigView;
 }
+@property (nonatomic,strong) AMapLocationManager *manager;
 
 @property (nonatomic,strong) UITableView *tableView;
 
@@ -46,6 +50,8 @@
 @property (nonatomic,strong) CheckBox *selectYes;
 
 @property (nonatomic,copy) NSString *sex;
+
+@property (nonatomic,copy) NSString *cityId;
 
 @property (nonatomic,copy) NSString *birthDay;
 
@@ -140,6 +146,8 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self location];//定位
     
     self.title = @"我的资料";
     
@@ -254,7 +262,7 @@
             if (responseObject) {
                 account = [JianliAccount mj_objectWithKeyValues:responseObject[@"data"]];
                 self.isStudent = account.is_student;
-                [self.iconView sd_setImageWithURL:[NSURL URLWithString:account.head_img_url] placeholderImage:[UIImage imageNamed:@"upload"]];
+                [self.iconView sd_setImageWithURL:[NSURL URLWithString:account.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
                 JGUser *user = [JGUser user];
                 user.gender = account.sex;
                 user.iconUrl = account.head_img_url;
@@ -292,7 +300,7 @@
     iconView.layer.cornerRadius = 35;
     iconView.userInteractionEnabled = YES;
     [bgView addSubview:iconView];
-    [iconView sd_setImageWithURL:[NSURL URLWithString:[JGUser user].iconUrl] placeholderImage:[UIImage imageNamed:@"upload"]];
+    [iconView sd_setImageWithURL:[NSURL URLWithString:[JGUser user].iconUrl] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.iconView = iconView;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, iconView.bottom+10, SCREEN_W, 20)];
@@ -339,7 +347,7 @@
         }else if (section == 1){
             label.text = @"个人信息";
         }else if (section == 2){
-            label.text = @"联系方式";
+            label.text = @"我的特长";
         }
         return sectionHeaderView;
     }else{
@@ -369,11 +377,11 @@
     if (section == 0) {
         return 4;
     }else if (section ==1){
-        if ([self.isStudent integerValue] == 2) {
-            return 1+1;
-        }else{
-            return 3+1;
-        }
+//        if ([self.isStudent integerValue] == 2) {
+//            return 1+1;
+//        }else{
+            return 3;//因为去掉了是不是学生一行
+//        }
     }else{
         return 1;
     }
@@ -414,7 +422,9 @@
                 cell.rightTf.userInteractionEnabled = YES;
                 cell.rightTf.placeholder = @"请输入您的昵称";
                 self.nickNameTF = cell.rightTf;
-                self.nickNameTF.userInteractionEnabled = NO;
+                if (!editBtn.selected) {
+                    self.nickNameTF.userInteractionEnabled = NO;
+                }
                 cell.rightTf.delegate = self;
                 cell.lineViewTop.hidden = YES;
                 break;
@@ -498,40 +508,41 @@
     else if (indexPath.section == 1){
         JianliCell *cell = [JianliCell cellWithTableView:tableView ];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 0) {
-            if ([self.isStudent integerValue] == 1) {
-                cell.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
-            }else if ([self.isStudent integerValue] == 2){
-                cell.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
-            }
-            cell.lineViewTop.hidden = NO;
-            //@"1"是学生,@"2"不是
-            NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*学生:"];
-            [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
-            cell.labelLeft.attributedText = nameStr;
-            cell.rightTf.hidden = YES;
-            cell.selectNo.hidden = NO;
-            self.selectNo = cell.selectNo;
-
-            cell.selectYes.hidden = NO;
-            self.selectYes = cell.selectYes;
-            cell.jiantouView.hidden = YES;
-            if (!editBtn.selected) {
-                self.selectYes.userInteractionEnabled = NO;
-                self.selectNo.userInteractionEnabled = NO;
-            }else{
-                self.selectYes.userInteractionEnabled = YES;
-                self.selectNo.userInteractionEnabled = YES;
-            }
-            IMP_BLOCK_SELF(MyCVViewController);
-
-            cell.seletIsStudentBlock = ^(NSString *isStuent){
-                block_self.isStudent = isStuent;
-                [block_self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-                
-            };
-        }
-        else if (indexPath.row == 1){
+//        if (indexPath.row == 0) {
+//            if ([self.isStudent integerValue] == 1) {
+//                cell.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
+//            }else if ([self.isStudent integerValue] == 2){
+//                cell.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
+//            }
+//            cell.lineViewTop.hidden = NO;
+//            //@"1"是学生,@"2"不是
+//            NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*学生:"];
+//            [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
+//            cell.labelLeft.attributedText = nameStr;
+//            cell.rightTf.hidden = YES;
+//            cell.selectNo.hidden = NO;
+//            self.selectNo = cell.selectNo;
+//
+//            cell.selectYes.hidden = NO;
+//            self.selectYes = cell.selectYes;
+//            cell.jiantouView.hidden = YES;
+//            if (!editBtn.selected) {
+//                self.selectYes.userInteractionEnabled = NO;
+//                self.selectNo.userInteractionEnabled = NO;
+//            }else{
+//                self.selectYes.userInteractionEnabled = YES;
+//                self.selectNo.userInteractionEnabled = YES;
+//            }
+//            IMP_BLOCK_SELF(MyCVViewController);
+//
+//            cell.seletIsStudentBlock = ^(NSString *isStuent){
+//                block_self.isStudent = isStuent;
+//                [block_self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                
+//            };
+//        }
+//        else
+            if (indexPath.row == 0){
             if (self.isStudent.integerValue == 1||self.isStudent.integerValue == 0) {//是学生
                 if (!self.hadSelectedSchool) {
                     if (account) {
@@ -544,20 +555,21 @@
                 cell.labelLeft.attributedText = nameStr;
                 cell.rightTf.placeholder = @"请选择您的学校";
                 self.schoolTF = cell.rightTf;
-            }else if (self.isStudent.integerValue == 2){//不是学生
-               
-                cell.labelLeft.text = @"微信号";
-                cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
-                if (account) {
-                    cell.rightTf.text = account.qq.integerValue?account.qq:nil;
-                }
-                if (editBtn.selected) {
-                    cell.rightTf.userInteractionEnabled = YES;
-                }
-                self.qqTF = cell.rightTf;
             }
+//            else if (self.isStudent.integerValue == 2){//不是学生
+//               
+//                cell.labelLeft.text = @"微信号";
+//                cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
+//                if (account) {
+//                    cell.rightTf.text = account.qq.integerValue?account.qq:nil;
+//                }
+//                if (editBtn.selected) {
+//                    cell.rightTf.userInteractionEnabled = YES;
+//                }
+//                self.qqTF = cell.rightTf;
+//            }
         }
-        else if (indexPath.row == 2){
+        else if (indexPath.row == 1){
             if (account) {
                 cell.rightTf.text = account.intoschool_date;
             }
@@ -567,7 +579,7 @@
             cell.rightTf.placeholder = @"请选择您的入学时间";
             self.inSchoolTiemTF = cell.rightTf;
         }
-        else if (indexPath.row == 3){
+        else if (indexPath.row == 2){
             
             cell.labelLeft.text = @"微信号:";
             cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
@@ -596,10 +608,12 @@
         [cell.contentView addSubview:textV];
         self.introduceTF = textV;
         if (account) {
-            textV.placeholder = nil;
-            textV.text = account.introduce;
+            textV.placeholder = account.introduce.length?nil:@"描述您的特长,例如:编程序,做PPT...";
+            textV.text = account.introduce.length?account.introduce:nil;
         }
-        self.introduceTF.userInteractionEnabled = NO;
+        if (!editBtn.selected) {
+            self.introduceTF.userInteractionEnabled = NO;
+        }
         return cell;
         
     }
@@ -671,26 +685,45 @@
         
         if (indexPath.row==0) {
             
+            SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
             
+            searchVC.seletSchoolBlock = ^(SchoolModel *school){
+                
+                cell.rightTf.text = school.name;
+                self.school = school.id;
+                self.hadSelectedSchool = YES;
+                
+            };
+            
+            [self.navigationController pushViewController:searchVC animated:YES];
             
         }else if (indexPath.row == 1) {//查询学校
            
-            if (self.isStudent.integerValue ==2) {//不是学生
-                
-            }else if (self.isStudent.integerValue == 1){//是学生
-                
-                SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
-                
-                searchVC.seletSchoolBlock = ^(SchoolModel *school){
-                    
-                    cell.rightTf.text = school.name;
-                    self.school = school.id;
-                    self.hadSelectedSchool = YES;
-                    
-                };
-                
-                [self.navigationController pushViewController:searchVC animated:YES];
-            }
+            PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
+                self.intoSchoolTime = inSchoolTime;
+                cell.rightTf.text = inSchoolTime;
+            }];
+            pickerView.isDatePicker = YES;
+            NSString *timeString = @"2015-09-01";
+            pickerView.datePickerView.date = [self.formatter dateFromString:timeString];
+            [pickerView show];
+            
+//            if (self.isStudent.integerValue ==2) {//不是学生
+//                
+//            }else if (self.isStudent.integerValue == 1){//是学生
+//            
+//                SearchSchoolViewController *searchVC = [[SearchSchoolViewController alloc] init];
+//                
+//                searchVC.seletSchoolBlock = ^(SchoolModel *school){
+//                    
+//                    cell.rightTf.text = school.name;
+//                    self.school = school.id;
+//                    self.hadSelectedSchool = YES;
+//                    
+//                };
+//                
+//                [self.navigationController pushViewController:searchVC animated:YES];
+//            }
             
         }else if (indexPath.row == 2){
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
@@ -792,6 +825,8 @@
     
     self.iconView.image = image;
     
+    isSelectImage = YES;
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -845,7 +880,7 @@
             }
     }
 
-    [SVProgressHUD showWithStatus:@"正在提交" maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:@"正在提交..." maskType:SVProgressHUDMaskTypeClear];
     [self upImageToQN];
     
 }
@@ -870,7 +905,7 @@
             
             
             
-            [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:user.iconUrl sex:self.sex height:self.heightTF.text schoolId:self.school cityId:nil areaId:nil inSchoolTime:self.inSchoolTiemTF.text birthDay:self.birthTF.text constellation:nil introduce:self.introduceTF.text qq:self.qqTF.text isStudent:self.isStudent Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
+            [JGHTTPClient uploadUserJianliInfoByname:self.nameTF.text nickName:self.nickNameTF.text iconUrl:user.iconUrl sex:self.sex height:self.heightTF.text schoolId:self.school cityId:self.cityId areaId:nil inSchoolTime:self.inSchoolTiemTF.text birthDay:self.birthTF.text constellation:nil introduce:self.introduceTF.text qq:self.qqTF.text isStudent:self.isStudent Success:^(id responseObject) {//是不是学生这个字段在业务上不要了
                 
                 [SVProgressHUD dismiss];
                 JGLog(@"%@",responseObject);
@@ -892,6 +927,7 @@
                     user.gender = self.sex;
                     user.school_name = self.schoolTF.text;
                     user.schoolId = self.school;
+                    user.birthDay = self.birthTF.text;
                     [JGUser saveUser:user WithDictionary:nil loginType:0];
                     if (self.reloadView) {
                         self.reloadView();
@@ -944,6 +980,41 @@
     
     return image;
     
+}
+
+
+//定位
+-(AMapLocationManager *)manager
+{
+    if (!_manager) {
+        _manager = [[AMapLocationManager alloc] init];
+        //设置精确度
+        [_manager setPausesLocationUpdatesAutomatically:YES];
+        _manager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        [_manager setAllowsBackgroundLocationUpdates:NO];
+        _manager.delegate = self;
+        [_manager setLocationTimeout:6];
+        [_manager setReGeocodeTimeout:3];
+    }
+    return _manager;
+}
+
+//定位
+-(void)location
+{
+    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        if (regeocode) {//定位成功
+            
+            self.cityId = regeocode.citycode;
+            
+        }else{//定位失败
+            
+            self.cityId = nil;
+            
+        }
+        
+    }];
 }
 
 @end

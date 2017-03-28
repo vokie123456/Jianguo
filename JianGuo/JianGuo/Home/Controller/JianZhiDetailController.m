@@ -80,7 +80,7 @@
     
     [self configBottomBar];
     
-    [self setNavigationBar];
+//    [self setNavigationBar];
   
     [self configNoNetView];
 
@@ -177,6 +177,8 @@
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
     self.navigationItem.rightBarButtonItem = rightBtn;
 }
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -336,13 +338,23 @@
         [self gotoCodeVC];
         return;
     }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定咨询此条兼职?" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        if (self.detailModel.user_id.integerValue == USER.login_id.integerValue) {
+            [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+            return ;
+        }
         LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.detailModel.user_id]];
         
         //    [NotificationCenter postNotificationName:kNotificationSendJobName object:self.detailModel];
@@ -403,6 +415,9 @@
         return;
     }else if (USER.resume.intValue == 0){
         [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
         return;
     }else if (self.detailModel.user_count.intValue >= sum || self.detailModel.status.intValue!=1 || self.detailModel.count.intValue == self.detailModel.sum.intValue){//
         [self showAlertViewWithText:@"该兼职已报满,您可以找更好的兼职哦!" duration:1];

@@ -80,7 +80,7 @@
         
         pageCount = ((int)self.modelArr.count/10) + ((int)(self.modelArr.count/10)>1?1:2);
         
-        [block_self requestList:[NSString stringWithFormat:@"%d",pageNum] type:block_self.type];
+        [block_self requestList:[NSString stringWithFormat:@"%d",pageCount] type:block_self.type];
     }];
     [self.tableView.mj_header beginRefreshing];
 
@@ -208,9 +208,9 @@
     SignListCell *cell = (SignListCell *)[[[btn superview] superview]superview];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     JianzhiModel *model = self.modelArr[indexPath.row];
-    int status = model.user_status.intValue;
+    int status = model.status.intValue;
         
-    if (status == 0) {
+    if (status == 1) {
             UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定取消?" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -220,17 +220,17 @@
             [alertVC addAction:sureAC];
             [self presentViewController:alertVC animated:YES completion:nil];
         }
-     if (status == 3) {//点击取消参加
-            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定取消?" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self changeStatus:@"4" jobId:model.id];
-            }];
-            [alertVC addAction:cancelAC];
-            [alertVC addAction:sureAC];
-            [self presentViewController:alertVC animated:YES completion:nil];
-        }
-        
+//     if (status == 3) {//点击取消参加
+//            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定取消?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//            UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [self changeStatus:@"4" jobId:model.id];
+//            }];
+//            [alertVC addAction:cancelAC];
+//            [alertVC addAction:sureAC];
+//            [self presentViewController:alertVC animated:YES completion:nil];
+//        }
+    
         
     
 
@@ -238,37 +238,37 @@
 
 -(void)clickRightBtn:(UIButton *)btn
 {//每种情况下要根据status判断
-    SignListCell *cell = (SignListCell *)[[[btn superview] superview]superview];
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    JianzhiModel *model = self.modelArr[indexPath.row];
-    
-    int status = model.user_status.intValue;
+//    SignListCell *cell = (SignListCell *)[[[btn superview] superview]superview];
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    JianzhiModel *model = self.modelArr[indexPath.row];
 //    
+//    int status = model.status.intValue;
+//
 //    if (self.type.intValue == 0) {// 待录取 - 右边按钮隐藏
 //        
 //        
 //        
 //    }else if (self.type.intValue == 1){//已录取 - 确认参加
 //        
-        if(status == 3){//点击确认参加
-            [self changeStatus:@"5" jobId:model.id];
-        }else if (status == 5){//已确认参加后再取消参加
-            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定取消?" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self changeStatus:@"4" jobId:model.id];
-            }];
-            [alertVC addAction:cancelAC];
-            [alertVC addAction:sureAC];
-            [self presentViewController:alertVC animated:YES completion:nil];
-        }
-        
+//        if(status == 3){//点击确认参加
+//            [self changeStatus:@"5" jobId:model.id];
+//        }else if (status == 5){//已确认参加后再取消参加
+//            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"确定取消?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//            UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [self changeStatus:@"4" jobId:model.id];
+//            }];
+//            [alertVC addAction:cancelAC];
+//            [alertVC addAction:sureAC];
+//            [self presentViewController:alertVC animated:YES completion:nil];
+//        }
+    
 //    }else if (self.type.intValue == 2){// 已完成 - 崔工资
     
-        if(status == 9){//催工资
-            [self changeStatus:@"10" jobId:model.id];
-        }
-        
+//        if(status == 9){//催工资
+//            [self changeStatus:@"10" jobId:model.id];
+//        }
+    
 //    }
 }
 

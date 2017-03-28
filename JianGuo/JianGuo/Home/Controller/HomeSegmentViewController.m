@@ -14,6 +14,9 @@
 #import "SelectCityController.h"
 #import "CitySchoolViewController.h"
 #import <AMapLocationKit/AMapLocationKit.h>
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
+
 
 
 #define SegmentWidth 160
@@ -22,12 +25,14 @@
 {
     HomeViewController *homeVC;
     DemandListViewController *demandListVC;
+    BOOL isHandScroll;
 }
 
 @property (nonatomic,strong) AMapLocationManager *manager;
 @property (nonatomic,strong) UIButton *cityBtn;
 @property (nonatomic,strong) UISegmentedControl *segment;
 @property (weak, nonatomic) IBOutlet UIScrollView *bgScrollView;
+@property (nonatomic,copy) NSString *schoolName;
 
 @end
 
@@ -51,8 +56,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self location];//定位
+    self.schoolName = USER.school_name;
+    self.bgScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
 
     self.bgScrollView.contentSize = CGSizeMake(SCREEN_W*2, 0);
     self.bgScrollView.delegate = self;
@@ -62,6 +69,8 @@
     [self configNavigationItem];
     
     [self configSegmentControl];
+    
+    
 }
 
 -(void)viewDidLayoutSubviews
@@ -75,12 +84,16 @@
     if (sender.selectedSegmentIndex == 0) {//校内约
         
         if (self.bgScrollView.contentOffset.x == SCREEN_W) {
+            isHandScroll = YES;
+            self.segment.userInteractionEnabled = NO;
             [self.bgScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         }
         
     }else if (sender.selectedSegmentIndex == 1){//找兼职
         
         if (self.bgScrollView.contentOffset.x == 0) {
+            isHandScroll = YES;
+            self.segment.userInteractionEnabled = NO;
             [self.bgScrollView setContentOffset:CGPointMake(SCREEN_W, 0) animated:YES];
         }
         
@@ -89,9 +102,9 @@
 
 -(void)selectCitySChool:(UIButton *)sender
 {
-    if (self.segment.selectedSegmentIndex == 0) {//校内约
+    if (self.bgScrollView.contentOffset.x<SCREEN_W/2) {//校内约
         [self selectSChool:sender];
-    }else if (self.segment.selectedSegmentIndex == 1){//找兼职
+    }else if (self.bgScrollView.contentOffset.x>SCREEN_W/2){//找兼职
         [self selectLocation];
     }
 }
@@ -118,22 +131,31 @@
     btn_l.frame = CGRectMake(-10, 0, 12, 15);
     
     UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
-    btnLocation.titleLabel.font = FONT(15);
+    if (USER.login_id.integerValue>0) {
+        
+        [btnLocation setTitle:USER.school_name forState:UIControlStateNormal];
+    }else{
+        
+        [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
+        
+    }
+    btnLocation.titleLabel.font = FONT(14);
     [btnLocation addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
-    btnLocation.frame = CGRectMake(0, 0, 30, 20);
+    btnLocation.frame = CGRectMake(0, 0, 60, 20);
+    btnLocation.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.cityBtn = btnLocation;
+    
     
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_l];
     UIBarButtonItem *bbtLocation = [[UIBarButtonItem alloc] initWithCustomView:btnLocation];
-    self.navigationItem.leftBarButtonItems = @[bbtLocation,leftBtn];
+    self.navigationItem.leftBarButtonItems = @[bbtLocation];
 }
 
 //设置segmentControl
 -(void)configSegmentControl
 {
     //先生成存放标题的数据
-    NSArray *array = [NSArray arrayWithObjects:@"校内约",@"找兼职", nil];
+    NSArray *array = [NSArray arrayWithObjects:@"任务",@"兼职", nil];
     //初始化UISegmentedControl
     UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:array];
     //设置frame
@@ -157,12 +179,13 @@
     schoolVC.selectSchoolBlock = ^(SchoolModel *school,CityModel *city){
         if (school) {
             demandListVC.schoolId = school.id;
+            self.schoolName = school.name;
+            [self.cityBtn setTitle:school.name forState:UIControlStateNormal];
         }else if (city){
             [CityModel saveCity:city];
-            [self.cityBtn setTitle:city.cityName forState:UIControlStateNormal];
         }
         [homeVC requestList:@"1"];
-        [demandListVC requestWithCount:@"0"];
+        [demandListVC requestWithCount:@"1"];
     };
     [self.navigationController pushViewController:schoolVC animated:YES];
 }
@@ -188,22 +211,39 @@
 
 
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (!isHandScroll) {
+        if (scrollView == self.bgScrollView) {
+            if (self.bgScrollView.contentOffset.x<SCREEN_W/2) {
+                [self.segment setSelectedSegmentIndex:0];
+                
+                JGLog(@"––––––––––––––––––––––––––––––––––––––––")
+                [self.cityBtn setTitle:(self.schoolName?self.schoolName:[CityModel city].cityName) forState:UIControlStateNormal];
+            }else if (self.bgScrollView.contentOffset.x > SCREEN_W/2){
+                [self.segment setSelectedSegmentIndex:1];
+                JGLog(@"––––––––––––––––––––––––––––––––––––––––")
+                [self.cityBtn setTitle:[CityModel city].cityName forState:UIControlStateNormal];
+            }
+            
+        }
+        
+    }
+    if (self.bgScrollView.contentOffset.x==0||self.bgScrollView.contentOffset.x == SCREEN_W) {
+        isHandScroll = NO;
+        self.segment.userInteractionEnabled = YES;
+    }
+}
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView == self.bgScrollView) {
-        NSInteger index = self.bgScrollView.contentOffset.x/SCREEN_W;
-        if (index==0) {
-            [self.segment setSelectedSegmentIndex:0];
-        }else if (index == 1){
-            [self.segment setSelectedSegmentIndex:1];
-        }
-    }
+    isHandScroll = NO;
+    self.segment.userInteractionEnabled = YES;
 }
 
 //定位
 -(void)location
 {
-    [[AMapLocationServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
     [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         
         if (regeocode) {
@@ -242,17 +282,43 @@
                     
                 }
             }
+        }else{
+            if ([[USERDEFAULTS objectForKey:CityCode] integerValue]==0) {
+                [self location];//定位失败重新定位
+            }
         }
         
     }];
 }
 
+-(void)refreshData
+{
+    [demandListVC requestWithCount:@"1"];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
     
     
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    PresentingAnimator *animator = [PresentingAnimator new];
+    
+    animator.scale=1.2;
+    
+    return animator;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
 }
 
 

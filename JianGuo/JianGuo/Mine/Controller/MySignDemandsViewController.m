@@ -12,7 +12,7 @@
 #import "DemandModel.h"
 #import "MyDemandCell.h"
 
-@interface MySignDemandsViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface MySignDemandsViewController ()<UITableViewDataSource,UITableViewDelegate,MyDemandClickDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
@@ -37,7 +37,7 @@
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
@@ -50,7 +50,7 @@
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getMySignedDemandsListWithPageNum:[NSString stringWithFormat:@"%ld",pageCount] pageSize:nil Success:^(id responseObject) {
+    [JGHTTPClient getMySignedDemandsListWithPageNum:count pageSize:nil Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
@@ -104,6 +104,7 @@
 {
     MyDemandCell *cell = [MyDemandCell cellWithTableView:tableView];
     cell.isSelfSign = YES;
+    cell.delegate = self;
     cell.model = self.dataArr[indexPath.row];
     return cell;
 }
@@ -117,6 +118,11 @@
     detailVC.demandId = model.id;
     [self.navigationController pushViewController:detailVC animated:YES];
     
+}
+
+-(void)refreshData
+{
+    [self requestList:@"1"];
 }
 
 @end

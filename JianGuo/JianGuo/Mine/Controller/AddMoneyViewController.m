@@ -14,6 +14,7 @@
 #import "JGHTTPClient+Mine.h"
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
+#import "QLHudView.h"
 
 @interface AddMoneyViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate>
 {
@@ -119,12 +120,12 @@
     
     BCPayReq *payReq = [[BCPayReq alloc] init];
     payReq.channel = channel; //支付渠道
-    payReq.title = @"兼果测试"; //订单标题
+    payReq.title = @"兼果官方平台"; //订单标题
     NSInteger money = self.moneyTF.text.floatValue*100;
     payReq.totalFee = [NSString stringWithFormat:@"%ld",money]; //订单价格
     payReq.billNo = billno; //商户自定义订单号
     if (channel == PayChannelAliApp) {
-        payReq.scheme = @"2017021505677502"; //URL Scheme,在Info.plist中配置;
+        payReq.scheme = @"JianGuopayDemo"; //URL Scheme,在Info.plist中配置;
     }else if (channel == PayChannelWxApp){
         payReq.scheme = @"wx8c1fd6e2e9c4fd49"; //URL Scheme,在Info.plist中配置;
     }
@@ -171,7 +172,7 @@
                 //                    [[BDWalletSDKMainManager getInstance] doPayWithOrderInfo:tempResp.paySource[@"orderInfo"] params:nil delegate:self];
             } else {
                 //微信、支付宝、银联支付成功
-                [self showAlertViewWithText:resp.resultMsg duration:1];
+                [QLHudView showAlertViewWithText:resp.resultMsg duration:1];
             }
         } else {
             //支付取消或者支付失败
@@ -187,13 +188,11 @@
             [self showAlertViewWithText:responseObject[@"message"] duration:1];
             if ([responseObject[@"code"] integerValue] == 200) {
                 
+                [self.navigationController popViewControllerAnimated:YES];
+                
                 PostSuccessViewController *postVC = [[PostSuccessViewController alloc] init];
                 postVC.labelStr = @"充值成功";
-                postVC.callBackBlock = ^(){
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self.navigationController popViewControllerAnimated:YES];
-                    });
-                };
+                postVC.detailStr = @"您可以到【我的钱包】中查看账单详细";
                 postVC.transitioningDelegate = self;
                 postVC.modalPresentationStyle = UIModalPresentationCustom;
                 [self presentViewController:postVC animated:YES completion:nil];

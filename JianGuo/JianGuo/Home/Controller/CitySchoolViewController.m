@@ -21,7 +21,7 @@
 @property (nonatomic,strong)UITableView *schoolTableView;
 @property (nonatomic, strong) MJNIndexView *indexView;
 @property (nonatomic,strong) NSMutableArray *cityArr;
-@property (strong, nonatomic) NSArray* schoolArr;
+@property (strong, nonatomic) NSMutableArray* schoolArr;
 @property (strong, nonatomic) NSIndexPath *selectedBrandIndex;
 
 @property (nonatomic,copy) NSString *cityCode;
@@ -45,6 +45,8 @@
     self.navigationItem.title = @"选择学校";
     
     [self initViews];
+    
+    self.swipeGestureRecognizer.enabled = NO;
     
 }
 
@@ -174,15 +176,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (tableView == self.tableView) {
         if (indexPath.section == 0) {
             return;
         }
+        
+//        if (self.selectSchoolBlock) {
+//            self.selectSchoolBlock(nil,model);
+//        }
         CityModel *model = self.cityArr[indexPath.row];
         self.cityCode = model.code;
-        if (self.selectSchoolBlock) {
-            self.selectSchoolBlock(nil,model);
-        }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell setSelected:YES animated:YES];
         [self showDrawer];
@@ -191,6 +195,10 @@
             [SVProgressHUD dismiss];
             if ([responseObject[@"code"] integerValue] == 200) {
                 self.schoolArr = [SchoolModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+//                SchoolModel *school = [[SchoolModel alloc] init];
+//                school.id = @"0";
+//                school.name = @"全部学校";
+//                [self.schoolArr insertObject:school atIndex:0];
                 [self.schoolTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         } failure:^(NSError *error) {

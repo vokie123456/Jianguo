@@ -39,14 +39,20 @@ static NSString *const identifier = @"MyDemandCell";
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>1?1:2);
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
         
         [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
     
-    [self requestList:@"1"];
 
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView.mj_header beginRefreshing];
 }
 
 
@@ -54,7 +60,7 @@ static NSString *const identifier = @"MyDemandCell";
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getMyDemandsListWithPageNum:[NSString stringWithFormat:@"%ld",pageCount] pageSize:nil Success:^(id responseObject) {
+    [JGHTTPClient getMyDemandsListWithPageNum:count pageSize:nil Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
@@ -113,6 +119,7 @@ static NSString *const identifier = @"MyDemandCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     DemandModel *model = self.dataArr[indexPath.row];
     MyDemandCell *cell = (MyDemandCell *)[tableView cellForRowAtIndexPath:indexPath];
     
@@ -153,6 +160,10 @@ static NSString *const identifier = @"MyDemandCell";
     } failure:^(NSError *error) {
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
+}
+-(void)refreshData
+{
+    [self requestList:@"1"];
 }
 
 @end

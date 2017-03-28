@@ -19,7 +19,7 @@
 
 -(void)setModel:(DetailModel *)model
 {
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"icon_touxiang"]];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.job_image] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.partTittleL.text = model.job_name;
 //    self.moneyLabel.text = model.money;
     if (model.term.intValue == 5||model.term.intValue == 6) {

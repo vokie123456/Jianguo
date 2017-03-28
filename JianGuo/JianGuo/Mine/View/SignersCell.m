@@ -61,7 +61,7 @@
 - (IBAction)acceptSomeOne:(id)sender {//录用
     
     if ([self.delegate respondsToSelector:@selector(userSomeOne: status: cell:)]) {
-        [self.delegate userSomeOne:_model.b_user_id status:@"2" cell:self];
+        [self.delegate userSomeOne:_model.user_id status:@"2" cell:self];
     }
     
 }
@@ -70,8 +70,13 @@
     TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
     reasonVC.transitioningDelegate = self;
     reasonVC.modalPresentationStyle = UIModalPresentationCustom;
-    reasonVC.userId = _model.b_user_id;
+    reasonVC.userId = _model.user_id;
     reasonVC.demandId = self.demandId;
+    reasonVC.callBackBlock = ^(){
+        if ([self.delegate respondsToSelector:@selector(refreshData)]) {
+            [self.delegate refreshData];
+        }
+    };
     [self.window.rootViewController presentViewController:reasonVC
                                                  animated:YES
                                                completion:NULL];
@@ -93,7 +98,9 @@
 
 - (IBAction)chat:(id)sender {
     
-    
+    if ([self.delegate respondsToSelector:@selector(chatUser:)]) {
+        [self.delegate chatUser:_model.user_id];
+    }
     
 }
 

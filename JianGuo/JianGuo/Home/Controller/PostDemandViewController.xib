@@ -8,7 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostDemandViewController">
             <connections>
                 <outlet property="sureBtn" destination="lD9-UZ-pve" id="75Z-W3-7Cb"/>
+                <outlet property="sureBtnBottomCons" destination="EIh-Ly-nPw" id="Dtq-Vz-bPR"/>
                 <outlet property="tableView" destination="U7O-Q7-WUn" id="eeh-10-7zD"/>
+                <outlet property="tableViewBottomCons" destination="IMI-Xo-gG2" id="1NZ-jn-fBp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -31,7 +33,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="Hvy-jh-S9U"/>
                     </constraints>
-                    <state key="normal" title="发布需求">
+                    <state key="normal" title="发布任务">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <userDefinedRuntimeAttributes>

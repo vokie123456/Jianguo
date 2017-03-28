@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CourseViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jgxt" translatesAutoresizingMaskIntoConstraints="NO" id="JEB-Ki-lTk">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="JEB-Ki-lTk" secondAttribute="height" id="0TG-5R-ubH"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kvo-Ly-ObX">
+                    <rect key="frame" x="0.0" y="375" width="375" height="292"/>
+                    <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="XWh-ob-367"/>
+                    </constraints>
+                    <state key="normal" title="马上去了解">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="XWh-ob-367"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="gotoScan:" destination="-1" eventType="touchUpInside" id="5xH-zN-7Ff"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mvd-3o-IeH">
+                    <rect key="frame" x="171" y="612" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="RSe-5y-ECU"/>
+                        <constraint firstAttribute="width" secondItem="Mvd-3o-IeH" secondAttribute="height" id="e1y-vz-fve"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="garden"/>
+                    <connections>
+                        <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="OGD-Mt-cTL"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Mvd-3o-IeH" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1l8-aJ-0eS"/>
+                <constraint firstAttribute="trailing" secondItem="JEB-Ki-lTk" secondAttribute="trailing" id="4hl-ua-VLG"/>
+                <constraint firstAttribute="trailing" secondItem="Kvo-Ly-ObX" secondAttribute="trailing" id="83o-Ri-G7j"/>
+                <constraint firstItem="Kvo-Ly-ObX" firstAttribute="top" secondItem="JEB-Ki-lTk" secondAttribute="bottom" id="9jB-MQ-Pa7"/>
+                <constraint firstAttribute="bottom" secondItem="Kvo-Ly-ObX" secondAttribute="bottom" id="EjS-44-DiK"/>
+                <constraint firstItem="JEB-Ki-lTk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ST5-Xn-USg"/>
+                <constraint firstItem="Kvo-Ly-ObX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WhY-0s-in2"/>
+                <constraint firstItem="JEB-Ki-lTk" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Xy3-ot-Hpw"/>
+                <constraint firstItem="JEB-Ki-lTk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="fQF-5Q-Liq"/>
+                <constraint firstAttribute="bottom" secondItem="Mvd-3o-IeH" secondAttribute="bottom" constant="20" id="rba-Bv-Uma"/>
+                <constraint firstItem="JEB-Ki-lTk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yJC-8T-lJj"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ST5-Xn-USg"/>
+                    <exclude reference="Xy3-ot-Hpw"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="garden" width="29" height="29"/>
+        <image name="jgxt" width="260" height="260"/>
+    </resources>
+</document>

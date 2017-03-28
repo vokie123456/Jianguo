@@ -20,12 +20,6 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AMap2DMap (4.5.0):
-    - AMapFoundation (~> 1.3)
-  - AMapFoundation (1.3.2)
-  - AMapLocation (1.2.2)
-  - AMapSearch (4.4.1):
-    - AMapFoundation (~> 1.2)
   - AVOSCloud (3.3.5)
   - AVOSCloudIM (3.3.5):
     - AVOSCloud
@@ -60,15 +54,9 @@ PODS:
   - SVProgressHUD (2.1.2)
   - UITableView+FDTemplateLayoutCell (1.5.beta)
   - WZLBadge (1.2.5)
-  - YYKit (1.0.9):
-    - YYKit/no-arc (= 1.0.9)
-  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6)
-  - AMap2DMap
-  - AMapLocation (~> 1.2.2)
-  - AMapSearch
   - AVOSCloud (~> 3.3.5)
   - AVOSCloudIM (~> 3.3.5)
   - BeeCloud
@@ -86,14 +74,9 @@ DEPENDENCIES:
   - SVProgressHUD
   - UITableView+FDTemplateLayoutCell (~> 1.5.beta)
   - WZLBadge (~> 1.2.4)
-  - YYKit
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  AMap2DMap: 6033c7c75c0157e8701bed57fa4f05e5e45c9f91
-  AMapFoundation: 843dc27b2c02bc0bc2ef3346bb3dd0456cf64dbb
-  AMapLocation: 5412fbf0385716d4d481e39a95929057cddc093f
-  AMapSearch: 16a50b493ad419e8b6b81bafdeca7570db52f28e
   AVOSCloud: 1fe170768bee7e05bc3ea86e38d5bddb105cb957
   AVOSCloudIM: dc307c48e951fcd861f4ae6db6d807e7b40639c8
   BeeCloud: 57bacb1d46d5d1001fc783a41d59688690f78936
@@ -111,8 +94,7 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   UITableView+FDTemplateLayoutCell: 02b508ab1cb4cea16a8c17ac83d2cd1fd72124f9
   WZLBadge: 16c08aa0a645e2591690f21cbcb410a3d878c7ac
-  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 538b5726ba7ab9d15c814c233bbb118159b81ff0
+PODFILE CHECKSUM: 1b44efa11a77a081aa3e613da7b739ef9b221e3a
 
 COCOAPODS: 1.0.1

@@ -221,7 +221,7 @@
         cell.unBindBtn.hidden= YES;
         cell.delegate = self;
         if (indexPath.row == 0) {
-            cell.iconView.image = [UIImage imageNamed:@"icon_zhifu"];
+            cell.iconView.image = [UIImage imageNamed:@"aliPay"];
             cell.bindTypeL.text = @"支付宝";
             if (aliPayModel) {
                 cell.bindStateL.text = aliPayModel.receive_name;
