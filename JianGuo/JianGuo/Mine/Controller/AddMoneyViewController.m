@@ -116,11 +116,12 @@
 #pragma mark 支付代码
 - (void)doPay:(PayChannel)channel {
     NSString *billno = [self genBillNo];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"value",@"key", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:USER.login_id?USER.login_id:@"0" forKey:@"user_id"];
     
     BCPayReq *payReq = [[BCPayReq alloc] init];
     payReq.channel = channel; //支付渠道
-    payReq.title = @"兼果官方平台"; //订单标题
+    payReq.title = @"兼果校园官方"; //订单标题
     NSInteger money = self.moneyTF.text.floatValue*100;
     payReq.totalFee = [NSString stringWithFormat:@"%ld",money]; //订单价格
     payReq.billNo = billno; //商户自定义订单号

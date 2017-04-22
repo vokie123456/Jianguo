@@ -46,7 +46,7 @@
     
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame = CGRectMake(30, 220, SCREEN_W-60, 35);
-    [saveBtn setBackgroundColor:YELLOWCOLOR];
+    [saveBtn setBackgroundColor:GreenColor];
     saveBtn.layer.cornerRadius = 5;
     saveBtn.layer.masksToBounds = YES;
     [saveBtn addTarget:self action:@selector(clickSave) forControlEvents:UIControlEventTouchUpInside];
@@ -115,7 +115,8 @@
             
             [WalletModel saveWallet:wallet];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
+                UIViewController *vc = self.navigationController.viewControllers[2];
+                [self.navigationController popToViewController:vc animated:YES];
             });
         }else{
             [self showAlertViewWithText:responseObject[@"message"] duration:1];

@@ -376,6 +376,10 @@
 		188E6C301C856CC2000EE7B7 /* JGHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E6C2F1C856CC2000EE7B7 /* JGHTTPClient.m */; };
 		188E92D31C897228006F4205 /* CALayer+Cool.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E92D01C897228006F4205 /* CALayer+Cool.m */; };
 		188E92D41C897228006F4205 /* CoreLaunchCool.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E92D21C897228006F4205 /* CoreLaunchCool.m */; };
+		189380F41E9C71AD00CA3D36 /* GetCashProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189380F21E9C71AD00CA3D36 /* GetCashProgressViewController.m */; };
+		189380F51E9C71AD00CA3D36 /* GetCashProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189380F31E9C71AD00CA3D36 /* GetCashProgressViewController.xib */; };
+		189380F91E9C739B00CA3D36 /* GetCashProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189380F71E9C739B00CA3D36 /* GetCashProgressCell.m */; };
+		189380FA1E9C739B00CA3D36 /* GetCashProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189380F81E9C739B00CA3D36 /* GetCashProgressCell.xib */; };
 		1894125F1E2C6D9A007830EE /* CheckBoxButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1894125E1E2C6D9A007830EE /* CheckBoxButton.m */; };
 		189603391E13548D0099F188 /* FindPassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189603381E13548D0099F188 /* FindPassViewController.xib */; };
 		18971EF01E1F358F003EE4CD /* DemandListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18971EEE1E1F358E003EE4CD /* DemandListViewController.m */; };
@@ -415,6 +419,9 @@
 		18AA38881E14BFDE00B398DF /* BindingTelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AA38861E14BFDE00B398DF /* BindingTelViewController.xib */; };
 		18AA388B1E14C37D00B398DF /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388A1E14C37D00B398DF /* DismissingAnimator.m */; };
 		18AA388E1E14C38D00B398DF /* PresentingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA388D1E14C38D00B398DF /* PresentingAnimator.m */; };
+		18AB4F7F1E9B279C00ED0344 /* PresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB4F7D1E9B279C00ED0344 /* PresentViewController.m */; };
+		18AB4F801E9B279C00ED0344 /* PresentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AB4F7E1E9B279C00ED0344 /* PresentViewController.xib */; };
+		18AB4F831E9B27D900ED0344 /* TransitionAnimationScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB4F821E9B27D900ED0344 /* TransitionAnimationScale.m */; };
 		18AD6C171E5842ED00A340B1 /* PaySelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD6C151E5842ED00A340B1 /* PaySelectCell.m */; };
 		18AD6C181E5842ED00A340B1 /* PaySelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AD6C161E5842ED00A340B1 /* PaySelectCell.xib */; };
 		18B04FBC1E51B811000F26EF /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B04FBA1E51B811000F26EF /* EditInfoViewController.m */; };
@@ -1230,6 +1237,12 @@
 		188E92D01C897228006F4205 /* CALayer+Cool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Cool.m"; sourceTree = "<group>"; };
 		188E92D11C897228006F4205 /* CoreLaunchCool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLaunchCool.h; sourceTree = "<group>"; };
 		188E92D21C897228006F4205 /* CoreLaunchCool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreLaunchCool.m; sourceTree = "<group>"; };
+		189380F11E9C71AD00CA3D36 /* GetCashProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCashProgressViewController.h; sourceTree = "<group>"; };
+		189380F21E9C71AD00CA3D36 /* GetCashProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCashProgressViewController.m; sourceTree = "<group>"; };
+		189380F31E9C71AD00CA3D36 /* GetCashProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetCashProgressViewController.xib; sourceTree = "<group>"; };
+		189380F61E9C739B00CA3D36 /* GetCashProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCashProgressCell.h; sourceTree = "<group>"; };
+		189380F71E9C739B00CA3D36 /* GetCashProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCashProgressCell.m; sourceTree = "<group>"; };
+		189380F81E9C739B00CA3D36 /* GetCashProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetCashProgressCell.xib; sourceTree = "<group>"; };
 		1894125D1E2C6D9A007830EE /* CheckBoxButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBoxButton.h; sourceTree = "<group>"; };
 		1894125E1E2C6D9A007830EE /* CheckBoxButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBoxButton.m; sourceTree = "<group>"; };
 		189603381E13548D0099F188 /* FindPassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindPassViewController.xib; sourceTree = "<group>"; };
@@ -1302,6 +1315,11 @@
 		18AA388A1E14C37D00B398DF /* DismissingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissingAnimator.m; sourceTree = "<group>"; };
 		18AA388C1E14C38D00B398DF /* PresentingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentingAnimator.h; sourceTree = "<group>"; };
 		18AA388D1E14C38D00B398DF /* PresentingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentingAnimator.m; sourceTree = "<group>"; };
+		18AB4F7C1E9B279C00ED0344 /* PresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentViewController.h; sourceTree = "<group>"; };
+		18AB4F7D1E9B279C00ED0344 /* PresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentViewController.m; sourceTree = "<group>"; };
+		18AB4F7E1E9B279C00ED0344 /* PresentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PresentViewController.xib; sourceTree = "<group>"; };
+		18AB4F811E9B27D900ED0344 /* TransitionAnimationScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionAnimationScale.h; sourceTree = "<group>"; };
+		18AB4F821E9B27D900ED0344 /* TransitionAnimationScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionAnimationScale.m; sourceTree = "<group>"; };
 		18AD6C141E5842ED00A340B1 /* PaySelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaySelectCell.h; sourceTree = "<group>"; };
 		18AD6C151E5842ED00A340B1 /* PaySelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaySelectCell.m; sourceTree = "<group>"; };
 		18AD6C161E5842ED00A340B1 /* PaySelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaySelectCell.xib; sourceTree = "<group>"; };
@@ -1631,6 +1649,11 @@
 				187C3B561CA269070051EE03 /* WebViewController.m */,
 				185C4CCE1C98587200510A3E /* JianZhiDetailController.h */,
 				185C4CCF1C98587200510A3E /* JianZhiDetailController.m */,
+				18AB4F811E9B27D900ED0344 /* TransitionAnimationScale.h */,
+				18AB4F821E9B27D900ED0344 /* TransitionAnimationScale.m */,
+				18AB4F7C1E9B279C00ED0344 /* PresentViewController.h */,
+				18AB4F7D1E9B279C00ED0344 /* PresentViewController.m */,
+				18AB4F7E1E9B279C00ED0344 /* PresentViewController.xib */,
 				1878DD401E615E71003B0809 /* CitySchoolViewController.h */,
 				1878DD411E615E71003B0809 /* CitySchoolViewController.m */,
 				1878DD421E615E71003B0809 /* CitySchoolViewController.xib */,
@@ -1875,6 +1898,9 @@
 				18843E671E5ABF17007E18C2 /* BillsViewController.h */,
 				18843E681E5ABF17007E18C2 /* BillsViewController.m */,
 				18843E691E5ABF17007E18C2 /* BillsViewController.xib */,
+				189380F11E9C71AD00CA3D36 /* GetCashProgressViewController.h */,
+				189380F21E9C71AD00CA3D36 /* GetCashProgressViewController.m */,
+				189380F31E9C71AD00CA3D36 /* GetCashProgressViewController.xib */,
 				187B726D1CC887E1006DF99E /* BindCardViewController.h */,
 				187B726E1CC887E1006DF99E /* BindCardViewController.m */,
 				187B72701CC88E63006DF99E /* BindAliPayViewController.h */,
@@ -2022,6 +2048,9 @@
 				1875AFEC1E5E7E9C002DBDBA /* MineChatCell.h */,
 				1875AFED1E5E7E9C002DBDBA /* MineChatCell.m */,
 				1875AFEE1E5E7E9C002DBDBA /* MineChatCell.xib */,
+				189380F61E9C739B00CA3D36 /* GetCashProgressCell.h */,
+				189380F71E9C739B00CA3D36 /* GetCashProgressCell.m */,
+				189380F81E9C739B00CA3D36 /* GetCashProgressCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3439,6 +3468,7 @@
 				18E5C9101C9BB15A004E6E29 /* chatBar_more_location@2x.png in Resources */,
 				186AA01D1DF51F84008C0842 /* BarButtonIcon.bundle in Resources */,
 				18F723471C9E348F0040DA5E /* icon_chose_arrow_nor@2x.png in Resources */,
+				189380FA1E9C739B00CA3D36 /* GetCashProgressCell.xib in Resources */,
 				18E5C8F41C9BB15A004E6E29 /* chatBar_keyboardSelected@2x.png in Resources */,
 				18E5C8EB1C9BB15A004E6E29 /* faceDelete.png in Resources */,
 				18E4B4B61E124CA700849781 /* RegisterViewController.xib in Resources */,
@@ -3487,6 +3517,7 @@
 				18E5C90E1C9BB15A004E6E29 /* chatBar_more_cameraSelected@2x.png in Resources */,
 				18A2903A1E2DFFAC00BF5B39 /* MineIconCell.xib in Resources */,
 				18F723591C9F88040040DA5E /* MyPartjobCell.xib in Resources */,
+				18AB4F801E9B279C00ED0344 /* PresentViewController.xib in Resources */,
 				18E5C8EC1C9BB15A004E6E29 /* faceDelete@2x.png in Resources */,
 				186AA0261DF51F84008C0842 /* Placeholder.bundle in Resources */,
 				18E5C8F51C9BB15A004E6E29 /* chatBar_more.png in Resources */,
@@ -3558,6 +3589,7 @@
 				18AA38881E14BFDE00B398DF /* BindingTelViewController.xib in Resources */,
 				18D8540D1C9FD71100E0EB86 /* UserGuideViewController.xib in Resources */,
 				1873321D1C8E7E7E004C637F /* TextFieldCell.xib in Resources */,
+				189380F51E9C71AD00CA3D36 /* GetCashProgressViewController.xib in Resources */,
 				185C4CE61C985A5C00510A3E /* BusinessCell.xib in Resources */,
 				18843E701E5ABFEF007E18C2 /* BillCell.xib in Resources */,
 				18F3B2F11E691189000FAE92 /* HomeSegmentViewController.xib in Resources */,
@@ -3796,6 +3828,7 @@
 				187332121C8DCB3A004C637F /* RealNameViewController.m in Sources */,
 				18971EF01E1F358F003EE4CD /* DemandListViewController.m in Sources */,
 				1878DD3A1E6123F8003B0809 /* VerLayout.m in Sources */,
+				189380F41E9C71AD00CA3D36 /* GetCashProgressViewController.m in Sources */,
 				186AA04C1DF51F84008C0842 /* LCCKStatusView.m in Sources */,
 				18F723571C9F87F00040DA5E /* MyPartjobCell.m in Sources */,
 				1830554C1E209C15008FB0B5 /* DemandDetailCell.m in Sources */,
@@ -3806,6 +3839,7 @@
 				187A8F491E5D6827004695F4 /* QLHudView.m in Sources */,
 				18E5C91A1C9BE070004E6E29 /* HomeViewController+IMClient.m in Sources */,
 				186A9FF41DF51F84008C0842 /* LCCKConversationViewController.m in Sources */,
+				18AB4F7F1E9B279C00ED0344 /* PresentViewController.m in Sources */,
 				181660321CA4D608003E9A44 /* NavigatinViewController.m in Sources */,
 				18F3B2F01E691189000FAE92 /* HomeSegmentViewController.m in Sources */,
 				18E8D4751C965C5600745B39 /* ChatMsgViewController.m in Sources */,
@@ -3854,6 +3888,7 @@
 				188E6C161C853FFA000EE7B7 /* UITextView+placeholder.m in Sources */,
 				185229781E57EEA50002B96C /* MyWalletNewViewController.m in Sources */,
 				186AA0351DF51F84008C0842 /* LCCKSettingService.m in Sources */,
+				189380F91E9C739B00CA3D36 /* GetCashProgressCell.m in Sources */,
 				188E6C201C854153000EE7B7 /* PartJobViewController.m in Sources */,
 				182D81711E1124C1005F795B /* UIImage+FixOrientation.m in Sources */,
 				18205A5A1CCB299B0015A55B /* PartTypeModel.m in Sources */,
@@ -3889,6 +3924,7 @@
 				185C4CC31C97C57000510A3E /* AttentionCell.m in Sources */,
 				18420F0B1CB7476F00E9ECA2 /* NameIdManger.m in Sources */,
 				18468A481E24C874006169EA /* CommentUser.m in Sources */,
+				18AB4F831E9B27D900ED0344 /* TransitionAnimationScale.m in Sources */,
 				186AA0101DF51F84008C0842 /* LCCKChatImageMessageCell.m in Sources */,
 				188E6C091C852F4A000EE7B7 /* BaseViewController.m in Sources */,
 				186AA0001DF51F84008C0842 /* LCCKCellIdentifierFactory.m in Sources */,

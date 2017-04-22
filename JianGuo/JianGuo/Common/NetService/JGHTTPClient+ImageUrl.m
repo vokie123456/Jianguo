@@ -26,6 +26,9 @@
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -53,6 +56,9 @@
     
     [[JGHTTPClient sharedManager] PUT:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -76,6 +82,9 @@
     
     [[JGHTTPClient sharedManager] PUT:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

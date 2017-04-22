@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UILabel *timeL;
 @property (weak, nonatomic) IBOutlet UILabel *moneyL;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConst;
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 

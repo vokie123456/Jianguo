@@ -13,4 +13,6 @@
 
 @property (nonatomic,copy) NSString *type;
 
+@property (nonatomic,assign) BOOL isFromGetCash;
+
 @end

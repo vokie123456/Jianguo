@@ -39,6 +39,7 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
 #define LIGHTGRAYTEXT RGBCOLOR(102, 102, 102)
+#define LIGHTGRAY1 RGBCOLOR(153, 153, 153)
 #define BACKCOLORGRAY RGBCOLOR(239, 239, 244)
 #define WHITECOLOR RGBCOLOR(255, 255, 255)
 #define YELLOWCOLOR RGBCOLOR(245, 201, 48)

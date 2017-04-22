@@ -29,5 +29,9 @@
 @property (nonatomic,strong) UIActivityIndicatorView *drawer_activityView;
 
 @property (nonatomic, assign) BOOL adjustStatusBar;
+/**
+ *  返回上一级页面
+ */
+-(void)popToPreviousVC;
 
 @end

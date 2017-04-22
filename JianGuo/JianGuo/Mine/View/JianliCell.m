@@ -44,6 +44,7 @@
     rightTf.placeholder = @"请填写您的真实姓名";
     rightTf.textAlignment = NSTextAlignmentLeft;
     rightTf.borderStyle = UITextBorderStyleNone;
+    [rightTf addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
     [self.contentView addSubview:rightTf];
     rightTf.font = FONT(15);
     rightTf.textColor = LIGHTGRAYTEXT;
@@ -98,6 +99,13 @@
         }
     }
     
+}
+
+-(void)textChanged:(UITextField *)textField
+{
+    if ([self.delegate respondsToSelector:@selector(textChanged:)]) {
+        [self.delegate textChanged:textField];
+    }
 }
 
 @end

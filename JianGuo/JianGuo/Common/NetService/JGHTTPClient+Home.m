@@ -205,13 +205,8 @@
                Success:(void (^)(id responseObject))success
                failure:(void (^)(NSError *error))failure
 {
-    NSString *timestamp = [self getTimeStamp];
     
-    NSMutableDictionary *params = [self getBasedParams:USER.tel];
-    
-    [params setObject:timestamp forKey:@"timestamp"];
-    
-    [params setObject:[self getSign:timestamp] forKey:@"sign"];
+    NSMutableDictionary *params = [self getAllBasedParams];
     
     [params setObject:jobId forKey:@"job_id"];
     
@@ -302,13 +297,8 @@
                    Success:(void (^)(id responseObject))success
                    failure:(void (^)(NSError *error))failure
 {
-    NSString *timestamp = [self getTimeStamp];
     
-    NSMutableDictionary *params = [self getBasedParams:USER.tel];
-    
-    [params setObject:[self getSign:timestamp] forKey:@"sign"];
-    
-    [params setObject:timestamp forKey:@"timestamp"];
+    NSMutableDictionary *params = [self getAllBasedParams];
     
     [params setObject:count forKey:@"pageNum"];
 
@@ -316,17 +306,11 @@
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"join/user"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if ([responseObject[@"code"] integerValue] == 600) {
-            
-            NSString *app_id = [self getAppIdwithStr:USER.tel];
-            NSString *signSecret = @"He37o6TaD0N";
-            NSString *token = USER.token;
-            NSString *jianguo = @"jianguo";
-            NSString *signStr = [[[[app_id stringByAppendingString:signSecret] stringByAppendingString:timestamp] stringByAppendingString:token] stringByAppendingString:jianguo];
-            
-            JGLog(@"\n签名信息错误:{\n\n>>>> token==%@ \n\n\n>>>>sign==%@  \n\n\n>>>>signStr==%@\n\n}",USER.token,[self getSign:timestamp],signStr);
-        }
+        
         if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+            [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -378,13 +362,8 @@
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure
 {
-    NSString *timestamp = [self getTimeStamp];
     
-    NSMutableDictionary *params = [self getBasedParams:USER.tel];
-    
-    [params setObject:timestamp forKey:@"timestamp"];
-    
-    [params setObject:[self getSign:timestamp] forKey:@"sign"];
+    NSMutableDictionary *params = [self getAllBasedParams];
     
     [params setObject:jobId forKey:@"job_id"];
     
@@ -406,22 +385,23 @@
 /**
  *  获取推送消息列表
  */
-+(void)getNotiNewsByloginId:(NSString *)loginId
++(void)getNotiNewsByPageNum:(NSString *)pageNum
                     Success:(void (^)(id responseObject))success
-                    failure:(void (^)(NSError *error))failure
+                    failure:(void (^)(NSError *error))failure;
 {
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    
-    [params setObject:[self getToken] forKey:@"only"];
+    NSMutableDictionary *params = [self getAllBasedParams];
     
     
-    [params setObject:loginId forKey:@"login_id"];
+    [params setObject:pageNum forKey:@"pageNum"];
     
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"T_push_List_Servlet"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"user/push"];
     
-    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

@@ -64,7 +64,7 @@
     }else{
         
         [self.signBtn setTitle:@"已报名" forState:UIControlStateNormal];
-        [self.signBtn setBackgroundColor:LIGHTGRAYTEXT];
+        [self.signBtn setBackgroundColor:LIGHTGRAY1];
     }
     if (model.like_status.integerValue == 1) {
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"xin"] forState:UIControlStateNormal];

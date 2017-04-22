@@ -285,7 +285,7 @@
     NSMutableDictionary *params = [self getBasedParams:[NSString stringWithFormat:@"%@",USER.tel]];
     
     JGLog(@"%@",USER.token);
-    [params setObject:USER.token forKey:@"token"];
+    [params setObject:USER.token?USER.token:@"" forKey:@"token"];
     
     [params setObject:userType forKey:@"type"];
     

@@ -81,9 +81,9 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
 
     // 上一次的使用版本（存储在沙盒中的版本号）
     NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+//    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
     
-    if ([@"3.2.0" compare:bundleVersion options:NSNumericSearch] == NSOrderedSame && [@"3.2.0" compare:lastVersion options:NSNumericSearch] == NSOrderedAscending) {
+    if ([@"3.2.1" compare:lastVersion options:NSNumericSearch] == NSOrderedDescending) {
         
         [[LCChatKit sharedInstance] closeWithCallback:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -98,7 +98,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         
         [JGUser deleteuser];
         
-        [JPUSHService setTags:nil alias:[NSString string] fetchCompletionHandle:nil];
+        [JPUSHService setTags:nil alias:nil fetchCompletionHandle:nil];
         
     }
     
@@ -133,6 +133,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     
     [AVOSCloud setApplicationId:@"AtwJtfIJPKQFtti8D3gNjMmb-gzGzoHsz" clientKey:@"spNrDrtGWAXP633DkMMWT65B"];
 //    发布时改为YES
+    
     [JPUSHService setupWithOption:launchOptions appKey:@"b7d6a9432f425319c952ffd3" channel:@"Publish channel" apsForProduction:YES];
     
     [[AMapServices sharedServices]setApiKey:@"f20c4451633dac96db2947cb73229359"];
@@ -181,16 +182,17 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
 
 #pragma mark 推送设置
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    JGLog(@"注册推送成功");
+    
     // Required
     [JPUSHService registerDeviceToken:deviceToken];
     
     AVInstallation *currentInstallation = [AVInstallation currentInstallation];
+    
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    [currentInstallation setDeviceProfile:@"Dev_JGApp"];
+    [currentInstallation setDeviceProfile:@"Pro_JGApp"];
     [currentInstallation saveInBackground];
     
-    
+    JGLog(@"注册推送成功 ––––––>>>> currentInstallationId ===== %@",currentInstallation.installationId);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -290,6 +292,9 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         [currentInstallation setBadge:0];
         [currentInstallation saveEventually];
         application.applicationIconBadgeNumber=0;
+        [USERDEFAULTS setObject:@"NotiNews" forKey:isHaveNewNews];
+        [USERDEFAULTS synchronize];
+        [NotificationCenter postNotificationName:kNotificationGetNewNotiNews object:nil];
 
     }
     [application cancelAllLocalNotifications];
@@ -302,7 +307,6 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     if (application.applicationIconBadgeNumber>0) {  //badge number 不为0，说明程序有那个圈圈图标
         JGLog(@"我可能收到了推送");
         //这里进行有关处理
-        
         [NotificationCenter postNotificationName:kNotificationGetNewNotiNews object:nil];
         
         [application setApplicationIconBadgeNumber:0];   //将图标清零。
@@ -535,7 +539,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
                     }];
                     
                     [JGUser deleteuser];
-                    [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:nil];
+                    [JPUSHService setTags:nil alias:nil fetchCompletionHandle:nil];
                     
                     MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                     UINavigationController *navVC = tabVC.childViewControllers.firstObject;
@@ -568,7 +572,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
                 }];
                 
                 [JGUser deleteuser];
-                [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:nil];
+                [JPUSHService setTags:nil alias:nil fetchCompletionHandle:nil];
                 
                 MyTabBarController *tabVC = (MyTabBarController *)self.window.rootViewController;
                 UINavigationController *navVC = tabVC.childViewControllers.firstObject;

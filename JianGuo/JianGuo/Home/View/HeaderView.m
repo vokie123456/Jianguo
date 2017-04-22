@@ -12,7 +12,7 @@
 #import "ImagesModel.h"
 #import "CityModel.h"
 
-#define Height 290
+#define Height 290-105
 
 @interface HeaderView()<SDCycleScrollViewDelegate>
 
@@ -53,12 +53,13 @@
     }else if (SCREEN_W == 375){
         height = Height*(SCREEN_W/375)-3;
     }else if (SCREEN_W == 414){
-        height = Height*(SCREEN_W/375)-15;
+        height = Height*(SCREEN_W/375)+25;
     }
     
     HeaderView *bgView = [[HeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, height)];
     
     bgView.backgroundColor = BACKCOLORGRAY;
+    
     
     
     [bgView setSubviews:bgView];
@@ -102,9 +103,9 @@
     
     [bgView addSubview:scrollView];
 
-    for (int i = 0; i<4; i++) {
-        [self createFourView:bgView count:i scrollView:scrollView];
-    }
+//    for (int i = 0; i<4; i++) {
+//        [self createFourView:bgView count:i scrollView:scrollView];
+//    }
     
     //四个小view中的一个
 //    UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(0, scrollView.bottom+9, (SCREEN_W-6)/2, 50)];

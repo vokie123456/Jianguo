@@ -10,6 +10,7 @@
 #import "JGHTTPClient+Mine.h"
 #import "BillCell.h"
 #import "MoneyRecordModel.h"
+#import "GetCashProgressViewController.h"
 
 @interface BillsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -23,7 +24,7 @@
     [super viewDidLoad];
     
     
-    self.navigationItem.title = @"账单";
+//    self.navigationItem.title = @"账单";
     self.tableView.rowHeight = 65;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -34,7 +35,16 @@
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
+        for (int i=0; i<4; i++) {
+            MoneyRecordModel *model = [[MoneyRecordModel alloc] init];
+            [self.dataArr addObject:model];
+        }
+        
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+        
+        JGLog(@"one ====  %d",(int)self.dataArr.count/10);
+        JGLog(@"two ==== %d",((int)(self.dataArr.count/10)>=1?1:2));
+        JGLog(@"three ==== %d",((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0));
         
         [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
         
@@ -106,13 +116,33 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BillCell *cell = [BillCell cellWithTableView:tableView];
-    cell.model = self.dataArr[indexPath.row];
+    
+    MoneyRecordModel *model = self.dataArr[indexPath.row];
+    
+    cell.model = model;
+    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MoneyRecordModel *model = self.dataArr[indexPath.row];
+    if (model.type.integerValue == 2) {
+        GetCashProgressViewController *getCashVC = [[GetCashProgressViewController alloc] init];
+        getCashVC.hidesBottomBarWhenPushed = YES;
+        getCashVC.model = model;
+        [self.navigationController pushViewController:getCashVC animated:YES];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)popToPreviousVC
+{
+    if (self.isFromGetCash) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }else{
+        [super popToPreviousVC];
+    }
 }
 
 @end

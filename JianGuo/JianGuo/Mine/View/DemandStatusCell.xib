@@ -97,6 +97,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="grayCycle" width="9" height="9"/>
+        <image name="grayCycle" width="13" height="13"/>
     </resources>
 </document>

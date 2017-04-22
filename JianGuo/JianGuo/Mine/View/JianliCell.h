@@ -9,12 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "CheckBox.h"
 
+@protocol TextChangedDelegate <NSObject>
+
+-(void)textChanged:(UITextField *)textField;
+
+@end
+
 @interface JianliCell : UITableViewCell
 
 @property (nonatomic,copy)  void(^seletIsStudentBlock)(NSString *);
 #pragma mark - 初始化
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+
+@property (nonatomic,weak) id<TextChangedDelegate>delegate;
 
 @property (nonatomic,strong) UIImageView *iconView;
 

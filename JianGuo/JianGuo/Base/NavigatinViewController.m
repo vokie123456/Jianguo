@@ -63,7 +63,7 @@
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.showsTouchWhenHighlighted = YES;
     backBtn.frame = CGRectMake(0, 0, 12, 21);
-    [backBtn addTarget:self action:@selector(popToLoginVC) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addTarget:self action:@selector(popToPreviousVC) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"icon-back"] forState:UIControlStateNormal];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = item;
@@ -73,7 +73,7 @@
 /**
  *  返回上一级页面
  */
--(void)popToLoginVC
+-(void)popToPreviousVC
 {
     [self.navigationController popViewControllerAnimated:YES];
 }

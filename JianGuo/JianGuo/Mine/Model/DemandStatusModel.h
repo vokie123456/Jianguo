@@ -26,4 +26,11 @@
  */
 @property (nonatomic,copy) NSString *username;
 
+/**
+ *  是不是已经完成的状态
+ */
+@property (nonatomic,assign) BOOL isFinished;
+
+
+
 @end

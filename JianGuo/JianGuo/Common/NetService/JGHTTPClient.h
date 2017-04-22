@@ -7,6 +7,7 @@
 //
 
 #import <AFNetworking/AFNetworking.h>
+#import "NSObject+HudView.h"
 
 @interface JGHTTPClient : AFHTTPSessionManager
 

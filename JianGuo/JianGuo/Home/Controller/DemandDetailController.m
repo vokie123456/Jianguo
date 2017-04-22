@@ -76,8 +76,7 @@
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
-        
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
         [self requestCommentsWithPageCount:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
@@ -139,6 +138,7 @@
  */
 -(void)shareDemand:(UIButton *)btn
 {
+    [APPLICATION.keyWindow endEditing:YES];
     ShareView *shareView = [ShareView aShareView];
     shareView.demandModel = self.demandModel;
     [shareView show];
@@ -536,9 +536,10 @@
     [JGHTTPClient signDemandWithDemandId:self.demandId userId:USER.login_id status:@"1"
                                   reason:nil Success:^(id responseObject) {
         [SVProgressHUD dismiss];
-        
-        [self showAlertViewWithText:responseObject[@"message"] duration:1];
+                                      
         if ([responseObject[@"code"]integerValue]==200) {
+                                          
+//            [self showAlertViewWithText:responseObject[@"message"] duration:1];
             
             if (self.callBackBlock) {
                 self.callBackBlock();
@@ -622,7 +623,7 @@
 
 -(void)finishEdit//点击完成按钮
 {
-    
+
     if (self.commentTV.text.length==0) {
         [APPLICATION.keyWindow endEditing:YES];
         [self showAlertViewWithText:@"您还没输入内容呢" duration:1];

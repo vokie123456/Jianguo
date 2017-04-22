@@ -66,15 +66,15 @@
         self.percentLabel.text = [NSString stringWithFormat:@"%@/%@",model.count,model.sum];
     }
     if(model.max.intValue==1){
-        self.typeView.hidden = NO;
+//        self.typeView.hidden = NO;
         self.typeViewWidth.constant = 18;
     }
     if (model.status.intValue != 0) {
-        self.dateView.hidden = NO;
+//        self.dateView.hidden = NO;
     }
     NSInteger sum = model.sum.integerValue;
     NSInteger count = model.user_count.integerValue;
-    if (sum<=model.count.intValue) {
+    if (sum<=model.user_count.integerValue) {
         [self.stateBtn setImage:[UIImage imageNamed:@"enoughIcon"] forState:UIControlStateNormal];
         [self.stateBtn setTitle:@"已经招满" forState:UIControlStateNormal];
         [self.stateBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -100,6 +100,7 @@
             }else{
                 sum = sum*1.4;
             }
+            
             num = sum - count;
             leftStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"仅剩 %ld 个名额",num]];
             [leftStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:FONT(15)}  range:NSMakeRange(3, leftStr.length-7)];

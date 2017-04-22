@@ -103,7 +103,7 @@
 /**
  *  获取推送消息列表
  */
-+(void)getNotiNewsByloginId:(NSString *)loginId
++(void)getNotiNewsByPageNum:(NSString *)pageNum
                   Success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure;
 

@@ -364,7 +364,7 @@
     JGSVPROGRESSLOAD(@"上传中...")
     QNUploadManager *manager = [[QNUploadManager alloc] init];
     
-    NSData *data = UIImageJPEGRepresentation(self.iconBtn.currentBackgroundImage, 1);
+    NSData *data = UIImageJPEGRepresentation(self.iconBtn.currentBackgroundImage, 0.7);
     [manager putData:data key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         
         if (resp == nil) {

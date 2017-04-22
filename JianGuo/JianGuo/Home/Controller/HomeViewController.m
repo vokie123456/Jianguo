@@ -7,7 +7,7 @@
 //
 
 #import "HomeViewController.h"
-#import "MyWalletViewController.h"
+#import "MyWalletNewViewController.h"
 #import "RealNameViewController.h"
 #import "SignDemandViewController.h"
 
@@ -15,9 +15,12 @@
 #import "BillsViewController.h"
 #import "DemandDetailController.h"
 #import "MySignDetailViewController.h"
+#import "JobTypeViewController.h"
+#import "JianZhiDetailController.h"
+#import "MyPartJobViewController.h"
+#import "WebViewController.h"
 
 #import "GuideImageView.h"
-#import "JobTypeViewController.h"
 #import "PartTypeModel.h"
 #import "CityModel.h"
 #import "AreaModel.h"
@@ -29,10 +32,7 @@
 #import "JianzhiModel.h"
 #import "JianZhiCell.h"
 #import "NoDataView.h"
-#import "JianZhiDetailController.h"
 #import "SelectCityController.h"
-#import "MyPartJobViewController.h"
-#import "WebViewController.h"
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import "QLAlertView.h"
@@ -161,8 +161,8 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 
         [NotificationCenter addObserver:self selector:@selector(refreshHotJob:) name:kNotificationGetCitySuccess object:nil];
-        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
-        [NotificationCenter addObserver:self selector:@selector(getNewNotiNews) name:kNotificationGetNewNotiNews object:nil];
+//        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
+//        [NotificationCenter addObserver:self selector:@selector(getNewNotiNews) name:kNotificationGetNewNotiNews object:nil];
     }
     return  self;
 }
@@ -247,9 +247,7 @@
     self.tableView.mj_header = header;
 
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
-       
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
-        JGLog(@"%d",(self.dataArr.count%10)>0?1:0);
+       pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
         [self requestList:[NSString stringWithFormat:@"%d",pageCount]];
     }];
 
@@ -690,24 +688,24 @@
     notiNewsVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:notiNewsVC animated:YES];
 }
--(void)showANopartJobView
-{
-    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_W, 250)];
-    
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(bgView.center.x-60, 0, 120, 120)];
-    imgView.image = [UIImage imageNamed:@"img_renwu1"];
-    [bgView addSubview:imgView];
-    
-    UILabel *labelMiddle = [[UILabel alloc] initWithFrame:CGRectMake(0, imgView.bottom+5, SCREEN_W, 25)];
-    labelMiddle.text = @"还没有任何数据哦!";
-    labelMiddle.font = FONT(16);
-    labelMiddle.textColor = LIGHTGRAYTEXT;
-    labelMiddle.textAlignment = NSTextAlignmentCenter;
-    [bgView addSubview:labelMiddle];
-    
-    [self.tableView addSubview:bgView];
-    bgView.hidden = YES;
-}
+//-(void)showANopartJobView
+//{
+//    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_W, 250)];
+//    
+//    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(bgView.center.x-60, 0, 120, 120)];
+//    imgView.image = [UIImage imageNamed:@"img_renwu1"];
+//    [bgView addSubview:imgView];
+//    
+//    UILabel *labelMiddle = [[UILabel alloc] initWithFrame:CGRectMake(0, imgView.bottom+5, SCREEN_W, 25)];
+//    labelMiddle.text = @"还没有任何数据哦!";
+//    labelMiddle.font = FONT(16);
+//    labelMiddle.textColor = LIGHTGRAYTEXT;
+//    labelMiddle.textAlignment = NSTextAlignmentCenter;
+//    [bgView addSubview:labelMiddle];
+//    
+//    [self.tableView addSubview:bgView];
+//    bgView.hidden = YES;
+//}
 
 
 /**
@@ -752,7 +750,7 @@
         }
         case 5:{//钱包推送
             
-            VC = [[MyWalletViewController alloc] init];
+            VC = [[MyWalletNewViewController alloc] init];
             VC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:VC animated:YES];
             

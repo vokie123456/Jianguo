@@ -14,7 +14,7 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 
 /** 用户的登录ID */
-@property (nonatomic, copy) NSString*  login_id;
+@property (nonatomic, copy) NSString*  b_user_id;
 
 /** 兼职id */
 @property (nonatomic, copy) NSString* job_id;

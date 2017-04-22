@@ -268,7 +268,7 @@
     }else if (indexPath.section==4){
         
         if (indexPath.row == 0) {
-            cell.labelLeft.text = @"兼职学堂";
+            cell.labelLeft.text = @"兼果学堂";
             cell.iconView.image = [UIImage imageNamed:@"xuexi"];
             cell.lineView.hidden = YES;
         }
@@ -338,6 +338,13 @@
             {
                 if (![self checkExistPhoneNum]) {
                     [self gotoLoginVC];
+                    return;
+                }
+                if (USER.resume.intValue == 0){
+                    [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self gotoProfileVC];
+                    });
                     return;
                 }
                 RealNameViewController *realNameVC = [[RealNameViewController alloc] init];

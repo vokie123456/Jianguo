@@ -67,7 +67,7 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入充值金额" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fHn-B3-OZh">
                             <rect key="frame" x="98" y="14" width="129" height="17"/>
                             <color key="textColor" red="0.93725490199999995" green="0.39607843139999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             <connections>
                                 <action selector="textChange:" destination="-1" eventType="editingChanged" id="Iot-uA-1or"/>

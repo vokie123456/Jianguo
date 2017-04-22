@@ -23,6 +23,7 @@
 #import "SignUpView.h"
 #import "ShareView.h"
 #import "LCChatKit.h"
+#import "PresentViewController.h"
 
 @interface JianZhiDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,clickMoreBtnDelegate,ClickCallPhoneDelegate>
 {
@@ -402,6 +403,12 @@
  */
 -(void)clickTosignUp:(UIButton *)btn
 {
+    
+//    PresentViewController *presentVC = [[PresentViewController alloc] init];
+//    
+//    [self presentViewController:presentVC animated:YES completion:nil];
+//    
+//    return;
     NSInteger sum = self.detailModel.sum.integerValue;
     if (sum<=10) {
         sum += 5;
@@ -422,7 +429,7 @@
     }else if (self.detailModel.user_count.intValue >= sum || self.detailModel.status.intValue!=1 || self.detailModel.count.intValue == self.detailModel.sum.intValue){//
         [self showAlertViewWithText:@"该兼职已报满,您可以找更好的兼职哦!" duration:1];
         return;
-    }else if (self.detailModel.limit_sex.intValue%3 != USER.gender.intValue&&self.detailModel.limit_sex.intValue%3!=2&&self.detailModel.limit_sex.intValue!=3){//
+    }else if ((self.detailModel.limit_sex.integerValue == 0&&USER.gender.integerValue==2)||(self.detailModel.limit_sex.integerValue == 1&&USER.gender.integerValue==1)){//
         [self showAlertViewWithText:@"您的性别不符" duration:1];
         return;
     }

@@ -21,6 +21,8 @@ static NSString *identifier = @"WalletCollectionCell";
 @property (weak, nonatomic) IBOutlet UILabel *moneyL;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (nonatomic,copy) NSString *sumMoney;
+
 @end
 
 @implementation MyWalletNewViewController
@@ -51,13 +53,15 @@ static NSString *identifier = @"WalletCollectionCell";
 -(void)requestData
 {
     [JGHTTPClient lookUserBalanceByloginId:USER.login_id Success:^(id responseObject) {
+        
+        
         if ([responseObject[@"code"] intValue] == 200) {
             
             NSString *money = [responseObject[@"data"] objectForKey:@"money"];
+            self.sumMoney = money;
             self.moneyL.text = [NSString stringWithFormat:@"¥ %.2f",money.floatValue];
             
         }
-        
     } failure:^(NSError *error) {
         
     }];
@@ -141,6 +145,10 @@ static NSString *identifier = @"WalletCollectionCell";
         }
         GetCashViewController *cashVC = [[GetCashViewController alloc] init];
         cashVC.hidesBottomBarWhenPushed = YES;
+        cashVC.sumMoney = self.sumMoney;
+        cashVC.refreshBlock = ^(){
+//            [self requestData];
+        };
         [self.navigationController pushViewController:cashVC animated:YES];
         
     }else if (indexPath.item == 1){//充值
@@ -154,6 +162,7 @@ static NSString *identifier = @"WalletCollectionCell";
         BillsViewController *billVC = [[BillsViewController alloc] init];
         billVC.hidesBottomBarWhenPushed = YES;
         billVC.type = @"1";
+        billVC.navigationItem.title = @"收入明细";
         [self.navigationController pushViewController:billVC animated:YES];
         
     }else if (indexPath.item == 3){//支出明细
@@ -161,6 +170,7 @@ static NSString *identifier = @"WalletCollectionCell";
         BillsViewController *billVC = [[BillsViewController alloc] init];
         billVC.hidesBottomBarWhenPushed = YES;
         billVC.type = @"2";
+        billVC.navigationItem.title = @"支出明细";
         [self.navigationController pushViewController:billVC animated:YES];
         
     }

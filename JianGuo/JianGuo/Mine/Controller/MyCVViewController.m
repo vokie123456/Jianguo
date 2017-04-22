@@ -22,11 +22,12 @@
 #import "StudentInfoCell.h"
 #import "UITextView+placeholder.h"
 #import <AMapLocationKit/AMapLocationKit.h>
+#import "UIImageView+WebCache.h"
 
 
 #define ICONIMAGEDATA [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"icon.data"]
 
-@interface MyCVViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIScrollViewDelegate,AMapLocationManagerDelegate>
+@interface MyCVViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIScrollViewDelegate,AMapLocationManagerDelegate,TextChangedDelegate>
 {
     JianliAccount *account;
     BOOL isFirstViewWillAppear;
@@ -34,6 +35,8 @@
     BOOL isSelectImage;
     UIButton *editBtn;
     UIView *bigView;
+    UIScrollView *bgScrollView ;
+    NSMutableDictionary *mutableDict;
 }
 @property (nonatomic,strong) AMapLocationManager *manager;
 
@@ -133,7 +136,7 @@
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.bounces = NO;
+//        _tableView.bounces = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableHeaderView = [self setHeaderView];
         _tableView.tableFooterView = nil;
@@ -147,6 +150,8 @@
 {
     [super viewDidLoad];
     
+    mutableDict = [NSMutableDictionary dictionary];
+    
     [self location];//定位
     
     self.title = @"我的资料";
@@ -154,8 +159,13 @@
     [self removeSwipeGestureRecognizer];
     
     [self customBackBtn];
+    
+//    bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64)];
+//    
+//    [self.view addSubview:bgScrollView];
 
     [self.view addSubview:self.tableView];
+//    self.tableView.scrollEnabled = NO;
     
     self.isStudent = @"1";
     
@@ -175,7 +185,13 @@
 //    }
     
     
+    
 }
+
+//-(void)viewDidLayoutSubviews
+//{
+//    bgScrollView.frame = CGRectMake(0, 0, SCREEN_W, self.tableView.contentSize.height+500);
+//}
 
 
 /**
@@ -394,6 +410,7 @@
 {
     if (indexPath.section == 0) {
         JianliCell *cell = [JianliCell cellWithTableView:tableView ];
+        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         switch (indexPath.row+1) {
             case 0:{
@@ -414,6 +431,9 @@
             case 1:{
                 if (account) {
                     cell.rightTf.text = account.nickname;
+                }
+                if ([mutableDict[@"nickname"]length]) {
+                    cell.rightTf.text = mutableDict[@"nickname"];
                 }
                 cell.jiantouView.hidden = YES;
                 NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*昵称:"];
@@ -438,6 +458,9 @@
                     }
                     self.sex = account.sex;
                 }
+                if ([mutableDict[@"sex"]length]) {
+                    cell.rightTf.text = mutableDict[@"sex"];
+                }
                 NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*性别:"];
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
                 cell.labelLeft.attributedText = nameStr;
@@ -449,6 +472,9 @@
             case 3:{
                 if (account) {
                     cell.rightTf.text = account.birth_date;
+                }
+                if ([mutableDict[@"birthday"]length]) {
+                    cell.rightTf.text = mutableDict[@"birthday"];
                 }
                 NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*出生日期:"];
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
@@ -464,6 +490,9 @@
                     if (account.height.intValue != 0) {
                         cell.rightTf.text = account.height;
                     }
+                }
+                if ([mutableDict[@"height"]length]) {
+                    cell.rightTf.text = mutableDict[@"height"];
                 }
                 cell.labelLeft.text = @"身高:";
                 cell.rightTf.placeholder = @"请选择您的身高";
@@ -507,6 +536,7 @@
     }
     else if (indexPath.section == 1){
         JianliCell *cell = [JianliCell cellWithTableView:tableView ];
+        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 //        if (indexPath.row == 0) {
 //            if ([self.isStudent integerValue] == 1) {
@@ -550,6 +580,9 @@
                         self.school = account.school_id;
                     }
                 }
+                if ([mutableDict[@"school"]length]) {
+                    cell.rightTf.text = mutableDict[@"school"];
+                }
                 NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*所在学校:"];
                 [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
                 cell.labelLeft.attributedText = nameStr;
@@ -573,6 +606,9 @@
             if (account) {
                 cell.rightTf.text = account.intoschool_date;
             }
+            if ([mutableDict[@"time"]length]) {
+                cell.rightTf.text = mutableDict[@"time"];
+            }
             NSMutableAttributedString *nameStr = [[NSMutableAttributedString alloc]initWithString:@"*入学时间:"];
             [nameStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:[UIFont systemFontOfSize:14]} range:NSMakeRange(0, 1)];
             cell.labelLeft.attributedText = nameStr;
@@ -584,7 +620,10 @@
             cell.labelLeft.text = @"微信号:";
             cell.rightTf.placeholder = @"填写微信,交到更多的朋友";
             if (account) {
-                cell.rightTf.text = account.qq.integerValue?account.qq:nil;
+                cell.rightTf.text = account.qq.length?account.qq:nil;
+            }
+            if ([mutableDict[@"qq"]length]) {
+                cell.rightTf.text = mutableDict[@"qq"];
             }
             if (editBtn.selected) {
                 cell.rightTf.userInteractionEnabled = YES;
@@ -596,6 +635,7 @@
     else{
         
         JianliCell *cell = [JianliCell cellWithTableView:tableView ];
+        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.labelLeft.text = @"我的特长:";
         cell.jiantouView.hidden = YES;
@@ -638,6 +678,7 @@
                 }else if ([sex isEqualToString:@"女"]){
                     self.sex = @"1";
                 }
+                [mutableDict setObject:sex forKey:@"sex"];
                 cell.rightTf.text = sex;
             }];
             pickerView.arrayData = @[@"男",@"女"];
@@ -646,6 +687,7 @@
             PickerView *pickerView = [PickerView aPickerView:^(NSString *birthDay) {
                 self.birthDay = birthDay;
                 cell.rightTf.text = birthDay;
+                [mutableDict setObject:birthDay forKey:@"birthday"];
             }];
             pickerView.isDatePicker = YES;
             NSString *timeString = @"1997-01-01";
@@ -656,6 +698,7 @@
             PickerView *pickerView = [PickerView aPickerView:^(NSString *height) {
                 self.height = height;
                 cell.rightTf.text = height;
+                [mutableDict setObject:height forKey:@"height"];
             }];
             pickerView.arrayData = self.heightArr;
             [pickerView show];
@@ -690,6 +733,7 @@
             searchVC.seletSchoolBlock = ^(SchoolModel *school){
                 
                 cell.rightTf.text = school.name;
+                [mutableDict setObject:school.name forKey:@"school"];
                 self.school = school.id;
                 self.hadSelectedSchool = YES;
                 
@@ -702,6 +746,7 @@
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.intoSchoolTime = inSchoolTime;
                 cell.rightTf.text = inSchoolTime;
+                [mutableDict setObject:inSchoolTime forKey:@"time"];
             }];
             pickerView.isDatePicker = YES;
             NSString *timeString = @"2015-09-01";
@@ -729,6 +774,7 @@
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.intoSchoolTime = inSchoolTime;
                 cell.rightTf.text = inSchoolTime;
+                [mutableDict setObject:inSchoolTime forKey:@"time"];
             }];
             pickerView.isDatePicker = YES;
             NSString *timeString = @"2015-09-01";
@@ -845,7 +891,7 @@
     }else if (self.sex == nil){
         [self showAlertViewWithText:@"请选择您的性别" duration:1];
         return;
-    }else if (self.birthTF.text == nil){
+    }else if (self.birthTF.text.length == 0){
         [self showAlertViewWithText:@"请选择您的出生日期" duration:1];
         return;
     }
@@ -870,14 +916,13 @@
 //        [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
 //        return;
 //    }
-    if (self.isStudent.intValue == 1) {
-            if (!self.schoolTF.text.length){
-                [self showAlertViewWithText:@"请选择您的学校" duration:1];
-                return;
-            }else if (!self.inSchoolTiemTF.text.length){
-                [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
-                return;
-            }
+
+    if (!self.schoolTF.text.length){
+        [self showAlertViewWithText:@"请选择您的学校" duration:1];
+        return;
+    }else if (!self.inSchoolTiemTF.text.length){
+        [self showAlertViewWithText:@"请选择您的入学时间" duration:1];
+        return;
     }
 
     [SVProgressHUD showWithStatus:@"正在提交..." maskType:SVProgressHUDMaskTypeClear];
@@ -957,6 +1002,26 @@
 //    [self.navigationController.navigationBar setBackgroundImage:[self imageWithBgColor:RGBACOLOR(59, 155, 255,self.tableView.contentOffset.y/100)] forBarMetrics:UIBarMetricsDefault];
 //    [self.view endEditing:YES];
 }
+
+-(void)textChanged:(UITextField *)textField
+{
+    if (textField == self.nickNameTF) {
+        [mutableDict setObject:textField.text forKey:@"nickname"];
+    }else if (textField == self.sexTF){
+        [mutableDict setObject:textField.text forKey:@"sex"];
+    }else if (textField == self.birthTF){
+        [mutableDict setObject:textField.text forKey:@"birthday"];
+    }else if (textField == self.heightTF){
+        [mutableDict setObject:textField.text forKey:@"height"];
+    }else if (textField == self.schoolTF){
+        [mutableDict setObject:textField.text forKey:@"school"];
+    }else if (textField == self.inSchoolTiemTF){
+        [mutableDict setObject:textField.text forKey:@"time"];
+    }else if (textField == self.qqTF){
+        [mutableDict setObject:textField.text forKey:@"qq"];
+    }
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField endEditing:YES];

@@ -165,7 +165,7 @@ static NSString *const identifier3 = @"MineSelectCell";
             
             QNUploadManager *manager = [[QNUploadManager alloc] init];
             
-            NSData *data = UIImageJPEGRepresentation(image, 0.5);
+            NSData *data = UIImageJPEGRepresentation(image, 0.6);
             
             [manager putData:data key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                 

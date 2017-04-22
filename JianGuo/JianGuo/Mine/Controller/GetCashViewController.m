@@ -18,6 +18,7 @@
 #import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
 #import <ShareSDKExtension/SSEBaseUser.h>
 #import "UnBindViewController.h"
+#import "BillsViewController.h"
 
 #define SECONDCOUNT 60
 
@@ -75,9 +76,9 @@
     WalletModel *model = [WalletModel wallet];
 
     UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn_r setTitle:@"解绑" forState:UIControlStateNormal];
+    [btn_r setTitle:@"重新绑定" forState:UIControlStateNormal];
     [btn_r addTarget:self action:@selector(gotoSettingVC) forControlEvents:UIControlEventTouchUpInside];
-    btn_r.frame = CGRectMake(0, 0, 40, 30);
+    btn_r.frame = CGRectMake(0, 0, 80, 30);
     self.btn_r = btn_r;
     self.btn_r.hidden = YES;
     
@@ -97,18 +98,27 @@
     [sureBtn setTitle:@"确认提现" forState:UIControlStateNormal];
     [self.tableView addSubview:sureBtn];
     
-    UIButton *telBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    telBtn.frame=CGRectMake(10, 280+(model.weixin.intValue==0?0:55), 270, 30);
-
-    telBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [telBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
-    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:010-53350021"];
-    [attributeStr addAttribute:NSForegroundColorAttributeName value:LIGHTGRAYTEXT range:NSMakeRange(0, 14)];
-    [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
-    [telBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];
-    [telBtn addTarget:self action:@selector(call) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:telBtn];
+//    UIButton *telBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//
+//    telBtn.frame=CGRectMake(10, 280+(model.weixin.intValue==0?0:55), 270, 30);
+//
+//    telBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+//    [telBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
+//    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现后进度可在支出明细中查询提现进度!"];
+//
+//    [attributeStr addAttribute:NSForegroundColorAttributeName value: [UIColor redColor] range:NSMakeRange(0, attributeStr.length)];
+    
+//    [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
+//    [telBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];
+//    [telBtn addTarget:self action:@selector(call) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 280+(model.weixin.intValue==0?0:55), 270, 30)];
+    label.text = @"提现后进度可在支出明细中查询提现进度!";
+    label.textColor = [UIColor redColor];
+    label.font = FONT(12);
+    [self.tableView addSubview:label];
+    
+//    [self.tableView addSubview:telBtn];
     
 //    [JGHTTPClient selectRealnameInfoByloginId:[JGUser user].login_id Success:^(id responseObject) {
 //        
@@ -200,6 +210,23 @@
     return 2;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return section?35:20;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (!section) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 35)];
+        label.text = @"  请务必核实输入信息,避免给您带来财务损失!";
+        label.textColor = [UIColor redColor];
+        label.font = FONT(12);
+        return label;
+    }else
+        return nil;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
@@ -263,6 +290,7 @@
         return cell;
     }else if (indexPath.section == 1){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 70, 25)];
         label.text = @"提现金额:";
         label.font = FONT(14);
@@ -309,20 +337,23 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BindCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    BindCell *cell = (BindCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     self.alipayView.image = [UIImage imageNamed:@"icon_weixuanzhongda"];
     self.bankCarfView.image = [UIImage imageNamed:@"icon_weixuanzhongda"];
     self.weixinView.image = [UIImage imageNamed:@"icon_weixuanzhongda"];
     self.drawCashType = nil;
     
+    if (indexPath.section == 1) {
+        return;
+    }
 
     if (indexPath.row == 0) {//绑定支付宝
         
         if (aliPayModel) {
             self.drawCashType = @"2";
             self.pay_type_id = aliPayModel.id;
-            cell.selectView.image = [UIImage imageNamed:@"icon_xuanzhongda"];
+            cell.selectView.image = [UIImage imageNamed:@"mark"];
         }else{
             
             BindAliPayViewController *alipayVC = [[BindAliPayViewController alloc] init];
@@ -335,7 +366,7 @@
             
             self.drawCashType = @"1";
             self.pay_type_id = bankModel.id;
-            cell.selectView.image = [UIImage imageNamed:@"icon_xuanzhongda"];
+            cell.selectView.image = [UIImage imageNamed:@"mark"];
         }else{
             
             BindCardViewController *cardVC = [[BindCardViewController alloc] init];
@@ -397,6 +428,7 @@
 
 -(void)sureGetCash
 {
+   
     [self.view endEditing:YES];
     if (!self.drawCashType) {
         [self showAlertViewWithText:@"请选择提现方式" duration:1];
@@ -442,16 +474,21 @@
         
         if ([responseObject[@"code"] intValue] == 200) {
             
-            [QLAlertView showAlertTittle:@"提现成功!" message:@"尊敬的用户，您当前的提现申请将会在 24小时内 为您处理，请您耐心等待提现结果，给您带来的不便，敬请谅解!" isOnlySureBtn:YES compeletBlock:^{
-                if (block_self.refreshBlock) {
-                    block_self.refreshBlock();
-                    [block_self.navigationController popViewControllerAnimated:YES];
-                }
+            
+            [QLAlertView showAlertTittle:@"提现成功!" message:@"尊敬的用户，您当前的提现申请将会在 24小时内 为您处理，请您耐心等待提现结果，给您带来的不便，敬请谅解!\n\n您可以到【我的钱包】––>【支出明细】中查看提现进度!!!" isOnlySureBtn:YES compeletBlock:^{
+                
+                
+                BillsViewController *billVC = [[BillsViewController alloc] init];
+                billVC.hidesBottomBarWhenPushed = YES;
+                billVC.type = @"2";
+                billVC.isFromGetCash = YES;
+                billVC.navigationItem.title = @"支出明细";
+                [self.navigationController pushViewController:billVC animated:YES];
+//                    [block_self.navigationController popViewControllerAnimated:YES];
+                
             }];
             
             block_self.countTF.text = nil;
-            
-            [USERDEFAULTS removeObjectForKey:@"text"];
             
         }else{
             [block_self showAlertViewWithText:responseObject[@"message"] duration:1];

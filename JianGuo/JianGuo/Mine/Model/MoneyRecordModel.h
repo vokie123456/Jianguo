@@ -10,7 +10,6 @@
 
 @interface MoneyRecordModel : NSObject
 
-
 /** 兼职图片 */
 @property (nonatomic, copy) NSString*   logImg;
 
@@ -20,7 +19,10 @@
 /** 创建时间 */
 @property (nonatomic, copy) NSString*  createTime;
 
-/** 状态 */
+/** 到账时间 */
+@property (nonatomic, copy) NSString*  endTime;
+
+/** 状态 1==没到账; 2==已到账 3==拒绝 */
 @property (nonatomic, copy) NSString*  status;
 
 /** 备注 */
@@ -34,6 +36,12 @@
 
 /** 自己的ID */
 @property (nonatomic, copy) NSString*  user_id;
+
+/** 支付宝号或者是卡号 */
+@property (nonatomic, copy) NSString*   number;
+
+/** 提现去处(1==银行卡 2==支付宝) */
+@property (nonatomic, copy) NSString*   pay_type;
 
 /** 
  1;//兼职工资

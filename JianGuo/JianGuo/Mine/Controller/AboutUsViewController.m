@@ -53,7 +53,7 @@
     
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoView.bottom, SCREEN_W, 20)];
     versionLabel.font = FONT(14);
-    versionLabel.text = [@"兼果:V" stringByAppendingString:[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]];
+    versionLabel.text = [@"兼果校园:V" stringByAppendingString:[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]];
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.textColor = LIGHTGRAYTEXT;
     
@@ -62,7 +62,7 @@
     self.tableView.tableHeaderView = bgView1;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 420, SCREEN_W, 30)];
-    label.text = @"兼果在手,兼职我有";
+    label.text = @"上大学,上兼果";
     label.textAlignment = NSTextAlignmentCenter;
     label.font = FONT(14);
     label.textColor = LIGHTGRAYTEXT;

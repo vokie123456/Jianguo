@@ -19,10 +19,10 @@
 -(void)setModel:(DetailModel *)model
 {
     _model = model;
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"icon-touxiang"]];
-    self.nameLb.text = model.contact_name;
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    self.nameLb.text = model.contact_name?model.contact_name:@"未填写";
     
-    if ([model.contact_name containsString:@"合作商家"]||model.permission.integerValue==1||model.permission.integerValue == 2) {
+    if ([model.contact_name containsString:@"合作商家"]||model.permissions.integerValue==1||model.permissions.integerValue == 2) {
         self.renzhengView.hidden = YES;
         self.beingCountL.hidden = NO;
     }else{

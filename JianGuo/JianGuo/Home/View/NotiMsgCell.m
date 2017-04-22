@@ -7,6 +7,7 @@
 //
 
 #import "NotiMsgCell.h"
+#import "DateOrTimeTool.h"
 
 @implementation NotiMsgCell
 
@@ -25,8 +26,8 @@
 -(void)setModel:(NotiNewsModel *)model
 {
     _model = model;
-    self.titleL.text = model.title;
-    self.timeL.text = [model.time substringToIndex:16];
+    self.titleL.text = model.title.length?model.title:@"推送消息";
+    self.timeL.text = [DateOrTimeTool getDateStringBytimeStamp:model.time.floatValue];
     self.contentL.text = model.content ;
 //    if (model.type.intValue == 0) {//报名
 //        self.remarkL.text = @"请到\"我的\"-->\"兼职管理\"查看信息!";

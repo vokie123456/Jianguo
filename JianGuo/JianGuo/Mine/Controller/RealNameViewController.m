@@ -19,6 +19,7 @@
 #import "UIImageView+WebCache.h"
 #import "UILabel+Additions.h"
 #import "MyImagePickerController.h"
+#import "QLAlertView.h"
 
 
 #define CARDIDFRONTIMAGE [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"cardIdFront.data"]
@@ -105,6 +106,8 @@
     
     self.title = @"实名认证";
     
+    
+    
     //监听键盘出现
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardDidChangeFrameNotification object:nil];
     [self.view addSubview:self.tableView];
@@ -115,6 +118,9 @@
         JGLog(@"%@",responseObject);
         if ([responseObject[@"code"]integerValue] == 200&& [[responseObject[@"data"] allKeys] count]) {
             model = [RealNameModel mj_objectWithKeyValues:responseObject[@"data"]];
+            
+            
+            
             self.sex = model.sex;
             JGUser *user = [JGUser user];
             user.status = model.auth_status;
@@ -126,6 +132,9 @@
             if (model.auth_status.intValue != 4) {
                 frontUrl = model.front_img_url;
                 behindUrl = model.behind_img_url;
+            }
+            if (model.auth_status.integerValue == 1||model.auth_status.integerValue == 4) {
+                [QLAlertView showAlertTittle:@"温馨提示" message:@"为了保障您的财产安全,打款时会对您的账户信息进行验证,因此务必正确填写您的真实信息!" isOnlySureBtn:YES compeletBlock:^{}];
             }
             [block_self.cardImgLeft sd_setImageWithURL:[NSURL URLWithString:frontUrl ]placeholderImage:[UIImage imageNamed:@"上传身份证正面-拷贝"]];
             
@@ -142,6 +151,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
     
 }
 
@@ -369,14 +385,14 @@
             if ([JGUser user].status.intValue != 3) {
                 [self showAalertView];
             }else{
-                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft] currentImageIndex:0];
+                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft.image] currentImageIndex:0];
             }
             
         }else if (btn.tag == 10001){
             if ([JGUser user].status.intValue != 3) {
                 [self showAalertView];
             }else{
-                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight] currentImageIndex:0];
+                [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight.image] currentImageIndex:0];
             }
         }
     }else{
@@ -451,10 +467,10 @@
                                                     handler:^(UIAlertAction * action) {
                                                         if (btn.tag == 10000) {
                                                             
-                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft] currentImageIndex:0];
+                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgLeft.image] currentImageIndex:0];
                                                             
                                                         }else{
-                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight] currentImageIndex:0];
+                                                            [XLPhotoBrowser showPhotoBrowserWithImages:@[self.cardImgRight.image] currentImageIndex:0];
                                                             
                                                         }
                                                         
@@ -579,13 +595,15 @@
         [self showAlertViewWithText:@"请输入您的真实姓名" duration:1];
         return;
         //[cardIdTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-    }else if (!_imgPickedRight){
-        [self showAlertViewWithText:@"请上传一张身份证正面照片" duration:1];
-        return;
-    }else if (!_imgPickedLeft){
-        [self showAlertViewWithText:@"请上传一张身份证反面照片" duration:1];
-        return;
-    }else if (![self checkIdentityCardNo:[cardIdTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]){
+    }
+//    else if (!_imgPickedRight){
+//        [self showAlertViewWithText:@"请上传一张身份证正面照片" duration:1];
+//        return;
+//    }else if (!_imgPickedLeft){
+//        [self showAlertViewWithText:@"请上传一张身份证反面照片" duration:1];
+//        return;
+//    }
+    else if (![self checkIdentityCardNo:[cardIdTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]){
         [self showAlertViewWithText:@"请正确输入身份证号" duration:1];
         return;
     }else if (![self.sex isEqualToString:@"2"] && ![self.sex isEqualToString:@"1"]){

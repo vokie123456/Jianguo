@@ -59,7 +59,7 @@
     self.navigationItem.title = @"发布任务";
     keys = [NSMutableDictionary dictionary];
     self.tableView.tableHeaderView = [self customHeaderView];
-    
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     if ([USERDEFAULTS objectForKey:@"isFirstShowCourseVC"]) {
         [self showCourseVC];
     }
@@ -198,7 +198,7 @@
                     
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     cell.labelLeft.text = @"任务赏金";
-                    cell.rightTf.placeholder = @"赏金越高,任你的关注度越高哦!";
+                    cell.rightTf.placeholder = @"赏金越高,你的关注度越高哦!";
                     cell.rightTf.keyboardType = UIKeyboardTypeDecimalPad;
                     [cell.rightTf addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
                     cell.rightTf.delegate = self;
@@ -308,7 +308,7 @@
     
     QNUploadManager *manager = [[QNUploadManager alloc] init];
     
-    NSData *data = UIImageJPEGRepresentation(self.photoBtn.currentBackgroundImage, 0.6);
+    NSData *data = UIImageJPEGRepresentation(self.photoBtn.currentBackgroundImage, 0.7);
 
     
     JGSVPROGRESSLOAD(@"正在发布...");

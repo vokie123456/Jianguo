@@ -55,17 +55,16 @@
     self.togetherAddressL.text = model.set_place;
     self.togetherTimeL.text = model.set_time;
     self.genderLabel.text = [NameIdManger getgenderNameById:model.limit_sex];
-    if (model.permission.integerValue==0) {//只有商家是内部商家时才是线上结算
+    if (model.permissions.integerValue==3) {//只有商家是内部商家时才是线上结算
         
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[model.mode_name stringByAppendingString:@"【平台结算】"]];
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[model.mode_name?model.mode_name:@"" stringByAppendingString:@"【平台结算】"]];
         [string addAttributes:@{NSForegroundColorAttributeName:RedColor}  range:NSMakeRange(string.length-6, 6)];
         
         self.moneyTypeL.attributedText = string;
         
     }else{//其他的都是线下的结算方式
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[model.mode_name stringByAppendingString:@"【商家自结】"]];
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[model.mode_name?model.mode_name:@"" stringByAppendingString:@"【商家自结】"]];
         [string addAttributes:@{NSForegroundColorAttributeName:RedColor}  range:NSMakeRange(string.length-6, 6)];
-        
         self.moneyTypeL.attributedText = string;
     }
     
@@ -138,7 +137,7 @@
     
     NSString *endStr = [self getWantedTimeFormatter:endDate];
     
-    return  [startStr stringByAppendingString:[NSString stringWithFormat:@"-%@",endStr]];
+    return  [startStr stringByAppendingString:[NSString stringWithFormat:@"至 %@",endStr]];
 }
 /**
  *  截取日期中想要的部分
@@ -160,10 +159,10 @@
     
     NSString *endDate = [DateOrTimeTool getDateStringBytimeStamp:[endTime longLongValue]];
     
-    NSString *startStr = [[NSString stringWithFormat:@"%@", startDate] substringFromIndex:12];
+    NSString *startStr = [[NSString stringWithFormat:@"%@", startDate] substringFromIndex:11];
     
-    NSString *endStr = [[NSString stringWithFormat:@"%@", endDate]substringFromIndex:12];
-    return [startStr stringByAppendingString:[NSString stringWithFormat:@"至 %@",endStr]];
+    NSString *endStr = [[NSString stringWithFormat:@"%@", endDate]substringFromIndex:11];
+    return [startStr stringByAppendingString:[NSString stringWithFormat:@" 至 %@",endStr]];
 }
 
 @end

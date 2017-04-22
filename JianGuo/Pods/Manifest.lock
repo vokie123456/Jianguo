@@ -23,24 +23,24 @@ PODS:
   - AVOSCloud (3.3.5)
   - AVOSCloudIM (3.3.5):
     - AVOSCloud
-  - BeeCloud (3.6.1):
-    - BeeCloud/Alipay (= 3.6.1)
-    - BeeCloud/Core (= 3.6.1)
-    - BeeCloud/UnionPay (= 3.6.1)
-    - BeeCloud/Wx (= 3.6.1)
-  - BeeCloud/Alipay (3.6.1):
+  - BeeCloud (3.6.2):
+    - BeeCloud/Alipay (= 3.6.2)
+    - BeeCloud/Core (= 3.6.2)
+    - BeeCloud/UnionPay (= 3.6.2)
+    - BeeCloud/Wx (= 3.6.2)
+  - BeeCloud/Alipay (3.6.2):
     - BeeCloud/Core
-  - BeeCloud/Core (3.6.1)
-  - BeeCloud/UnionPay (3.6.1):
+  - BeeCloud/Core (3.6.2)
+  - BeeCloud/UnionPay (3.6.2):
     - BeeCloud/Core
-  - BeeCloud/Wx (3.6.1):
+  - BeeCloud/Wx (3.6.2):
     - BeeCloud/Core
   - DACircularProgress (2.3.1)
   - FDStackView (1.0)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - IQKeyboardManager (4.0.7)
+  - IQKeyboardManager (4.0.8)
   - Masonry (1.0.2)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.12)
@@ -59,7 +59,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.6)
   - AVOSCloud (~> 3.3.5)
   - AVOSCloudIM (~> 3.3.5)
-  - BeeCloud
+  - BeeCloud (~> 3.6.1)
   - DACircularProgress (~> 2.3.1)
   - FDStackView (~> 1.0)
   - FMDB (~> 2.6.2)
@@ -79,11 +79,11 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AVOSCloud: 1fe170768bee7e05bc3ea86e38d5bddb105cb957
   AVOSCloudIM: dc307c48e951fcd861f4ae6db6d807e7b40639c8
-  BeeCloud: 57bacb1d46d5d1001fc783a41d59688690f78936
+  BeeCloud: d947c44bece4ddf23f0dcfc5048d6e0369597cdb
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FDStackView: 3a4bbe0ce9c35e974246a585168b9da8c32213f1
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  IQKeyboardManager: 69002bb4fea60596b710e57d426abc00e5063630
+  IQKeyboardManager: 1a8189fa153bf09044355ee0ad36826f6767e7f7
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
@@ -95,6 +95,6 @@ SPEC CHECKSUMS:
   UITableView+FDTemplateLayoutCell: 02b508ab1cb4cea16a8c17ac83d2cd1fd72124f9
   WZLBadge: 16c08aa0a645e2591690f21cbcb410a3d878c7ac
 
-PODFILE CHECKSUM: 1b44efa11a77a081aa3e613da7b739ef9b221e3a
+PODFILE CHECKSUM: 6d9d1a949b029de86a8a06d5cf0459c09401ad71
 
 COCOAPODS: 1.0.1

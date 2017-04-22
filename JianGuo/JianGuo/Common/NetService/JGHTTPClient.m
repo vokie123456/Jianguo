@@ -130,7 +130,7 @@ static FMDatabaseQueue *_queue;
                               failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    
+
     [params setObject:loginIds forKey:@"ids"];
     
     [params setObject:userType forKey:@"type"];
@@ -175,6 +175,9 @@ static FMDatabaseQueue *_queue;
             
         }*/
         if (success) {
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -433,6 +436,7 @@ static FMDatabaseQueue *_queue;
     NSString *jianguo = @"jianguo";
     NSString *signStr = [[[[app_id stringByAppendingString:signSecret] stringByAppendingString:timeStamp] stringByAppendingString:token] stringByAppendingString:jianguo];
     return [[signStr stringFromMD5] uppercaseString];
+    
 }
 
 

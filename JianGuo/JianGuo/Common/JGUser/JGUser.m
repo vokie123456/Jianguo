@@ -62,7 +62,7 @@
         user.name = dic[@"name"];
         user.birthDay = dic[@"birth_date"];
         user.introduce = dic[@"introduce"];
-        user.is_student = dic[@"is_student"];
+        user.is_student = @"1";
         user.height = dic[@"height"];
         user.gender = dic[@"sex"];
         

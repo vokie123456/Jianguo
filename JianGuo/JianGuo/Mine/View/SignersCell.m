@@ -22,6 +22,12 @@
 @end
 @implementation SignersCell
 
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self.ageBtn setTitle:@"0" forState:UIControlStateNormal];
+}
+
 +(instancetype)cellWithTableView:(UITableView *)tableView
 {
     SignersCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
@@ -37,9 +43,13 @@
     JGLog(@"%@––––>%@",model.head_img_url,model.tel);
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"img_renwu"]];
     self.nameL.text = model.nickname?model.nickname:@"未填写";
-    NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
-    NSInteger age = [timeNow substringToIndex:4].integerValue - [model.birth_date substringToIndex:4].integerValue;
-    [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
+    if (model.birth_date.length>4) {
+        
+        NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
+        NSInteger age = [timeNow substringToIndex:4].integerValue - [model.birth_date substringToIndex:4].integerValue;
+        [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
+        
+    }
 //    NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
     self.starL.text = [DateOrTimeTool getConstellation:model.birth_date]?[DateOrTimeTool getConstellation:model.birth_date]:@"未填写";
     

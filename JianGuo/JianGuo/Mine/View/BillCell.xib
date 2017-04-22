@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cash" translatesAutoresizingMaskIntoConstraints="NO" id="Gxu-mp-T4E" customClass="IBImageView">
@@ -40,7 +40,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="+666.66" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-yI-Vxo">
-                        <rect key="frame" x="233" y="23" width="72" height="21"/>
+                        <rect key="frame" x="210" y="23" width="72" height="20"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -61,7 +61,7 @@
                     <constraint firstItem="MfT-yI-Vxo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OnP-oU-yvy"/>
                     <constraint firstItem="apQ-C9-N1K" firstAttribute="top" secondItem="Gxu-mp-T4E" secondAttribute="top" id="afC-lm-G8V"/>
                     <constraint firstItem="Gxu-mp-T4E" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cYg-Uj-tzh"/>
-                    <constraint firstAttribute="trailing" secondItem="MfT-yI-Vxo" secondAttribute="trailing" constant="15" id="dUH-EB-rcu"/>
+                    <constraint firstAttribute="trailing" secondItem="MfT-yI-Vxo" secondAttribute="trailing" constant="5" id="dUH-EB-rcu"/>
                     <constraint firstItem="r3G-0a-eXZ" firstAttribute="leading" secondItem="apQ-C9-N1K" secondAttribute="leading" id="fSb-gJ-Kff"/>
                     <constraint firstItem="DCT-EH-IXQ" firstAttribute="leading" secondItem="Gxu-mp-T4E" secondAttribute="leading" id="fji-Bt-qcV"/>
                     <constraint firstAttribute="trailing" secondItem="DCT-EH-IXQ" secondAttribute="trailing" id="p0r-gt-94m"/>
@@ -69,6 +69,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconView" destination="Gxu-mp-T4E" id="qoc-0W-adQ"/>
+                <outlet property="leftConst" destination="dUH-EB-rcu" id="pJT-Xi-5o4"/>
                 <outlet property="moneyL" destination="MfT-yI-Vxo" id="Adl-E9-mFy"/>
                 <outlet property="timeL" destination="r3G-0a-eXZ" id="AAf-sz-4vy"/>
                 <outlet property="titleL" destination="apQ-C9-N1K" id="fVT-H5-S58"/>

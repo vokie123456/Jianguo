@@ -67,7 +67,7 @@ static NSString *identifier = @"DemandListCell";
     
     titleArr = @[].mutableCopy;
     
-    self.schoolId = USER.schoolId?USER.schoolId:@"0";
+    self.schoolId = @"0";
     
     UIButton *btn_l = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn_l setBackgroundImage:[UIImage imageNamed:@"icon_location"] forState:UIControlStateNormal];
@@ -132,9 +132,11 @@ static NSString *identifier = @"DemandListCell";
     }];
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        pageCount = ((int)(self.dataArr.count-1)/10) + ((int)((self.dataArr.count-1)/10)>=1?1:2) + (((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0);
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0?1:0);
-        
+        JGLog(@"one ====  %d",(int)self.dataArr.count/10);
+        JGLog(@"two ==== %d",((int)(self.dataArr.count/10)>=1?1:2));
+        JGLog(@"three ==== %d",(((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0));
         [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
 
     }];
@@ -327,7 +329,9 @@ static NSString *identifier = @"DemandListCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DemandDetailController *detailVC = [DemandDetailController new];
-    detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.section] id];
+    if (self.dataArr.count>indexPath.section) {
+        detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.section] id];
+    }
     detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.callBackBlock = ^(){
         [self requestWithCount:@"1"];

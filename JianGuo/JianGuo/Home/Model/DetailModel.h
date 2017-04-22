@@ -107,8 +107,11 @@
 @property (nonatomic, copy) NSString* join_status;
 
 
-/** 商家权限（0是内部,1是外部商家，2是个人商户 */
-@property (nonatomic, copy) NSString* permission;
+/** 商家权限（3是内部,2是外部商家，1是个人商户） */
+@property (nonatomic, copy) NSString* bus_type;
+
+/** 商家权限（3是内部,2是外部商家，1是个人商户）<新版本里加的一个字段值跟 bus_type 是一样的> */
+@property (nonatomic, copy) NSString* permissions;
 
 /** 限制数组 */
 @property (nonatomic,copy) NSArray *limits_name;

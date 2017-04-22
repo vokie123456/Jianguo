@@ -125,7 +125,7 @@
     self.togetherTimeL.text = model.set_time;
     self.genderL.text = [NameIdManger getgenderNameById:model.limit_sex];;
     
-    if (model.permission.integerValue==0) {//只有商家是内部商家时才是线上结算
+    if (model.permissions.integerValue==3) {//只有商家是内部商家时才是线上结算
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[model.mode_name stringByAppendingString:@"【平台结算】"]];
         [string addAttributes:@{NSForegroundColorAttributeName:RedColor}  range:NSMakeRange(string.length-6, 6)];

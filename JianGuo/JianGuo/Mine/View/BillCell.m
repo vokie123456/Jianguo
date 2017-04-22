@@ -13,8 +13,16 @@
 
 @implementation BillCell
 
+-(void)prepareForReuse
+{
+    self.iconView.image = nil;
+    self.accessoryType = UITableViewCellAccessoryNone;
+    self.leftConst.constant = 5;
+}
+
 /**
  1;//兼职工资
+ 3://完成任务工资
  5;//充值
  7;//用户下架任务退回的钱
  –––––––––––––––––––––
@@ -25,17 +33,24 @@
 -(void)setModel:(MoneyRecordModel *)model
 {
     _model = model;
-    if (model.type.integerValue == 1||model.type.integerValue == 6) {//兼职工资
+    if (model.type.integerValue == 6) {//兼职工资
         [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"cash"]];
-    }else if (model.type.integerValue == 5){//充值
+    }else if (model.type.integerValue == 1||model.type.integerValue == 3||model.type.integerValue == 5||model.type.integerValue == 7){//充值
         self.iconView.image = [UIImage imageNamed:@"addMoney"];
     }else if (model.type.integerValue == 2){//提现
         self.iconView.image = [UIImage imageNamed:@"cash"];
     }
+    if (model.type.integerValue == 2) {
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }else{
+        self.accessoryType = UITableViewCellAccessoryNone;
+        self.leftConst.constant = 25;
+    }
+    
     self.titleL.text = model.logName;
     self.timeL.text = [[DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue] substringFromIndex:5];
     
-    if (model.type.integerValue == 1||model.type.integerValue == 5||model.type.integerValue == 7) {//加钱
+    if (model.type.integerValue == 1||model.type.integerValue == 5||model.type.integerValue == 3||model.type.integerValue == 7) {//加钱
         self.moneyL.text = [NSString stringWithFormat:@"+ %.2f",model.money.floatValue];
     }else{//减钱
         self.moneyL.text = [NSString stringWithFormat:@"- %.2f",model.money.floatValue];
