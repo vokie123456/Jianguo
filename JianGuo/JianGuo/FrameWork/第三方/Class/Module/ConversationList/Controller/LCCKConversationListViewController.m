@@ -79,7 +79,7 @@
     [loginBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
     [loginBtn setBackgroundColor:GreenColor];
     [loginBtn addTarget:self action:@selector(gotoLoginVC) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:loginBtn];
+//    [self.view addSubview:loginBtn];
     self.loginBtn = loginBtn;
     [self.view bringSubviewToFront:loginBtn];
     

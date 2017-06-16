@@ -32,7 +32,7 @@
 #endif
 #import "LCCKDeallocBlockExecutor.h"
 
-
+#import "NewsScrollViewController.h"
 
 @interface LCCKConversationListViewModel ()
 
@@ -236,7 +236,9 @@
                     if (totalUnreadCount > 99) {
                         badgeValue = LCCKBadgeTextForNumberGreaterThanLimit;
                     }
-                    [self.conversationListViewController.navigationController tabBarItem].badgeValue = badgeValue;
+//                    [self.conversationListViewController.navigationController tabBarItem].badgeValue = badgeValue;
+                    UINavigationController *nav = [UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers[3];
+                    [nav tabBarItem].badgeValue = badgeValue;
                     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:totalUnreadCount];
                 } else {
                     [self.conversationListViewController.navigationController tabBarItem].badgeValue = nil;

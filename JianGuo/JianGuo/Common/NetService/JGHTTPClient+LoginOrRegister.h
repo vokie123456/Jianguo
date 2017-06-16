@@ -41,6 +41,7 @@
  */
 +(void)getAMessageAboutCodeByphoneNum:(NSString *)phoneNum
                                  type:(NSString *)type
+                            imageCode:(NSString *)imageCode
                               Success:(void (^)(id responseObject))success
                               failure:(void (^)(NSError *error))failure;
 

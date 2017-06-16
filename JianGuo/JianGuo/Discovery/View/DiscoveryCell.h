@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class DiscoveryModel;
 @interface DiscoveryCell : UITableViewCell
+
+@property (nonatomic,strong) DiscoveryModel *model;
++(instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

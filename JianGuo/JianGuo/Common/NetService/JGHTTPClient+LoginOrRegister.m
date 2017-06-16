@@ -210,18 +210,24 @@
  */
 +(void)getAMessageAboutCodeByphoneNum:(NSString *)phoneNum
                                  type:(NSString *)type
+                            imageCode:(NSString *)imageCode
                               Success:(void (^)(id responseObject))success
                               failure:(void (^)(NSError *error))failure
 {
-//    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-//    
-//    [params setObject:[self getToken] forKey:@"only"];
-//    
-//    [params setObject:phoneNum forKey:@"tel"];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"validateCode?tel=%@&app_id=%@&type=%@",phoneNum,[self getAppIdwithStr:phoneNum],type]];
+    !phoneNum?:[params setObject:phoneNum forKey:@"tel"];
     
-    [[JGHTTPClient sharedManager] GET:Url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    !type?:[params setObject:type forKey:@"type"];
+    
+    !phoneNum?:[params setObject:[self getAppIdwithStr:phoneNum] forKey:@"app_id"];
+    
+    !imageCode?:[params setObject:imageCode forKey:@"imageCode"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"image/code/check"];
+    
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
         }

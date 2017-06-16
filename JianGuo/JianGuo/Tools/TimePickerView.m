@@ -66,8 +66,9 @@
 				weekString = @"周六";
 				break;
 		}
-		
-		NSString *timeString = [NSString stringWithFormat:@"%ld年%ld月%ld日(%@)",(long)_comps.year%2000, (long)_comps.month, (long)_comps.day, weekString];
+        
+//        NSString *timeString = [NSString stringWithFormat:@"%ld-%ld-%2ld(%@)", (long)_comps.month, (long)_comps.month, (long)_comps.day, weekString];
+        NSString *timeString = [NSString stringWithFormat:@"%ld-%ld-%ld", (long)_comps.year, (long)_comps.month, (long)_comps.day];
 		
 		[_arrayLeft addObject:timeString];
 	}
@@ -80,9 +81,9 @@
         [CATransaction begin];
         [CATransaction setCompletionBlock:^{
             [_pickerView reloadAllComponents];
-            [_pickerView selectRow:9 inComponent:1 animated:NO];
+            [_pickerView selectRow:0 inComponent:1 animated:NO];
         }];
-        [_pickerView selectRow:1 inComponent:0 animated:NO];
+        [_pickerView selectRow:0 inComponent:0 animated:NO];
         [CATransaction commit];
     }
 	[UIView animateWithDuration:0.3 animations:^{
@@ -112,8 +113,8 @@
 	_pickerView.dataSource = self;
 	_arrayLeft = [[NSMutableArray alloc] initWithCapacity:30];
 	
-	 _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	 _unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |NSWeekdayCalendarUnit |	NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	 _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	 _unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday |	NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -130,9 +131,9 @@
 {
 	CGFloat width = self.width-4*8;
 	if (component == 0) {
-		return width/8*6;   //年月日宽度为四分之三，其余分别为八分之一
+		return width/2*1;   //年月日宽度为二分之一，其余分别为四分之一
 	} else
-		return width/8;
+		return width/4;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
@@ -194,7 +195,7 @@
 		return [NSString stringWithFormat:@"%ld", row];
 		
 	} else {
-		
+        
 		if ([pickerView selectedRowInComponent:0] == 0 && [pickerView selectedRowInComponent:1] == 0 &&[_comps minute] <= 40 && self.isArriveStore) {
 			if ([_comps minute] % 10 == 0) {
 				return [NSString stringWithFormat:@"%ld", ([_comps minute]/10+row+1)*10];

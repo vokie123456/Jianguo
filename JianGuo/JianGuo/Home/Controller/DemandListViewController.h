@@ -8,7 +8,7 @@
 
 #import "NavigatinViewController.h"
 
-@interface DemandListViewController : NavigatinViewController
+@interface DemandListViewController : NavigatinViewController<UIViewControllerTransitioningDelegate>
 
 
 @property (nonatomic,copy) NSString *schoolId;

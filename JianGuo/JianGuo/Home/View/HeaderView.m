@@ -49,7 +49,7 @@
     CGFloat height;
     
     if (SCREEN_W == 320) {
-        height = Height*(SCREEN_W/375)+15;
+        height = Height*(SCREEN_W/375)-50;
     }else if (SCREEN_W == 375){
         height = Height*(SCREEN_W/375)-3;
     }else if (SCREEN_W == 414){
@@ -75,9 +75,9 @@
     tittleImgs = @[@"icon_jingpin2",@"icon_lvxing",@"icon_rijie",@"icon_my3"];
     
     SDCycleScrollView  *scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_W, 168*(SCREEN_W/375)) imageURLStringsGroup:@[@"bg-chahua",@"bg-chahua",@"bg-chahua"]];
-    scrollView.localizationImageNamesGroup = @[@"bg-chahua",@"bg-chahua",@"bg-chahua"];
+    scrollView.localizationImageNamesGroup = @[@"kobe",@"kobe",@"kobe"];
     IMP_BLOCK_SELF(HeaderView)
-    [JGHTTPClient getImgsOfScrollviewSuccess:^(id responseObject) {
+    [JGHTTPClient getImgsOfScrollviewWithCategory:@"2" Success:^(id responseObject) {
         if (responseObject) {
             if ([responseObject[@"code"] integerValue] == 200) {
                 

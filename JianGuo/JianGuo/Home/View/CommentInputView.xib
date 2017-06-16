@@ -13,7 +13,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zQw-oP-sKX">
-                    <rect key="frame" x="15" y="5" width="395" height="36"/>
+                    <rect key="frame" x="15" y="5" width="435" height="36"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="8cz-xA-mNf"/>
@@ -26,7 +26,7 @@
                         </mask>
                     </variation>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gxi-VL-KE7">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gxi-VL-KE7">
                     <rect key="frame" x="420" y="9" width="35" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="gxi-VL-KE7" secondAttribute="height" multiplier="6:5" id="UmT-BY-oVE"/>
@@ -44,9 +44,9 @@
                 <constraint firstItem="zQw-oP-sKX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="FKx-MQ-QUX"/>
                 <constraint firstAttribute="trailing" secondItem="gxi-VL-KE7" secondAttribute="trailing" constant="10" id="LlV-pm-eUU"/>
                 <constraint firstItem="gxi-VL-KE7" firstAttribute="centerY" secondItem="zQw-oP-sKX" secondAttribute="centerY" id="NCR-ar-1us"/>
-                <constraint firstItem="gxi-VL-KE7" firstAttribute="leading" secondItem="zQw-oP-sKX" secondAttribute="trailing" constant="10" id="PUD-YI-CZV"/>
                 <constraint firstItem="zQw-oP-sKX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="caO-QU-9yH"/>
                 <constraint firstAttribute="bottom" secondItem="zQw-oP-sKX" secondAttribute="bottom" constant="5" id="chL-rZ-dW3"/>
+                <constraint firstAttribute="trailing" secondItem="zQw-oP-sKX" secondAttribute="trailing" constant="15" id="rRa-OW-r3l"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

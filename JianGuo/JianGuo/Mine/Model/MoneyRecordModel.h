@@ -17,25 +17,25 @@
 @property (nonatomic, copy) NSString*   logName;
 
 /** 创建时间 */
-@property (nonatomic, copy) NSString*  createTime;
+@property (nonatomic, copy) NSString*   createTime;
 
 /** 到账时间 */
-@property (nonatomic, copy) NSString*  endTime;
+@property (nonatomic, copy) NSString*   endTime;
 
 /** 状态 1==没到账; 2==已到账 3==拒绝 */
-@property (nonatomic, copy) NSString*  status;
+@property (nonatomic, copy) NSString*   status;
 
 /** 备注 */
-@property (nonatomic, copy) NSString* note;
+@property (nonatomic, copy) NSString*   note;
 
 /** 数据id */
-@property (nonatomic, copy) NSString*  id;
+@property (nonatomic, copy) NSString*   id;
 
 /** 发钱的商家ID */
-@property (nonatomic, copy) NSString*  from_id;
+@property (nonatomic, copy) NSString*   from_id;
 
 /** 自己的ID */
-@property (nonatomic, copy) NSString*  user_id;
+@property (nonatomic, copy) NSString*   user_id;
 
 /** 支付宝号或者是卡号 */
 @property (nonatomic, copy) NSString*   number;
@@ -51,11 +51,11 @@
  6;//用户发布需求冻结（发需求扣款记录）
  7;//用户下架任务退回的钱
  */
-@property (nonatomic, copy) NSString*  type;
+@property (nonatomic, copy) NSString*   type;
 
 /** ??? */
-@property (nonatomic, copy) NSString*  pay_type_id;
+@property (nonatomic, copy) NSString*   pay_type_id;
 
 /** 钱数 */
-@property (nonatomic, copy) NSString*  money;
+@property (nonatomic, copy) NSString*   money;
 @end

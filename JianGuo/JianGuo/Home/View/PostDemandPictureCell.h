@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RefreshCollectionViewSizeDelegate <NSObject>
+
+-(void)refreshCollectionView:(NSArray *)imageArray;
+
+@end
+
 @interface PostDemandPictureCell : UITableViewCell
+
+
+@property (nonatomic,weak) id<RefreshCollectionViewSizeDelegate> delegate;
+
++(instancetype)cellWithTableView:(UITableView *)tableView;
+@property (nonatomic,assign) NSArray *imagesArr;
+
 
 @end

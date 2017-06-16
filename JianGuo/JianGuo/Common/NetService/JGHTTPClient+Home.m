@@ -113,13 +113,14 @@
 
 /**
  *  获取轮播图和城市
- *
+ *  categoryId (1==任务;  2==兼职)
  */
-+(void)getImgsOfScrollviewSuccess:(void (^)(id responseObject))success
-                          failure:(void (^)(NSError *error))failure
++(void)getImgsOfScrollviewWithCategory:(NSString *)categoryId
+                               Success:(void (^)(id responseObject))success
+                               failure:(void (^)(NSError *error))failure
 {
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"banner"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"banners/v2"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -368,6 +369,8 @@
     [params setObject:jobId forKey:@"job_id"];
     
     [params setObject:offer forKey:@"status"];
+//    
+//    [params setObject:loginId forKey:@"user_id"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"join/status"];
     

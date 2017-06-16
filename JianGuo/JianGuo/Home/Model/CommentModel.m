@@ -8,15 +8,6 @@
 
 #import "CommentModel.h"
 
-@interface CommentUser : NSObject
-
-@property (nonatomic,copy) NSString *nickname;
-
-@property (nonatomic,copy) NSString *userId;
-
-@property (nonatomic,copy) NSString *userImage;
-
-@end
 
 @implementation CommentModel
 
@@ -24,7 +15,7 @@
 + (NSDictionary *)objectClassInArray// 实现这个方法的目的：告诉MJExtension框架statuses和ads数组里面装的是什么模型
 {
     return @{
-             @"users" : [CommentUser class]   };
+             @"childComments" : [CommentModel class]   };
 }
 
 @end

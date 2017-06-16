@@ -35,11 +35,11 @@
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         
-        for (int i=0; i<4; i++) {
-            MoneyRecordModel *model = [[MoneyRecordModel alloc] init];
-            [self.dataArr addObject:model];
-        }
-        
+//        for (int i=0; i<4; i++) {
+//            MoneyRecordModel *model = [[MoneyRecordModel alloc] init];
+//            [self.dataArr addObject:model];
+//        }
+//        
         pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
         
         JGLog(@"one ====  %d",(int)self.dataArr.count/10);

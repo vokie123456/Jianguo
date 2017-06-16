@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,22 +17,37 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jia" translatesAutoresizingMaskIntoConstraints="NO" id="Qmo-Kz-f2n">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                     </imageView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFN-z4-2Ve">
+                        <rect key="frame" x="30" y="0.0" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="3Do-k3-lbc"/>
+                            <constraint firstAttribute="width" secondItem="qFN-z4-2Ve" secondAttribute="height" id="j3x-Sw-8Ke"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="sc"/>
+                        <connections>
+                            <action selector="delete:" destination="gTV-IL-0wX" eventType="touchUpInside" id="9G9-m0-8cw"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstItem="Qmo-Kz-f2n" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="4um-PZ-pKJ"/>
+                <constraint firstAttribute="trailing" secondItem="qFN-z4-2Ve" secondAttribute="trailing" id="6s4-wy-KCh"/>
                 <constraint firstItem="Qmo-Kz-f2n" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="UtP-fy-dd3"/>
                 <constraint firstAttribute="bottom" secondItem="Qmo-Kz-f2n" secondAttribute="bottom" id="bO8-VX-6gj"/>
+                <constraint firstItem="qFN-z4-2Ve" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="gkk-ed-pNC"/>
                 <constraint firstAttribute="trailing" secondItem="Qmo-Kz-f2n" secondAttribute="trailing" id="v1D-qi-Kzs"/>
             </constraints>
             <connections>
+                <outlet property="deleteB" destination="qFN-z4-2Ve" id="UZ8-9n-U4g"/>
                 <outlet property="iconView" destination="Qmo-Kz-f2n" id="GFi-9V-rdX"/>
             </connections>
             <point key="canvasLocation" x="118" y="295"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="jia" width="125" height="118"/>
+        <image name="jia" width="84" height="84"/>
+        <image name="sc" width="8" height="8"/>
     </resources>
 </document>

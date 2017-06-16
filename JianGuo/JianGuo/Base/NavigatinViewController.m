@@ -60,6 +60,11 @@
  */
 -(void)customBackBtn
 {
+    
+    if (self == self.navigationController.viewControllers.firstObject) {
+        return;
+    }
+    
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.showsTouchWhenHighlighted = YES;
     backBtn.frame = CGRectMake(0, 0, 12, 21);
@@ -88,6 +93,7 @@
     CGFloat right = 0;
     UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"icon-navigationBar"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
+    
 }
 
 

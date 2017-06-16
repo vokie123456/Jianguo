@@ -90,7 +90,7 @@
     
     UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn_r setTitle:@"确定" forState:UIControlStateNormal];
-    [btn_r addTarget:self action:@selector(commitInfo) forControlEvents:UIControlEventTouchUpInside];
+    [btn_r addTarget:self action:@selector(next:) forControlEvents:UIControlEventTouchUpInside];
     btn_r.frame = CGRectMake(0, 0, 40, 30);
     
     
@@ -318,7 +318,7 @@
     }
 }
 
-- (IBAction)next:(UIButton *)sender {
+- (void)next:(UIButton *)sender {
     
     if (self.nameTF.text.length==0) {
         [self showAlertViewWithText:@"请填写您的姓名" duration:1];
@@ -326,10 +326,11 @@
     }else if (self.sex.length==0){
         [self showAlertViewWithText:@"请选择您的性别" duration:1];
         return;
-    }else if (self.nickNameTF.text.length==0){
-        [self showAlertViewWithText:@"请给自己一个昵称" duration:1];
-        return;
     }
+//    else if (self.nickNameTF.text.length==0){
+//        [self showAlertViewWithText:@"请给自己一个昵称" duration:1];
+//        return;
+//    }
 //    else if (self.starSet.length==0){
 //        [self showAlertViewWithText:@"请选择您的星座" duration:1];
 //        return;

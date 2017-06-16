@@ -10,6 +10,8 @@
 #import "JGHTTPClient+LoginOrRegister.h"
 #import "ProfileViewController.h"
 
+#import "CodeValidateView.h"
+
 #define SECONDCOUNT 60
 
 @interface BindingTelViewController ()
@@ -62,24 +64,31 @@
         return;
     }
     
-    [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
-    self.getCodeBtn.userInteractionEnabled = NO;
-    _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
     
-    JGSVPROGRESSLOAD(@"正在发送验证码");
+    CodeValidateView *view = [CodeValidateView aValidateViewCompleteBlock:^(NSString *code){
+        
+        [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
+        self.getCodeBtn.userInteractionEnabled = NO;
+        _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
+        
+    } withTel:USER.tel type:@"1"];
     
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"1" Success:^(id responseObject) {
-        [SVProgressHUD dismiss];
-        [self showAlertViewWithText:responseObject[@"message"] duration:1];
-        
-        
-        
-    } failure:^(NSError *error) {
-        
-        [SVProgressHUD dismiss];
-        
-        [self showAlertViewWithText:NETERROETEXT duration:1];
-    }];
+    [view show];
+    
+//    JGSVPROGRESSLOAD(@"正在发送验证码");
+//    
+//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"1" imageCode:nil Success:^(id responseObject) {
+//        [SVProgressHUD dismiss];
+//        [self showAlertViewWithText:responseObject[@"message"] duration:1];
+//        
+//        
+//        
+//    } failure:^(NSError *error) {
+//        
+//        [SVProgressHUD dismiss];
+//        
+//        [self showAlertViewWithText:NETERROETEXT duration:1];
+//    }];
     
 }
 - (IBAction)sureBinding:(UIButton *)sender {

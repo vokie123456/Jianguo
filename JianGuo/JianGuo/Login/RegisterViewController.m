@@ -8,10 +8,13 @@
 
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
-#import "JGHTTPClient+LoginOrRegister.h"
 #import "WebViewController.h"
 #import "TTTAttributedLabel.h"
 #import "ProfileViewController.h"
+
+#import "CodeValidateView.h"
+
+#import "JGHTTPClient+LoginOrRegister.h"
 
 
 #define SECONDCOUNT 60
@@ -139,11 +142,26 @@
 
 - (IBAction)getCode:(UIButton *)sender {
     
+    
     if (self.telTF.text.length!=11||![self checkTelNumber:self.telTF.text]) {
         [self showAlertViewWithText:@"请输入正确的手机号" duration:1];
         return;
     }
     
+    CodeValidateView *view = [CodeValidateView aValidateViewCompleteBlock:^(NSString *code){
+        
+        [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
+        self.getCodeBtn.userInteractionEnabled = NO;
+        _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
+        
+    } withTel:self.telTF.text type:@"3"];
+    
+    [view show];
+    
+}
+
+-(void)getValidateCode:(NSString *)code
+{
     [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
     self.getCodeBtn.userInteractionEnabled = NO;
     _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
@@ -152,7 +170,7 @@
     
     IMP_BLOCK_SELF(RegisterViewController);
     
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"3" Success:^(id responseObject) {
+    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"3" imageCode:code Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         JGLog(@"%@",responseObject[@"code"]);
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
@@ -168,11 +186,8 @@
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
-        
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
-
-    
 }
 
 - (IBAction)unGetCode:(UIButton *)sender {
@@ -343,7 +358,7 @@
 //    
 //    IMP_BLOCK_SELF(RegisterViewController);
 //    
-//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"3" Success:^(id responseObject) {
+//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"3" imageCode:nil Success:^(id responseObject) {
 //        [SVProgressHUD dismiss];
 //        JGLog(@"%@",responseObject[@"code"]);
 //        [self showAlertViewWithText:responseObject[@"message"] duration:1];

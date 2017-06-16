@@ -166,7 +166,7 @@
     
 //    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
 //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:18]};
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:NavigationBarTitleColor, NSFontAttributeName:[UIFont systemFontOfSize:18]};
 //    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
 //    [self.navigationController.navigationBar setTranslucent:YES];
     

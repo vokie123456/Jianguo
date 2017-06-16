@@ -409,12 +409,18 @@
     if ([sender.currentTitle containsString:@"完工"]) {//确认完工
         
         [QLAlertView showAlertTittle:@"确认完成后，平台将会把款项支付给服务者" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者确认完成
+            JGSVPROGRESSLOAD(@"正在请求");
             [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"4" Success:^(id responseObject) {
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];
                 if ([responseObject[@"code"] integerValue] == 200) {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [sender setTitle:@"已经完成" forState:UIControlStateNormal];
+                    [sender setBackgroundColor:LIGHTGRAY1];
+                    sender.userInteractionEnabled = NO;
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             } failure:^(NSError *error) {
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:NETERROETEXT duration:1];
             }];
         }];
@@ -422,12 +428,15 @@
     }else if ([sender.currentTitle containsString:@"下架"]){
         
         [QLAlertView showAlertTittle:@"下架后，所有的报名者将自动拒绝，确定要下架吗?" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者下架需求
+            JGSVPROGRESSLOAD(@"正在请求");
             [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"7" Success:^(id responseObject) {
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];
                 if ([responseObject[@"code"] integerValue] == 200) {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             } failure:^(NSError *error) {
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:NETERROETEXT duration:1];
             }];
         }];

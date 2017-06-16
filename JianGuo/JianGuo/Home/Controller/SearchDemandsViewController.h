@@ -10,4 +10,9 @@
 
 @interface SearchDemandsViewController : NavigatinViewController
 
+@property (nonatomic,copy) NSString *type;
+
+@property (nonatomic,assign) BOOL isModule;
+
+
 @end

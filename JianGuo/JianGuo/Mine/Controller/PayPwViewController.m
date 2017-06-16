@@ -153,7 +153,7 @@
     IMP_BLOCK_SELF(PayPwViewController);
     
     
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"" Success:^(id responseObject) {
+    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"" imageCode:nil Success:^(id responseObject) {
         
         JGLog(@"%@",responseObject);
         [SVProgressHUD dismiss];

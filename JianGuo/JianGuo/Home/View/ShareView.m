@@ -9,6 +9,8 @@
 #import "ShareView.h"
 #import <ShareSDK/ShareSDK.h>
 #import "UIView+AlertView.h"
+
+#import "DiscoveryModel.h"
 #import "DetailModel.h"
 #import "JianzhiModel.h"
 #import "DemandModel.h"
@@ -106,10 +108,21 @@
 -(void)goShare:(SSDKPlatformType)type{
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    NSString *backURL = [NSString stringWithFormat:@"%@detaila?id=%@",@"http://www.woniukeji.com.cn:8888/",self.demandModel.id];
-    NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
-    NSString *text = [NSString stringWithFormat:@"【%@】––> %@",self.demandModel.title,[NSString stringWithFormat:@"赏金:%@ 元",self.demandModel.money]];
-    [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"来嘛~帮帮忙，反正有大把时光" type:SSDKContentTypeAuto];
+    if (self.isDiscvoeryVC) {
+        
+        NSString *backURL = _discoverModel.linkUrl;
+        NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
+        NSString *text = [NSString stringWithFormat:@"%@",_discoverModel.categoryName];
+        [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:     _discoverModel.title type:SSDKContentTypeAuto];
+        
+    }else{
+        
+        NSString *backURL = [NSString stringWithFormat:@"%@detaila?id=%@",@"http://www.woniukeji.com.cn:8888/",self.demandModel.id];
+        NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
+        NSString *text = [NSString stringWithFormat:@"【%@】––> %@",self.demandModel.title,[NSString stringWithFormat:@"赏金:%@ 元",self.demandModel.money]];
+        [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"来嘛~帮帮忙，反正有大把时光" type:SSDKContentTypeAuto];
+        
+    }
     
     [ShareSDK share:type
          parameters:shareParams
@@ -134,6 +147,7 @@
      }];
     
 }
+
 - (IBAction)cancel:(UIButton *)sender {
     
     [self dismiss];

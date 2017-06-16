@@ -430,6 +430,7 @@ static FMDatabaseQueue *_queue;
  */
 +(NSString *)getSign:(NSString *)timeStamp;
 {
+    
     NSString *app_id = [self getAppIdwithStr:USER.tel];
     NSString *signSecret = @"He37o6TaD0N";
     NSString *token = USER.token;
@@ -447,6 +448,10 @@ static FMDatabaseQueue *_queue;
  */
 +(NSMutableDictionary *)getAllBasedParams
 {
+    if (!USER.tel) {
+        return [NSMutableDictionary dictionary];
+    }
+    
     NSString *timestamp = [self getTimeStamp];
     
     NSMutableDictionary *params = [self getBasedParams:USER.tel];

@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class DetailModel,JianzhiModel,DemandModel;
+@class DetailModel,JianzhiModel,DemandModel,DiscoveryModel;
 @interface ShareView : UIView
 
 +(instancetype)aShareView;
 -(void)show;
 
+@property (nonatomic,assign) BOOL isDiscvoeryVC;
 
+@property (nonatomic,strong) DiscoveryModel *discoverModel;
 @property (nonatomic,strong) DetailModel *model;
 @property (nonatomic,strong) JianzhiModel *jzModel;
 @property (nonatomic,strong) DemandModel *demandModel;

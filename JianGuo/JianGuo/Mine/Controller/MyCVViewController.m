@@ -882,10 +882,11 @@
  */
 -(void)saveBasicInfo:(UIButton *)saveBtn
 {
-    if ([[self.nameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+//    if ([[self.nameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
 //        [self showAlertViewWithText:@"请填写您的姓名" duration:1];
 //        return;
-    }else if ([[self.nickNameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0){
+//    }else
+    if ([[self.nickNameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0){
         [self showAlertViewWithText:@"请填写您的昵称" duration:1];
         return;
     }else if (self.sex == nil){
@@ -917,7 +918,7 @@
 //        return;
 //    }
 
-    if (!self.schoolTF.text.length){
+    else if (!self.schoolTF.text.length){
         [self showAlertViewWithText:@"请选择您的学校" duration:1];
         return;
     }else if (!self.inSchoolTiemTF.text.length){

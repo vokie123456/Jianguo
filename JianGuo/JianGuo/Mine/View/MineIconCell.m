@@ -15,5 +15,12 @@
     self.iconView.contentMode = UIViewContentModeScaleAspectFill;
     
 }
+- (IBAction)delete:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(deleteCell:)]) {
+        [self.delegate deleteCell:sender];
+    }
+    
+}
 
 @end

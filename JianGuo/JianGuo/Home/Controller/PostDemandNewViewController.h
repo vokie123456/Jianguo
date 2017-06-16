@@ -10,4 +10,7 @@
 
 @interface PostDemandNewViewController : NavigatinViewController
 
+@property (nonatomic,copy) NSString *demandType;
+@property (nonatomic,copy) NSString *demandTypeStr;
+
 @end

@@ -9,5 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface DDUserInfoCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *iconView;
+@property (weak, nonatomic) IBOutlet UILabel *nameL;
+@property (weak, nonatomic) IBOutlet UILabel *schoolL;
+@property (weak, nonatomic) IBOutlet UIButton *followB;
+@property (weak, nonatomic) IBOutlet UILabel *statusL;
+@property (weak, nonatomic) IBOutlet UIImageView *statusView;
+@property (weak, nonatomic) IBOutlet UILabel *contentL;
 
 @end

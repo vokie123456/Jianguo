@@ -8,7 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DeleteCellDelegate <NSObject>
+
+-(void)deleteCell:(UIButton *)sender;
+
+@end
+
 @interface MineIconCell : UICollectionViewCell
+
+
+@property (nonatomic,weak) id <DeleteCellDelegate> delegate;
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
+@property (weak, nonatomic) IBOutlet UIButton *deleteB;
 
 @end

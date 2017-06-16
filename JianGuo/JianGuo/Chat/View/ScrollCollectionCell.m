@@ -8,10 +8,18 @@
 
 #import "ScrollCollectionCell.h"
 
+
 @implementation ScrollCollectionCell
 
 - (void)awakeFromNib {
     // Initialization code
 }
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+//    self.controller.view.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-200);
+}
+
 
 @end

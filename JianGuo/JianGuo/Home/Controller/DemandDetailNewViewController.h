@@ -10,4 +10,5 @@
 
 @interface DemandDetailNewViewController : NavigatinViewController
 
+@property (nonatomic,copy) NSString *demandI;
 @end

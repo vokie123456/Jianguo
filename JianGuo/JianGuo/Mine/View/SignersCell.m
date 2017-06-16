@@ -102,7 +102,9 @@
 
 - (void)showIcon:(UITapGestureRecognizer *)sender {
     
-    [XLPhotoBrowser showPhotoBrowserWithImages:@[self.iconView.image] currentImageIndex:0];
+    if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
+        [self.delegate clickIcon:_model.user_id];
+    }
     
 }
 

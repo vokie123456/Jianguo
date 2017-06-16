@@ -73,6 +73,12 @@
 //        self.dateView.hidden = NO;
     }
     NSInteger sum = model.sum.integerValue;
+    if (sum<=10) {
+        sum += 5;
+        
+    }else{
+        sum = sum*1.4;
+    }
     NSInteger count = model.user_count.integerValue;
     if (sum<=model.user_count.integerValue) {
         [self.stateBtn setImage:[UIImage imageNamed:@"enoughIcon"] forState:UIControlStateNormal];
@@ -94,13 +100,6 @@
             
             NSMutableAttributedString *leftStr;
             NSInteger num;
-            if (sum<=10) {
-                sum += 5;
-                
-            }else{
-                sum = sum*1.4;
-            }
-            
             num = sum - count;
             leftStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"仅剩 %ld 个名额",num]];
             [leftStr addAttributes:@{NSForegroundColorAttributeName:RedColor,NSFontAttributeName:FONT(15)}  range:NSMakeRange(3, leftStr.length-7)];

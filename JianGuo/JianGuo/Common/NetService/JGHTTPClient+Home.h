@@ -33,7 +33,8 @@
  *  获取轮播图和城市
  *
  */
-+(void)getImgsOfScrollviewSuccess:(void (^)(id responseObject))success
++(void)getImgsOfScrollviewWithCategory:(NSString *)categoryId
+                               Success:(void (^)(id responseObject))success
                           failure:(void (^)(NSError *error))failure;
 /**
  *  关注或者收藏

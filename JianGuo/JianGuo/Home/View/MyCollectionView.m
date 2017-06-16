@@ -10,12 +10,16 @@
 
 @implementation MyCollectionView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
 }
-*/
+
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+//{
+//    return self;
+//    return [self superview]; // return nil;
+//    // 此处返回nil也可以。返回nil就相当于当前的view不是最合适的view
+//}
 
 @end

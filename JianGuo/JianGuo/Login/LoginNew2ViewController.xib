@@ -32,7 +32,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </imageView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入账号" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="K2X-br-Bpa">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" textAlignment="natural" minimumFontSize="17" background="rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="K2X-br-Bpa">
                     <rect key="frame" x="50" y="220" width="274" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="5SO-Og-KDW"/>
@@ -146,7 +146,7 @@
     </objects>
     <resources>
         <image name="garden" width="29" height="29"/>
-        <image name="logogreen" width="131" height="131"/>
+        <image name="logogreen" width="60" height="60"/>
         <image name="rectangle" width="280" height="44"/>
     </resources>
 </document>

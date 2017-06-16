@@ -67,7 +67,7 @@
         if (responseObject) {
             
             self.user = [SignUsers mj_objectWithKeyValues:responseObject[@"data"]];
-            [self.iconView sd_setImageWithURL:[NSURL URLWithString:self.user.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",self.user.head_img_url]] placeholderImage:[UIImage imageNamed:@"myicon"]];
             NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
             NSInteger age = [timeNow substringToIndex:4].integerValue - [self.user.birth_date substringToIndex:4].integerValue;
             [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
@@ -221,7 +221,7 @@
 
 -(void)showIcon
 {
-    [XLPhotoBrowser showPhotoBrowserWithImages:@[self.iconView.image] currentImageIndex:0];
+    [XLPhotoBrowser showPhotoBrowserWithImages:@[[NSURL URLWithString:self.user.head_img_url]] currentImageIndex:0];
 }
 
 @end

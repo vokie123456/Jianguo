@@ -18,10 +18,18 @@
 #import "NSObject+HudView.h"
 #import "UIColor+Hex.h"
 #import "DemandTypeModel.h"
+#import "MineIconCell.h"
 
-@interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate>
+#import "LoginNew2ViewController.h"
+
+#import "XLPhotoBrowser.h"
+
+@interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     NSMutableArray *colorArr;
+    NSArray *imageArr;
+    __weak IBOutlet NSLayoutConstraint *collectionViewCons;
+    __weak IBOutlet NSLayoutConstraint *collectionViewtrailingCons;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
@@ -35,13 +43,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *signBtn;
 @property (weak, nonatomic) IBOutlet UILabel *praiseCountL;
 @property (weak, nonatomic) IBOutlet UIButton *typeBtn;
-@property (weak, nonatomic) IBOutlet UIButton *schoolBtn;
+@property (weak, nonatomic) IBOutlet UILabel *schoolL;
 
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UIImageView *finishView;
 @property (weak, nonatomic) IBOutlet UIView *coverView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 
 
@@ -51,9 +60,12 @@
 -(void)prepareForReuse
 {
     self.finishView.hidden = YES;
-    [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+    [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"fabulous"] forState:UIControlStateNormal];
     self.coverView.hidden = YES;
+    collectionViewCons.constant = (SCREEN_W-25-5*2)/3;
+    _model = nil;
 }
+
 
 -(void)setModel:(DemandModel *)model
 {
@@ -69,15 +81,14 @@
     if (model.like_status.integerValue == 1) {
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"xin"] forState:UIControlStateNormal];
     }else{
-        [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+        [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"fabulous"] forState:UIControlStateNormal];
     }
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.nameL.text = model.anonymous.integerValue==1?@"匿名":(model.nickname?model.nickname:@"未填写");
-    self.genderView.image = [UIImage imageNamed:model.sex.integerValue==2?@"man":@"girl"];
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    self.nameL.text = model.anonymous.integerValue==1?@"匿名":(model.nickname.length?model.nickname:@"未填写");
+    self.genderView.image = [UIImage imageNamed:model.sex.integerValue==2?@"boy":@"girlsex"];
     self.titleL.text = model.title;
-    self.moneyL.text = [NSString stringWithFormat:@"%@元",model.money];
-    self.contentL.text = model.d_describe;
-//    NSArray *array = @[@"学习",@"代办",@"求助",@"娱乐"];
+    self.moneyL.text = [NSString stringWithFormat:@"%.2f元",model.money.floatValue];
+    self.contentL.text = model.demandDesc;
     
     NSArray *demandTypeArr= JGKeyedUnarchiver(JGDemandTypeArr);
     NSMutableArray *arr = @[].mutableCopy;
@@ -88,194 +99,56 @@
         [arr addObject:model.type_name];
     }
     
-    [self.typeBtn setTitle:[[@"  " stringByAppendingString:arr[model.d_type.integerValue-1]] stringByAppendingString:@"  "] forState:UIControlStateNormal];
-    self.typeBtn.layer.borderColor = [colorArr[model.d_type.integerValue-1] CGColor];
-    [self.typeBtn setTitleColor:colorArr[model.d_type.integerValue-1] forState:UIControlStateNormal];
-    [self.schoolBtn setTitle:[[@"  " stringByAppendingString:model.school_name?model.school_name:@"未填写"] stringByAppendingString:@"  "] forState:UIControlStateNormal];
-    self.timeL.text = [@"发布于" stringByAppendingString:[[DateOrTimeTool getDateStringBytimeStamp:model.create_time.floatValue] substringFromIndex:5]];
-    self.commentCountL.text = [NSString stringWithFormat:@"%@",model.comment_count];
-    self.praiseCountL.text = model.like_count;
+    [self.typeBtn setTitle:arr[model.type.integerValue-1] forState:UIControlStateNormal];
+
+    [self.typeBtn setBackgroundColor:colorArr[model.type.integerValue-1]];
+    self.schoolL.text = model.userSchoolName?model.userSchoolName:@"未填写";
+    NSString *timeStr;
+    NSTimeInterval timeNow = [[NSDate date] timeIntervalSince1970];
+    NSInteger createTime = [[model.create_time substringToIndex:10] integerValue];
+    if (timeNow-createTime<=60) {
+        timeStr = [NSString stringWithFormat:@"刚刚 | %@",model.schoolName];
+    }else if (timeNow-createTime<60*60){//一个小时以内
+        timeStr = [NSString stringWithFormat:@"%ld分钟前 | %@",(NSInteger)(timeNow-createTime)/60,model.schoolName];
+    }else if (timeNow-createTime<24*3600){//24小时以内
+        timeStr = [NSString stringWithFormat:@"%ld小时前 | %@",(NSInteger)(timeNow-createTime)/3600,model.schoolName];
+    }else{
+        timeStr = [NSString stringWithFormat:@"%@ | %@",[[DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue] substringToIndex:10],model.schoolName];
+    }
+    self.timeL.text = timeStr;
+    self.commentCountL.text = [NSString stringWithFormat:@"%@",model.commentCount];
+    self.praiseCountL.text = model.likeCount;
     
     if (model.d_status.integerValue>1) {
         self.coverView.hidden = NO;
         self.finishView.hidden = NO;
         [self.contentView bringSubviewToFront:self.finishView];
     }
+    if (model.images.count ==0) {
+        collectionViewCons.constant = 0;
+    }
     
-//    self.firstCommentL.text = self.secondCommentL.text = self.thirdCommentL.text = nil;
-//    if (model.commentEntitys.count == 1){
-//        
-//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-//
-//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-//        
-//    }else if (model.commentEntitys.count==2){
-//        
-//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-//        
-//        CommentModel *commentModel2 = model.commentEntitys.lastObject;
-//        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
-//    
-//    }else if (model.commentEntitys.count==3){
-//        
-//        CommentModel *commentModel1 = model.commentEntitys.firstObject;
-//        [self getStrToLabel:self.firstCommentL WithCommentModel:commentModel1];
-//        
-//        CommentModel *commentModel2 =  [model.commentEntitys objectAtIndex:1];
-//        [self getStrToLabel:self.secondCommentL WithCommentModel:commentModel2];
-//        
-//        CommentModel *commentModel3 = model.commentEntitys.lastObject;
-//        [self getStrToLabel:self.thirdCommentL WithCommentModel:commentModel3];
-    
-//    }
+    [self.collectionView reloadData];
     
 }
-- (IBAction)sign:(UIButton *)sender {
-    if (_model.enroll_status.integerValue!=0) {
-        return;
-    }
-    
-    
-    if ([self.delegate respondsToSelector:@selector(signDemand:)]) {
-        if (USER.tel.length!=11||USER.resume.integerValue == 0 ) {
-            [self.delegate signDemand:USER.login_id];
-            return;
-        }
-    }
-    if (_model.b_user_id.integerValue == USER.login_id.integerValue) {
-        [self showAlertViewWithText:@"您不能报自己发布的任务!" duration:1];
-        return ;
-    }
-    if (USER.resume.intValue == 0){
-        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
-        return;
-    }
-    
-    JGSVPROGRESSLOAD(@"正在报名...")
-    [JGHTTPClient signDemandWithDemandId:_model.id userId:USER.login_id status:@"1"
-                                  reason:nil Success:^(id responseObject) {
-                                      [SVProgressHUD dismiss];
-                                      
-                                      [self showAlertViewWithText:responseObject[@"message"] duration:1];
-                                      if ([responseObject[@"code"]integerValue]==200) {
-//                                          [sender setBackgroundColor:[UIColor lightGrayColor]];
-                                          [sender setTitle:@"已报名" forState:UIControlStateNormal];
-                                          [sender setBackgroundColor:LIGHTGRAYTEXT];
-                                          sender.userInteractionEnabled = NO;
-                                      }
-                                      
-                                      
-                                  } failure:^(NSError *error) {
-                                      [SVProgressHUD dismiss];
-                                      [self showAlertViewWithText:NETERROETEXT duration:1];
-                                      
-                                  }];
-    
-}
-
-
--(void)getStrToLabel:(TTTAttributedLabel *)label WithCommentModel:(CommentModel *)model
-{
-    
-    CommentModel *commentModel1 = model;
-    
-    CommentUser *commentUser1 = commentModel1.users.firstObject;
-    
-    BOOL bo1 = commentModel1.user_id.integerValue==commentUser1.userId.integerValue;
-    BOOL bo2 = commentModel1.users.count==2;
-    
-    if (bo2) {
-        NSString *str;
-        CommentUser *commentUser2 = commentModel1.users.lastObject;
-        if (bo1) {
-            if (_model.b_user_id.integerValue == commentUser2.userId.integerValue) {
-                str = [NSString stringWithFormat:@"%@ :",commentUser1.nickname];
-            }else
-            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser1.nickname,commentUser2.nickname];
-        }else{
-            if (_model.b_user_id.integerValue == commentUser1.userId.integerValue) {
-                str = [NSString stringWithFormat:@"%@ :",commentUser2.nickname];
-            }else
-            str = [NSString stringWithFormat:@"%@ 回复 %@ :",commentUser2.nickname,commentUser1.nickname];
-        }
-        NSString *attStr = [str stringByAppendingString:commentModel1.content];
-        
-        [label setText:attStr afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-            
-            //        [mutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, mutableAttributedString.length)];//这个设置方式不起作用
-            
-            [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
-            
-            return mutableAttributedString;
-        }];
-        UIFont *boldSystemFont = [UIFont systemFontOfSize:13];
-        CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)boldSystemFont.fontName, boldSystemFont.pointSize, NULL);
-        //添加点击事件
-        label.enabledTextCheckingTypes = NSTextCheckingTypeLink;
-        
-        label.linkAttributes = @{(NSString *)kCTFontAttributeName:(__bridge id)font,(id)kCTForegroundColorAttributeName:GreenColor};//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
-        CFRelease(font);
-
-        
-        NSRange range1 = [attStr rangeOfString:commentUser1.nickname];
-        NSRange range2 = [attStr rangeOfString:commentUser2.nickname];
-        NSURL *url1 = [NSURL URLWithString:commentUser1.userId];
-        NSURL *url2 = [NSURL URLWithString:commentUser2.userId];
-        [label addLinkToURL:url1 withRange:range1];
-        [label addLinkToURL:url2 withRange:range2];
-        
-    }else{
-        NSString *attStr = [NSString stringWithFormat:@"%@ : %@",commentUser1.nickname,commentModel1.content];
-        
-        [label setText:attStr afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-            
-            //        [mutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, mutableAttributedString.length)];//这个设置方式不起作用
-            
-            [mutableAttributedString addAttributes:@{(id)kCTForegroundColorAttributeName:LIGHTGRAYTEXT} range:NSMakeRange(0, mutableAttributedString.length) ];//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
-            
-            return mutableAttributedString;
-        }];
-        UIFont *boldSystemFont = [UIFont systemFontOfSize:13];
-        CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)boldSystemFont.fontName, boldSystemFont.pointSize, NULL);
-        //添加点击事件
-        label.enabledTextCheckingTypes = NSTextCheckingTypeLink;
-        
-        label.linkAttributes = @{(NSString *)kCTFontAttributeName:(__bridge id)font,(id)kCTForegroundColorAttributeName:GreenColor};//NSForegroundColorAttributeName  不能改变颜色 必须用   (id)kCTForegroundColorAttributeName,此段代码必须在前设置
-        CFRelease(font);
-        
-        
-        NSRange range1 = [attStr rangeOfString:commentUser1.nickname];
-
-        NSURL *url1 = [NSURL URLWithString:commentUser1.userId];
-
-        [label addLinkToURL:url1 withRange:range1];
-
-    }
-}
-
 - (void)awakeFromNib {
+    
+    self.collectionView.scrollEnabled = NO;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    collectionViewCons.constant = (SCREEN_W-25-5*2)/3;
+    
+    
+    [self.collectionView registerNib:[UINib nibWithNibName:@"MineIconCell" bundle:[NSBundle mainBundle]]forCellWithReuseIdentifier:@"MineIconCell"];
     
     NSArray *array = @[@"#e29c45",@"#815463",@"#65318e",@"#f8b500",@"#b7282e",@"#006e54"];
     colorArr = [NSMutableArray array];
     for (NSString *colorStr in array) {
         [colorArr addObject:[UIColor colorWithHexString:colorStr]];
     }
-    
-//    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
-//    self.commentTF.leftViewMode = UITextFieldViewModeAlways;
-//    self.commentTF.leftView = leftView;
-//    self.commentTF.layer.cornerRadius = 5;
-//    self.commentTF.delegate = self;
-
     self.iconView.layer.cornerRadius = self.iconView.width/2;
     self.iconView.layer.masksToBounds = YES;
-//    self.selfIconView.layer.cornerRadius = self.selfIconView.width/2;
-//    self.selfIconView.layer.masksToBounds = YES;
-//    self.firstCommentL.delegate = self;
-//    self.secondCommentL.delegate = self;
-//    self.thirdCommentL.delegate = self;
-    
+   
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickIcon)];
     [self.iconView addGestureRecognizer:tap];
     
@@ -287,20 +160,6 @@
     likeBtn.center = CGPointMake(self.praiseBtn.width/2, self.praiseBtn.height/2);
     [self.praiseBtn addSubview:likeBtn];
     self.bigBtn=likeBtn;
-    
-//    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//
-//    [editBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.commentTF addSubview:editBtn];
-//    self.editBtn = editBtn;
-    
-//    [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.leading.equalTo(self.commentTF.mas_leading);
-//        make.trailing.equalTo(self.commentTF.mas_trailing);
-//        make.top.equalTo(self.commentTF.mas_top);
-//        make.bottom.equalTo(self.commentTF.mas_bottom);
-//    }];
-    
     
 }
 
@@ -322,6 +181,31 @@
     } failure:^(NSError *error) {
         btn.userInteractionEnabled = YES;
         [QLAlertView showAlertTittle:nil message:NETERROETEXT];
+    }];
+    
+}
+- (IBAction)followSomeone:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(signDemand:)]) {
+        if (USER.tel.length!=11) {
+            
+            LoginNew2ViewController *loginVC= [[LoginNew2ViewController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+            
+            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            
+            return;
+        }
+    }
+    
+    [JGHTTPClient followUserWithUserId:_model.userId status:@"0" Success:^(id responseObject) {
+        
+        if ([responseObject[@"code"] integerValue] == 200) {
+            [self showAlertViewWithText:@"" duration:1];
+        }
+        
+    } failure:^(NSError *error) {
+        
     }];
     
 }
@@ -378,6 +262,57 @@
 //    [self.commentTF becomeFirstResponder];
 //    
 //}
+
+#pragma mark UICollectionView 的代理函数
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    NSInteger count = _model.images.count;
+//    if (count<3) {
+        collectionViewtrailingCons.constant = 8+(3-count)*((SCREEN_W-25-5*2)/3);
+//    }
+    
+    return count;
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"MineIconCell";
+    MineIconCell *cell = (MineIconCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!200x200",_model.images[indexPath.item]]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [XLPhotoBrowser showPhotoBrowserWithImages:_model.images currentImageIndex:indexPath.item];
+}
+
+#pragma mark collectionView Layout 代理方法
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake((SCREEN_W-25-5*2)/3, (SCREEN_W-25-15)/3);
+}
+//设置每个item水平间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+//设置每个item垂直间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5;
+}
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5, 5, 5, 5);
+}
+
 
 
 @end

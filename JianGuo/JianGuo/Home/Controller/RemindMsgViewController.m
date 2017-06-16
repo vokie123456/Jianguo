@@ -47,7 +47,7 @@
 -(UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64-49)];
 //        _tableView.rowHeight = 157;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -244,6 +244,7 @@
             BillsViewController *billVC = [[BillsViewController alloc] init];
             billVC.hidesBottomBarWhenPushed = YES;
             billVC.type = @"1";
+            billVC.title = @"明细";
             [self.navigationController pushViewController:billVC animated:YES];
             break;
         }
@@ -264,14 +265,18 @@
             [self.navigationController pushViewController:detailVC animated:YES];
             break;
         }
-            
-        case 100:{//活动推送(H5)
+        case 24:{//活动推送(H5)
             
             WebViewController *webVC = [[WebViewController alloc] init];
             webVC.url = model.html_url;
             
             webVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:webVC animated:YES];
+            break;
+        }
+            
+        case 100:{//活动推送(H5)
+            
             break;
         }
     }

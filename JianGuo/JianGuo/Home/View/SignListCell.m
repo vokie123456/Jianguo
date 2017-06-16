@@ -79,9 +79,9 @@
         //            [self.rightBtn setGrayBGAndWhiteTittle:@"已完成"];
         
         self.rightBtn.hidden = YES;
-        self.stateRightView.hidden = NO;
-        self.stateRightView.image = [UIImage imageNamed:@"icon_yiwancheng-1"];
-        self.stateImgView.image = [UIImage imageNamed:@"icon_yiwancheng"];
+        self.stateRightView.hidden = YES;
+//        self.stateRightView.image = [UIImage imageNamed:@"icon_yiluqu"];
+        self.stateImgView.image = [UIImage imageNamed:@"icon_yiluqu"];
     }else if (status == 4){//已取消
         self.rightBtn.hidden = YES;
         self.stateRightView.hidden = NO;

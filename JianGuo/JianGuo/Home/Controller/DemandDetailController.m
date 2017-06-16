@@ -7,6 +7,7 @@
 //
 
 #import "DemandDetailController.h"
+#import "MineChatViewController.h"
 #import "HomeSegmentViewController.h"
 #import "PostSuccessViewController.h"
 #import "DemandDetailCell.h"
@@ -26,7 +27,7 @@
 
 #define HeaderImageHeight 747/3
 
-@interface DemandDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,FinishEditDelegate,UITextFieldDelegate>
+@interface DemandDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,FinishEditDelegate,UITextFieldDelegate,CommentCellDelegate>
 {
     CGFloat currentPostion;
     CGFloat lastPosition;
@@ -111,7 +112,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].enable = YES;
+//    [IQKeyboardManager sharedManager].enable = YES;
     [APPLICATION.keyWindow endEditing:YES];
     [self.bottomView removeFromSuperview];
 }
@@ -156,7 +157,7 @@
             if (self.demandModel.enroll_status.integerValue!=0||self.demandModel.d_status.integerValue!=1) {
                 self.signButton.userInteractionEnabled = NO;
                 [self.signButton setBackgroundColor:[UIColor lightGrayColor]];
-                [self.signButton setTitle:@"已经报名" forState:UIControlStateNormal];
+                [self.signButton setTitle:@"交易达成" forState:UIControlStateNormal];
                 
             }else if (self.demandModel.d_status.integerValue == 7||self.demandModel.d_status.integerValue == 8){
                 
@@ -343,6 +344,7 @@
         CommentCell *cell = [CommentCell  cellWithTableView:tableView];
         cell.postUserId = self.demandModel.b_user_id;
         cell.model = self.dataArr[indexPath.row];
+        cell.delegate = self;
         return cell;
         
     }
@@ -629,7 +631,7 @@
         [self showAlertViewWithText:@"您还没输入内容呢" duration:1];
         return;
     }
-    [JGHTTPClient postAcommentWithDemandId:self.demandId content:self.commentView.commentTV.text userId:USER.login_id toUserId:self.to_user_id Success:^(id responseObject) {
+    [JGHTTPClient postAcommentWithDemandId:self.demandId content:self.commentView.commentTV.text pid:USER.login_id toUserId:self.to_user_id Success:^(id responseObject) {
         
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
         if ([responseObject[@"code"]integerValue]==200) {
@@ -645,6 +647,19 @@
     [self.commentTV resignFirstResponder];
     self.commentTV.text = nil;
     
+}
+
+//点击用户头像
+-(void)clickIcon:(NSString *)userId
+{
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+    mineChatVC.hidesBottomBarWhenPushed = YES;
+    mineChatVC.userId = userId;
+    [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
 -(void)dealloc

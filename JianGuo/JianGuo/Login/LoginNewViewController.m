@@ -150,7 +150,7 @@
     self.chechBtn.userInteractionEnabled = NO;
     _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
     
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTF.text type:@"1" Success:^(id responseObject) {
+    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTF.text type:@"1" imageCode:nil Success:^(id responseObject) {
         [SVProgressHUD dismiss];
         JGLog(@"%@",responseObject[@"code"]);
         if ([responseObject[@"code"] integerValue] == 200) {

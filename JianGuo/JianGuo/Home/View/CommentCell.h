@@ -9,7 +9,18 @@
 #import <UIKit/UIKit.h>
 @class TTTAttributedLabel;
 @class CommentModel;
+
+@protocol CommentCellDelegate <NSObject>
+
+-(void)clickIcon:(NSString *)userId;
+
+@end
+
 @interface CommentCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *iconViewLeftCons;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineViewLeftCons;
+
+@property (nonatomic,weak) id<CommentCellDelegate> delegate;
 
 @property (nonatomic,copy) NSString *postUserId;
 @property (nonatomic,strong) CommentModel *model;

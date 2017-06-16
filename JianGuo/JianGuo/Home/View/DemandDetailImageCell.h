@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DemandDetailImageCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *iconView;
+
++(instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

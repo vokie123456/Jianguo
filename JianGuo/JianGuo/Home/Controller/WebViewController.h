@@ -7,9 +7,12 @@
 //
 
 #import "NavigatinViewController.h"
-
+@class DiscoveryModel;
 @interface WebViewController : NavigatinViewController
 
+@property (nonatomic,strong) DiscoveryModel *model;
+
+@property (nonatomic,assign) BOOL ishaveShareButton;
 
 @property (nonatomic,copy) NSString *url;
 

@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AnonymousCell : UITableViewCell
++(instancetype)cellWithTableView:(UITableView *)tableView;
+@property (weak, nonatomic) IBOutlet UIButton *selectB;
 
 @end

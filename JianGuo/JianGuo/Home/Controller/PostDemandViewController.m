@@ -325,7 +325,7 @@
             NSString *isAnonymous = self.hideNameBtn.selected ? @"1":@"2";
             
             
-            [JGHTTPClient PostDemandWithMoney:self.moneyTF.text imageUrl:url title:self.titleTF.text description:self.descriptionTV.text type:self.demandType city:[CityModel city].code area:self.addressTF.text schoolId:USER.schoolId sex:USER.gender anonymous:isAnonymous Success:^(id responseObject) {
+            [JGHTTPClient PostDemandWithMoney:self.moneyTF.text imageUrl:url title:self.titleTF.text description:self.descriptionTV.text type:self.demandType city:[CityModel city].code area:self.addressTF.text schoolId:USER.schoolId sex:USER.gender limitTime:@"" anonymous:isAnonymous Success:^(id responseObject) {
                 [SVProgressHUD dismiss];
                 if ([responseObject[@"code"] integerValue] == 603) {
                     [QLAlertView showAlertTittle:@"余额不足,是否充值?" message:nil isOnlySureBtn:NO compeletBlock:^{//去充值
@@ -347,6 +347,8 @@
                         postVC.transitioningDelegate = vc;//代理必须遵守这个专场协议
                         postVC.modalPresentationStyle = UIModalPresentationCustom;
                         [self.navigationController.viewControllers.firstObject presentViewController:postVC animated:YES completion:nil];
+                    }else{
+                        [self showAlertViewWithText:responseObject[@"message"] duration:1];
                     }
                 }
                 

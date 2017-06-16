@@ -7,8 +7,19 @@
 //
 
 #import "DiscoveryViewController.h"
+#import "WebViewController.h"
+#import "WebViewController.h"
 
-@interface DiscoveryViewController ()
+#import "JGHTTPClient+Discovery.h"
+
+#import "DiscoveryCell.h"
+
+
+#import "DiscoveryModel.h"
+
+@interface DiscoveryViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 
 @end
 
@@ -16,22 +27,91 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.tableView.rowHeight = 180;
+    
+    [self requestList:@"1"];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{//上拉刷新
+        
+        [self requestList:@"1"];
+    }];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
+        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
+    }];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)requestList:(NSString *)count
+{
+    JGSVPROGRESSLOAD(@"加载中...")
+    [JGHTTPClient getDiscoveryListPageNum:count Success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        
+        if (count.intValue>1) {//上拉加载
+            if ([[DiscoveryModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            NSMutableArray *indexPaths = [NSMutableArray array];
+            for (DiscoveryModel *model in [DiscoveryModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.dataArr addObject:model];
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            return;
+            
+        }else{
+            [self.dataArr removeAllObjects];
+            self.dataArr = [DiscoveryModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"] ];
+            if (self.dataArr.count == 0) {
+                bgView.hidden = NO;
+            }else{
+                bgView.hidden = YES;
+            }
+        }
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+    }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return self.dataArr.count;
 }
-*/
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DiscoveryCell *cell = [DiscoveryCell cellWithTableView:tableView];
+    cell.model = self.dataArr[indexPath.row];
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    DiscoveryModel *model = self.dataArr[indexPath.row];
+    WebViewController *webVC = [[WebViewController alloc] init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    NSString *url = [[model.linkUrl componentsSeparatedByString:@"\\"]componentsJoinedByString:@""];
+    webVC.url = url;
+    webVC.ishaveShareButton = YES;
+    webVC.model = model;
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
+
+
 
 @end

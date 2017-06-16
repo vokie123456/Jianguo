@@ -31,7 +31,7 @@
     
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.view.backgroundColor = BACKCOLORGRAY;
-     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 /**

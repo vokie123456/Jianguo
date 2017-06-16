@@ -10,8 +10,20 @@
 
 @implementation DemandDetailImageCell
 
++(instancetype)cellWithTableView:(UITableView *)tableView
+{
+    DemandDetailImageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle ]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+    }
+    return cell;
+}
+
+
 - (void)awakeFromNib {
     // Initialization code
+    self.iconView.clipsToBounds = YES;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -1,18 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="DiscoveryCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DiscoveryCell" rowHeight="180" id="KGk-i7-Jjw" customClass="DiscoveryCell">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="180"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="393" height="179.5"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b44-0v-lNC">
+                        <rect key="frame" x="10" y="5" width="373" height="170"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="campus" translatesAutoresizingMaskIntoConstraints="NO" id="hXF-wX-dQy" customClass="IBImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="373" height="170"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="transparent" translatesAutoresizingMaskIntoConstraints="NO" id="VNt-Xq-XGi">
+                                <rect key="frame" x="0.0" y="0.0" width="373" height="170"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rf5-ep-m2i" userLabel="topLine">
+                                <rect key="frame" x="152" y="49" width="70" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3g-xf-lMs" userLabel="bottomLine">
+                                <rect key="frame" x="152" y="75" width="70" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Lk0-NK-Po8"/>
+                                    <constraint firstAttribute="width" constant="70" id="Oo7-tQ-L87"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每日话题" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZB4-u2-Yrk">
+                                <rect key="frame" x="156" y="50" width="60" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="教大家如何用PPT装逼" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jwe-nh-kgM">
+                                <rect key="frame" x="30" y="85" width="313" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="hXF-wX-dQy" secondAttribute="bottom" id="4FE-Ms-BUq"/>
+                            <constraint firstAttribute="trailing" secondItem="hXF-wX-dQy" secondAttribute="trailing" id="4TS-M9-Lem"/>
+                            <constraint firstItem="ZB4-u2-Yrk" firstAttribute="centerX" secondItem="b44-0v-lNC" secondAttribute="centerX" id="5R9-5b-gs7"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="top" secondItem="rf5-ep-m2i" secondAttribute="bottom" constant="25" id="6Zt-hf-8Qu"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="width" secondItem="rf5-ep-m2i" secondAttribute="width" id="DuJ-xQ-kv9"/>
+                            <constraint firstItem="Jwe-nh-kgM" firstAttribute="leading" secondItem="b44-0v-lNC" secondAttribute="leading" constant="30" id="Eux-jl-hdN"/>
+                            <constraint firstItem="VNt-Xq-XGi" firstAttribute="width" secondItem="hXF-wX-dQy" secondAttribute="width" id="Gby-7O-Vpz"/>
+                            <constraint firstItem="hXF-wX-dQy" firstAttribute="top" secondItem="b44-0v-lNC" secondAttribute="top" id="M0V-tv-YT4"/>
+                            <constraint firstItem="ZB4-u2-Yrk" firstAttribute="top" secondItem="rf5-ep-m2i" secondAttribute="bottom" id="MUm-wJ-YQx"/>
+                            <constraint firstItem="VNt-Xq-XGi" firstAttribute="top" secondItem="b44-0v-lNC" secondAttribute="top" id="OIk-qu-mCa"/>
+                            <constraint firstItem="rf5-ep-m2i" firstAttribute="centerX" secondItem="b44-0v-lNC" secondAttribute="centerX" id="OYb-t8-Dfn"/>
+                            <constraint firstItem="VNt-Xq-XGi" firstAttribute="height" secondItem="hXF-wX-dQy" secondAttribute="height" id="Y9s-BE-vPf"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="centerX" secondItem="b44-0v-lNC" secondAttribute="centerX" id="ef9-57-kst"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="top" secondItem="ZB4-u2-Yrk" secondAttribute="bottom" id="l3p-2z-Iny"/>
+                            <constraint firstAttribute="trailing" secondItem="Jwe-nh-kgM" secondAttribute="trailing" constant="30" id="pYy-DQ-cRm"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="centerY" secondItem="b44-0v-lNC" secondAttribute="centerY" constant="-10" id="rN7-q1-6mC"/>
+                            <constraint firstItem="hXF-wX-dQy" firstAttribute="leading" secondItem="b44-0v-lNC" secondAttribute="leading" id="v7d-1z-DPI"/>
+                            <constraint firstItem="Jwe-nh-kgM" firstAttribute="centerX" secondItem="b44-0v-lNC" secondAttribute="centerX" id="vRK-7v-JfK"/>
+                            <constraint firstItem="VNt-Xq-XGi" firstAttribute="leading" secondItem="b44-0v-lNC" secondAttribute="leading" id="w0Z-TM-lru"/>
+                            <constraint firstItem="Jwe-nh-kgM" firstAttribute="centerY" secondItem="b44-0v-lNC" secondAttribute="centerY" constant="10" id="wtz-tZ-Kn9"/>
+                            <constraint firstItem="S3g-xf-lMs" firstAttribute="height" secondItem="rf5-ep-m2i" secondAttribute="height" id="xzI-x2-TzU"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="b44-0v-lNC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="IdL-TB-jZH"/>
+                    <constraint firstAttribute="trailing" secondItem="b44-0v-lNC" secondAttribute="trailing" constant="10" id="Q3G-M8-qac"/>
+                    <constraint firstItem="b44-0v-lNC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="fpK-kx-YpG"/>
+                    <constraint firstAttribute="bottom" secondItem="b44-0v-lNC" secondAttribute="bottom" constant="5" id="l3z-GM-kqF"/>
+                </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" red="0.94566205260000002" green="0.9435909536" blue="0.94741855429999999" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="iconView" destination="hXF-wX-dQy" id="Yph-FA-acT"/>
+                <outlet property="titleL" destination="Jwe-nh-kgM" id="C3h-aI-mIw"/>
+                <outlet property="typeL" destination="ZB4-u2-Yrk" id="vQo-u4-SVl"/>
+            </connections>
+            <point key="canvasLocation" x="636.5" y="496.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="campus" width="345" height="250"/>
+        <image name="transparent" width="355" height="130"/>
+    </resources>
 </document>

@@ -7,9 +7,13 @@
 //
 
 #import "FindPassViewController.h"
-#import "JGHTTPClient+LoginOrRegister.h"
 #import "MyTabBarController.h"
+
+
+#import "JGHTTPClient+LoginOrRegister.h"
 #import "TTTAttributedLabel.h"
+
+#import "CodeValidateView.h"
 #define SECONDCOUNT 60
 
 @interface FindPassViewController()<UITextFieldDelegate>
@@ -61,32 +65,39 @@
         return;
     }
     
-    [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
-    self.getCodeBtn.userInteractionEnabled = NO;
-    _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
-    [SVProgressHUD showWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeNone];
-    
-    IMP_BLOCK_SELF(FindPassViewController);
-    
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"2" Success:^(id responseObject) {
-        [SVProgressHUD dismiss];
-        JGLog(@"%@",responseObject[@"code"]);
-        [self showAlertViewWithText:responseObject[@"message"] duration:1];
-        if ([responseObject[@"code"]integerValue]==200) {
-            
-        }else{
-            //                [_timer invalidate];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [block_self.navigationController popViewControllerAnimated:YES];
-            });
-            
-        }
+    CodeValidateView *view = [CodeValidateView aValidateViewCompleteBlock:^(NSString *code){
         
-    } failure:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
+        self.getCodeBtn.userInteractionEnabled = NO;
+        _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
         
-        [self showAlertViewWithText:NETERROETEXT duration:1];
-    }];
+    } withTel:self.telTF.text type:@"2"];
+    
+    [view show];
+    
+//    [SVProgressHUD showWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeNone];
+//    
+//    IMP_BLOCK_SELF(FindPassViewController);
+//    
+//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.telTF.text type:@"2" imageCode:nil Success:^(id responseObject) {
+//        [SVProgressHUD dismiss];
+//        JGLog(@"%@",responseObject[@"code"]);
+//        [self showAlertViewWithText:responseObject[@"message"] duration:1];
+//        if ([responseObject[@"code"]integerValue]==200) {
+//            
+//        }else{
+//            //                [_timer invalidate];
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [block_self.navigationController popViewControllerAnimated:YES];
+//            });
+//            
+//        }
+//        
+//    } failure:^(NSError *error) {
+//        [SVProgressHUD dismiss];
+//        
+//        [self showAlertViewWithText:NETERROETEXT duration:1];
+//    }];
     
 }
 - (IBAction)sureCommit:(UIButton *)sender {
@@ -261,7 +272,7 @@
 //    IMP_BLOCK_SELF(FindPassViewController);
 //    
 //    
-//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"2" Success:^(id responseObject) {
+//    [JGHTTPClient getAMessageAboutCodeByphoneNum:self.phoneTf.text type:@"2" imageCode:nil Success:^(id responseObject) {
 //        [SVProgressHUD dismiss];
 //        JGLog(@"%@",responseObject[@"code"]);
 //        

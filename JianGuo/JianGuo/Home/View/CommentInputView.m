@@ -45,6 +45,7 @@
     if (rect.size.height>lineHeight && [textView.text containsString:@"\n"]) {
         self.frame = CGRectMake(frame.origin.x, self.bottom-(rect.size.height+10), frame.size.width, rect.size.height+10);
     }
+    JGLog(@"––––––––––>>>>>>>>%@",textView.text);
     
 }
 

@@ -128,8 +128,11 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     
     [self checkVersionToUpdate];
     
+#ifdef DEBUG
+    [MobClick startWithAppkey:@"5730641c67e58e8ef800123e" reportPolicy:BATCH channelId:@"开发版"];
+#else
     [MobClick startWithAppkey:@"5730641c67e58e8ef800123e" reportPolicy:BATCH channelId:nil];
- 
+#endif
     
     [AVOSCloud setApplicationId:@"AtwJtfIJPKQFtti8D3gNjMmb-gzGzoHsz" clientKey:@"spNrDrtGWAXP633DkMMWT65B"];
 //    发布时改为YES
@@ -410,7 +413,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
 
 -(void)configNavigationBar
 {
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+//    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     CGFloat top = 5; // 顶端盖高度
     CGFloat bottom = 5 ; // 底端盖高度
     CGFloat left = 0; // 左端盖宽度
@@ -418,7 +421,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"icon-navigationBar"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:WHITECOLOR}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:NavigationBarTitleColor}];
 
 }
 
@@ -669,14 +672,13 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
             
             if ([version compare:bundleVersion options:NSNumericSearch] == NSOrderedDescending) {//升级了
                 UpdateView *updateView = [UpdateView aUpdateViewCancelBlock:^{
-                    
+                    exit(0);
                 } sureBlock:^{
                     
                     NSString * urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",@"1067634315"];//跳到appStore的详情区
                     NSURL * url = [NSURL URLWithString:urlStr];
                     
-                    if ([[UIApplication sharedApplication] canOpenURL:url])
-                    {
+                    if ([[UIApplication sharedApplication] canOpenURL:url]){
                         [[UIApplication sharedApplication] openURL:url];
                     }
                     

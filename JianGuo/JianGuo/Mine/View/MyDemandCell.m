@@ -234,38 +234,44 @@
 }
 
 - (IBAction)changeStatus:(UIButton *)sender {
-    
     if ([sender.currentTitle containsString:@"完成"]){
         if (self.isSelfSign) {
             [QLAlertView showAlertTittle:@"确认完工吗?" message:nil isOnlySureBtn:NO compeletBlock:^{//服务者确认完成
+                sender.userInteractionEnabled = NO;
                 [JGHTTPClient updateDemandStatusWithDemandId:_model.id status:@"3" Success:^(id responseObject) {
                     [self showAlertViewWithText:responseObject[@"message"] duration:1];
                     [self.delegate refreshData];
+                    sender.userInteractionEnabled = YES;
                 } failure:^(NSError *error) {
-                    
+                    sender.userInteractionEnabled = YES;
                 }];
             }];
         }else{
             [QLAlertView showAlertTittle:@"确认完成后，平台将会把款项支付给服务者" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者确认完成
+                sender.userInteractionEnabled = NO;
                 [JGHTTPClient updateDemandStatusWithDemandId:_model.id status:@"4" Success:^(id responseObject) {
                     [self showAlertViewWithText:responseObject[@"message"] duration:1];
                     if ([self.delegate respondsToSelector:@selector(refreshData)]) {
                         [self.delegate refreshData];
+                        sender.userInteractionEnabled = YES;
                     }
                 } failure:^(NSError *error) {
+                    sender.userInteractionEnabled = YES;
                     
                 }];
             }];
         }
     }else if ([sender.currentTitle containsString:@"下架"]){
         [QLAlertView showAlertTittle:@"下架后，所有的报名者将自动拒绝，确定要下架吗?" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者下架需求
+            sender.userInteractionEnabled = NO;
             [JGHTTPClient updateDemandStatusWithDemandId:_model.id status:@"7" Success:^(id responseObject) {
                 [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1];
                 if ([self.delegate respondsToSelector:@selector(refreshData)]) {
                     [self.delegate refreshData];
+                    sender.userInteractionEnabled = YES;
                 }
             } failure:^(NSError *error) {
-                
+                sender.userInteractionEnabled = YES;
             }];
         }];
     }else if ([sender.currentTitle containsString:@"客服"]){

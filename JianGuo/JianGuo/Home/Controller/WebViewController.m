@@ -7,7 +7,13 @@
 //
 
 #import "WebViewController.h"
+
+#import "DiscoveryModel.h"
+
 #import <WebKit/WebKit.h>
+#import "ShareView.h"
+
+#import "JGHTTPClient+Discovery.h"
 
 @interface WebViewController ()<WKNavigationDelegate,WKUIDelegate>
 
@@ -43,6 +49,36 @@
     self.progressView.progressTintColor = YELLOWCOLOR;
     [self.view addSubview:self.progressView];
     
+    if (self.ishaveShareButton) {
+        
+        [self postScanCount];
+        
+        UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn_r setTitle:@"分享" forState:UIControlStateNormal];
+        [btn_r setTitleColor:RedColor forState:UIControlStateNormal];
+        [btn_r addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+        btn_r.frame = CGRectMake(0, 0, 40, 25);
+        
+        
+        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+        
+        self.navigationItem.rightBarButtonItem = rightBtn;
+    }
+    
+}
+
+-(void)postScanCount
+{
+    //上传浏览量
+    [JGHTTPClient postScanCountByArticleId:self.model.articleId Success:nil failure:nil];
+}
+
+-(void)share
+{
+    ShareView *shareView = [ShareView aShareView];
+    shareView.discoverModel = self.model;
+    shareView.isDiscvoeryVC = YES;
+    [shareView show];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

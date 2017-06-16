@@ -7,18 +7,21 @@
 //
 
 #import "GetCashViewController.h"
-#import "RealNameModel.h"
-#import "BindCell.h"
+#import "UnBindViewController.h"
+#import "BillsViewController.h"
 #import "BindCardViewController.h"
 #import "BindAliPayViewController.h"
+
+#import "RealNameModel.h"
+#import "BindCell.h"
 #import "JGHTTPClient+Mine.h"
 #import "JGHTTPClient+LoginOrRegister.h"
-#import "QLAlertView.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
 #import <ShareSDKExtension/SSEBaseUser.h>
-#import "UnBindViewController.h"
-#import "BillsViewController.h"
+
+#import "CodeValidateView.h"
+#import "QLAlertView.h"
 
 #define SECONDCOUNT 60
 
@@ -194,6 +197,25 @@
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *now;
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
+    NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    now=[NSDate date];
+    comps = [calendar components:unitFlags fromDate:now];
+    
+    if (comps.weekday == 7||comps.weekday == 1) {//1是星期日,7是星期六
+        [QLAlertView showAlertTittle:@"温馨提示!" message:@"尊敬的用户，周六日银行结算系统繁忙可能导致您提现延迟，建议您在周一正常工作日内提现，最快可两小时内到账" isOnlySureBtn:YES compeletBlock:^{
+            
+        }];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -428,8 +450,10 @@
 
 -(void)sureGetCash
 {
-   
+    
     [self.view endEditing:YES];
+    
+    
     if (!self.drawCashType) {
         [self showAlertViewWithText:@"请选择提现方式" duration:1];
         return;
@@ -438,6 +462,9 @@
         return;
     }else if (self.countTF.text.floatValue>self.sumMoney.floatValue) {
         [self showAlertViewWithText:@"超出余额" duration:1];
+        return;
+    }else if (self.countTF.text.floatValue<50.f) {
+        [self showAlertViewWithText:@"提现金额不能少于50元" duration:1];
         return;
     }else if (self.phoneTf.text.length==0) {
         [self showAlertViewWithText:@"请您输入验证码！" duration:1];
@@ -548,25 +575,35 @@
 -(void)getCodeByPhoneNum:(UIButton *)getCodeBtn
 {
     
-    [SVProgressHUD showWithStatus:@"让验证码飞一会儿" maskType:SVProgressHUDMaskTypeNone];
-    [self.getCodeBtn setBackgroundColor:RGBACOLOR(200, 200, 200, 1)];
-    self.getCodeBtn.userInteractionEnabled = NO;
-    _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
+//    [SVProgressHUD showWithStatus:@"让验证码飞一会儿" maskType:SVProgressHUDMaskTypeNone];
+//    [self.getCodeBtn setBackgroundColor:RGBACOLOR(200, 200, 200, 1)];
+//    self.getCodeBtn.userInteractionEnabled = NO;
+//    _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
     
     
-    [JGHTTPClient getAMessageAboutCodeByphoneNum:USER.tel type:@"4" Success:^(id responseObject) {
-        [SVProgressHUD dismiss];
-        JGLog(@"%@",responseObject[@"code"]);
-        if ([responseObject[@"code"] integerValue] == 200) {
-            
-            [self showAlertViewWithText:@"验证码已成功发送!" duration:1];
-            
-        }
-    } failure:^(NSError *error) {
-        [SVProgressHUD dismiss];
+    CodeValidateView *view = [CodeValidateView aValidateViewCompleteBlock:^(NSString *code){
         
-        [self showAlertViewWithText:NETERROETEXT duration:1];
-    }];
+        [self.getCodeBtn setBackgroundColor:LIGHTGRAYTEXT];
+        self.getCodeBtn.userInteractionEnabled = NO;
+        _timer  = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSeconds) userInfo:nil repeats:YES];
+        
+    } withTel:USER.tel type:@"4"];
+    
+    [view show];
+    
+//    [JGHTTPClient getAMessageAboutCodeByphoneNum:USER.tel type:@"4" imageCode:nil Success:^(id responseObject) {
+//        [SVProgressHUD dismiss];
+//        JGLog(@"%@",responseObject[@"code"]);
+//        if ([responseObject[@"code"] integerValue] == 200) {
+//            
+//            [self showAlertViewWithText:@"验证码已成功发送!" duration:1];
+//            
+//        }
+//    } failure:^(NSError *error) {
+//        [SVProgressHUD dismiss];
+//        
+//        [self showAlertViewWithText:NETERROETEXT duration:1];
+//    }];
 }
 
 /**

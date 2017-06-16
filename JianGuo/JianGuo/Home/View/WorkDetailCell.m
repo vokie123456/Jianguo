@@ -34,7 +34,7 @@
     }else if (SCREEN_W == 414){
         labelW = 320;
     }
-    CGSize sizeCon = [model.content boundingRectWithSize:CGSizeMake(labelW, 70) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:FONT(14)} context:nil].size;
+    CGSize sizeCon = [model.content?model.content:@"未填写" boundingRectWithSize:CGSizeMake(labelW, 70) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:FONT(14)} context:nil].size;
     rectCon.size.width = sizeCon.width;
     rectCon.size.height = sizeCon.height;
     self.workContentLabel.frame = rectCon;
@@ -42,7 +42,7 @@
     self.workContentLabel.text = model.content;
     
     CGRect rectReq = self.workRequiredLabel.frame;
-    CGSize sizeReq = [model.require boundingRectWithSize:CGSizeMake(labelW, 60) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:FONT(14)} context:nil].size;
+    CGSize sizeReq = [model.require?model.require:@"未填写" boundingRectWithSize:CGSizeMake(labelW, 60) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:FONT(14)} context:nil].size;
     rectReq.size.width = sizeReq.width;
     rectReq.size.height = sizeReq.height;
     self.workRequiredLabel.frame = rectReq;

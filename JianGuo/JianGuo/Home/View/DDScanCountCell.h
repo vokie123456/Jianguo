@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DDScanCountCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *likeL;
+@property (weak, nonatomic) IBOutlet UILabel *scanL;
 
 @end

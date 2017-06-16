@@ -426,7 +426,7 @@
             [self gotoProfileVC];
         });
         return;
-    }else if (self.detailModel.user_count.intValue >= sum || self.detailModel.status.intValue!=1 || self.detailModel.count.intValue == self.detailModel.sum.intValue){//
+    }else if (self.detailModel.count.intValue >= sum || self.detailModel.status.intValue!=1){//
         [self showAlertViewWithText:@"该兼职已报满,您可以找更好的兼职哦!" duration:1];
         return;
     }else if ((self.detailModel.limit_sex.integerValue == 0&&USER.gender.integerValue==2)||(self.detailModel.limit_sex.integerValue == 1&&USER.gender.integerValue==1)){//

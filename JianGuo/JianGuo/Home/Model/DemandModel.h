@@ -11,6 +11,60 @@
 @interface DemandModel : NSObject
 
 
+/** 任务ID */
+@property (nonatomic, copy) NSString*  demandId;
+
+/** 用户ID */
+@property (nonatomic, copy) NSString*  userId;
+
+/** 用户的学校 */
+@property (nonatomic, copy) NSString*  userSchoolName;
+
+/** 学校id */
+@property (nonatomic, copy) NSString*  schoolId;
+
+/** 任务发布到的学校 */
+@property (nonatomic, copy) NSString*  schoolName;
+
+/** 头像 */
+@property (nonatomic, copy) NSString*  headImg;
+
+/** 头像 */
+@property (nonatomic, copy) NSArray*  images;
+
+/** 报名人数 */
+@property (nonatomic, copy) NSString*  enrollCount;
+
+/** 需求的发布时间 */
+@property (nonatomic, copy) NSString*  createTime;
+
+/** 需求所属城市code */
+@property (nonatomic, copy) NSString*  cityCode;
+
+/** 需求类型 */
+@property (nonatomic, copy) NSString*  type;
+
+/** 评论数 */
+@property (nonatomic, copy) NSString*  commentCount;
+
+/** 点赞数 */
+@property (nonatomic, copy) NSString*  likeCount;
+
+/** 是否关注 */
+@property (nonatomic, copy) NSString*  isFollow;
+
+/** 所属城市 */
+@property (nonatomic, copy) NSString*  cityName;
+
+/** 任务描述 */
+@property (nonatomic, copy) NSString*  demandDesc;
+
+
+
+
+
+//以下是老接口数据
+
 /** 数据ID */
 @property (nonatomic, copy) NSString*  id;
 

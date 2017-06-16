@@ -25,7 +25,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwF-Wn-40b">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="190"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入账号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ook-UA-GdE">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ook-UA-GdE">
                             <rect key="frame" x="0.0" y="5" width="255" height="45"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="SA6-61-Lf8"/>

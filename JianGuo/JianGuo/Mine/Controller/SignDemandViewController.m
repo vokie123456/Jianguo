@@ -7,6 +7,7 @@
 //
 
 #import "SignDemandViewController.h"
+#import "MineChatViewController.h"
 #import "LCCKConversationViewController.h"
 #import "JGHTTPClient+Demand.h"
 #import "SignersCell.h"
@@ -160,6 +161,19 @@
     [self.navigationController pushViewController:conversationViewController animated:YES];
     
 
+}
+
+//点击用户头像
+-(void)clickIcon:(NSString *)userId
+{
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+    mineChatVC.hidesBottomBarWhenPushed = YES;
+    mineChatVC.userId = userId;
+    [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
 

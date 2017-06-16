@@ -10,4 +10,6 @@
 
 @interface ScrollCollectionCell : UICollectionViewCell
 
+@property (nonatomic,strong) UIViewController *controller;
+
 @end

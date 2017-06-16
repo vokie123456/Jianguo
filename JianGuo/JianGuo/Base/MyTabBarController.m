@@ -11,10 +11,15 @@
 #import "MineNewViewController.h"
 #import "HomeViewController.h"
 #import "HomeNewViewController.h"
+#import "DemandListViewController.h"
 #import "HomeSegmentViewController.h"
+#import "DiscoveryViewController.h"
 #import "PartJobViewController.h"
 #import "MessageListViewController.h"
 #import "ChatMsgViewController.h"
+#import "NewsScrollViewController.h"
+
+
 #import "LCChatKit.h"
 #import <POP.h>
 #import "PresentingAnimator.h"
@@ -42,12 +47,12 @@
 -(void)setChildController
 {
     
-    HomeSegmentViewController *homeVC = [[HomeSegmentViewController alloc] init];
+    DemandListViewController *homeVC = [[DemandListViewController alloc] init];
 //    HomeNewViewController *homeVC = [[HomeNewViewController alloc] init];
 //    HomeViewController *homeVC = [[HomeViewController alloc] init];
     homeVC.title = @"首页";
     
-    homeVC.view.frame = CGRectMake(0, -64, SCREEN_W, SCREEN_H);
+//    homeVC.view.frame = CGRectMake(0, -64, SCREEN_W, SCREEN_H);
     //设置图标
 //    homeVC.tabBarItem.badgeValue = @"2";
     homeVC.tabBarItem.image = [UIImage imageNamed:@"zh_sy"];
@@ -57,17 +62,38 @@
     navHome.tabBarItem.title = @"首页";
     
     
-    PartJobViewController *partjobVC = [[PartJobViewController alloc] init];
+    HomeViewController *partjobVC = [[HomeViewController alloc] init];
     partjobVC.title = @"兼职";
     //设置图标
-    partjobVC.tabBarItem.image = [UIImage imageNamed:@"zh_jz"];
+    partjobVC.tabBarItem.image = [UIImage imageNamed:@"part-times"];
     //选中图标样式  修改渲染模式
-    partjobVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"xz_jz"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    partjobVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"parttime"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UINavigationController *navPartjob = [[UINavigationController alloc] initWithRootViewController:partjobVC];
     navPartjob.tabBarItem.title = @"兼职";
     
     
-    LCCKConversationListViewController *chatVC = [[LCCKConversationListViewController alloc] init];
+    DiscoveryViewController *discoveryVC = [[DiscoveryViewController alloc] init];
+    discoveryVC.title = @"发现新鲜";
+    //设置图标
+    discoveryVC.tabBarItem.image = [UIImage imageNamed:@"find"];
+    //选中图标样式  修改渲染模式
+    discoveryVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"finds"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UINavigationController *navDiscovery = [[UINavigationController alloc] initWithRootViewController:discoveryVC];
+    navDiscovery.tabBarItem.title = @"发现";
+    
+//    LCCKConversationListViewController *chatVC = [[LCCKConversationListViewController alloc] init];
+//    //    MessageListViewController*chatVC = [[MessageListViewController alloc] initWithNibName:nil bundle:nil];
+//    
+//    chatVC.title = @"果聊";
+//    //设置图标
+//    chatVC.tabBarItem.image = [UIImage imageNamed:@"zh_lt"];
+//    //选中图标样式  修改渲染模式
+//    chatVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"xz_lt"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    UINavigationController *navChat = [[UINavigationController alloc] initWithRootViewController:chatVC];
+//    navChat.tabBarItem.title = @"果聊";
+
+    
+    NewsScrollViewController *chatVC = [[NewsScrollViewController alloc] init];
 //    MessageListViewController*chatVC = [[MessageListViewController alloc] initWithNibName:nil bundle:nil];
 
     chatVC.title = @"果聊";
@@ -91,7 +117,8 @@
     
     
     [self addChildViewController:navHome];
-//    [self addChildViewController:navPartjob];
+    [self addChildViewController:navPartjob];
+    [self addChildViewController:navDiscovery];
     [self addChildViewController:navChat];
     [self addChildViewController:navMine];
     

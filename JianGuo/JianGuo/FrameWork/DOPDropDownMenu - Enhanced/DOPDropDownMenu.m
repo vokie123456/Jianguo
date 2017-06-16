@@ -343,12 +343,18 @@
         UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuTapped:)];
         [self addGestureRecognizer:tapGesture];
         
+        
         //background init and tapped
         _backGroundView = [[UIView alloc] initWithFrame:CGRectMake(origin.x, origin.y, screenSize.width, screenSize.height)];
         _backGroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         _backGroundView.opaque = NO;
         UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped:)];
         [_backGroundView addGestureRecognizer:gesture];
+//
+//        UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//        [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp|UISwipeGestureRecognizerDirectionDown)];
+//        [_backGroundView addGestureRecognizer:recognizer];
+//        _backGroundView.userInteractionEnabled = NO;
         
         //add bottom shadow
         UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-0.5, screenSize.width, 1)];
@@ -360,6 +366,11 @@
     return self;
 }
 
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer
+{
+    
+}
+
 #pragma mark - init support
 - (CALayer *)createBgLayerWithColor:(UIColor *)color andPosition:(CGPoint)position {
     
@@ -369,7 +380,6 @@
     layer.bounds = CGRectMake(0, 0, self.frame.size.width/self.numOfMenu, self.frame.size.height-1);
     layer.backgroundColor = color.CGColor;
    
-    
     return layer;
 }
 
@@ -520,16 +530,23 @@
 
 - (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete {
     if (show) {
+        view.frame = self.superview.bounds;
         [self.superview addSubview:view];
         [view.superview addSubview:self];
         [UIView animateWithDuration:0.2 animations:^{
             view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+//            view.userInteractionEnabled = NO;
+            UIScrollView *scrollView = (UIScrollView *)self.superview;
+            scrollView.scrollEnabled = NO;
         }];
     } else {
         [UIView animateWithDuration:0.2 animations:^{
             view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         } completion:^(BOOL finished) {
             [view removeFromSuperview];
+//            view.userInteractionEnabled = YES;
+            UIScrollView *scrollView = (UIScrollView *)self.superview;
+            scrollView.scrollEnabled = YES;
         }];
     }
     complete();

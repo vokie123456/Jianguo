@@ -19,6 +19,7 @@
 #import "JianZhiDetailController.h"
 #import "MyPartJobViewController.h"
 #import "WebViewController.h"
+#import "SelectCityController.h"
 
 #import "GuideImageView.h"
 #import "PartTypeModel.h"
@@ -32,7 +33,6 @@
 #import "JianzhiModel.h"
 #import "JianZhiCell.h"
 #import "NoDataView.h"
-#import "SelectCityController.h"
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import "QLAlertView.h"
@@ -820,14 +820,29 @@
             [self.navigationController pushViewController:detailVC animated:YES];
             break;
         }
+        case 23:{//自定义推送
             
-        case 100:{//活动推送(H5)
+            RemindMsgViewController *msgVC = [[RemindMsgViewController alloc] init];
+            
+            msgVC.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:msgVC animated:YES];
+            
+            break;
+            
+        }
+        case 24:{//活动推送(H5)
             
             WebViewController *webVC = [[WebViewController alloc] init];
             webVC.url = userInfo[@"html_url"];
             
             webVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:webVC animated:YES];
+            break;
+        }
+            
+        case 100:{//
+            
             break;
         }
     }

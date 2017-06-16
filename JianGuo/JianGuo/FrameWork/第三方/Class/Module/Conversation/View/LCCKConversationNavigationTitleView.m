@@ -122,7 +122,7 @@ static void * const LCCKConversationNavigationTitleViewShowRemindMuteImageViewCo
     if (!_conversationNameView) {
         UILabel *conversationNameView = [[UILabel alloc] initWithFrame:CGRectZero];
         conversationNameView.font = [UIFont boldSystemFontOfSize:kLCCKTitleFontSize];
-        conversationNameView.textColor = [UIColor whiteColor];
+        conversationNameView.textColor = [UIColor darkGrayColor];
         //        conversationNameView.backgroundColor = [UIColor redColor];
         conversationNameView.textAlignment = NSTextAlignmentCenter;
         [conversationNameView sizeToFit];

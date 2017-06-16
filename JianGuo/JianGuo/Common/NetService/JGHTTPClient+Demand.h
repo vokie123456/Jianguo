@@ -32,6 +32,7 @@
                        area:(NSString *)area
                    schoolId:(NSString *)schoolId
                         sex:(NSString *)sex
+                  limitTime:(NSString *)limitTime
                   anonymous:(NSString *)anonymous
                     Success:(void (^)(id responseObject))success
                     failure:(void (^)(NSError *error))failure;
@@ -40,6 +41,9 @@
  *  需求列表
  */
 +(void)getDemandListWithSchoolId:(NSString *)schoolId
+                        cityCode:(NSString *)cityCode
+                        keywords:(NSString *)keywords
+                        orderBy:(NSString *)orderBy
                             type:(NSString *)type
                              sex:(NSString *)sex
                           userId:(NSString *)userId
@@ -52,7 +56,7 @@
  */
 +(void)postAcommentWithDemandId:(NSString *)Id
                         content:(NSString *)content
-                         userId:(NSString *)userId
+                            pid:(NSString *)pid
                        toUserId:(NSString *)toUserId
                         Success:(void (^)(id responseObject))success
                         failure:(void (^)(NSError *error))failure;
@@ -133,7 +137,14 @@
  */
 +(void)updateDemandStatusWithDemandId:(NSString *)Id
                                status:(NSString *)status
-                      Success:(void (^)(id responseObject))success
-                      failure:(void (^)(NSError *error))failure;
+                              Success:(void (^)(id responseObject))success
+                              failure:(void (^)(NSError *error))failure;
+/**
+ *  关注状态 0==关注; 1==取消
+ */
++(void)followUserWithUserId:(NSString *)userId
+                               status:(NSString *)status
+                              Success:(void (^)(id responseObject))success
+                              failure:(void (^)(NSError *error))failure;
 
 @end
