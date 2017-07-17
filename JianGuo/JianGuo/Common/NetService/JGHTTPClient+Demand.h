@@ -80,6 +80,7 @@
  *  我发布的需求列表
  */
 +(void)getMyDemandsListWithPageNum:(NSString *)pageNum
+                              type:(NSString *)type
                           pageSize:(NSString *)pageSize
                            Success:(void (^)(id responseObject))success
                            failure:(void (^)(NSError *error))failure;
@@ -87,6 +88,7 @@
  *  我报名的需求列表
  */
 +(void)getMySignedDemandsListWithPageNum:(NSString *)pageNum
+                                    type:(NSString *)type
                           pageSize:(NSString *)pageSize
                            Success:(void (^)(id responseObject))success
                            failure:(void (^)(NSError *error))failure;
@@ -106,7 +108,7 @@
                             Success:(void (^)(id responseObject))success
                             failure:(void (^)(NSError *error))failure;
 /**
- *  我要接活儿(报名==1,录用==2)
+ *  报名任务
  */
 +(void)signDemandWithDemandId:(NSString *)Id
                        userId:(NSString *)userId
@@ -143,8 +145,22 @@
  *  关注状态 0==关注; 1==取消
  */
 +(void)followUserWithUserId:(NSString *)userId
-                               status:(NSString *)status
-                              Success:(void (^)(id responseObject))success
-                              failure:(void (^)(NSError *error))failure;
+                     status:(NSString *)status
+                    Success:(void (^)(id responseObject))success
+                    failure:(void (^)(NSError *error))failure;
+/**
+ *  获取评价列表
+ */
++(void)getEvaluatesWithUserId:(NSString *)userId
+                      pageNum:(NSString *)pageNum
+                      Success:(void (^)(id responseObject))success
+                      failure:(void (^)(NSError *error))failure;
+/**
+ *  删除评论
+ */
++(void)deleteCommentWithCommentId:(NSString *)commentId
+                      Success:(void (^)(id responseObject))success
+                      failure:(void (^)(NSError *error))failure;
+
 
 @end

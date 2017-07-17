@@ -8,7 +8,7 @@
 
 #import "SignersCell.h"
 #import "SignUsers.h"
-#import "UIImageView+WebCache.h"
+#import "UIButton+AFNetworking.h"
 #import "DateOrTimeTool.h"
 #import "QLAlertView.h"
 #import "XLPhotoBrowser.h"
@@ -25,7 +25,10 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    [self.ageBtn setTitle:@"0" forState:UIControlStateNormal];
+    
+    [self.acceptBtn setTitle:@"录用TA" forState:UIControlStateNormal];
+    [self.acceptBtn setBackgroundColor:GreenColor];
+    self.acceptBtn.userInteractionEnabled = YES;
 }
 
 +(instancetype)cellWithTableView:(UITableView *)tableView
@@ -41,31 +44,55 @@
 {
     _model= model;
     JGLog(@"%@––––>%@",model.head_img_url,model.tel);
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.head_img_url] placeholderImage:[UIImage imageNamed:@"img_renwu"]];
-    self.nameL.text = model.nickname?model.nickname:@"未填写";
-    if (model.birth_date.length>4) {
+
+    [self.iconView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    self.nameL.text = model.nickname.length?model.nickname:@"未填写";
+    
+    self.schoolL.text = model.schoolName;
+    
+    if (model.sex.integerValue == 2) {
+        self.genderView.image = [UIImage imageNamed:@"boy"];
+    }else{
+        self.genderView.image = [UIImage imageNamed:@"girlsex"];
+    }
+    
+    if (model.enrollStatus.integerValue == 2) {
         
-        NSString *timeNow = [NSString stringWithFormat:@"%@",[NSDate date]];
-        NSInteger age = [timeNow substringToIndex:4].integerValue - [model.birth_date substringToIndex:4].integerValue;
-        [self.ageBtn setTitle:[NSString stringWithFormat:@"%ld",age] forState:UIControlStateNormal];
+        [self.acceptBtn setTitle:@"已录用" forState:UIControlStateNormal];
+        [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
+        self.acceptBtn.userInteractionEnabled = NO;
+    }else if (model.enrollStatus.integerValue == 3){
+        [self.acceptBtn setTitle:@"未录用" forState:UIControlStateNormal];
+        [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
+        self.acceptBtn.userInteractionEnabled = NO;
+    }else if (model.enrollStatus.integerValue==1){
+        
+        if (model.demandStatus.integerValue==7) {
+            
+            [self.acceptBtn setTitle:@"录用TA" forState:UIControlStateNormal];
+            [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
+            self.acceptBtn.userInteractionEnabled = NO;
+            
+        }
         
     }
+    
 //    NSArray *array = @[@"白羊座",@"金牛座",@"双子座",@"巨蟹座",@"狮子座",@"处女座",@"天秤座",@"天蝎座",@"射手座",@"摩羯座",@"水瓶座",@"双鱼座"];
-    self.starL.text = [DateOrTimeTool getConstellation:model.birth_date]?[DateOrTimeTool getConstellation:model.birth_date]:@"未填写";
+//    self.starL.text = [DateOrTimeTool getConstellation:model.birth_date]?[DateOrTimeTool getConstellation:model.birth_date]:@"未填写";
+//    
+//    if (model.enroll_status.integerValue == 1) {
+//        self.stateL.text = @"待录用";
+//    }else if (model.enroll_status.integerValue == 2){
+//        self.stateL.text = @"已录用";
+//    }else if (model.enroll_status.integerValue == 3){
+//        self.stateL.text = @"已拒绝";
+//    }
     
-    if (model.enroll_status.integerValue == 1) {
-        self.stateL.text = @"待录用";
-    }else if (model.enroll_status.integerValue == 2){
-        self.stateL.text = @"已录用";
-    }else if (model.enroll_status.integerValue == 3){
-        self.stateL.text = @"已拒绝";
-    }
-    
-    if (model.enroll_status.integerValue != 1) {
-        self.rightCons.constant = 15;
-        self.acceptBtn.hidden = YES;
-        self.refuseBtn.hidden = YES;
-    }
+//    if (model.enroll_status.integerValue != 1) {
+//        self.rightCons.constant = 15;
+//        self.acceptBtn.hidden = YES;
+//        self.refuseBtn.hidden = YES;
+//    }
     
 }
 - (IBAction)acceptSomeOne:(id)sender {//录用
@@ -132,8 +159,9 @@
 
 - (void)awakeFromNib {
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showIcon:)];
-    [self.iconView addGestureRecognizer:tap];
+    if (SCREEN_W!=320) {
+        self.buttonWidthCons.constant = 60;
+    }
     
 }
 

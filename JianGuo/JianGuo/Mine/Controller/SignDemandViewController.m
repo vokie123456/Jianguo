@@ -10,8 +10,12 @@
 #import "MineChatViewController.h"
 #import "LCCKConversationViewController.h"
 #import "JGHTTPClient+Demand.h"
-#import "SignersCell.h"
+#import "JGHTTPClient+DemandOperation.h"
+#import "BillCell.h"
 #import "SignUsers.h"
+#import "SignersCell.h"
+
+#import "DemandModel.h"
 
 @interface SignDemandViewController ()<UITableViewDataSource,UITableViewDelegate,AgreeUserSomeOneDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -103,6 +107,17 @@
     return 10;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            return 44;
+        }else
+            return 65;
+    }else
+        return 70;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.1;
@@ -110,40 +125,107 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArr.count;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return section?self.dataArr.count:0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SignersCell *cell = [SignersCell cellWithTableView:tableView];
-    cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-//    if (self.dataArr.count>indexPath.row) {
-        cell.model = self.dataArr[indexPath.section];
-        cell.demandId = self.demandId;
-//    }
-    cell.delegate = self;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            cell.textLabel.text = [NSString stringWithFormat:@"订单号: %@",self.demandId];
+            cell.textLabel.font = FONT(14);
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, cell.contentView.bottom-1, SCREEN_W-15, 1)];
+            line.backgroundColor = BACKCOLORGRAY;
+            [cell.contentView addSubview:line];
+            
+            return cell;
+        }else if (indexPath.row == 1){
+            BillCell *cell = [BillCell cellWithTableView:tableView];
+            
+//            cell.titleL.text = @"一起看电影";
+//            cell.timeL.text = @"去哪儿看你来定";
+//            cell.moneyL.text = @"￥100";
+//            cell.moneyL.textColor = [UIColor orangeColor];
+            
+            return cell;
+        }
+        return nil;
+    }else{
+        
+        SignersCell *cell = [SignersCell cellWithTableView:tableView];
+        cell.delegate = self;
+        cell.model = self.dataArr[indexPath.row];
+        return cell;
+    }
     
-    return cell;
 }
 
--(void)userSomeOne:(NSString *)userId status:(NSString *)status cell:(SignersCell *)cell
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JGSVPROGRESSLOAD(@"请求中...")
-    [JGHTTPClient signDemandWithDemandId:self.demandId userId:userId status:status reason:nil Success:^(id responseObject) {
-        [SVProgressHUD dismiss];
-        [self showAlertViewWithText:responseObject[@"message"] duration:1];
-        if ([responseObject[@"code"] integerValue] == 200) {
-            [self refreshData];
-        }
-    } failure:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
+    SignUsers *user = self.dataArr[indexPath.row];
+    MineChatViewController *mineUserVC = [[MineChatViewController alloc] init];
+    mineUserVC.hidesBottomBarWhenPushed = YES;
+    mineUserVC.userId = user.enrollUid;
+    [self.navigationController pushViewController:mineUserVC animated:YES];
+    
 }
+
+- (IBAction)chat:(id)sender {
+    
+    SignersCell *cell = (SignersCell *)[[sender superview]superview];
+    SignUsers *model = cell.model;
+    if (model.enrollUid.integerValue == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+        return ;
+    }
+    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:model.enrollUid]];
+    
+    [self.navigationController pushViewController:conversationViewController animated:YES];
+    
+}
+
+- (IBAction)use:(id)sender {
+    
+    SignersCell *cell = (SignersCell *)[[sender superview]superview];
+    SignUsers *model = cell.model;
+    
+    [JGHTTPClient admitUserWithDemandId:self.demandId userId:model.enrollUid Success:^(id responseObject) {
+        
+        [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+        if ([responseObject[@"code"] integerValue] == 200) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self requestWithCount:@"1"];
+            });
+        }
+        
+    } failure:^(NSError *error) {
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+    }];
+    
+}
+
+//
+//-(void)userSomeOne:(NSString *)userId status:(NSString *)status cell:(SignersCell *)cell
+//{
+//    JGSVPROGRESSLOAD(@"请求中...")
+//    [JGHTTPClient signDemandWithDemandId:self.demandId userId:userId status:status reason:nil Success:^(id responseObject) {
+//        [SVProgressHUD dismiss];
+//        [self showAlertViewWithText:responseObject[@"message"] duration:1];
+//        if ([responseObject[@"code"] integerValue] == 200) {
+//            [self refreshData];
+//        }
+//    } failure:^(NSError *error) {
+//        [SVProgressHUD dismiss];
+//    }];
+//}
 
 -(void)refreshData
 {

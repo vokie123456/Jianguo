@@ -46,7 +46,7 @@
         
         self.timeL.textColor = GreenColor;
         self.contentL.textColor = GreenColor;
-        self.iconView.image = [UIImage imageNamed:@"successful"];
+        self.iconView.image = [UIImage imageNamed:@"mark"];
     }else{
         
         self.timeL.textColor = [UIColor lightGrayColor];

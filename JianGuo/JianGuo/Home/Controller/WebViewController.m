@@ -54,10 +54,9 @@
         [self postScanCount];
         
         UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn_r setTitle:@"分享" forState:UIControlStateNormal];
-        [btn_r setTitleColor:RedColor forState:UIControlStateNormal];
+        [btn_r setBackgroundImage:[UIImage imageNamed:@"demandshare"] forState:UIControlStateNormal];
         [btn_r addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-        btn_r.frame = CGRectMake(0, 0, 40, 25);
+        btn_r.frame = CGRectMake(0, 0, 16, 15);
         
         
         UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];

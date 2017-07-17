@@ -27,4 +27,12 @@
 }
 
 
+-(IBAction)textChanged:(UITextField *)textField
+{
+    if ([self.delegate respondsToSelector:@selector(textChanged:)]) {
+        [self.delegate textChanged:textField];
+    }
+}
+
+
 @end

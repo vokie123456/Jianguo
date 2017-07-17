@@ -15,14 +15,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QwH-JF-OBS">
-                        <rect key="frame" x="134" y="7" width="167" height="30"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QwH-JF-OBS">
+                        <rect key="frame" x="134" y="0.0" width="167" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="167" id="0GM-qL-v3d"/>
                         </constraints>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <action selector="textChanged:" destination="KGk-i7-Jjw" eventType="editingChanged" id="7HN-h9-Q4Z"/>
+                        </connections>
                     </textField>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cuh-fB-cyg">
                         <rect key="frame" x="48" y="43" width="272" height="1"/>
@@ -50,10 +53,12 @@
                     <constraint firstItem="A1S-nC-kLc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5oY-5K-byI"/>
                     <constraint firstItem="A1S-nC-kLc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="765-V0-gkA"/>
                     <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="Cuh-fB-cyg" secondAttribute="leading" id="99I-Xc-q8f"/>
+                    <constraint firstItem="Cuh-fB-cyg" firstAttribute="top" secondItem="QwH-JF-OBS" secondAttribute="bottom" id="G0r-qd-RFv"/>
                     <constraint firstAttribute="bottom" secondItem="Cuh-fB-cyg" secondAttribute="bottom" id="KVk-u3-JVo"/>
                     <constraint firstAttribute="centerY" secondItem="QwH-JF-OBS" secondAttribute="centerY" constant="-0.5" id="UjL-Zn-PXI"/>
                     <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="36" id="YCZ-5P-f72"/>
                     <constraint firstAttribute="centerY" secondItem="gbf-SB-7gL" secondAttribute="centerY" id="aMk-rT-Fve"/>
+                    <constraint firstItem="QwH-JF-OBS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="heS-fS-zaS"/>
                     <constraint firstItem="gbf-SB-7gL" firstAttribute="leading" secondItem="A1S-nC-kLc" secondAttribute="trailing" constant="15" id="kBz-Dv-Bp2"/>
                     <constraint firstItem="Cuh-fB-cyg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="qmx-LF-14Y"/>
                     <constraint firstAttribute="trailing" secondItem="QwH-JF-OBS" secondAttribute="trailing" constant="19" id="uAQ-YS-b6I"/>
@@ -62,6 +67,7 @@
                     <mask key="constraints">
                         <exclude reference="YCZ-5P-f72"/>
                         <exclude reference="qmx-LF-14Y"/>
+                        <exclude reference="UjL-Zn-PXI"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

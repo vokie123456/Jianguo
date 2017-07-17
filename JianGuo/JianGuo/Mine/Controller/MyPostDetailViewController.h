@@ -8,11 +8,14 @@
 
 #import "NavigatinViewController.h"
 
-@interface MyPostDetailViewController : NavigatinViewController
+@interface MyPostDetailViewController : NavigatinViewController <UIViewControllerTransitioningDelegate>
 
 
+/** 改变状态的回调 */
+@property (nonatomic,copy) void(^changeStatusBlock)();
 @property (nonatomic,copy) NSString *demandId;
-@property (nonatomic,copy) NSString *status;
+@property (nonatomic,copy) NSString *type;//前一个页面传过来的,决定显示几个按钮
+@property (nonatomic,assign) BOOL isTimeOut;//为 真 时,–––>有拒绝支付按钮
 @property (nonatomic,copy) NSString *statusStr;
 
 @end

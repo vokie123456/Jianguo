@@ -10,33 +10,78 @@
 #import "DemandDetailNewViewController.h"
 
 #import "DemandModel.h"
+#import "CityModel.h"
+#import "SchoolModel.h"
+
 #import "DemandListCell.h"
 
 #import "JGHTTPClient+Demand.h"
+
+#import "JGHTTPClient+Mine.h"
+
+#import "DOPDropDownMenu.h"
 
 
 static NSString *identifier = @"DemandListCell";
 
 
-@interface SearchDemandsViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
+@interface SearchDemandsViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 {
     NSString *keyword;
+    __weak IBOutlet NSLayoutConstraint *tableViewTopCons;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) DOPDropDownMenu *selectMenu;
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) NSMutableArray *cityArr;
+@property (nonatomic,strong) NSMutableArray *schoolArr;
+
+@property (nonatomic,copy) NSString *cityCode;
+@property (nonatomic,strong) NSString *orderType;
+@property (nonatomic,strong) NSString *sex;
+/** 学校id */
+@property (nonatomic,copy) NSString *schoolId;
 
 @end
 
 @implementation SearchDemandsViewController
 
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self == [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        
+        self.cityArr = JGKeyedUnarchiver(JGCityArr);
+        CityModel *model = self.cityArr.firstObject;
+        
+        [JGHTTPClient searchSchoolByName:nil cityCode:model.code Success:^(id responseObject) {
+            [SVProgressHUD dismiss];
+            if ([responseObject[@"code"] integerValue] == 200) {
+                self.schoolArr = [SchoolModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+                SchoolModel *school = [[SchoolModel alloc] init];
+                school.id = @"0";
+                school.name = @"全部学校";
+                [self.schoolArr insertObject:school atIndex:0];
+                [self.selectMenu reloadData];
+            }
+        } failure:^(NSError *error) {
+            [SVProgressHUD dismiss];
+        }];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.orderType = @"create_time";
     if (self.isModule) {
+        [self initMenu];
+        tableViewTopCons.constant = 44;
         self.searchBar.hidden = YES;
+        self.cityCode = @"0";
     }else{
         self.navigationItem.titleView = self.searchBar;
         
@@ -87,6 +132,21 @@ static NSString *identifier = @"DemandListCell";
 //    [self.tableView.mj_header beginRefreshing];
 }
 
+
+//配置筛选控件
+-(void)initMenu{
+    self.selectMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    self.selectMenu.delegate = self;
+    self.selectMenu.dataSource = self;
+    self.selectMenu.isScrollTop = YES;
+    self.selectMenu.textSelectedColor = GreenColor;
+    if (SCREEN_W == 320) {
+        self.selectMenu.fontSize = 12;
+    }
+    
+    [self.view addSubview:self.selectMenu];
+}
+
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
@@ -96,7 +156,7 @@ static NSString *identifier = @"DemandListCell";
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getDemandListWithSchoolId:nil cityCode:nil keywords:keyword orderBy:@"create_time" type:self.type sex:nil userId:USER.login_id pageCount:count Success:^(id responseObject) {
+    [JGHTTPClient getDemandListWithSchoolId:self.schoolId cityCode:self.cityCode keywords:keyword orderBy:self.orderType type:self.type sex:self.sex userId:nil pageCount:count Success:^(id responseObject) {
         //        [SVProgressHUD dismiss];
         //        JGLog(@"%@",responseObject);
         //        self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
@@ -177,7 +237,7 @@ static NSString *identifier = @"DemandListCell";
 {
     DemandDetailNewViewController *detailVC = [DemandDetailNewViewController new];
     if (self.dataArr.count>indexPath.row) {
-        detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.row] id];
+        detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.row] demandId];
     }
     detailVC.hidesBottomBarWhenPushed = YES;
     //    detailVC.callBackBlock = ^(){
@@ -211,7 +271,106 @@ static NSString *identifier = @"DemandListCell";
 {
     keyword = searchText;
     [self requestWithCount:@"1"];
+    [APPLICATION.keyWindow endEditing:YES];
 }
+
+
+
+#pragma mark DOPDropDownMenuDataSource (三方筛选控件代理方法)
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
+{//有几列
+    return 4;
+}
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
+{//哪一列有几行
+    if (column == 0) {
+        return self.cityArr.count;
+    }else if (column == 1){
+        return self.schoolArr.count;
+    }else if (column == 2){
+        return 3;
+    }else {
+        return 2;
+    }
+}
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{//设置哪一列的哪一行 的名字
+    
+    if (indexPath.column == 0) {
+        CityModel *model = self.cityArr[indexPath.row];
+        return model.cityName;
+    } else if (indexPath.column == 1){
+        
+        SchoolModel *model = self.schoolArr[indexPath.row];
+        return model.name;
+        
+    } else if (indexPath.column == 2){
+        NSArray *titleArr = @[@"不限男女",@"只看女",@"只看男 "];
+        return titleArr[indexPath.row];
+    } else {
+        NSArray *titleArr = @[@"最新",@"最热"];
+        return titleArr[indexPath.row];
+    }
+    
+}
+#pragma mark - DOPDropDownMenuDelegate
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{//选择第几行执行什么操作
+    
+    if (indexPath.column == 0) {
+        
+        CityModel *model = self.cityArr[indexPath.row];
+        self.cityCode = model.code;
+        self.schoolId = @"0";
+        [self getSchoolsByCityCode:model.code];
+        
+        [self.selectMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0] triggerDelegate:NO];
+        
+    } else if (indexPath.column == 1){
+        
+        SchoolModel *school = self.schoolArr[indexPath.row];
+        self.schoolId = school.id;
+        
+    } else if (indexPath.column == 2){
+        
+        if (indexPath.row == 0) {
+            self.sex = @"0";//不限男女
+        }else if (indexPath.row == 1){
+            self.sex = @"1";//只看女
+        }else if (indexPath.row == 2){
+            self.sex = @"2";//只看男
+        }
+        
+    } else if (indexPath.column == 3){
+        
+        if (indexPath.row == 0) {
+            self.orderType = @"create_time";//最新
+        }else if (indexPath.row == 1){
+            self.orderType = @"like_count";//最热
+        }
+        
+    }
+    [self requestWithCount:@"1"];
+    
+}
+
+-(void)getSchoolsByCityCode:(NSString *)cityCode
+{
+    [JGHTTPClient searchSchoolByName:nil cityCode:cityCode Success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        if ([responseObject[@"code"] integerValue] == 200) {
+            self.schoolArr = [SchoolModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            SchoolModel *school = [[SchoolModel alloc] init];
+            school.id = @"0";
+            school.name = @"全部学校";
+            [self.schoolArr insertObject:school atIndex:0];
+            //                [self.selectMenu reloadData];
+        }
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
+}
+
 
 
 @end

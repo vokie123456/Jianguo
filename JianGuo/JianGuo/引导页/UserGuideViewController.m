@@ -7,11 +7,10 @@
 //
 
 #import "UserGuideViewController.h"
-#import "LoginViewController.h"
 #import <Masonry/Masonry.h>
 #import "MyTabBarController.h"
 
-#define IMGCOUNT 2
+#define IMGCOUNT 3
 
 @interface UserGuideViewController ()<UIScrollViewDelegate>
 
@@ -36,8 +35,8 @@
             UIButton *goinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 
 //            [goinBtn setBackgroundImage:[UIImage imageNamed:@"button_no"] forState:UIControlStateNormal];
-            [goinBtn setBackgroundColor:WHITECOLOR];
-            [goinBtn setTitle:@"立即体验" forState:UIControlStateNormal];
+            [goinBtn setBackgroundColor:[UIColor clearColor]];
+//            [goinBtn setTitle:@"立即体验" forState:UIControlStateNormal];
             [goinBtn setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
             goinBtn.layer.cornerRadius = 5;
             goinBtn.layer.masksToBounds = YES;
@@ -46,8 +45,8 @@
             [goinBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                
                 make.centerX.mas_equalTo(guideView.mas_centerX);
-                make.bottom.mas_equalTo(guideView.mas_bottom).offset(-45);
-                make.size.mas_equalTo(CGSizeMake(100, 35));
+                make.bottom.mas_equalTo(guideView.mas_bottom).offset(0);
+                make.size.mas_equalTo(CGSizeMake(200, 130));
                 
             }];
         }

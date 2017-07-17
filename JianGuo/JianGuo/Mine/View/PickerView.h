@@ -11,6 +11,7 @@
 @interface PickerView : UIView
 
 +(PickerView *)aPickerView:(void (^)(NSString *))block;
++(PickerView *)aProvincePickerView:(void (^)(NSString *str,NSString *Id))block;
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePickerView;
 @property(nonatomic, strong)NSArray *arrayData;

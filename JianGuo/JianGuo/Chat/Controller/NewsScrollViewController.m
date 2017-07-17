@@ -35,6 +35,10 @@ static NSString *identifier = @"ScrollCollectionCell";
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         
+        conversationVC = [[LCCKConversationListViewController alloc] init];
+        
+        remindVC = [[RemindMsgViewController alloc] init];
+        
         [NotificationCenter addObserver:self selector:@selector(getNewNotiNews) name:kNotificationGetNewNotiNews object:nil];
         [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
     }
@@ -46,6 +50,9 @@ static NSString *identifier = @"ScrollCollectionCell";
     [USERDEFAULTS setObject:@"NotiNews" forKey:isHaveNewNews];
     [USERDEFAULTS synchronize];
     
+    if (self.tabBarItem.badgeValue.integerValue==0) {
+        self.tabBarItem.badgeValue = @"N";
+    }
     
     if (buttonRight) {//已经创建了信息按钮
         [buttonRight.titleLabel showBadgeWithStyle:WBadgeStyleRedDot value:1 animationType:WBadgeAnimTypeShake];
@@ -55,9 +62,6 @@ static NSString *identifier = @"ScrollCollectionCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    conversationVC = [[LCCKConversationListViewController alloc] init];
-    
-    remindVC = [[RemindMsgViewController alloc] init];
     
     [self addChildViewController:conversationVC];
     [self addChildViewController:remindVC];
@@ -95,10 +99,11 @@ static NSString *identifier = @"ScrollCollectionCell";
     [buttonRight setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     buttonRight.frame = CGRectMake(titleView.width/2, 0, titleView.width/2, 42);
     [buttonRight addTarget:self action:@selector(clickTitleView:) forControlEvents:UIControlEventTouchUpInside];
-    UIView *redView = [[UIView alloc] init];
-    redView.badgeFrame = CGRectMake(buttonRight.titleLabel.width+40, 0, 18, 18);
-    redView.badgeCenterOffset = CGPointMake(buttonRight.titleLabel.width, 0);
-    [buttonRight.titleLabel showBadge];
+    
+    if([USERDEFAULTS objectForKey:isHaveNewNews]){
+        buttonRight.titleLabel.badgeCenterOffset = CGPointMake(38, 0);
+        [buttonRight.titleLabel showBadgeWithStyle:WBadgeStyleRedDot value:1 animationType:WBadgeAnimTypeShake];
+    }
     [titleView addSubview:buttonRight];
     
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 42, titleView.width/2, 2)];
@@ -125,6 +130,9 @@ static NSString *identifier = @"ScrollCollectionCell";
         [self.collectionView setContentOffset:CGPointMake(0, 0) animated:YES];
         
     }else if (sender.tag == 101){//通知
+        
+        [buttonRight.titleLabel clearBadge];
+        
         
         CGRect frame = lineView.frame;
         frame.origin.x = lineView.width;
@@ -212,6 +220,17 @@ static NSString *identifier = @"ScrollCollectionCell";
             [UIView animateWithDuration:0.3 animations:^{
                 lineView.frame = frame;
             } completion:nil];
+            
+            [buttonRight.titleLabel clearBadge];
+            
+            [USERDEFAULTS removeObjectForKey:isHaveNewNews];
+            [USERDEFAULTS synchronize];
+            
+//            UINavigationController *nav = [UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers[3];
+            if ([self.tabBarItem.badgeValue containsString:@"N"]) {
+                
+                self.tabBarItem.badgeValue = nil;
+            }
             
         }
         

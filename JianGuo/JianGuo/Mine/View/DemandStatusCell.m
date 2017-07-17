@@ -7,15 +7,15 @@
 //
 
 #import "DemandStatusCell.h"
-#import "DemandStatusModel.h"
+#import "DemandStatusLogModel.h"
 
 @implementation DemandStatusCell
 
--(void)setModel:(DemandStatusModel *)model
+-(void)setModel:(DemandStatusLogModel *)model
 {
     _model = model;
     self.contentL.text = model.content;
-    self.timeL.text = nil;
+    self.timeL.text = model.createTimeStr;
 }
 
 +(instancetype)cellWithTableView:(UITableView *)tableView

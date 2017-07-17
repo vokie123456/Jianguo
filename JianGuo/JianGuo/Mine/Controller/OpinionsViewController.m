@@ -51,7 +51,7 @@ static NSString *placeholder = @"请输入您的意见,我们将不断优化";
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(30, rightPlaeView.bottom+30, SCREEN_W-60, 40);
     btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 20;
+    btn.layer.cornerRadius = 5;
     [btn setBackgroundColor:GreenColor];
     [btn setTitle:@"提交" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(commitOpinion:) forControlEvents:UIControlEventTouchUpInside];

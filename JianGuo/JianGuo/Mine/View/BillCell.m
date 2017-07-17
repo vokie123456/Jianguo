@@ -34,12 +34,12 @@
 {
     _model = model;
     if (model.type.integerValue == 6) {//兼职工资
-        [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"cash"]];
+        [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.logImg]] placeholderImage:[UIImage imageNamed:@"cash"]];
     }else if (model.type.integerValue == 1||model.type.integerValue == 3||model.type.integerValue == 5||model.type.integerValue == 7){//充值
         if (model.type.integerValue == 5) {
             self.iconView.image = [UIImage imageNamed:@"addMoney"];
         }else{
-            [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.logImg] placeholderImage:[UIImage imageNamed:@"addMoney"]];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.logImg]] placeholderImage:[UIImage imageNamed:@"addMoney"]];
         }
     }else if (model.type.integerValue == 2){//提现
         self.iconView.image = [UIImage imageNamed:@"cash"];

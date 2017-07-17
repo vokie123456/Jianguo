@@ -435,9 +435,11 @@
 +(void)checkVersionSuccess:(void (^)(id responseObject))success
                    failure:(void (^)(NSError *error))failure
 {
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"version"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"2" forKey:@"deviceType"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"version/upgrade"];
     
-    [[JGHTTPClient sharedManager] GET:Url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
         }

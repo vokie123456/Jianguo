@@ -11,8 +11,31 @@
 @interface SignUsers : NSObject
 
 
+/** 录取状态 <1报名装态; 2录取状态; 3拒绝状态> */
+@property (nonatomic, copy) NSString*  enrollStatus;
+
+/** 性别 */
+@property (nonatomic, copy) NSString*  sex;
+
 /** 昵称 */
 @property (nonatomic, copy) NSString* nickname;
+
+/** 头像 */
+@property (nonatomic, copy) NSString* headImg;
+
+/** 学校名称 */
+@property (nonatomic, copy) NSString* schoolName;
+
+/** 报名者id */
+@property (nonatomic, copy) NSString*  enrollUid;
+
+/** 任务状态 */
+@property (nonatomic, copy) NSString*  demandStatus;
+
+//======= 以下是老版接口返回数据 =======
+
+/** 昵称 */
+//@property (nonatomic, copy) NSString* nickname;
 
 /** 学校 */
 @property (nonatomic, copy) NSString* name;
@@ -58,7 +81,7 @@
 @property (nonatomic, copy) NSString* birth_date;
 
 /** 性别 */
-@property (nonatomic, copy) NSString*  sex;
+//@property (nonatomic, copy) NSString*  sex;
 
 /** ??? */
 @property (nonatomic, copy) NSString* sign_text;

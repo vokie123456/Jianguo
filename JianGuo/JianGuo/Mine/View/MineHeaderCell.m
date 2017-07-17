@@ -12,6 +12,19 @@
 #import "DateOrTimeTool.h"
 
 @implementation MineHeaderCell
+{
+    __weak IBOutlet NSLayoutConstraint *buttonWidthCons;
+}
+
++(instancetype)cellWithTableView:(UITableView *)tableView
+{
+    MineHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle ]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+    }
+    return cell;
+}
+
 
 -(void)setModel:(SignUsers *)model
 {
@@ -60,7 +73,6 @@
         self.ageBtn.hidden = YES;
         self.starL.hidden = YES;
         self.nameL.text = @"未登录";
-        self.unLoginL.hidden = NO;
     }
     
     
@@ -73,8 +85,31 @@
     }
     
 }
+- (IBAction)cilckLeft:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(callSomeOne)]) {
+        
+        [self.delegate callSomeOne];
+        
+    }
+    
+}
+- (IBAction)clickRight:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(chatSomeOne)]) {
+        
+        [self.delegate chatSomeOne];
+        
+    }
+    
+}
 
 - (void)awakeFromNib {
+    
+    if (SCREEN_W!=320) {
+        buttonWidthCons.constant = 60;
+    }
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

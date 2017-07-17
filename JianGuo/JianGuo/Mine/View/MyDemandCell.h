@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class DemandModel;
+@class DemandPostModel;
 
 @protocol MyDemandClickDelegate <NSObject>
 
@@ -20,7 +20,7 @@
 
 @interface MyDemandCell : UITableViewCell
 
-@property (nonatomic,strong) DemandModel *model;
+@property (nonatomic,strong) DemandPostModel *model;
 
 @property (nonatomic,assign) BOOL isSelfSign;
 
@@ -28,12 +28,17 @@
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *iconView;
-@property (weak, nonatomic) IBOutlet UILabel *nameL;
-@property (weak, nonatomic) IBOutlet UILabel *moneyL;
-@property (weak, nonatomic) IBOutlet UIButton *usersBtn;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
-@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLimitHeightCons;
+@property (weak, nonatomic) IBOutlet UILabel * titleL;
+@property (weak, nonatomic) IBOutlet UILabel * moneyL;
+@property (weak, nonatomic) IBOutlet UILabel * timeL;
+@property (weak, nonatomic) IBOutlet UILabel * typeL;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionL;
+@property (weak, nonatomic) IBOutlet UIButton *leftB;
+@property (weak, nonatomic) IBOutlet UIButton *rightB;
+
 @property (weak, nonatomic) IBOutlet UILabel *stateL;
+@property (weak, nonatomic) IBOutlet UILabel *timeLimitL;
 
 @end

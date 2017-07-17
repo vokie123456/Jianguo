@@ -15,11 +15,13 @@
  *
  */
 +(void)uploadUserInfoByCardIdFront:(NSString *)frontUrl
-                                CarfIdBack:(NSString *)backUrl
+                        CarfIdBack:(NSString *)backUrl
                          CardIdNum:(NSString *)CardIdNum
-                           loginId:(NSString *)loginId
                           realName:(NSString *)realName
-                                     sex:(NSString *)sex
+                          schoolId:(NSString *)schoolId
+                        schoolName:(NSString *)schoolName
+                        studentNum:(NSString *)studentNum
+                        studentUrl:(NSString *)studentUrl
                                  Success:(void (^)(id responseObject))success
                                  failure:(void (^)(NSError *error))failure;
 /**
@@ -200,6 +202,45 @@
  *  拉取别人的个人信息
  */
 +(void)getUserInfoWithUserId:(NSString *)userId
-                       Success:(void (^)(id responseObject))success
-                       failure:(void (^)(NSError *error))failure;
+                     Success:(void (^)(id responseObject))success
+                     failure:(void (^)(NSError *error))failure;
+/**
+ *  编辑个人资料接口<新版接口 06-24>
+ */
++(void)editUserProfileWithCityCode:(NSString *)cityCode
+                           headImg:(NSString *)headImg
+                         introduce:(NSString *)introduce
+                               sex:(NSString *)sex
+                          birthDay:(NSString *)birthDay
+                          schoolId:(NSString *)schoolId
+                          nickName:(NSString *)nickName
+                    intoSchoolDate:(NSString *)intoSchoolDate
+                     Success:(void (^)(id responseObject))success
+                     failure:(void (^)(NSError *error))failure;
+
+/**
+ *  拉取自己的个人信息
+ */
++(void)getMyselfProfileWithUserId:(NSString *)userId
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure;
+/**
+ *  拉取关注或者粉丝列表<0我关注的 1我的粉丝>
+ */
++(void)getFunsOrFollowsWithType:(NSString *)type
+                         userId:(NSString *)userId
+                      pageCount:(NSString *)pageCount
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure;
+
+
+
+/**
+ *  获取 <我的> 数据
+ */
++(void)getMineInfoSuccess:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure;
+
+
+
 @end

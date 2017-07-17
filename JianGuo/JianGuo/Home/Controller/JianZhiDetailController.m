@@ -14,16 +14,12 @@
 #import "BusinessCell.h"
 #import "JGHTTPClient+Home.h"
 #import "DetailModel.h"
-#import "MerchantModel.h"
 #import "JianzhiModel.h"
 #import <Masonry.h>
-#import "ChatMsgViewController.h"
-#import "MerChantViewController.h"
 #import "LoginNew2ViewController.h"
 #import "SignUpView.h"
 #import "ShareView.h"
 #import "LCChatKit.h"
-#import "PresentViewController.h"
 
 @interface JianZhiDetailController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,clickMoreBtnDelegate,ClickCallPhoneDelegate>
 {
@@ -33,7 +29,6 @@
 @property (nonatomic,strong) UIImageView *noNetView;
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) DetailModel *detailModel;
-@property (nonatomic,strong) MerchantModel *merchantModel;
 @property (nonatomic,strong) UIImageView *collectionView;
 @property (nonatomic,strong) UILabel *moneyL;
 @property (nonatomic,strong) UILabel *dateL;
@@ -323,11 +318,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4) {
-        MerChantViewController *merchantVC = [[MerChantViewController alloc] init];
-        merchantVC.model = self.merchantModel;
-//        [self.navigationController pushViewController:merchantVC animated:YES];
-    }
+//    if (indexPath.section == 4) {
+//        MerChantViewController *merchantVC = [[MerChantViewController alloc] init];
+//        merchantVC.model = self.merchantModel;
+////        [self.navigationController pushViewController:merchantVC animated:YES];
+//    }
 }
 
 /**

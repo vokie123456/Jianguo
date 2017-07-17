@@ -8,7 +8,6 @@
 
 #import "MyPartJobViewController.h"
 #import "PartJobViewController.h"
-#import "PartJobSelectView.h"
 #import "JGHTTPClient+Home.h"
 #import "JianzhiModel.h"
 #import "SignListCell.h"
@@ -19,7 +18,6 @@
 {
 
     int pageCount;
-    PartJobSelectView *selectView;
     UIView *bgView;
 }
 
@@ -49,29 +47,10 @@
     [super viewDidLoad];
     self.type = @"0";
     self.title = @"我的兼职";
-    selectView = [PartJobSelectView aSelectView];
+
     IMP_BLOCK_SELF(MyPartJobViewController);
-    selectView.leftBtnBlock = ^(){//
-        [JGHTTPClient cancelAllRequest];
-        block_self.type = @"0";
-        [block_self requestList:@"1" type:block_self.type];
-    };
-    
-    selectView.middleBtnBlock = ^(){
-        [JGHTTPClient cancelAllRequest];
-        block_self.type = @"1";
-        [block_self requestList:@"1" type:block_self.type];
-    };
-    
-    selectView.rightBtnBlock = ^(){
-        [JGHTTPClient cancelAllRequest];
-        block_self.type = @"2";
-        [block_self requestList:@"1" type:block_self.type];
-    };
-//    [self.view addSubview:selectView];
-    
     [self.view addSubview:self.tableView];
-    __block int pageNum = pageCount;
+
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{//上拉刷新
 
         [block_self requestList:@"1" type:block_self.type];

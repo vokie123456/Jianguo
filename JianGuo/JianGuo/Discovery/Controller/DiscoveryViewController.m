@@ -112,6 +112,27 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 2 != 0) {
+        cell.transform = CGAffineTransformTranslate(cell.transform, SCREEN_W/2, 0);
+        
+    }else{
+        cell.transform = CGAffineTransformTranslate(cell.transform, -SCREEN_W/2, 0);
+    }
+    cell.alpha = 0.0;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        cell.transform = CGAffineTransformIdentity;
+        
+        cell.alpha = 1.0;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
 
 
 @end

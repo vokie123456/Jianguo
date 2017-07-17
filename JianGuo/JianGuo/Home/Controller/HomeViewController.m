@@ -8,27 +8,24 @@
 
 #import "HomeViewController.h"
 #import "MyWalletNewViewController.h"
-#import "RealNameViewController.h"
 #import "SignDemandViewController.h"
+#import "LoginNew2ViewController.h"
 
 #import "MyPostDetailViewController.h"
 #import "BillsViewController.h"
-#import "DemandDetailController.h"
 #import "MySignDetailViewController.h"
-#import "JobTypeViewController.h"
 #import "JianZhiDetailController.h"
 #import "MyPartJobViewController.h"
 #import "WebViewController.h"
 #import "SelectCityController.h"
 
-#import "GuideImageView.h"
+#import "HeaderView.h"
 #import "PartTypeModel.h"
 #import "CityModel.h"
 #import "AreaModel.h"
 #import "JGHTTPClient.h"
 #import "JGHTTPClient+Home.h"
 #import "JGHTTPClient+Job.h"
-#import "HeaderView.h"
 #import "JGUser.h"
 #import "JianzhiModel.h"
 #import "JianZhiCell.h"
@@ -38,13 +35,12 @@
 #import "QLAlertView.h"
 #import "RemindMsgViewController.h"
 #import "WZLBadgeImport.h"
-#import "LongDateViewController.h"
 #import "UpdateView.h"
 #import "PrefrenceViewController.h"
 #import "LCChatKit.h"
 #import "DOPDropDownMenu.h"
 
-@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate,AMapLocationManagerDelegate,JGHomeHeaderDelegate,AVIMClientDelegate,UIScrollViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
+@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate,AMapLocationManagerDelegate,AVIMClientDelegate,JGHomeHeaderDelegate,UIScrollViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 {
     int pageCount;
     UIView *bgView;
@@ -161,17 +157,10 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 
         [NotificationCenter addObserver:self selector:@selector(refreshHotJob:) name:kNotificationGetCitySuccess object:nil];
-//        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
-//        [NotificationCenter addObserver:self selector:@selector(getNewNotiNews) name:kNotificationGetNewNotiNews object:nil];
     }
     return  self;
 }
 
--(void)clickNotification:(NSNotification *)noti//点击通知进入应用
-{
-    NSDictionary *userInfo = noti.object;
-    [self fromNotiToMyjobVC:userInfo];
-}
 
 //-(void)changeCity:(NSNotification *)noti
 //{
@@ -225,7 +214,7 @@
     
 //     self.navigationController.navigationBar.layer.masksToBounds = YES;
     
-//    [self location];
+    [self location];
     
     if (!self.isRequestedData) {
         
@@ -328,7 +317,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self handleRemoteNotifcation];
     
 }
 
@@ -339,53 +327,6 @@
     self.selectMenu.textSelectedColor = GreenColor;
     [self.view addSubview:self.selectMenu];
 }
-
-/**
- *  添加引导图
- */
--(void)addGuideImageView
-{
-    GuideImageView *imgView = [[GuideImageView alloc] initWithFrame:APPLICATION.keyWindow.bounds];
-    
-    imgView.image = [UIImage imageNamed:@"img_guide1"];
-    if (SCREEN_W==375||SCREEN_W==414) {
-        imgView.image = [UIImage imageNamed:@"img_guide6s1"];
-    }
-
-    imgView.count = 1;
-    imgView.userInteractionEnabled = YES;
-    [self.tabBarController.view addSubview:imgView];
-}
-
-/**
- *  处理远程推送的跳转逻辑
- */
--(void)handleRemoteNotifcation
-{
-    NSDictionary *userInfo = [USERDEFAULTS objectForKey:@"push"];
-    if (userInfo) {
-        
-        NSDictionary *userInfo = [USERDEFAULTS objectForKey:@"push"];
-        if (userInfo) {
-            
-            NSArray *array = [[userInfo objectForKey:@"aps"] allKeys];
-            if ([array containsObject:@"type"]||[[userInfo allKeys] containsObject:@"type"]) {
-                
-                [self fromNotiToMyjobVC:userInfo];
-                
-            }else{
-                UITabBarController *tabVc = (UITabBarController *)APPLICATION.keyWindow.rootViewController;
-                [tabVc setSelectedIndex:2];
-                
-            }
-            
-            
-        }
-        [[NSUserDefaults standardUserDefaults]setObject:nil forKey:@"push"];
-        
-    }
-}
-
 
 -(void)requestList:(NSString *)count
 {
@@ -455,15 +396,16 @@
     
     
     UIButton *btn_l = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn_l setBackgroundImage:[UIImage imageNamed:@"icon_location"] forState:UIControlStateNormal];
+    [btn_l setBackgroundImage:[UIImage imageNamed:@"location_home"] forState:UIControlStateNormal];
     [btn_l addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
-    btn_l.frame = CGRectMake(-10, 0, 10, 12);
+    btn_l.frame = CGRectMake(-10, 0, 14, 14);
     
     UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
     btnLocation.titleLabel.font = FONT(14);
+    [btnLocation setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [btnLocation addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
-    btnLocation.frame = CGRectMake(0, 0, 30, 20);
+    btnLocation.frame = CGRectMake(0, 0, 50, 20);
     self.cityBtn = btnLocation;
     
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_l];
@@ -566,6 +508,27 @@
     }
 }
 
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.row % 2 != 0) {
+//        cell.transform = CGAffineTransformTranslate(cell.transform, 0, 50);
+//        
+//    }else{
+//        cell.transform = CGAffineTransformTranslate(cell.transform, 0, 50);
+//    }
+//    cell.alpha = 0.0;
+//    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        cell.transform = CGAffineTransformIdentity;
+//        
+//        cell.alpha = 1.0;
+//        
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
+
 /**
  *  自定义section headerView
  *
@@ -629,36 +592,7 @@
     [self.navigationController pushViewController:webVC animated:YES];
     
 }
-/**
- *  点击四个 小view 的触发事件
- *
- *  @param str 传过来的参数
- */
--(void)clickOneOfFourBtns:(NSString *)str
-{//兼职（0=普通，1=热门，2=精品，3=旅行）
-    JobTypeViewController *jobVC = [[JobTypeViewController alloc] init];
-    
-    jobVC.hidesBottomBarWhenPushed = YES;
-    
-    if ([str intValue] == 1) {//精品兼职
-        jobVC.title = @"精品兼职";
-        jobVC.type = @"1";
-        
-    }else if (str.intValue == 2){//兼职旅行
-        jobVC.title = @"兼职旅行";
-        jobVC.type = @"3";
-        
-    }else if (str.intValue == 3){//日结兼职
-        jobVC.title = @"日结兼职";
-        jobVC.type = @"4";
-        
-    }else if ([str intValue]==4){//长期兼职
-        jobVC.title = @"长期兼职";
-        jobVC.type = @"2";
-    }
-    
-    [self.navigationController pushViewController:jobVC animated:YES];
-}
+
 /**
  *  选择定位按钮
  */
@@ -666,7 +600,18 @@
 {
     IMP_BLOCK_SELF(HomeViewController);
     SelectCityController *cityVC = [[SelectCityController alloc] init];
-    cityVC.dataArr = JGKeyedUnarchiver(JGCityArr);
+    NSArray *arr = JGKeyedUnarchiver(JGCityArr);
+    NSMutableArray *cityArr = [NSMutableArray arrayWithArray:arr];
+    CityModel *allCountry;
+    for (CityModel *city in cityArr) {
+        if (city.code.integerValue == 0) {
+            allCountry = city;
+        }
+    }
+    if (allCountry) {
+        [cityArr removeObject:allCountry];
+    }
+    cityVC.dataArr = cityArr;
     cityVC.selectCityBlock = ^(CityModel *cityModel){//传回City 的 model
         [block_self.cityBtn setTitle:cityModel.cityName forState:UIControlStateNormal];
         [CityModel saveCity:cityModel];
@@ -707,146 +652,16 @@
 //    bgView.hidden = YES;
 //}
 
-
 /**
  *  去登录
  */
 -(void)gotoCodeVC
 {
-    CodeLoginViewController *codeVC = [[CodeLoginViewController alloc]init];
-    codeVC.hidesBottomBarWhenPushed = YES;
-    codeVC.isFromJianZhiDetail = YES;
-    [self.navigationController pushViewController:codeVC animated:YES];
+    LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
--(void)fromNotiToMyjobVC:(NSDictionary *)userInfo
-{
-    int intType = [userInfo[@"type"] intValue];
-    UIViewController *VC;
-    switch (intType) {
-        case 4:
-        case 1:{//报名推送
-            
-            VC = [[MyPartJobViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 2:
-        case 3:{//主页推送,留在主页就行,不用额外操作
-            
-            
-            JianZhiDetailController *jzdetailVC = [[JianZhiDetailController alloc] init];
-            
-            jzdetailVC.hidesBottomBarWhenPushed = YES;
-            
-            jzdetailVC.jobId = userInfo[@"job_id"];
-            
-            [self.navigationController pushViewController:jzdetailVC animated:YES];
-            break;
-            
-            break;
-        }
-        case 5:{//钱包推送
-            
-            VC = [[MyWalletNewViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 7:
-        case 6:{//实名推送
-            
-            VC = [[RealNameViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 8:{//收到了果聊消息 –––> 果聊联系人页面
-            
-            [self.tabBarController setSelectedIndex:1];
-            
-            break;
-        }
-        case 9:{//报名了外露的兼职(主要是发短信的形式) –––>不做处理
-            
-            break;
-        }
-        case 10:{//发布的任务收到了新报名(–––>我发布的报名列表)
-            
-            SignDemandViewController *signVC = [SignDemandViewController new];
-            signVC.demandId = userInfo[@"jobid"];
-            signVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:signVC animated:YES];
-            
-            break;
-        }
-        // ***  报名的需求  ***
-        case 14://被投诉,收到投诉处理结果(––––>任务详情页面)
-        case 13://被雇主投诉(––––>任务详情页面)
-        case 16://报名的需求被录用(––––>任务详情页面)
-        case 17:{//报名的需求被拒绝(–––>我发布的报名列表)
-            MySignDetailViewController *detailVC = [[MySignDetailViewController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.navigationController pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 15:{//任务服务费用到账(–––>钱包明细,收入明细)
-            
-            BillsViewController *billVC = [[BillsViewController alloc] init];
-            billVC.hidesBottomBarWhenPushed = YES;
-            billVC.type = @"1";
-            [self.navigationController pushViewController:billVC animated:YES];
-            break;
-        }
-        // ***  发布的需求  ***
-        case 11://发布的任务未通过审核
-        case 12://发布需求,投诉了服务者,收到了投诉处理结果
-        case 18:{//发布的需求收到了新评论(–––>也是任务详情页)
-            MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.navigationController pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 19:{//收到了评论,去普通的需求详情页
-            DemandDetailController *detailVC = [[DemandDetailController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.navigationController pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 23:{//自定义推送
-            
-            RemindMsgViewController *msgVC = [[RemindMsgViewController alloc] init];
-            
-            msgVC.hidesBottomBarWhenPushed = YES;
-            
-            [self.navigationController pushViewController:msgVC animated:YES];
-            
-            break;
-            
-        }
-        case 24:{//活动推送(H5)
-            
-            WebViewController *webVC = [[WebViewController alloc] init];
-            webVC.url = userInfo[@"html_url"];
-            
-            webVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:webVC animated:YES];
-            break;
-        }
-            
-        case 100:{//
-            
-            break;
-        }
-    }
-}
 - (IBAction)clickAllJobs:(UIButton *)sender {
     
     [self.tabBarController setSelectedIndex:1];

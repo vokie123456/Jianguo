@@ -14,19 +14,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAa-b0-jxf">
-                        <rect key="frame" x="8" y="9" width="120" height="25"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="25" id="UZf-y0-2mi"/>
-                            <constraint firstAttribute="width" constant="120" id="Yuk-SF-WIz"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NkR-6J-kmQ">
-                        <rect key="frame" x="140" y="9" width="160" height="25"/>
+                        <rect key="frame" x="98" y="9" width="202" height="25"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="P0O-8h-4e7"/>
@@ -35,6 +24,11 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="bWU-SS-3TZ"/>
+                            </mask>
+                        </variation>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zqg-Fm-qL1">
                         <rect key="frame" x="0.0" y="43" width="320" height="1"/>
@@ -57,10 +51,28 @@
                             <constraint firstAttribute="width" constant="9" id="Q9k-Dq-4qT"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="官方网站" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAa-b0-jxf">
+                        <rect key="frame" x="8" y="9" width="70" height="25"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="UZf-y0-2mi"/>
+                            <constraint firstAttribute="width" constant="120" id="Yuk-SF-WIz"/>
+                            <constraint firstAttribute="width" constant="70" id="nXX-4k-YEx"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Yuk-SF-WIz"/>
+                            </mask>
+                        </variation>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="yX0-vm-Qbg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="E3l-KA-IHk"/>
                     <constraint firstItem="Yx9-5g-BuV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EWL-F1-IA3"/>
+                    <constraint firstItem="NkR-6J-kmQ" firstAttribute="leading" secondItem="IAa-b0-jxf" secondAttribute="trailing" constant="20" id="PuX-In-2IU"/>
                     <constraint firstAttribute="bottom" secondItem="zqg-Fm-qL1" secondAttribute="bottom" id="QY9-vC-qkc"/>
                     <constraint firstItem="zqg-Fm-qL1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="TIk-ml-sdd"/>
                     <constraint firstAttribute="trailing" secondItem="zqg-Fm-qL1" secondAttribute="trailing" id="YkS-aC-AQ4"/>

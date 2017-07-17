@@ -42,7 +42,7 @@
     
     
     #ifdef DEBUG
-    self.telTF.text = @"13614093590";
+//    self.telTF.text = @"13614093590";
     self.passwTF.text = @"123456";
     #else
     
@@ -103,7 +103,6 @@
 -(void)changeFrame:(NSNotification *)noti
 {
     
-
 }
 
 -(UIView *)createThirdLoginBtnWithTitle:(NSString *)title imageName:(NSString *)imageName selector:(SEL)selector frame:(CGRect)frame

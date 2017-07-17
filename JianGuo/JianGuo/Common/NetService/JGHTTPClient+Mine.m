@@ -18,24 +18,30 @@
 +(void)uploadUserInfoByCardIdFront:(NSString *)frontUrl
                         CarfIdBack:(NSString *)backUrl
                          CardIdNum:(NSString *)CardIdNum
-                           loginId:(NSString *)loginId
                           realName:(NSString *)realName
-                               sex:(NSString *)sex
+                          schoolId:(NSString *)schoolId
+                        schoolName:(NSString *)schoolName
+                        studentNum:(NSString *)studentNum
+                        studentUrl:(NSString *)studentUrl
                            Success:(void (^)(id responseObject))success
                            failure:(void (^)(NSError *error))failure
 {
     
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:@"4" forKey:@"type"];
-    [params setObject:sex forKey:@"sex"];
-    [params setObject:realName forKey:@"realname"];
-    [params setObject:CardIdNum forKey:@"IDcard"];
-    [params setObject:frontUrl?frontUrl:@"" forKey:@"front_img_url"];
-    [params setObject:backUrl?backUrl:@"" forKey:@"behind_img_url"];
-    NSString *cityId = [USERDEFAULTS objectForKey:CityCode]?[USERDEFAULTS objectForKey:CityCode]:@"1";
-    [params setObject:cityId forKey:@"city_id"];
+
+    !realName?:[params setObject:realName forKey:@"realName"];
+    !CardIdNum?:[params setObject:CardIdNum forKey:@"identityCard"];
+    !frontUrl?:[params setObject:frontUrl forKey:@"frontImg"];
+    !backUrl?:[params setObject:backUrl forKey:@"behindImg"];
+    !studentNum?:[params setObject:studentNum forKey:@"studentNo"];
+    !schoolId?:[params setObject:schoolId forKey:@"schoolId"];
+    !schoolName?:[params setObject:schoolName forKey:@"schoolName"];
+    !studentUrl?:[params setObject:studentUrl forKey:@"studentNoImg"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"auth/info"];
+//    NSString *cityId = [USERDEFAULTS objectForKey:CityCode]?[USERDEFAULTS objectForKey:CityCode]:@"1";
+//    [params setObject:cityId forKey:@"city_id"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"auth/user-info"];
     
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -157,7 +163,7 @@
 {
     NSMutableDictionary *params = [self getAllBasedParams];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"auth/info"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"auth/user-info"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -207,7 +213,7 @@
 }
 
 /**
- *  上传简历信息
+ *  上传简历信息<老版本接口,但是还在用>
  */
 +(void)uploadUserJianliInfoByname:(NSString *)name
                          nickName:(NSString *)nickName
@@ -431,7 +437,7 @@
 {
     NSMutableDictionary *params = [self getAllBasedParams];
     
-    [params setObject:type forKey:@"type"];//2=支出,1=收入
+    !type?:[params setObject:type forKey:@"type"];//2=支出,1=收入
     
     [params setObject:count forKey:@"pageNum"];
     
@@ -719,9 +725,141 @@
 {
     NSMutableDictionary *params = [self getAllBasedParams];
     
-    !userId?:[params setObject:userId  forKey:@"user_id"];
+    !userId?:[params setObject:userId  forKey:@"userId"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/otherinfo"]];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/v2/info"]];
+    
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  编辑个人资料接口<新版接口 06-24>
+ */
++(void)editUserProfileWithCityCode:(NSString *)cityCode
+                           headImg:(NSString *)headImg
+                         introduce:(NSString *)introduce
+                               sex:(NSString *)sex
+                          birthDay:(NSString *)birthDay
+                          schoolId:(NSString *)schoolId
+                          nickName:(NSString *)nickName
+                    intoSchoolDate:(NSString *)intoSchoolDate
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    !cityCode?:[params setObject:cityCode forKey:@"hometownCode"];
+    !headImg?:[params setObject:headImg forKey:@"headImg"];
+    !introduce?:[params setObject:introduce forKey:@"introduce"];
+    !sex?:[params setObject:sex forKey:@"sex"];
+    !birthDay?:[params setObject:birthDay forKey:@"birthDate"];
+    !schoolId?:[params setObject:schoolId forKey:@"schoolId"];
+    !nickName?:[params setObject:nickName forKey:@"nickname"];
+    !intoSchoolDate?:[params setObject:intoSchoolDate forKey:@"intoSchoolDate"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/profile"]];
+    
+    
+    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  拉取自己的个人信息
+ */
++(void)getMyselfProfileWithUserId:(NSString *)userId
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    !userId?:[params setObject:userId forKey:@"userId"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/profile"]];
+    
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  拉取关注或者粉丝列表<0我关注的 1我的粉丝>
+ */
++(void)getFunsOrFollowsWithType:(NSString *)type
+                         userId:(NSString *)userId
+                      pageCount:(NSString *)pageCount
+                        Success:(void (^)(id responseObject))success
+                        failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    !type?:[params setObject:type forKey:@"type"];
+    
+    [params setObject:pageCount forKey:@"pageNum"];
+    
+    !userId?:[params setObject:userId forKey:@"userId"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demands/follow/list"]];
+    
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  获取 <我的> 数据
+ */
++(void)getMineInfoSuccess:(void (^)(id responseObject))success
+                  failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"user/v2/mine"]];
     
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

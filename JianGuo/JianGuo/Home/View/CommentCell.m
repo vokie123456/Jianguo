@@ -8,7 +8,6 @@
 
 #import "CommentCell.h"
 #import "CommentModel.h"
-#import "CommentUser.h"
 #import "TTTAttributedLabel.h"
 #import "DateOrTimeTool.h"
 #import <UIImageView+WebCache.h>
@@ -172,7 +171,7 @@ static NSString*const identifier = @"CommentCell";
 -(void)showIcon:(UITapGestureRecognizer *)tap
 {
     if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
-        [self.delegate clickIcon:_model.user_id];
+        [self.delegate clickIcon:_model.userId];
     }
 }
 

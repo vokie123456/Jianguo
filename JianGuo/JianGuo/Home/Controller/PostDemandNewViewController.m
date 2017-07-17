@@ -11,13 +11,13 @@
 #import "PostSuccessViewController.h"
 #import "AddMoneyViewController.h"
 #import "DemandListViewController.h"
+#import "ShareSuccessViewController.h"
 
 #import "JGHTTPClient+Demand.h"
 
 #import "JianliCell.h"
 #import "PostDemandPictureCell.h"
 #import "LimitTimeCell.h"
-#import "AnonymousCell.h"
 #import "BHBPopView.h"
 #import "QNUploadManager.h"
 #import "QLAlertView.h"
@@ -27,6 +27,9 @@
 
 #import "UITextView+placeholder.h"
 
+
+
+static const NSInteger kMaxLength = 15;
 #define cellHeight  (SCREEN_W-20-15)/4
 
 @interface PostDemandNewViewController ()<UITableViewDataSource,UITableViewDelegate,RefreshCollectionViewSizeDelegate,UIScrollViewDelegate>
@@ -110,7 +113,7 @@
             return 44;
     }else if (indexPath.section == 1){
         return UITableViewAutomaticDimension;
-    }else if (indexPath.section == 3){
+    }else if (indexPath.section == 2){
         return 100;
     }else{
         return 44;
@@ -119,7 +122,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -225,14 +228,6 @@
             break;
         } case 2:{// section 2
             
-            AnonymousCell *cell = [AnonymousCell cellWithTableView:tableView];
-            selectAnonyB = cell.selectB;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-            
-            break;
-        } case 3:{// section 3
-            
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.contentView.backgroundColor = BACKCOLORGRAY;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -264,7 +259,7 @@
     if (indexPath.section == 0&&indexPath.row == 3) {
         
         //添加popview
-        [BHBPopView showToView:self.view.window andImages:@[@"study-1",@"run",@"technology-1",@"emotion-1",@"shopping",@"amusement"] andTitles:@[@"学习交流",@"跑腿代劳",@"技能服务",@"情感地带",@"娱乐生活",@"易货求购"] andSelectBlock:^(BHBItem *item) {
+        [BHBPopView showToView:self.view.window andImages:@[@"study-1",@"run",@"technology-1",@"amusement",@"emotion-1",@"shopping"] andTitles:@[@"学习交流",@"跑腿代劳",@"技能服务",@"娱乐生活",@"情感地带",@"易货求购"] andSelectBlock:^(BHBItem *item) {
             
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.detailTextLabel.text = item.title;
@@ -303,10 +298,40 @@
 -(void)limitWordsNumber:(UITextField *)sender
 {
     title = sender.text;
-    if (sender.text.length>15) {
-        sender.text = [sender.text substringToIndex:15];
-        [self showAlertViewWithText:@"超过字数限制" duration:1];
-        return;
+    NSString *toBeString = sender.text;
+    
+    NSString *lang = [sender.textInputMode primaryLanguage];
+    
+    if([lang isEqualToString:@"zh-Hans"]){ //简体中文输入，包括简体拼音，健体五笔，简体手写
+        
+        UITextRange *selectedRange = [sender markedTextRange];
+        
+        UITextPosition *position = [sender positionFromPosition:selectedRange.start offset:0];
+        
+        
+        
+        if (!position){//非高亮
+            
+            if (toBeString.length > kMaxLength) {
+                
+                [self showAlertViewWithText:[NSString stringWithFormat:@"您最多可以输入%ld个字",kMaxLength] duration:1];
+                
+                sender.text = [toBeString substringToIndex:kMaxLength];
+                
+            }
+            
+        }
+        
+    }else{//中文输入法以外
+        
+        if (toBeString.length > kMaxLength) {
+            
+            [self showAlertViewWithText:[NSString stringWithFormat:@"您最多可以输入%ld个字",kMaxLength] duration:1];
+            
+            sender.text = [toBeString substringToIndex:kMaxLength];
+            
+        }
+        
     }
 }
 
@@ -327,14 +352,14 @@
 //        [self showAlertViewWithText:@"至少选择一张图片" duration:1];
 //        return;
     }else if (schoolId.length==0){
-        [self showAlertViewWithText:@"选择发布到哪个学校" duration:1];
+        [self showAlertViewWithText:@"请选择任务发布的区域" duration:1];
         return;
     }else if (demandMoney.length==0){
         [self showAlertViewWithText:@"请输入赏金金额" duration:1];
         return;
     }
     
-    if (images.length) {
+    if (imageArr.count==0) {
         [self commitInfoToSelfServer];
         return;
     }
@@ -396,6 +421,7 @@
         [SVProgressHUD dismiss];
         
         if ([responseObject[@"code"] integerValue] == 603) {
+            images = nil;
             [QLAlertView showAlertTittle:@"余额不足,是否充值?" message:nil isOnlySureBtn:NO compeletBlock:^{//去充值
                 
                 AddMoneyViewController *addMoneyVC = [[AddMoneyViewController alloc] init];
@@ -404,12 +430,15 @@
                 
             }];
         }else{
-            //                    [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            images = nil;
+
             if ([responseObject[@"code"] integerValue] == 200) {
                 DemandListViewController *vc = (DemandListViewController *)self.navigationController.viewControllers.firstObject;
                 [self.navigationController popToRootViewControllerAnimated:YES];
-                PostSuccessViewController *postVC = [[PostSuccessViewController alloc] init];
-                postVC.labelStr = @"Issued";
+                ShareSuccessViewController *postVC = [[ShareSuccessViewController alloc] init];
+                postVC.demandId = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"demandId"]];
+                postVC.demandTitle = title;
+                postVC.money = demandMoney;
                 postVC.transitioningDelegate = vc;//代理必须遵守这个专场协议
                 postVC.modalPresentationStyle = UIModalPresentationCustom;
                 [self.navigationController.viewControllers.firstObject presentViewController:postVC animated:YES completion:nil];
@@ -419,6 +448,7 @@
         }
         
     } failure:^(NSError *error) {
+        images = nil;
         [self showAlertViewWithText:NETERROETEXT duration:1];
         [SVProgressHUD dismiss];
     }];

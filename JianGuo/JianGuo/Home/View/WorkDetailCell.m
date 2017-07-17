@@ -8,7 +8,6 @@
 
 #import "WorkDetailCell.h"
 #import "UIView+AlertView.h"
-#import "ShowMoreView.h"
 
 @implementation WorkDetailCell
 

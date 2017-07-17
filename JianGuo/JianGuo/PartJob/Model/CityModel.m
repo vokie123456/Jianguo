@@ -37,7 +37,7 @@
     CityModel *model = JGKeyedUnarchiver(JGCityModelFile);
     if (!model) {
         NSArray *cityArr = JGKeyedUnarchiver(JGCityArr);
-        model = [cityArr objectAtIndex:0];
+        model = [cityArr objectAtIndex:1];
         model.code = @"0899";
     }
     if (!model.code&&model.id) {

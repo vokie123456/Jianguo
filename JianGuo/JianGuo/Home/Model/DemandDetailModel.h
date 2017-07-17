@@ -95,4 +95,17 @@
 /** 审核状态 */
 @property (nonatomic, copy) NSString* authStatus;
 
+/** 是否点过赞 0没有点赞，1表示点赞 */
+@property (nonatomic, copy) NSString* isLike;
+
+/** 是否可以报名 1可以报名，2不能报名 */
+@property (nonatomic, copy) NSString* canEnroll;
+
+/** 报名状态 -1报名后取消，0未报名，1已经报名，2已经录取，3已经拒绝*/
+@property (nonatomic, copy) NSString* enrollStatus;
+
+/** 是否关注 */
+@property (nonatomic, copy) NSString* isFollow;
+
+
 @end

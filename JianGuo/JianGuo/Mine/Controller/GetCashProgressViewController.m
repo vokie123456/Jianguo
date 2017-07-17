@@ -199,7 +199,11 @@
     
     UILabel *moneyL = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_W-100, 23, 80, 20)];
     moneyL.font = [UIFont boldSystemFontOfSize:15];
-    moneyL.text = [NSString stringWithFormat:@"%.2f",self.model.money.floatValue];;
+    if ([self.model.money containsString:@"."]) {
+        moneyL.text = [NSString stringWithFormat:@"%.2f元",_model.money.floatValue];
+    }else{
+        moneyL.text = [NSString stringWithFormat:@"%@元",_model.money];
+    }
     moneyL.textAlignment = NSTextAlignmentRight;
     [headerView addSubview:moneyL];
     
@@ -314,8 +318,8 @@
         
         [footView addSubview:telBtn];
         
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-60, telBtn.bottom+60, 120, 120*4/5)];
-        iconView.image = [UIImage imageNamed:@"cartoon"];
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_W/2-60, telBtn.bottom+20, 120, 120*707/500)];
+        iconView.image = [UIImage imageNamed:@"junmao2"];
         [footView addSubview:iconView];
         
         UILabel *bottomL = [[UILabel alloc] initWithFrame:CGRectMake(0, iconView.bottom+10, SCREEN_W, 20)];

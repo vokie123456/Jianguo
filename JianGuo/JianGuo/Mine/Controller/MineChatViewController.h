@@ -2,14 +2,15 @@
 //  MineChatViewController.h
 //  JianGuo
 //
-//  Created by apple on 17/2/22.
+//  Created by apple on 17/6/20.
 //  Copyright © 2017年 ningcol. All rights reserved.
 //
 
-#import "NavigatinViewController.h"
+#import "BaseViewController.h"
 
-@interface MineChatViewController : NavigatinViewController
+@interface MineChatViewController : BaseViewController
 
 @property (nonatomic,copy) NSString *userId;
+@property (weak, nonatomic) IBOutlet UIButton *editB;
 
 @end

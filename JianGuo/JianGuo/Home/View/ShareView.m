@@ -13,7 +13,7 @@
 #import "DiscoveryModel.h"
 #import "DetailModel.h"
 #import "JianzhiModel.h"
-#import "DemandModel.h"
+#import "DemandDetailModel.h"
 
 #define INSTANCE_Y 30
 
@@ -117,11 +117,20 @@
         
     }else{
         
-        NSString *backURL = [NSString stringWithFormat:@"%@detaila?id=%@",@"http://www.woniukeji.com.cn:8888/",self.demandModel.id];
-        NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
-        NSString *text = [NSString stringWithFormat:@"【%@】––> %@",self.demandModel.title,[NSString stringWithFormat:@"赏金:%@ 元",self.demandModel.money]];
-        [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"来嘛~帮帮忙，反正有大把时光" type:SSDKContentTypeAuto];
+        if (self.demandModel) {
+            NSString *backURL = [NSString stringWithFormat:@"http://www.woniukeji.com.cn:8888/share-demand?demandId=%@",self.demandModel.demandId];
+            NSArray* imageArray = @[[UIImage imageNamed:@"logo"]];
+            NSString *text = [NSString stringWithFormat:@"【%@】––> %@",self.demandModel.title,[NSString stringWithFormat:@"赏金:%.2f 元",self.demandModel.money.floatValue]];
+            [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"来嘛~帮帮忙，反正有大把时光" type:SSDKContentTypeAuto];
+            
+        }else if (self.model){
+            
+            NSString *backURL = [NSString stringWithFormat:@"%@Html_Job_Id_Servlet?job_id=%@",APIURLCOMMON,self.model.id];
+            NSArray* imageArray = @[self.model.job_image];
+            NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",self.model.job_name,self.money,self.address];
+            [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"小伙伴给您分享了一条兼职!" type:SSDKContentTypeAuto];
         
+        }
     }
     
     [ShareSDK share:type

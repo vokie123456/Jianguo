@@ -20,6 +20,7 @@
 @class DemandModel;
 @interface DemandListCell : UITableViewCell
 
++(instancetype)cellWithTableView:(UITableView *)tableView;
 
 @property (nonatomic,weak) id <ClickLikeBtnDelegate>delegate;
 

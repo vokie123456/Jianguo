@@ -7,17 +7,24 @@
 //
 
 #import "MyPostDemandViewController.h"
+#import "SignDemandViewController.h"
+#import "MyPostDetailViewController.h"
+#import "DemandStatusParentViewController.h"
+
 #import "MyDemandCell.h"
 #import "JGHTTPClient+Demand.h"
 #import "DemandModel.h"
-#import "SignDemandViewController.h"
-#import "MyPostDetailViewController.h"
+#import "ZJScrollPageView.h"
 
 static NSString *const identifier = @"MyDemandCell";
 
-@interface MyPostDemandViewController ()<UITableViewDataSource,UITableViewDelegate,MyDemandClickDelegate>
+@interface MyPostDemandViewController ()<UITableViewDataSource,UITableViewDelegate,MyDemandClickDelegate,ZJScrollPageViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
+
+/** 标题数组 */
+@property (nonatomic,copy) NSArray *titles;
+
 @end
 
 @implementation MyPostDemandViewController
@@ -27,21 +34,48 @@ static NSString *const identifier = @"MyDemandCell";
     
     self.navigationItem.title = @"我发布的";
     
-//    self.view.backgroundColor = BACKCOLORGRAY;
+    //必要的设置, 如果没有设置可能导致内容显示不正常
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    ZJSegmentStyle *style = [[ZJSegmentStyle alloc] init];
+    // 缩放标题
+    style.scaleTitle = NO;
+    // 颜色渐变
+    style.gradualChangeTitleColor = YES;
+    // 设置附加按钮的背景图片
+    style.titleFont = FONT(15);
+    style.scrollTitle = NO;
+    style.showLine = YES;
+    style.selectedTitleColor = GreenColor;
+    style.scrollLineColor = GreenColor;
     
-    self.tableView.rowHeight = 120;
+    self.titles = @[@"待录取",
+                    @"待完成",
+                    @"待确认",
+                    @"待评价",
+                    @"已结束"
+                    ];
+    // 初始化
+    ZJScrollPageView *scrollPageView = [[ZJScrollPageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) segmentStyle:style titles:self.titles parentViewController:self delegate:self];
+    scrollPageView.backgroundColor = BACKCOLORGRAY;
+    // 这里可以设置头部视图的属性(背景色, 圆角, 背景图片...)
+    //    scrollPageView.segmentView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:scrollPageView];
     
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        pageCount = 0;
-        [self requestList:@"1"];
-        
-    }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
-        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
-        
-    }];
+    
+//    self.tableView.rowHeight = 120;
+//    
+//    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        pageCount = 0;
+//        [self requestList:@"1"];
+//        
+//    }];
+//    
+//    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+//        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+//        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
+//        
+//    }];
     
 
 }
@@ -58,7 +92,7 @@ static NSString *const identifier = @"MyDemandCell";
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getMyDemandsListWithPageNum:count pageSize:nil Success:^(id responseObject) {
+    [JGHTTPClient getMyDemandsListWithPageNum:count type:nil pageSize:nil Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
@@ -124,7 +158,6 @@ static NSString *const identifier = @"MyDemandCell";
     MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
     detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.demandId = model.id;
-    detailVC.status = model.d_status;
     detailVC.statusStr = cell.stateL.text;
     [self.navigationController pushViewController:detailVC animated:YES];
     
@@ -162,6 +195,47 @@ static NSString *const identifier = @"MyDemandCell";
 -(void)refreshData
 {
     [self requestList:@"1"];
+}
+
+
+#pragma ZJScrollPageViewDelegate 代理方法
+- (NSInteger)numberOfChildViewControllers {
+    return self.titles.count;
+}
+
+- (UIViewController<ZJScrollPageViewChildVcDelegate> *)childViewController:(UIViewController<ZJScrollPageViewChildVcDelegate> *)reuseViewController forIndex:(NSInteger)index {
+    UIViewController<ZJScrollPageViewChildVcDelegate> *childVc = reuseViewController;
+    //    NSLog(@"%ld---------", index);
+    
+    
+    if (!childVc) {
+        DemandStatusParentViewController *VC = [[DemandStatusParentViewController alloc] init];
+        VC.type = [NSString stringWithFormat:@"%ld",index+1];
+        childVc = VC;
+        childVc.title = self.titles[index];
+    }
+    
+    return childVc;
+}
+
+
+- (void)scrollPageController:(UIViewController *)scrollPageController childViewControllWillAppear:(UIViewController *)childViewController forIndex:(NSInteger)index {
+    NSLog(@"%ld ---将要出现",index);
+}
+
+- (void)scrollPageController:(UIViewController *)scrollPageController childViewControllDidAppear:(UIViewController *)childViewController forIndex:(NSInteger)index {
+    NSLog(@"%ld ---已经出现",index);
+}
+
+- (void)scrollPageController:(UIViewController *)scrollPageController childViewControllWillDisappear:(UIViewController *)childViewController forIndex:(NSInteger)index {
+    NSLog(@"%ld ---将要消失",index);
+    
+}
+
+
+- (void)scrollPageController:(UIViewController *)scrollPageController childViewControllDidDisappear:(UIViewController *)childViewController forIndex:(NSInteger)index {
+    NSLog(@"%ld ---已经消失",index);
+    
 }
 
 @end

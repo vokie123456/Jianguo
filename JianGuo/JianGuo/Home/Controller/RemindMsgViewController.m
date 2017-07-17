@@ -13,17 +13,19 @@
 
 
 #import "MyWalletNewViewController.h"
-#import "RealNameViewController.h"
+#import "RealNameNewViewController.h"
 #import "SignDemandViewController.h"
 
 #import "MyPostDetailViewController.h"
 #import "BillsViewController.h"
-#import "DemandDetailController.h"
+#import "DemandDetailNewViewController.h"
 #import "MySignDetailViewController.h"
-#import "JobTypeViewController.h"
 #import "JianZhiDetailController.h"
 #import "MyPartJobViewController.h"
 #import "WebViewController.h"
+#import "MineChatViewController.h"
+
+
 
 @interface RemindMsgViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -141,8 +143,8 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [USERDEFAULTS removeObjectForKey:isHaveNewNews];
-    [USERDEFAULTS synchronize];
+    
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -203,7 +205,7 @@
         case 7:
         case 6:{//实名推送
             
-            VC = [[RealNameViewController alloc] init];
+            VC = [[RealNameNewViewController alloc] init];
             VC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:VC animated:YES];
             
@@ -259,7 +261,7 @@
             break;
         }
         case 19:{//收到了评论,去普通的需求详情页
-            DemandDetailController *detailVC = [[DemandDetailController alloc] init];
+            DemandDetailNewViewController *detailVC = [[DemandDetailNewViewController alloc] init];
             detailVC.hidesBottomBarWhenPushed = YES;
             detailVC.demandId = model.job_id;
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -274,13 +276,38 @@
             [self.navigationController pushViewController:webVC animated:YES];
             break;
         }
+        case 25:{//评价推送(H5)
             
-        case 100:{//活动推送(H5)
+            MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+            mineChatVC.hidesBottomBarWhenPushed = YES;
+            mineChatVC.userId = [NSString stringWithFormat:@"%@",USER.login_id];
+            [self.navigationController pushViewController:mineChatVC animated:YES];
+            break;
+        }
+            
+        case 100:{
             
             break;
         }
     }
 
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);//沿x轴正轴旋转60度
+//    cell.transform = CGAffineTransformTranslate(cell.transform, -SCREEN_W/2, 0);
+    cell.alpha = 0.0;
+    
+    [UIView animateWithDuration:0.8 animations:^{
+        
+        cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);
+        
+        cell.alpha = 1.0;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 -(void)showANopartJobView

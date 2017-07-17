@@ -119,10 +119,12 @@
                                Success:(void (^)(id responseObject))success
                                failure:(void (^)(NSError *error))failure
 {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    !categoryId?:[params setObject:categoryId forKey:@"category_id"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"banners/v2"];
     
-    [[JGHTTPClient sharedManager] GET:Url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
             success(responseObject);
         }

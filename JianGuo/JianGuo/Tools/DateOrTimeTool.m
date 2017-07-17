@@ -121,9 +121,10 @@
 +(NSString *)getConstellation:(NSString *)dateStr
 {
     //dateStr–––>  2017-02-08
-    if (dateStr.length>=10) {
-        NSInteger month = [dateStr substringWithRange:NSMakeRange(5, 2)].integerValue;
-        NSInteger day = [dateStr substringWithRange:NSMakeRange(8, 2)].integerValue;
+    if (dateStr.length>=8) {
+        NSArray *arr = [dateStr componentsSeparatedByString:@"-"];
+        NSInteger month = [arr[1] integerValue];
+        NSInteger day = [arr.lastObject integerValue];
         return [self getConstellationWithMonth:month day:day];
     }else
         return nil;

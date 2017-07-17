@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TextChangedDelegate <NSObject>
+
+-(void)textChanged:(UITextField *)textField;
+
+@end
+
 @interface TextFieldCell : UITableViewCell
+
+
+@property (nonatomic,weak) id<TextChangedDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *lblText;
 @property (weak, nonatomic) IBOutlet UITextField *txfName;

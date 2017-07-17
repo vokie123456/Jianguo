@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class DemandDetailModel;
 @interface DDUserInfoCell : UITableViewCell
+@property (nonatomic,strong) DemandDetailModel *detailModel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *schoolL;

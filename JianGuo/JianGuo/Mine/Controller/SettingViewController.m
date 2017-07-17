@@ -9,13 +9,12 @@
 #import "SettingViewController.h"
 #import "MyTabBarController.h"
 #import "MineCell.h"
-#import "LoginViewController.h"
 #import "AboutUsViewController.h"
 #import "FindPassViewController.h"
 #import <AVOSCloudIM.h>
 #import "JPUSHService.h"
 #import "LoginNew2ViewController.h"
-#import "CodeLoginViewController.h"
+
 #import "LCChatKit.h"
 #import "JGHTTPClient.h"
 #import "ChatUser.h"
@@ -246,14 +245,6 @@
     [alertVC addAction:sureAC];
     [self presentViewController:alertVC animated:YES completion:nil];
     
-//    AVIMClient *client = [[JGIMClient shareJgIm] getAclient];
-//    [client closeWithCallback:^(BOOL succeeded, NSError *error) {
-//        
-//    }];
-//    [[JGIMClient shareJgIm] setNull];
-//
-//    [JGUser deleteuser];
-//    APPLICATION.keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
 }
 /**
  *  去登录

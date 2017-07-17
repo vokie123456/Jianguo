@@ -63,6 +63,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="likeL" destination="hJs-6o-wdv" id="Hct-h0-3Zs"/>
+                <outlet property="likeView" destination="Bon-NI-M2C" id="FPf-Tl-fwV"/>
                 <outlet property="scanL" destination="lbh-eR-JjT" id="rgO-NT-uVA"/>
             </connections>
         </tableViewCell>

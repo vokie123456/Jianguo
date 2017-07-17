@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "640x1136(1).png",
       "scale" : "1x"
     },
     {
@@ -11,7 +12,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "启动页1.png",
+      "filename" : "1242x2208（1）.png",
       "scale" : "3x"
     }
   ],

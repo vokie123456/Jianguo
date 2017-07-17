@@ -8,7 +8,6 @@
 
 #import "UIWindow+Extension.h"
 #import "MyTabBarController.h"
-#import "LoginViewController.h"
 #import "UserGuideViewController.h"
 #import "JGUser.h"
 
@@ -26,8 +25,6 @@
         JGUser *user = [JGUser user];
         if (!user.loginType) {//当没有登录过的时候才会显示登录页
             
-//            LoginViewController *loginVC = [[LoginViewController alloc] init];
-//            self.rootViewController = [[UINavigationController alloc] initWithRootViewController:loginVC];
             self.rootViewController = [[MyTabBarController alloc] init];
         }else{
             //登录过直接进入Tab页面

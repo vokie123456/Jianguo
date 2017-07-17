@@ -36,12 +36,12 @@
 #import "LabelModel.h"
 #import "WelfareModel.h"
 #import "DemandTypeModel.h"
-#import "JGLCCKInputPickImage.h"
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <BeeCloud.h>
 #import "QLHudView.h"
 #import "CoreLaunchCool.h"
+#import "JGLCCKInputPickImage.h"
 #define SV_APP_EXTENSIONS
 
 static NSString *BeeCloudAppID = @"3a9ecbbb-d431-4cd8-9af9-5e44ba504f9a";
@@ -205,7 +205,9 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     [JPUSHService handleRemoteNotification:userInfo];
     [JPUSHService setBadge:application.applicationIconBadgeNumber];
     
-    [NotificationCenter postNotificationName:kNotificationGetNewNotiNews object:nil];
+    if (![[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] containsString:@"您有新的消息"]) {
+        [NotificationCenter postNotificationName:kNotificationGetNewNotiNews object:nil];
+    }
     
     if(application.applicationState==UIApplicationStateActive)
         
@@ -420,8 +422,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     CGFloat right = 0; // 右端盖宽度
     UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"icon-navigationBar"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:NavigationBarTitleColor}];
+//    [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"icon-navigationBar"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:NavigationBarTitleColor}];
 
 }
 
@@ -640,6 +642,8 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         [NSKeyedArchiver archiveRootObject:[DemandTypeModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"d_type_list"]] toFile:JGDemandTypeArr];
         
         
+        
+        
         //保存限制条件数组
         [NSKeyedArchiver archiveRootObject:[LimitModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"limit_list"]] toFile:JGLimitArr];
         
@@ -667,12 +671,23 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     [JGHTTPClient checkVersionSuccess:^(id responseObject) {
         JGLog(@"–––––––––>>>>>>>>x%@",responseObject);
         if (responseObject) {
-            NSString *version = [responseObject[@"data"] objectForKey:@"ios_user_version"];
+            if ([responseObject[@"data"] isKindOfClass:[NSNull class]]) {
+                return ;
+            }
+            NSString *version = [responseObject[@"data"] objectForKey:@"version"];
             NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
             
             if ([version compare:bundleVersion options:NSNumericSearch] == NSOrderedDescending) {//升级了
                 UpdateView *updateView = [UpdateView aUpdateViewCancelBlock:^{
-                    exit(0);
+                    
+                    if ([[responseObject[@"data"] objectForKey:@"type"] integerValue] != 2) {//非强制升级,不做操作
+                        
+                    }else{//强制升级
+                        
+                        exit(0);
+                        
+                    }
+                    
                 } sureBlock:^{
                     
                     NSString * urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",@"1067634315"];//跳到appStore的详情区

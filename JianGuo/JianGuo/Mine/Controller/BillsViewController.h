@@ -7,8 +7,9 @@
 //
 
 #import "NavigatinViewController.h"
+#import "ZJScrollPageView.h"
 
-@interface BillsViewController : NavigatinViewController
+@interface BillsViewController : NavigatinViewController <ZJScrollPageViewChildVcDelegate>
 
 
 @property (nonatomic,copy) NSString *type;

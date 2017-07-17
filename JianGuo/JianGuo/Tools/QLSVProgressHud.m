@@ -7,13 +7,23 @@
 //
 
 #import "QLSVProgressHud.h"
+#import "UIImage+GIF.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 @implementation QLSVProgressHud
 
 +(void)showLoadingViewWithStatus:(NSString *)status
 {
+    
     [SVProgressHUD showWithStatus:status];
+    
+//    // 设置显示最小时间 以便观察效果
+//    [SVProgressHUD setMinimumDismissTimeInterval:MAXFLOAT];
+//    // 设置背景颜色为透明色
+//    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+//    
+//    // 利用SVP提供类方法设置 通过UIImage分类方法返回的动态UIImage对象
+//    [SVProgressHUD showImage:[UIImage imageWithGIFNamed:@"loading01"] status:status];
     
 }
 

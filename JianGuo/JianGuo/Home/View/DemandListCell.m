@@ -11,7 +11,6 @@
 #import "DemandModel.h"
 #import "DateOrTimeTool.h"
 #import "CommentModel.h"
-#import "CommentUser.h"
 #import "TTTAttributedLabel.h"
 #import "JGHTTPClient+Demand.h"
 #import "QLAlertView.h"
@@ -32,6 +31,7 @@
     __weak IBOutlet NSLayoutConstraint *collectionViewtrailingCons;
 }
 
+@property (weak, nonatomic) IBOutlet UILabel *enrollCountL;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UIImageView *genderView;
@@ -39,7 +39,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeL;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountL;
 @property (weak, nonatomic) IBOutlet UIButton *praiseBtn;
-@property (weak, nonatomic) IBOutlet UIButton *bigBtn;
+@property (weak, nonatomic) IBOutlet UIButton *followB;
 @property (weak, nonatomic) IBOutlet UIButton *signBtn;
 @property (weak, nonatomic) IBOutlet UILabel *praiseCountL;
 @property (weak, nonatomic) IBOutlet UIButton *typeBtn;
@@ -66,10 +66,22 @@
     _model = nil;
 }
 
++(instancetype)cellWithTableView:(UITableView *)tableView
+{
+    DemandListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle ]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+    }
+    return cell;
+}
+
 
 -(void)setModel:(DemandModel *)model
 {
     _model = model;
+
+    self.followB.hidden = _model.isFollow.boolValue;
+
     if (model.enroll_status.integerValue == 0&&model.d_status.integerValue==1) {
         [self.signBtn setTitle:@"报名" forState:UIControlStateNormal];
         [self.signBtn setBackgroundColor:GreenColor];
@@ -83,37 +95,45 @@
     }else{
         [self.praiseBtn setBackgroundImage:[UIImage imageNamed:@"fabulous"] forState:UIControlStateNormal];
     }
+    self.enrollCountL.text = [NSString stringWithFormat:@"已报名 %@ 人",_model.enrollCount];
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.nameL.text = model.anonymous.integerValue==1?@"匿名":(model.nickname.length?model.nickname:@"未填写");
+    self.nameL.text = model.nickname.length?model.nickname:@"未填写";
     self.genderView.image = [UIImage imageNamed:model.sex.integerValue==2?@"boy":@"girlsex"];
     self.titleL.text = model.title;
-    self.moneyL.text = [NSString stringWithFormat:@"%.2f元",model.money.floatValue];
+    if ([model.money containsString:@"."]) {
+        self.moneyL.text = [NSString stringWithFormat:@"%.2f元",model.money.floatValue];
+    }else{
+        self.moneyL.text = [NSString stringWithFormat:@"%@元",model.money];
+    }
     self.contentL.text = model.demandDesc;
     
-    NSArray *demandTypeArr= JGKeyedUnarchiver(JGDemandTypeArr);
-    NSMutableArray *arr = @[].mutableCopy;
-    for (DemandTypeModel *model in demandTypeArr) {
-        if (model.type_id.integerValue == 0) {
-            continue;
-        }
-        [arr addObject:model.type_name];
-    }
+//    NSArray *demandTypeArr= JGKeyedUnarchiver(JGDemandTypeArr);
+    NSMutableArray *arr = @[@"学习交流",@"跑腿代劳",@"技能服务",@"娱乐生活",@"情感地带",@"易货求购"].mutableCopy;
+//    for (DemandTypeModel *model in demandTypeArr) {
+//        if (model.type_id.integerValue == 0) {
+//            continue;
+//        }
+//        [arr addObject:model.type_name];
+//    }
     
-    [self.typeBtn setTitle:arr[model.type.integerValue-1] forState:UIControlStateNormal];
+    if (model.type.integerValue-1>=0) {
+        
+        [self.typeBtn setTitle:arr[model.type.integerValue-1] forState:UIControlStateNormal];
+        [self.typeBtn setBackgroundColor:colorArr[model.type.integerValue-1]];
+    }
 
-    [self.typeBtn setBackgroundColor:colorArr[model.type.integerValue-1]];
     self.schoolL.text = model.userSchoolName?model.userSchoolName:@"未填写";
     NSString *timeStr;
     NSTimeInterval timeNow = [[NSDate date] timeIntervalSince1970];
     NSInteger createTime = [[model.create_time substringToIndex:10] integerValue];
     if (timeNow-createTime<=60) {
-        timeStr = [NSString stringWithFormat:@"刚刚 | %@",model.schoolName];
+        timeStr = [NSString stringWithFormat:@"刚刚 | %@",model.schoolName.length?model.schoolName:model.cityName];
     }else if (timeNow-createTime<60*60){//一个小时以内
-        timeStr = [NSString stringWithFormat:@"%ld分钟前 | %@",(NSInteger)(timeNow-createTime)/60,model.schoolName];
+        timeStr = [NSString stringWithFormat:@"%ld分钟前 | %@",(NSInteger)(timeNow-createTime)/60,model.schoolName.length?model.schoolName:model.cityName];
     }else if (timeNow-createTime<24*3600){//24小时以内
-        timeStr = [NSString stringWithFormat:@"%ld小时前 | %@",(NSInteger)(timeNow-createTime)/3600,model.schoolName];
+        timeStr = [NSString stringWithFormat:@"%ld小时前 | %@",(NSInteger)(timeNow-createTime)/3600,model.schoolName.length?model.schoolName:model.cityName];
     }else{
-        timeStr = [NSString stringWithFormat:@"%@ | %@",[[DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue] substringToIndex:10],model.schoolName];
+        timeStr = [NSString stringWithFormat:@"%@ | %@",[[DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue] substringToIndex:10],model.schoolName.length?model.schoolName:model.cityName];
     }
     self.timeL.text = timeStr;
     self.commentCountL.text = [NSString stringWithFormat:@"%@",model.commentCount];
@@ -138,10 +158,10 @@
     self.collectionView.dataSource = self;
     collectionViewCons.constant = (SCREEN_W-25-5*2)/3;
     
-    
+
     [self.collectionView registerNib:[UINib nibWithNibName:@"MineIconCell" bundle:[NSBundle mainBundle]]forCellWithReuseIdentifier:@"MineIconCell"];
     
-    NSArray *array = @[@"#e29c45",@"#815463",@"#65318e",@"#f8b500",@"#b7282e",@"#006e54"];
+    NSArray *array = @[@"#feb369",@"#70a9fc",@"#8e96e9",@"#c9a269",@"#fa7070",@"#71c268"];
     colorArr = [NSMutableArray array];
     for (NSString *colorStr in array) {
         [colorArr addObject:[UIColor colorWithHexString:colorStr]];
@@ -159,7 +179,7 @@
     [likeBtn addTarget:self action:@selector(likeTheDemand:) forControlEvents:UIControlEventTouchUpInside];
     likeBtn.center = CGPointMake(self.praiseBtn.width/2, self.praiseBtn.height/2);
     [self.praiseBtn addSubview:likeBtn];
-    self.bigBtn=likeBtn;
+//    self.bigBtn=likeBtn;
     
 }
 
@@ -197,11 +217,13 @@
             return;
         }
     }
-    
-    [JGHTTPClient followUserWithUserId:_model.userId status:@"0" Success:^(id responseObject) {
+    //1==关注 , 0==取消
+    [JGHTTPClient followUserWithUserId:_model.userId status:@"1" Success:^(id responseObject) {
         
         if ([responseObject[@"code"] integerValue] == 200) {
-            [self showAlertViewWithText:@"" duration:1];
+            [self showAlertViewWithText:@"关注成功" duration:1];
+            [sender setHidden:YES];
+            _model.isFollow = @"";
         }
         
     } failure:^(NSError *error) {
@@ -213,7 +235,7 @@
 -(void)clickIcon//点击头像
 {
     if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
-        [self.delegate clickIcon:_model.b_user_id];
+        [self.delegate clickIcon:_model.userId];
     }
 }
 
@@ -284,7 +306,7 @@
 {
     static NSString *identifier = @"MineIconCell";
     MineIconCell *cell = (MineIconCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!200x200",_model.images[indexPath.item]]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!200x200",_model.images[indexPath.item]]] placeholderImage:[UIImage imageNamed:@"zwt"]];
     return cell;
 }
 

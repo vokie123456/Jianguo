@@ -120,6 +120,7 @@
     [dict setObject:USER.login_id?USER.login_id:@"0" forKey:@"user_id"];
     
     BCPayReq *payReq = [[BCPayReq alloc] init];
+    payReq.cardType = 1;
     payReq.channel = channel; //支付渠道
     payReq.title = @"兼果校园官方"; //订单标题
     NSInteger money = self.moneyTF.text.floatValue*100;

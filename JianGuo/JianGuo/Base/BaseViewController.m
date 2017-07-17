@@ -26,8 +26,8 @@
     [super viewDidLoad];
 
     
-    _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
-    [self.view addGestureRecognizer:_swipeGestureRecognizer];
+//    _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+//    [self.view addGestureRecognizer:_swipeGestureRecognizer];
     
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.view.backgroundColor = BACKCOLORGRAY;
@@ -124,7 +124,7 @@
  */
 -(void)gotoCodeVC
 {
-    LoginNew2ViewController *loginVC= [[LoginNew2ViewController alloc]init];
+    LoginNew2ViewController *loginVC = [[LoginNew2ViewController alloc]init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
     [self presentViewController:nav animated:YES completion:nil];
 }

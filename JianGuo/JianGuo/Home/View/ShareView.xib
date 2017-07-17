@@ -28,10 +28,11 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="QQ" translatesAutoresizingMaskIntoConstraints="NO" id="OSy-r5-hZu">
-                                    <rect key="frame" x="26" y="10" width="43" height="43"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QQ" translatesAutoresizingMaskIntoConstraints="NO" id="OSy-r5-hZu">
+                                    <rect key="frame" x="27" y="10" width="40" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="OSy-r5-hZu" secondAttribute="height" multiplier="1:1" id="1sA-r2-GZo"/>
+                                        <constraint firstAttribute="width" constant="40" id="lFK-Gu-bvc"/>
                                     </constraints>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eh-gx-iUl">
@@ -59,8 +60,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CL2-5R-wWy">
                             <rect key="frame" x="188" y="42" width="94" height="94"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Qzone" translatesAutoresizingMaskIntoConstraints="NO" id="YrK-Ej-8A8">
-                                    <rect key="frame" x="26" y="10" width="43" height="43"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Qzone" translatesAutoresizingMaskIntoConstraints="NO" id="YrK-Ej-8A8">
+                                    <rect key="frame" x="28" y="10" width="40" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="YrK-Ej-8A8" secondAttribute="height" multiplier="1:1" id="IOs-ZV-3NT"/>
                                     </constraints>
@@ -98,8 +99,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJQ-ds-jLv">
                             <rect key="frame" x="281" y="42" width="94" height="94"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fr" translatesAutoresizingMaskIntoConstraints="NO" id="6Ow-Ek-GMg">
-                                    <rect key="frame" x="26" y="10" width="43" height="43"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="fr" translatesAutoresizingMaskIntoConstraints="NO" id="6Ow-Ek-GMg">
+                                    <rect key="frame" x="28" y="10" width="40" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="6Ow-Ek-GMg" secondAttribute="height" multiplier="1:1" id="jyy-C2-CD9"/>
                                     </constraints>
@@ -145,7 +146,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNP-DH-n9h">
-                            <rect key="frame" x="132" y="77" width="27" height="8"/>
+                            <rect key="frame" x="0.0" y="-445" width="30" height="30"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jf7-hU-miE">
                             <rect key="frame" x="0.0" y="177" width="375" height="45"/>
@@ -163,8 +164,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xO6-3m-2WF">
                             <rect key="frame" x="94" y="42" width="94" height="94"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wechat" translatesAutoresizingMaskIntoConstraints="NO" id="i5h-Rx-D3t">
-                                    <rect key="frame" x="26" y="10" width="43" height="43"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wechat" translatesAutoresizingMaskIntoConstraints="NO" id="i5h-Rx-D3t">
+                                    <rect key="frame" x="28" y="10" width="40" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="i5h-Rx-D3t" secondAttribute="height" multiplier="1:1" id="TpZ-ll-sTm"/>
                                     </constraints>
@@ -210,25 +211,31 @@
                     </subviews>
                     <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstItem="6Ow-Ek-GMg" firstAttribute="height" secondItem="OSy-r5-hZu" secondAttribute="height" id="02Q-c5-pwe"/>
                         <constraint firstItem="CL2-5R-wWy" firstAttribute="height" secondItem="xO6-3m-2WF" secondAttribute="height" id="0g8-r8-Hsv"/>
                         <constraint firstItem="CL2-5R-wWy" firstAttribute="top" secondItem="dge-dJ-Ywu" secondAttribute="bottom" constant="5" id="32J-Kq-pvO"/>
+                        <constraint firstItem="YrK-Ej-8A8" firstAttribute="width" secondItem="OSy-r5-hZu" secondAttribute="width" id="3Fi-kP-6rx"/>
                         <constraint firstItem="SLE-Gf-gbb" firstAttribute="leading" secondItem="3yL-J3-JfT" secondAttribute="leading" id="66N-mh-hNn"/>
                         <constraint firstItem="xO6-3m-2WF" firstAttribute="leading" secondItem="QBx-tm-JWv" secondAttribute="trailing" id="6aS-qO-tjz"/>
                         <constraint firstItem="Jf7-hU-miE" firstAttribute="leading" secondItem="3yL-J3-JfT" secondAttribute="leading" id="8P2-kC-kja"/>
                         <constraint firstItem="CL2-5R-wWy" firstAttribute="width" secondItem="xO6-3m-2WF" secondAttribute="width" id="E5f-6h-i2U"/>
+                        <constraint firstItem="i5h-Rx-D3t" firstAttribute="height" secondItem="OSy-r5-hZu" secondAttribute="height" id="EKa-8R-TZd"/>
                         <constraint firstItem="xO6-3m-2WF" firstAttribute="top" secondItem="dge-dJ-Ywu" secondAttribute="bottom" constant="5" id="FsN-1y-cVV"/>
                         <constraint firstAttribute="trailing" secondItem="Jf7-hU-miE" secondAttribute="trailing" id="Ggt-uI-9w4"/>
                         <constraint firstItem="QBx-tm-JWv" firstAttribute="width" secondItem="3yL-J3-JfT" secondAttribute="width" multiplier="1:4" id="HyO-xB-nog"/>
                         <constraint firstItem="dge-dJ-Ywu" firstAttribute="leading" secondItem="3yL-J3-JfT" secondAttribute="leading" id="JI8-bq-ZMz"/>
                         <constraint firstItem="QBx-tm-JWv" firstAttribute="top" secondItem="dge-dJ-Ywu" secondAttribute="bottom" constant="5" id="KUj-KV-PPA"/>
+                        <constraint firstItem="YrK-Ej-8A8" firstAttribute="height" secondItem="OSy-r5-hZu" secondAttribute="height" id="ON8-2r-Cws"/>
                         <constraint firstItem="Jf7-hU-miE" firstAttribute="top" secondItem="SLE-Gf-gbb" secondAttribute="bottom" id="UcZ-SX-DBY"/>
                         <constraint firstItem="cJQ-ds-jLv" firstAttribute="width" secondItem="CL2-5R-wWy" secondAttribute="width" id="VfJ-QZ-mJq"/>
                         <constraint firstItem="cJQ-ds-jLv" firstAttribute="leading" secondItem="CL2-5R-wWy" secondAttribute="trailing" constant="-1" id="VgF-Hh-jKZ"/>
                         <constraint firstItem="CL2-5R-wWy" firstAttribute="leading" secondItem="xO6-3m-2WF" secondAttribute="trailing" id="Vwi-4M-ozy"/>
+                        <constraint firstItem="6Ow-Ek-GMg" firstAttribute="width" secondItem="OSy-r5-hZu" secondAttribute="width" id="WBZ-wD-1xq"/>
                         <constraint firstAttribute="bottom" secondItem="Jf7-hU-miE" secondAttribute="bottom" id="ZJF-OB-2bV"/>
                         <constraint firstItem="xO6-3m-2WF" firstAttribute="centerY" secondItem="QBx-tm-JWv" secondAttribute="centerY" id="hZP-QF-umq"/>
                         <constraint firstAttribute="trailing" secondItem="SLE-Gf-gbb" secondAttribute="trailing" id="ixr-3f-rIT"/>
                         <constraint firstItem="cJQ-ds-jLv" firstAttribute="top" secondItem="dge-dJ-Ywu" secondAttribute="bottom" constant="5" id="jXA-wB-Zqf"/>
+                        <constraint firstItem="i5h-Rx-D3t" firstAttribute="width" secondItem="OSy-r5-hZu" secondAttribute="width" id="t2H-YT-Ovk"/>
                         <constraint firstItem="QBx-tm-JWv" firstAttribute="leading" secondItem="3yL-J3-JfT" secondAttribute="leading" id="uaL-tJ-qvD"/>
                         <constraint firstItem="dge-dJ-Ywu" firstAttribute="top" secondItem="3yL-J3-JfT" secondAttribute="top" constant="16" id="uy2-qe-Ye7"/>
                         <constraint firstAttribute="trailing" secondItem="dge-dJ-Ywu" secondAttribute="trailing" id="zrB-Wl-ad3"/>
@@ -269,9 +276,9 @@
         </view>
     </objects>
     <resources>
-        <image name="QQ" width="43" height="43"/>
-        <image name="Qzone" width="43" height="43"/>
-        <image name="fr" width="43" height="43"/>
-        <image name="wechat" width="43" height="43"/>
+        <image name="QQ" width="29" height="29"/>
+        <image name="Qzone" width="29" height="29"/>
+        <image name="fr" width="29" height="29"/>
+        <image name="wechat" width="29" height="29"/>
     </resources>
 </document>

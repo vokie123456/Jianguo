@@ -11,7 +11,7 @@
 #import "GetCashViewController.h"
 #import "AddMoneyViewController.h"
 #import "BillsViewController.h"
-#import "RealNameViewController.h"
+#import "RealNameNewViewController.h"
 #import "JGHTTPClient+Mine.h"
 #import "QLAlertView.h"
 
@@ -58,8 +58,13 @@ static NSString *identifier = @"WalletCollectionCell";
         if ([responseObject[@"code"] intValue] == 200) {
             
             NSString *money = [responseObject[@"data"] objectForKey:@"money"];
-            self.sumMoney = money;
-            self.moneyL.text = [NSString stringWithFormat:@"¥ %.2f",money.floatValue];
+            self.sumMoney = [NSString stringWithFormat:@"%@",money];
+//            self.moneyL.text = [NSString stringWithFormat:@"¥ %.2f",money.floatValue];
+            if ([self.sumMoney containsString:@"."]) {
+                self.moneyL.text = [NSString stringWithFormat:@"¥ %.2f",self.sumMoney.floatValue];
+            }else{
+                self.moneyL.text = [NSString stringWithFormat:@"¥ %@",self.sumMoney];
+            }
             
         }
     } failure:^(NSError *error) {
@@ -118,7 +123,7 @@ static NSString *identifier = @"WalletCollectionCell";
 //                    message = @"您还没有实名认证,不能提现";
                     [QLAlertView showAlertTittle:@"是否去实名认证?" message:@"您还没有实名认证,不能提现" isOnlySureBtn:NO compeletBlock:^{
                         
-                        RealNameViewController *realNameVC = [[RealNameViewController alloc] init];
+                        RealNameNewViewController *realNameVC = [[RealNameNewViewController alloc] init];
                         realNameVC.hidesBottomBarWhenPushed = YES;
                         [self.navigationController pushViewController:realNameVC animated:YES];
                     }];

@@ -11,5 +11,6 @@
 @interface DDScanCountCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *likeL;
 @property (weak, nonatomic) IBOutlet UILabel *scanL;
+@property (weak, nonatomic) IBOutlet UIImageView *likeView;
 
 @end

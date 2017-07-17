@@ -27,22 +27,22 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="一起吃饭" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-C9-N1K">
-                        <rect key="frame" x="53" y="10" width="60" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一起吃饭" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-C9-N1K">
+                        <rect key="frame" x="75" y="10" width="153" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2月17  14:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3G-0a-eXZ">
-                        <rect key="frame" x="30" y="33" width="81" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2月17  14:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3G-0a-eXZ">
+                        <rect key="frame" x="75" y="33" width="148" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="+666.66" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-yI-Vxo">
-                        <rect key="frame" x="210" y="23" width="72" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="+666.66" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-yI-Vxo">
+                        <rect key="frame" x="233" y="22" width="72" height="21"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCT-EH-IXQ">
@@ -61,10 +61,12 @@
                     <constraint firstItem="MfT-yI-Vxo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OnP-oU-yvy"/>
                     <constraint firstItem="apQ-C9-N1K" firstAttribute="top" secondItem="Gxu-mp-T4E" secondAttribute="top" id="afC-lm-G8V"/>
                     <constraint firstItem="Gxu-mp-T4E" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cYg-Uj-tzh"/>
-                    <constraint firstAttribute="trailing" secondItem="MfT-yI-Vxo" secondAttribute="trailing" constant="5" id="dUH-EB-rcu"/>
+                    <constraint firstAttribute="trailing" secondItem="MfT-yI-Vxo" secondAttribute="trailing" constant="15" id="dUH-EB-rcu"/>
                     <constraint firstItem="r3G-0a-eXZ" firstAttribute="leading" secondItem="apQ-C9-N1K" secondAttribute="leading" id="fSb-gJ-Kff"/>
                     <constraint firstItem="DCT-EH-IXQ" firstAttribute="leading" secondItem="Gxu-mp-T4E" secondAttribute="leading" id="fji-Bt-qcV"/>
                     <constraint firstAttribute="trailing" secondItem="DCT-EH-IXQ" secondAttribute="trailing" id="p0r-gt-94m"/>
+                    <constraint firstItem="MfT-yI-Vxo" firstAttribute="leading" secondItem="r3G-0a-eXZ" secondAttribute="trailing" constant="10" id="sSy-zx-leR"/>
+                    <constraint firstItem="MfT-yI-Vxo" firstAttribute="leading" secondItem="apQ-C9-N1K" secondAttribute="trailing" constant="5" id="vwh-vv-v06"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -74,7 +76,7 @@
                 <outlet property="timeL" destination="r3G-0a-eXZ" id="AAf-sz-4vy"/>
                 <outlet property="titleL" destination="apQ-C9-N1K" id="fVT-H5-S58"/>
             </connections>
-            <point key="canvasLocation" x="563" y="431.75"/>
+            <point key="canvasLocation" x="563" y="431.5"/>
         </tableViewCell>
     </objects>
     <resources>

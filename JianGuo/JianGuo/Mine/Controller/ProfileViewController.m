@@ -17,6 +17,7 @@
 #import "JGHTTPClient+Mine.h"
 #import "CityModel.h"
 #import "QLTakePictures.h"
+#import "QLAlertView.h"
 #import "MineChatCell.h"
 #import <AMapLocationKit/AMapLocationKit.h>
 
@@ -90,6 +91,7 @@
     
     UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn_r setTitle:@"确定" forState:UIControlStateNormal];
+    [btn_r setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [btn_r addTarget:self action:@selector(next:) forControlEvents:UIControlEventTouchUpInside];
     btn_r.frame = CGRectMake(0, 0, 40, 30);
     
@@ -130,7 +132,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -272,11 +274,17 @@
     if (indexPath.section == 1 ) {
         
         if (indexPath.row == 1) {//性别
-            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
-                self.sexTF.text = title;
-                self.sex = [NSString stringWithFormat:@"%ld",index];
+            
+            [QLAlertView showAlertTittle:@"温馨提示!" message:@"性别填写后不能修改" isOnlySureBtn:YES compeletBlock:^{
+                
+                DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
+                    self.sexTF.text = title;
+                    self.sex = [NSString stringWithFormat:@"%ld",index];
+                }];
+                view.titleArr = @[@"女神",@"男神"];
             }];
-            view.titleArr = @[@"女神",@"男神"];
+        
+            
         }else if (indexPath.row == 2){//出生日期
             PickerView *pickerView = [PickerView aPickerView:^(NSString *inSchoolTime) {
                 self.birthDateTF.text = inSchoolTime;

@@ -14,8 +14,11 @@
 #import "CityModel.h"
 #import "JGHTTPClient+Mine.h"
 #import "SchoolModel.h"
+#import <AMapLocationKit/AMapLocationKit.h>
 
-@interface CitySchoolViewController ()<UITableViewDataSource,UITableViewDelegate,MJNIndexViewDataSource>
+
+
+@interface CitySchoolViewController ()<UITableViewDataSource,UITableViewDelegate,MJNIndexViewDataSource,AMapLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong)UITableView *schoolTableView;
@@ -25,10 +28,27 @@
 @property (strong, nonatomic) NSIndexPath *selectedBrandIndex;
 
 @property (nonatomic,copy) NSString *cityCode;
+@property (nonatomic,strong) AMapLocationManager *manager;
+
 
 @end
 
 @implementation CitySchoolViewController
+
+-(AMapLocationManager *)manager
+{
+    if (!_manager) {
+        _manager = [[AMapLocationManager alloc] init];
+        //设置精确度
+        [_manager setPausesLocationUpdatesAutomatically:YES];
+        _manager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        [_manager setAllowsBackgroundLocationUpdates:NO];
+        _manager.delegate = self;
+        [_manager setLocationTimeout:6];
+        [_manager setReGeocodeTimeout:3];
+    }
+    return _manager;
+}
 
 -(NSMutableArray *)cityArr
 {
@@ -153,9 +173,13 @@
             locationL.font = [UIFont boldSystemFontOfSize:16];
             locationL.layer.cornerRadius = 5;
             locationL.layer.borderWidth = 1.5;
+            locationL.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(location)];
+            [locationL addGestureRecognizer:tap];
             
             locationL.layer.borderColor = GreenColor.CGColor;
-            locationL.text = [USERDEFAULTS objectForKey:CityName];
+            NSString *city = [USERDEFAULTS objectForKey:CityName];
+            locationL.text = city.length?city:@"定位";
             [cell.contentView addSubview:locationL];
             return cell;
             
@@ -238,5 +262,31 @@
 }
 
 
+//定位
+-(void)location
+{
+    JGSVPROGRESSLOAD(@"正在定位...");
+    [self.manager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        [SVProgressHUD dismiss];
+        
+        if (regeocode) {
+            
+            [USERDEFAULTS setObject:regeocode.citycode forKey:CityCode];
+            
+            NSString *cityName = regeocode.city?regeocode.city:regeocode.province;
+            
+            [USERDEFAULTS setObject:cityName forKey:CityName];
+            
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            
+        }else{
+            if ([[USERDEFAULTS objectForKey:CityCode] integerValue]==0) {
+                [self location];//定位失败重新定位
+            }
+        }
+        
+    }];
+}
 
 @end

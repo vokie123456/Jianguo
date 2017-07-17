@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DetailModel,JianzhiModel,DemandModel,DiscoveryModel;
+@class DetailModel,JianzhiModel,DemandDetailModel,DiscoveryModel;
 @interface ShareView : UIView
 
 +(instancetype)aShareView;
@@ -19,7 +19,7 @@
 @property (nonatomic,strong) DiscoveryModel *discoverModel;
 @property (nonatomic,strong) DetailModel *model;
 @property (nonatomic,strong) JianzhiModel *jzModel;
-@property (nonatomic,strong) DemandModel *demandModel;
+@property (nonatomic,strong) DemandDetailModel *demandModel;
 @property (nonatomic,copy) NSString *money;
 
 @property (nonatomic,copy) NSString *time;

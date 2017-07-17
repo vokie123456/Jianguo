@@ -7,22 +7,33 @@
 //
 
 #import "MyPostDetailViewController.h"
-#import "DemandDetailController.h"
+#import "DemandDetailNewViewController.h"
 #import "MineChatViewController.h"
 #import "SignDemandViewController.h"
+#import "TextReasonViewController.h"
+
 #import "DemandDetailCell.h"
 #import "MySignDemandCell.h"
-#import "JGHTTPClient+Demand.h"
-#import "DemandModel.h"
-#import "SignUsers.h"
-#import "DemandProgressCell.h"
-#import "JGHTTPClient+Money.h"
 #import "MineHeaderCell.h"
 #import "DemandStatusCell.h"
+#import "DemandProgressCell.h"
+#import "BillCell.h"
+
+#import "JGHTTPClient+Demand.h"
+#import "JGHTTPClient+DemandOperation.h"
+#import "MyPostDemandDetailModel.h"
+#import "DemandStatusLogModel.h"
+#import "SignUsers.h"
+#import "JGHTTPClient+Money.h"
 #import <UIButton+AFNetworking.h>
 #import "QLAlertView.h"
+#import "QLHudView.h"
 #import "LCChatKit.h"
-#import "DemandStatusModel.h"
+#import "UIImageView+WebCache.h"
+#import <POPSpringAnimation.h>
+
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
 
 
 @interface MyPostDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ClickPersonDelegate>
@@ -33,7 +44,7 @@
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
-@property (nonatomic,strong) DemandModel *demandModel;
+@property (nonatomic,strong) MyPostDemandDetailModel *demandModel;
 @property (nonatomic,strong) SignUsers *user;
 @property (nonatomic,copy) NSString *payType;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
@@ -51,73 +62,55 @@
     
     self.navigationItem.title = @"任务详情";
     
-    if (self.status.integerValue>1) {
-        UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn_r setBackgroundImage:[UIImage imageNamed:@"call"] forState:UIControlStateNormal];
-        [btn_r addTarget:self action:@selector(callSomeOne) forControlEvents:UIControlEventTouchUpInside];
-        btn_r.frame = CGRectMake(0, 0, 20, 20);
-        
-        self.telBtn = btn_r;
-        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
- 
-        
-        UIButton * btn_r2 = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn_r2 setBackgroundImage:[UIImage imageNamed:@"xiaoxi"] forState:UIControlStateNormal];
-        [btn_r2 addTarget:self action:@selector(chat) forControlEvents:UIControlEventTouchUpInside];
-        btn_r2.frame = CGRectMake(0, 0, 20, 20);
-        self.chatBtn = btn_r2;
-        
-        UIBarButtonItem *rightBtn2 = [[UIBarButtonItem alloc] initWithCustomView:btn_r2];
-        
-        self.navigationItem.rightBarButtonItems = @[rightBtn2,rightBtn];
-        
-    }
     
     self.tableView.estimatedRowHeight = 80;
+    
     [self requestDemandDetail];
     
-    if ([self.statusStr isEqualToString:@"报名中"]) {
-        [self.bottomBtn setTitle:@"下架此任务" forState:UIControlStateNormal];
-    }else if ([self.statusStr isEqualToString:@"待确认完工"]){
-        [self.bottomBtn setTitle:@"确认完工" forState:UIControlStateNormal];
-    }else{
-        bottomCons.constant = -40;
-        self.bottomBtn.hidden = YES;
-    }
+//    if ([self.statusStr isEqualToString:@"报名中"]) {
+//        [self.bottomBtn setTitle:@"下架此任务" forState:UIControlStateNormal];
+//    }else if ([self.statusStr isEqualToString:@"待确认完工"]){
+//        [self.bottomBtn setTitle:@"确认完工" forState:UIControlStateNormal];
+//    }else{
+//        bottomCons.constant = -40;
+//        self.bottomBtn.hidden = YES;
+//    }
+    bottomCons.constant = -40;
+    self.bottomBtn.hidden = YES;
     
 }
 
 /**
  *  电话联系
  */
--(void)callSomeOne
-{
-    if (self.user.b_user_id.integerValue ==0) {
-        [self showAlertViewWithText:@"还没有人报名呢" duration:1];
-        return;
-    }
-    [QLAlertView showAlertTittle:@"确认呼叫服务人员?" message:nil isOnlySureBtn:NO compeletBlock:^{
-        [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.user.tel]]];
-    }];
-}
-/**
- *  聊天
- */
--(void)chat
-{
-    if (self.user.b_user_id.integerValue ==0) {
-    [self showAlertViewWithText:@"还没有人报名呢" duration:1];
-    return;
-    }
-    if (self.user.b_user_id.integerValue == USER.login_id.integerValue) {
-        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
-        return ;
-    }
-    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.user.b_user_id]];
-    
-    [self.navigationController pushViewController:conversationViewController animated:YES];
-    
-}
+//-(void)callSomeOne
+//{
+//    if (self.user.b_user_id.integerValue ==0) {
+//        [self showAlertViewWithText:@"还没有人报名呢" duration:1];
+//        return;
+//    }
+//    [QLAlertView showAlertTittle:@"确认呼叫服务人员?" message:nil isOnlySureBtn:NO compeletBlock:^{
+//        [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.user.tel]]];
+//    }];
+//}
+///**
+// *  聊天
+// */
+//-(void)chat
+//{
+//    if (self.user.b_user_id.integerValue ==0) {
+//    [self showAlertViewWithText:@"还没有人报名呢" duration:1];
+//    return;
+//    }
+//    if (self.user.b_user_id.integerValue == USER.login_id.integerValue) {
+//        [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+//        return ;
+//    }
+//    LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.user.b_user_id]];
+//    
+//    [self.navigationController pushViewController:conversationViewController animated:YES];
+//    
+//}
 /**
  *  去个人页面
  *
@@ -136,97 +129,30 @@
 
 }
 
-//先自己创建一个数组<为了后期从服务器请求时改动小点儿>
--(void)createModelArr
-{
-    NSInteger status = self.demandModel.d_status.integerValue;
-    if (status == 1) {
-        DemandStatusModel *model = [[DemandStatusModel alloc] init];
-        model.content = [NSString stringWithFormat:@"发布成功"];
-        [self.dataArr addObject:model];
-    }else if (status == 2){
-        NSArray *array = @[[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
-        for (int i=0; i<status; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 3){
-        NSArray *array = @[[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
-        for (int i=0; i<status; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 4){
-        NSArray *array = @[@"您已完成支付,交易已完成",[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
-        for (int i=0; i<status; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 5){
-        NSArray *array = @[[NSString stringWithFormat:@"您投诉了 %@ ,等待平台仲裁",self.user.nickname],[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
-        for (int i=0; i<status-1; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 6){
-        NSArray *array = @[[NSString stringWithFormat:@"平台已仲裁"],[NSString stringWithFormat:@"您投诉了 %@ ,等待平台仲裁",self.user.nickname],[NSString stringWithFormat:@"%@ 完成工作,等待您确认完工",self.user.nickname],[NSString stringWithFormat:@"你录用了 %@ ",self.user.nickname],@"发布成功"];
-        for (int i=0; i<status-1; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 7){
-        NSArray *array = @[@"该需求已下架",@"发布成功"];
-        for (int i=0; i<2; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }else if (status == 8){
-        NSArray *array = @[@"该需求被平台下架",@"发布成功"];
-        for (int i=0; i<2; i++) {
-            
-            DemandStatusModel *model = [[DemandStatusModel alloc] init];
-            model.content = array[i];
-            [self.dataArr addObject:model];
-        }
-    }
-}
-
 -(void)requestDemandDetail
 {
+    JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getProgressDetailsWithDemandId:self.demandId userId:USER.login_id type:@"0" Success:^(id responseObject) {
+    [JGHTTPClient getMyPostDemandDetailWithDemandId:self.demandId Success:^(id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
             
-            self.demandModel = [DemandModel mj_objectWithKeyValues:responseObject[@"data"]];
-            self.user = [SignUsers mj_objectWithKeyValues:[responseObject[@"data"] objectForKey:@"userInfoEntity"]];
+            [SVProgressHUD dismiss];
+            
+            self.demandModel = [MyPostDemandDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
+            
             if (self.user.b_user_id.integerValue == 0) {
                 self.telBtn.hidden  = YES;
                 self.chatBtn.hidden = YES;
             }
             
-            [self createModelArr];
             
             [self.tableView reloadData];
-//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
             
         }else{
             [self showAlertViewWithText:responseObject[@"message"] duration:1];
         }
     } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
 }
@@ -237,25 +163,35 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (self.demandModel.enrollUid.integerValue==0) {
+        if (section==1) {
+            return 0.1;
+        }else
+            return 15;
+    }
     return 15;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0||indexPath.section == 2) {
-        return 44;
+    if (indexPath.section == 0) {
+        
+        if (indexPath.row == 1) {
+            return 65;
+        }else
+            return 44;
+        
     }else if (indexPath.section == 1){
-        return 70;
+        
+        if (indexPath.row == 0) {
+            return 44;
+        }else
+            return 70;
+        
     }else if (indexPath.section == 3){
-        if (self.status.integerValue>1&&self.user.b_user_id) {
-            if (indexPath.row == 0) {
-                return 44;
-            }else{
-                return 70;
-            }
-        }else{
-            return UITableViewAutomaticDimension;
-        }
+        
+            return 100;
+        
     }else {
         return UITableViewAutomaticDimension;
     }
@@ -263,31 +199,42 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.status.integerValue>1? (self.user.b_user_id?5:4):4;
+//    if (self.demandModel.status.integerValue>1) {
+//        return 3;
+//    }
+    if (self.type.integerValue==5) {
+        return 3;
+    }
+//    if (self.demandModel.enrollUid.integerValue == 0) {
+//        return 3;
+//    }
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section){
         case 0:
+            
+            if (self.demandModel.limitTimeStr.length>4) {
+                return 4;
+            }
+            return 3;
+
         case 1:
+            
+            if (self.demandModel.enrollUid.integerValue==0) {
+                return 0;
+            }
+            return 2;
+            
         case 2:
             
-            return 1;
+            return self.demandModel.logs.count;//进度显示
             
-
         case 3:
             
-            if (self.status.integerValue>1&&self.user.b_user_id) {
-                return 2;
-            }else{
-                return self.dataArr.count;//进度显示
-            }
-            
-
-        case 4:
-            
-            return self.dataArr.count;//进度显示
+            return 1;
             
         default:
         return 0;
@@ -300,75 +247,109 @@
     
     if (indexPath.section == 0) {
         
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-        cell.textLabel.text = [NSString stringWithFormat:@"订单号: %@",self.demandModel.id];
-        cell.textLabel.font = FONT(14);
-        cell.detailTextLabel.font = FONT(16);
-        cell.detailTextLabel.textColor = [UIColor redColor];
-        cell.detailTextLabel.text = self.statusStr;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            cell.textLabel.text = [NSString stringWithFormat:@"订单号: %@",self.demandModel.demandId];
+            cell.textLabel.font = FONT(14);
+            cell.detailTextLabel.font = FONT(16);
+            cell.detailTextLabel.textColor = [UIColor redColor];
+            cell.detailTextLabel.text = self.statusStr;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, cell.contentView.bottom-1, SCREEN_W-15, 1)];
+            line.backgroundColor = BACKCOLORGRAY;
+            [cell.contentView addSubview:line];
+            
+            return cell;
+        }else if (indexPath.row == 1){
+            BillCell *cell = [BillCell cellWithTableView:tableView];
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",self.demandModel.publishHeadImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            cell.leftConst.constant = 15;
+            cell.titleL.text = self.demandModel.title;
+            cell.timeL.text = self.demandModel.demandDesc;
+            if ([self.demandModel.money containsString:@"."]) {
+                cell.moneyL.text = [NSString stringWithFormat:@"￥ %.2f",self.demandModel.money.floatValue];
+            }else{
+                cell.moneyL.text = [@"￥ " stringByAppendingString:self.demandModel?self.demandModel.money:@"  "];
+            }
+            cell.moneyL.textColor = [UIColor orangeColor];
+            
+            return cell;
+        }else if (indexPath.row == 2){
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            cell.textLabel.text = [NSString stringWithFormat:@"已报名 %@人",self.demandModel.enrollCount];
+            cell.textLabel.font = FONT(14);
+            cell.detailTextLabel.font = FONT(16);
+            cell.detailTextLabel.textColor = [UIColor orangeColor];
+            cell.detailTextLabel.text = @"查看报名";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, cell.contentView.bottom-1, SCREEN_W-15, 1)];
+            line.backgroundColor = BACKCOLORGRAY;
+            [cell.contentView addSubview:line];
+            
+            return cell;
+        }else if (indexPath.row == 3){
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            cell.textLabel.text = @"任务时限";
+            cell.textLabel.font = FONT(14);
+            cell.detailTextLabel.font = FONT(16);
+            cell.detailTextLabel.textColor = [UIColor redColor];
+            cell.detailTextLabel.text = self.demandModel.limitTimeStr;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }else
+            return nil;
         
     }else if (indexPath.section == 1){
         
-        MySignDemandCell *cell = [MySignDemandCell cellWithTableView:tableView];
-        cell.model = self.demandModel;
-        return cell;
-        
-    }else if (indexPath.section == 2){
-        
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-        cell.textLabel.text = [NSString stringWithFormat:@"查看报名情况"];
-        cell.textLabel.font = FONT(15);
-        if (self.demandModel) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ 人",self.demandModel.enroll_count];
+        if (self.demandModel.status.integerValue<2) {
+            return nil;
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
         
-    }else if (indexPath.section == 3){
-        
-        if(self.status.integerValue>1&&self.user.b_user_id){
-            if (indexPath.row == 0) {
-                UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-                
-                cell.textLabel.text = [NSString stringWithFormat:@"服务者信息"];
-                cell.textLabel.textColor = RGBCOLOR(102, 102, 102);
-                cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, cell.contentView.height-1, SCREEN_W-15, 1)];
-                line.backgroundColor = BACKCOLORGRAY;
-                [cell.contentView addSubview:line];
-                
-                return cell;
-            }else{
-                MineHeaderCell *cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MineHeaderCell class]) owner:nil options:nil] lastObject];
-                cell.iconBtn.layer.cornerRadius = 20;
-                if (self.user) {
-                    cell.model = self.user;
-                    cell.delegate = self;
-                }
-                return cell;
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"服务者信息"];
+            cell.textLabel.textColor = RGBCOLOR(102, 102, 102);
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, cell.contentView.height-1, SCREEN_W-15, 1)];
+            line.backgroundColor = BACKCOLORGRAY;
+            [cell.contentView addSubview:line];
+            
+            return cell;
+        }else{
+            MineHeaderCell *cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MineHeaderCell class]) owner:nil options:nil] lastObject];
+            cell.iconBtn.layer.cornerRadius = 20;
+            cell.delegate = self;
+            if (self.demandModel) {
+                [cell.iconBtn setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",self.demandModel.enrollHeadImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+                cell.nameL.text = self.demandModel.enrollNickname.length?self.demandModel.enrollNickname:@"未填写";
+                cell.schoolL.text = self.demandModel.enrollSchoolName.length?self.demandModel.enrollSchoolName:@"未填写";
+                cell.genderView.image = [UIImage imageNamed:self.demandModel.enrollSex.integerValue == 2?@"boy":@"girlsex"];
             }
-        }else{//没有录取用户的时候
-            DemandStatusCell *cell = [DemandStatusCell cellWithTableView:tableView];
-            if (indexPath.row == 0) {
-                cell.topView.hidden = YES;
-                cell.contentL.textColor = GreenColor;
-                cell.timeL.textColor = GreenColor;
-                cell.iconView.image = [UIImage imageNamed:@"lastStatus"];
-            }else if (indexPath.row == self.dataArr.count-1){
-                cell.bottomView.hidden = YES;
-            }
-            cell.model = self.dataArr[indexPath.row];
             return cell;
         }
         
-    }else if (indexPath.section == 4){
+    }else if (indexPath.section == 2){
+        
         DemandStatusCell *cell = [DemandStatusCell cellWithTableView:tableView];
         if (indexPath.row == 0) {
+            POPSpringAnimation *ani = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+            ani.springSpeed = 20.f;
+            ani.velocity = @1200;
+            ani.springBounciness = 20;
+            [cell.layer pop_addAnimation:ani forKey:nil];
+//            [ani setCompletionBlock:^(POPAnimation *animation, BOOL finish) {
+//                if (finish) {
+//                    [cell.layer pop_removeAllAnimations];
+//
+//                }
+//            }];
             cell.topView.hidden = YES;
             cell.contentL.textColor = GreenColor;
             cell.timeL.textColor = GreenColor;
@@ -376,8 +357,98 @@
         }else if (indexPath.row == self.dataArr.count-1){
             cell.bottomView.hidden = YES;
         }
-        cell.model = self.dataArr[indexPath.row];
+        cell.model = self.demandModel.logs[indexPath.row];
         return cell;
+        
+    }else if (indexPath.section == 3){
+        
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.contentView.backgroundColor = BACKCOLORGRAY;
+        
+        
+        if (self.demandModel.status.integerValue == 1) {
+            
+            UIButton *centerB = [UIButton buttonWithType:UIButtonTypeCustom];
+            
+            centerB.layer.cornerRadius = 5;
+            centerB.backgroundColor = GreenColor;
+            centerB.frame = CGRectMake(20, 10, SCREEN_W-40, 40);
+            [centerB addTarget:self action:@selector(clickCenterB:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:centerB];
+            [centerB setTitle:@"下架任务" forState:UIControlStateNormal];
+        }else if (self.demandModel.status.integerValue == 2){
+            UIButton *centerB = [UIButton buttonWithType:UIButtonTypeCustom];
+            
+            centerB.layer.cornerRadius = 5;
+            centerB.backgroundColor = GreenColor;
+            centerB.frame = CGRectMake(20, 10, SCREEN_W-40, 40);
+            [centerB addTarget:self action:@selector(clickCenterB:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:centerB];
+            [centerB setTitle:@"催TA干活" forState:UIControlStateNormal];
+        }else if (self.demandModel.status.integerValue == 3) {//只有 3 的时候才会显示两个按钮
+                
+                if (self.demandModel.completeStatus.integerValue == 2) {
+                    UIButton *leftB = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [leftB setTitle:@"拒绝支付" forState:UIControlStateNormal];
+                    leftB.layer.cornerRadius = 5;
+                    leftB.backgroundColor = GreenColor;
+                    leftB.frame = CGRectMake(20, 10, (SCREEN_W-60)/2, 40);
+                    [leftB addTarget:self action:@selector(clickLeftB:) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.contentView addSubview:leftB];
+                    
+                    
+                    UIButton *rightB = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [rightB setTitle:@"确认完工" forState:UIControlStateNormal];
+                    rightB.layer.cornerRadius = 5;
+                    rightB.backgroundColor = GreenColor;
+                    rightB.frame = CGRectMake(leftB.right+20, 10, (SCREEN_W-60)/2, 40);
+                    [rightB addTarget:self action:@selector(clickRightB:) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.contentView addSubview:rightB];
+
+                
+            }else{
+                UIButton *centerB = [UIButton buttonWithType:UIButtonTypeCustom];
+                
+                [centerB setTitle:@"确认完工" forState:UIControlStateNormal];
+                centerB.layer.cornerRadius = 5;
+                centerB.backgroundColor = GreenColor;
+                centerB.frame = CGRectMake(20, 10, SCREEN_W-40, 40);
+                [centerB addTarget:self action:@selector(clickCenterB:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.contentView addSubview:centerB];
+            }
+        }else if (self.demandModel.status.integerValue == 4){
+            
+            UIButton *centerB = [UIButton buttonWithType:UIButtonTypeCustom];
+            
+            centerB.layer.cornerRadius = 5;
+            centerB.backgroundColor = GreenColor;
+            centerB.frame = CGRectMake(20, 10, SCREEN_W-40, 40);
+            [centerB addTarget:self action:@selector(clickCenterB:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:centerB];
+            [centerB setTitle:@"去评价" forState:UIControlStateNormal];
+            
+            if (self.demandModel.evaluateStatus.integerValue == 1) {
+                centerB.hidden = YES;
+            }else{
+                centerB.hidden = NO;
+            }
+            
+        }else{
+            
+            UIButton *centerB = [UIButton buttonWithType:UIButtonTypeCustom];
+            
+            centerB.layer.cornerRadius = 5;
+            centerB.backgroundColor = GreenColor;
+            centerB.frame = CGRectMake(20, 10, SCREEN_W-40, 40);
+            [centerB addTarget:self action:@selector(clickCenterB:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:centerB];
+            centerB.hidden = YES;
+        }
+        
+        
+        return cell;
+        
     }else
         return nil;
     
@@ -385,68 +456,174 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
-        DemandDetailController *detailVC = [[DemandDetailController alloc] init];
-        detailVC.hidesBottomBarWhenPushed = YES;
-        detailVC.isSelf = YES;
-        detailVC.demandId = self.demandId;
-        [self.navigationController pushViewController:detailVC animated:YES];
-    }else if (indexPath.section == 2){//查看报名情况
-        SignDemandViewController *usersVC = [[SignDemandViewController alloc] init];
-        usersVC.demandId = self.demandId;
-        usersVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:usersVC animated:YES];
-    }else if (indexPath.row == 1&&indexPath.section == 3){
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0){
+        
+        if (indexPath.row == 2) {
+            SignDemandViewController *usersVC = [[SignDemandViewController alloc] init];
+            usersVC.demandId = self.demandId;
+            usersVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:usersVC animated:YES];
+        }else if (indexPath.row == 1){
+            DemandDetailNewViewController *detailVC = [[DemandDetailNewViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+
+            detailVC.demandId = self.demandId;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        
+    }else if (indexPath.section == 1) {
         
         MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-        mineChatVC.userId = self.user.b_user_id;
+        mineChatVC.userId = self.demandModel.enrollUid;
         [self.navigationController pushViewController:mineChatVC animated:YES];
+        
     }
 }
 
-- (IBAction)pay:(UIButton *)sender {
-    
-    if ([sender.currentTitle containsString:@"完工"]) {//确认完工
-        
-        [QLAlertView showAlertTittle:@"确认完成后，平台将会把款项支付给服务者" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者确认完成
-            JGSVPROGRESSLOAD(@"正在请求");
-            [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"4" Success:^(id responseObject) {
-                [SVProgressHUD dismiss];
-                [self showAlertViewWithText:responseObject[@"message"] duration:1];
-                if ([responseObject[@"code"] integerValue] == 200) {
-                    [sender setTitle:@"已经完成" forState:UIControlStateNormal];
-                    [sender setBackgroundColor:LIGHTGRAY1];
-                    sender.userInteractionEnabled = NO;
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            } failure:^(NSError *error) {
-                [SVProgressHUD dismiss];
-                [self showAlertViewWithText:NETERROETEXT duration:1];
-            }];
-        }];
-        
-    }else if ([sender.currentTitle containsString:@"下架"]){
-        
-        [QLAlertView showAlertTittle:@"下架后，所有的报名者将自动拒绝，确定要下架吗?" message:nil isOnlySureBtn:NO compeletBlock:^{//发布者下架需求
-            JGSVPROGRESSLOAD(@"正在请求");
-            [JGHTTPClient updateDemandStatusWithDemandId:self.demandId status:@"7" Success:^(id responseObject) {
-                [SVProgressHUD dismiss];
-                [self showAlertViewWithText:responseObject[@"message"] duration:1];
-                if ([responseObject[@"code"] integerValue] == 200) {
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            } failure:^(NSError *error) {
-                [SVProgressHUD dismiss];
-                [self showAlertViewWithText:NETERROETEXT duration:1];
-            }];
-        }];
-        
-    }else if ([sender.currentTitle containsString:@"联系客服"]){
-        [QLAlertView showAlertTittle:@"确认呼叫服务人员?" message:nil isOnlySureBtn:NO compeletBlock:^{
-            [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:@"010-53350021"]]];
-        }];
+-(void)callSomeOne
+{
+    if (self.demandModel.enrollTel.length == 0) {
+        [QLHudView showAlertViewWithText:@"电话是空号" duration:1];
+        return;
     }
+    [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.demandModel.enrollTel]]];
+}
+
+-(void)chatSomeOne
+{
     
+    if (self.demandModel.enrollUid.integerValue == USER.login_id.integerValue) {
+            [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+            return ;
+        }
+        LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:self.demandModel.enrollUid]];
+    
+        [self.navigationController pushViewController:conversationViewController animated:YES];
+    
+}
+
+-(void)clickLeftB:(UIButton *)sender
+{//拒绝支付
+    
+    TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
+    reasonVC.transitioningDelegate = self;
+    reasonVC.demandId = self.demandId;
+    reasonVC.userId = self.demandModel.enrollUid;
+    reasonVC.modalPresentationStyle = UIModalPresentationCustom;
+    reasonVC.functionType = ControllerFunctionTypeRefusePay;
+    IMP_BLOCK_SELF(MyPostDetailViewController);
+    reasonVC.callBackBlock = ^(){
+        
+        [block_self changedStautsCallBack];
+        
+    };
+    [self presentViewController:reasonVC animated:YES completion:nil];
+    
+}
+
+-(void)clickRightB:(UIButton *)sender
+{//确认完工
+    
+    sender.userInteractionEnabled = NO;
+    [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+        
+        sender.userInteractionEnabled = YES;
+        [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+        [self changedStautsCallBack];
+        
+    } failure:^(NSError *error) {
+        
+        sender.userInteractionEnabled = YES;
+    }];
+    
+}
+
+-(void)clickCenterB:(UIButton *)sender
+{
+    sender.userInteractionEnabled = NO;
+    if ([sender.currentTitle containsString:@"下架"]) {
+        [JGHTTPClient offDemandWithDemandId:self.demandId reason:nil money:nil Success:^(id responseObject) {
+            
+            sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+            [self changedStautsCallBack];
+            
+        } failure:^(NSError *error) {
+            sender.userInteractionEnabled = YES;
+            
+        }];
+    }else if ([sender.currentTitle containsString:@"催TA干活"]){
+        [JGHTTPClient remindUserWithDemandId:self.demandId Success:^(id responseObject) {
+            
+            sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+            
+            [self changedStautsCallBack];
+            
+        } failure:^(NSError *error) {
+            
+            sender.userInteractionEnabled = YES;
+        }];
+    }else if ([sender.currentTitle containsString:@"确认完工"]){
+        
+        [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+            
+            sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+            [self changedStautsCallBack];
+            
+        } failure:^(NSError *error) {
+            sender.userInteractionEnabled = YES;
+            
+        }];
+        
+    }else if ([sender.currentTitle containsString:@"评价"]){//去评价
+        
+        TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
+        reasonVC.transitioningDelegate = self;
+        reasonVC.demandId = self.demandId;
+        reasonVC.userId = self.demandModel.enrollUid;
+        reasonVC.modalPresentationStyle = UIModalPresentationCustom;
+        reasonVC.functionType = ControllerFunctionTypePublisherEvualuate;
+        IMP_BLOCK_SELF(MyPostDetailViewController);
+        reasonVC.callBackBlock = ^(){
+            
+            [block_self changedStautsCallBack];
+            
+        };
+        [self presentViewController:reasonVC animated:YES completion:nil];
+        
+        
+    }
+}
+
+-(void)changedStautsCallBack
+{
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        if (self.changeStatusBlock) {
+            self.changeStatusBlock();
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    });
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return [PresentingAnimator new];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
 }
 
 

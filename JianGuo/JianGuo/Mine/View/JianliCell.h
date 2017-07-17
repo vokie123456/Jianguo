@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CheckBox.h"
+
 
 @protocol TextChangedDelegate <NSObject>
 
@@ -38,8 +38,5 @@
 
 @property (nonatomic,strong) UITextField *rightTf;
 
-@property (nonatomic,strong) CheckBox *selectYes;
-
-@property (nonatomic,strong) CheckBox *selectNo;
 
 @end

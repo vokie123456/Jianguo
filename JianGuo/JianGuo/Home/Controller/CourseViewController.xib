@@ -77,6 +77,6 @@
     </objects>
     <resources>
         <image name="garden" width="29" height="29"/>
-        <image name="jgxt" width="260" height="260"/>
+        <image name="jgxt" width="258" height="258"/>
     </resources>
 </document>

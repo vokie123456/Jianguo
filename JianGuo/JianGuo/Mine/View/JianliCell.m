@@ -56,23 +56,23 @@
     [self.contentView addSubview:jiantouView];
     self.jiantouView = jiantouView;
     
-    CheckBox *boxYes = [CheckBox aCheckBox];
-    boxYes.frame = CGRectMake(labelL.right, 0, 100, 44);
-    boxYes.hidden = YES;
-    boxYes.labeYysOrNo.text = @"是";
-    boxYes.Btn.tag = 1000;
-    [boxYes.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:boxYes];
-    self.selectYes = boxYes;
-    
-    CheckBox *boxNo = [CheckBox aCheckBox];
-    boxNo.frame = CGRectMake(boxYes.right, 0, 100, 44);
-    boxNo.hidden = YES;
-    boxNo.labeYysOrNo.text = @"否";
-    boxNo.Btn.tag = 1001;
-    [boxNo.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:boxNo];
-    self.selectNo = boxNo;
+//    CheckBox *boxYes = [CheckBox aCheckBox];
+//    boxYes.frame = CGRectMake(labelL.right, 0, 100, 44);
+//    boxYes.hidden = YES;
+//    boxYes.labeYysOrNo.text = @"是";
+//    boxYes.Btn.tag = 1000;
+//    [boxYes.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.contentView addSubview:boxYes];
+//    self.selectYes = boxYes;
+//    
+//    CheckBox *boxNo = [CheckBox aCheckBox];
+//    boxNo.frame = CGRectMake(boxYes.right, 0, 100, 44);
+//    boxNo.hidden = YES;
+//    boxNo.labeYysOrNo.text = @"否";
+//    boxNo.Btn.tag = 1001;
+//    [boxNo.Btn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.contentView addSubview:boxNo];
+//    self.selectNo = boxNo;
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, self.contentView.frame.size.height-1, SCREEN_W-20, 1)];
     self.lineView.backgroundColor = BACKCOLORGRAY;
@@ -83,23 +83,24 @@
     self.lineViewTop.hidden = YES;
     [self.contentView addSubview:self.lineViewTop];
 }
-- (void)select:(UIButton *)sender {
-    
-    if (sender.tag == 1000) {
-        self.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
-        self.selectNo.selectImg.image = [UIImage imageNamed:@"button"];
-        if(self.seletIsStudentBlock){
-            self.seletIsStudentBlock(@"1");//是
-        }
-    }else if (sender.tag == 1001){
-        self.selectYes.selectImg.image = [UIImage imageNamed:@"button"];
-        self.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
-        if (self.seletIsStudentBlock) {
-            self.seletIsStudentBlock(@"2");//否
-        }
-    }
-    
-}
+
+//- (void)select:(UIButton *)sender {
+//    
+//    if (sender.tag == 1000) {
+//        self.selectYes.selectImg.image = [UIImage imageNamed:@"buttonn"];
+//        self.selectNo.selectImg.image = [UIImage imageNamed:@"button"];
+//        if(self.seletIsStudentBlock){
+//            self.seletIsStudentBlock(@"1");//是
+//        }
+//    }else if (sender.tag == 1001){
+//        self.selectYes.selectImg.image = [UIImage imageNamed:@"button"];
+//        self.selectNo.selectImg.image = [UIImage imageNamed:@"buttonn"];
+//        if (self.seletIsStudentBlock) {
+//            self.seletIsStudentBlock(@"2");//否
+//        }
+//    }
+//    
+//}
 
 -(void)textChanged:(UITextField *)textField
 {

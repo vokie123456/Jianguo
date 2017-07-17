@@ -7,7 +7,6 @@
 //
 
 #import "MineCell.h"
-#import "CheckBox.h"
 #define ToTopInstance 7
 #define CELLSUBVIEWHEIGHT 30
 
@@ -35,7 +34,7 @@
         
         self.labelLeft = [[UILabel alloc] initWithFrame:CGRectMake(self.iconView.right+15, ToTopInstance, 100, CELLSUBVIEWHEIGHT)];
         self.labelLeft.font = FONT(15);
-        self.labelLeft.textColor = [UIColor darkTextColor];
+        self.labelLeft.textColor = LIGHTGRAYTEXT;
         [self.contentView addSubview:self.labelLeft];
         
         self.labelRight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_W-180, ToTopInstance, 150, CELLSUBVIEWHEIGHT)];

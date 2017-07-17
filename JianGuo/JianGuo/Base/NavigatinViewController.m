@@ -29,6 +29,7 @@
 -(void)showANopartJobView
 {
     bgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_H/2-125, SCREEN_W, 250)];
+    bgView.userInteractionEnabled = NO;
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(bgView.center.x-60, 0, 120, 120*79/100)];
     imgView.image = [UIImage imageNamed:@"defaultpicture"];

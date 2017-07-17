@@ -266,6 +266,8 @@
                 <outlet property="collectionViewtrailingCons" destination="ksN-lZ-H4j" id="QsA-eN-9tH"/>
                 <outlet property="commentCountL" destination="9MI-JW-Cck" id="Oo2-gN-uIb"/>
                 <outlet property="contentL" destination="0is-Sw-WdG" id="qIg-2U-i7R"/>
+                <outlet property="enrollCountL" destination="Saf-5s-NxI" id="Tyb-rb-CKi"/>
+                <outlet property="followB" destination="BHn-mT-NpK" id="cs5-fv-msq"/>
                 <outlet property="genderView" destination="N2h-8W-hUd" id="mY5-hf-r6b"/>
                 <outlet property="iconView" destination="8P5-Bm-qA1" id="wo2-g6-uDG"/>
                 <outlet property="moneyL" destination="9f0-zY-QXQ" id="4j0-cu-ePu"/>
@@ -277,7 +279,7 @@
                 <outlet property="titleL" destination="MjB-9d-rwn" id="Vu2-28-sWs"/>
                 <outlet property="typeBtn" destination="zWx-7t-wwb" id="hZz-XV-JI7"/>
             </connections>
-            <point key="canvasLocation" x="261" y="295"/>
+            <point key="canvasLocation" x="70" y="219"/>
         </tableViewCell>
     </objects>
     <resources>

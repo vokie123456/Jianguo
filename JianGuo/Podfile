@@ -10,6 +10,7 @@ pod 'SVProgressHUD'
 pod 'WZLBadge', ‘~> 1.2.4’
 pod 'UITableView+FDTemplateLayoutCell', ‘~> 1.5.beta’
 pod 'FMDB', ‘~> 2.6.2’
+pod 'FDFullscreenPopGesture', '~> 1.1'
 
 pod 'IQKeyboardManager'
 pod 'MLLabel' , '~> 1.9.2'

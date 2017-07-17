@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"关于兼果";
+    self.title = @"兼果校园";
     self.view.backgroundColor = BACKCOLORGRAY;
     
 //    [self setUI];
@@ -51,7 +51,7 @@
     
     [bgView1 addSubview:logoView];
     
-    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoView.bottom, SCREEN_W, 20)];
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoView.bottom+10, SCREEN_W, 20)];
     versionLabel.font = FONT(14);
     versionLabel.text = [@"兼果校园:V" stringByAppendingString:[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]];
     versionLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,13 +85,13 @@
         cell.topViewLine.hidden = NO;
         cell.leftL.text = @"去评分";
     }else if (indexPath.row == 1){
-        cell.leftL.text = @"兼果用户协议";
+        cell.leftL.text = @"用户协议";
     }else if (indexPath.row == 2){
         cell.leftL.text = @"商务合作";
         cell.rightL.text = @"010-53350021";
     }else if (indexPath.row == 3){
-        cell.leftL.text = @"兼果官网";
-        cell.rightL.text = @"www.jianguojob.com";
+        cell.leftL.text = @"官方网站";
+        cell.rightL.text = @"http://www.woniukeji.com/";
         cell.rightView.hidden = YES;
     }
     return cell;

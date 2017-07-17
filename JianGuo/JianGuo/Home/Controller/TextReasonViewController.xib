@@ -49,10 +49,10 @@
                         <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="rJ0-Cl-hac"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拒绝理由:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZR-Bg-PmX">
-                    <rect key="frame" x="30" y="15" width="73" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="拒绝理由:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZR-Bg-PmX">
+                    <rect key="frame" x="264" y="15" width="73" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-3Y-x9E">
@@ -61,7 +61,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="150" id="8rJ-fA-2Ko"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -80,6 +80,7 @@
                 <constraint firstAttribute="bottom" secondItem="fuI-6E-H6k" secondAttribute="bottom" constant="15" id="NVb-47-rCc"/>
                 <constraint firstItem="a4B-3Y-x9E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="OWQ-6y-db3"/>
                 <constraint firstItem="pWl-hN-EuD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PRy-eG-iGD"/>
+                <constraint firstItem="WZR-Bg-PmX" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="e6O-H0-GcV"/>
                 <constraint firstItem="pWl-hN-EuD" firstAttribute="top" secondItem="a4B-3Y-x9E" secondAttribute="bottom" constant="50" id="exJ-2U-bw6"/>
                 <constraint firstAttribute="trailing" secondItem="pWl-hN-EuD" secondAttribute="trailing" constant="30" id="iVv-gS-G60"/>
                 <constraint firstItem="a4B-3Y-x9E" firstAttribute="leading" secondItem="WZR-Bg-PmX" secondAttribute="leading" id="jg2-5L-O34"/>
@@ -90,6 +91,7 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="3Fl-iB-oPr"/>
+                    <exclude reference="jg2-5L-O34"/>
                 </mask>
             </variation>
         </view>

@@ -8,12 +8,19 @@
 
 #import "BaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, ControllerFunctionType) {
+    ControllerFunctionTypeRefusePay,
+    ControllerFunctionTypePublisherEvualuate,
+    ControllerFunctionTypeWaiterEvaluate,
+};
+
 @interface TextReasonViewController : BaseViewController
 
 
 @property (nonatomic,copy) void(^callBackBlock)();
 @property (nonatomic,copy) NSString *demandId;
-@property (nonatomic,assign) BOOL isComplain;
+@property (nonatomic,assign) ControllerFunctionType functionType;
+@property (nonatomic,copy) NSString *contentTitle;
 @property (nonatomic,copy) NSString *userId;
 
 @end

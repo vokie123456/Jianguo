@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="searchBar" destination="GZE-2h-h9g" id="IfB-dR-Y2j"/>
                 <outlet property="tableView" destination="K85-bY-Kdu" id="f6T-II-SfX"/>
+                <outlet property="tableViewTopCons" destination="MHh-NG-TbG" id="ZMi-SU-KG7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -46,6 +47,7 @@
                     <exclude reference="A2d-x3-qI8"/>
                 </mask>
             </variation>
+            <point key="canvasLocation" x="18" y="223"/>
         </view>
     </objects>
 </document>

@@ -7,13 +7,12 @@
 //
 
 #import "DemandListViewController.h"
-#import "PostDemandViewController.h"
 #import "CitySchoolViewController.h"
-#import "DemandDetailController.h"
 #import "MineChatViewController.h"
 #import "PostDemandNewViewController.h"
 #import "SearchDemandsViewController.h"
 #import "DemandDetailNewViewController.h"
+#import "WebViewController.h"
 
 #import "JGHTTPClient+Demand.h"
 #import "JGHTTPClient+Mine.h"
@@ -74,6 +73,7 @@ static NSString *identifier = @"DemandListCell";
 
 @property (nonatomic,strong) NSMutableArray *cityArr;
 @property (nonatomic,strong) NSMutableArray *schoolArr;
+@property (nonatomic,strong) NSMutableArray *imagesScrollArr;
 
 @end
 
@@ -125,11 +125,6 @@ static NSString *identifier = @"DemandListCell";
     self.sex = @"0";
     self.type = @"0";
     
-//    UIButton *btn_l = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn_l setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
-//    [btn_l addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
-//    btn_l.frame = CGRectMake(-10, 0, 10, 12);
-    
     UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
     [btnLocation setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
@@ -165,7 +160,6 @@ static NSString *identifier = @"DemandListCell";
         pageCount = 0;
         [self refreshBanner];
         [self requestWithCount:@"1"];
-        
     }];
     
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -179,6 +173,14 @@ static NSString *identifier = @"DemandListCell";
     }];
     
     [self.tableView.mj_header beginRefreshing];
+    
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        DOPIndexPath *indexPath = [DOPIndexPath indexPathWithCol:[USERDEFAULTS integerForKey:@"column"] row:[USERDEFAULTS integerForKey:@"row"]];
+        if (indexPath) {
+            [self.selectMenu selectIndexPath:indexPath triggerDelegate:YES];
+        }
+    });
     
 }
 
@@ -209,6 +211,7 @@ static NSString *identifier = @"DemandListCell";
                     ImagesModel *model = obj;
                     [images addObject:model.image];
                 }];
+                self.imagesScrollArr = [ImagesModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
                 scrollImagesView.imageURLStringsGroup = images;
             }
         }
@@ -224,8 +227,9 @@ static NSString *identifier = @"DemandListCell";
     self.selectMenu.dataSource = self;
     self.selectMenu.textSelectedColor = GreenColor;
     if (SCREEN_W == 320) {
-        self.selectMenu.detailTextFont = [UIFont systemFontOfSize:5];
+        self.selectMenu.fontSize = 12;
     }
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -235,6 +239,8 @@ static NSString *identifier = @"DemandListCell";
     [IQKeyboardManager sharedManager].enable = NO;
     //    [self customCommentKeyboard];
 //    [self.tableView.mj_header beginRefreshing];
+    
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -291,12 +297,8 @@ static NSString *identifier = @"DemandListCell";
     JGSVPROGRESSLOAD(@"加载中...");
     
     [JGHTTPClient getDemandListWithSchoolId:self.schoolId
-                                   cityCode:self.cityCode keywords:nil orderBy:self.orderType type:self.type sex:self.sex userId:USER.login_id pageCount:count Success:^(id responseObject) {
-//        [SVProgressHUD dismiss];
-//        JGLog(@"%@",responseObject);
-//        self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
-//        [self.tableView reloadData];
-        
+                                   cityCode:self.cityCode keywords:nil orderBy:self.orderType type:self.type sex:self.sex userId:nil pageCount:count Success:^(id responseObject) {
+   
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
@@ -309,14 +311,12 @@ static NSString *identifier = @"DemandListCell";
                 return ;
             }
             
-            
             NSMutableArray *indexPaths = [NSMutableArray array];
             for (DemandModel *model in [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
                 [self.dataArr addObject:model];
                 NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:0];
                 [indexPaths addObject:indexPath];
             }
-            
             
             [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
             /*
@@ -332,18 +332,15 @@ static NSString *identifier = @"DemandListCell";
             
         }else{
             self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
-            if (self.dataArr.count == 0) {
-                bgView.hidden = NO;
-            }else{
-                bgView.hidden = YES;
-            }
+
+//            if (self.dataArr.count == 0) {
+//                [self.tableView setContentSize:CGSizeMake(SCREEN_W, SCREEN_H*2)];
+//                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+//            }
         }
         
-        [self.tableView reloadData];
-        if ([DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
-            [self showAlertViewWithText:@"没有更多数据" duration:1];
-            return ;
-        }
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -376,7 +373,7 @@ static NSString *identifier = @"DemandListCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    return self.dataArr.count?self.dataArr.count:3;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -384,6 +381,12 @@ static NSString *identifier = @"DemandListCell";
     DemandListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    if (self.dataArr.count ==0) {
+        cell.contentView.hidden = YES;
+        return cell;
+    }else{
+        cell.contentView.hidden = NO;
+    }
     DemandModel *model = self.dataArr[indexPath.row];
     
     cell.model = model;
@@ -426,6 +429,13 @@ static NSString *identifier = @"DemandListCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+//    [NotificationCenter postNotificationName:kNotificationGetNewNotiNews object:nil];
+//    return;
+    if (self.dataArr.count==0) {
+        return;
+    }
+    
     DemandDetailNewViewController *detailVC = [DemandDetailNewViewController new];
     if (self.dataArr.count>indexPath.row) {
         detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.row] demandId];
@@ -436,6 +446,25 @@ static NSString *identifier = @"DemandListCell";
 //    };
     [self.navigationController pushViewController:detailVC animated:YES];
 }
+
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    
+//    cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);//沿x轴正轴旋转60度
+//    //    cell.transform = CGAffineTransformTranslate(cell.transform, -SCREEN_W/2, 0);
+////    cell.alpha = 0.0;
+//    
+//    [UIView animateWithDuration:0.8 animations:^{
+//        
+//        cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);
+//        
+////        cell.alpha = 1.0;
+//        
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
 
 -(void)keyboardWillAppear:(NSNotification *)noti
 {
@@ -512,6 +541,10 @@ static NSString *identifier = @"DemandListCell";
     self.commentTV.text = nil;
 }
 - (IBAction)postDemand:(id)sender {
+//    
+//
+//    [self.selectMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0]];
+//    return;
     
     if (![self checkExistPhoneNum]) {
         [self gotoCodeVC];
@@ -526,7 +559,7 @@ static NSString *identifier = @"DemandListCell";
     }
     
     //添加popview
-    [BHBPopView showToView:self.view.window andImages:@[@"study-1",@"run",@"technology-1",@"emotion-1",@"shopping",@"amusement"] andTitles:@[@"学习交流",@"跑腿代劳",@"技能服务",@"情感地带",@"娱乐生活",@"易货求购"] andSelectBlock:^(BHBItem *item) {
+    [BHBPopView showToView:self.view.window andImages:@[@"study-1",@"run",@"technology-1",@"amusement",@"emotion-1",@"shopping"] andTitles:@[@"学习交流",@"跑腿代劳",@"技能服务",@"娱乐生活",@"情感地带",@"易货求购"] andSelectBlock:^(BHBItem *item) {
         
         PostDemandNewViewController *postDemandVC = [[PostDemandNewViewController alloc] init];
         postDemandVC.demandType = [NSString stringWithFormat:@"%ld",item.index.integerValue+1];
@@ -667,7 +700,13 @@ static NSString *identifier = @"DemandListCell";
         
         CityModel *model = self.cityArr[indexPath.row];
         self.cityCode = model.code;
+        self.schoolId = @"0";
         [self getSchoolsByCityCode:model.code];
+        
+        [self.selectMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0] triggerDelegate:NO];
+        
+        [USERDEFAULTS setInteger:indexPath.row forKey:@"row"];
+        [USERDEFAULTS setInteger:indexPath.column forKey:@"column"];
         
     } else if (indexPath.column == 1){
         
@@ -722,7 +761,7 @@ static NSString *identifier = @"DemandListCell";
 {
     PresentingAnimator *animator = [PresentingAnimator new];
     
-    animator.scale=1.2;
+    animator.scale=1.3;
     
     return animator;
 }
@@ -730,6 +769,17 @@ static NSString *identifier = @"DemandListCell";
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
     return [DismissingAnimator new];
+}
+
+-(void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
+{
+    ImagesModel *model = self.imagesScrollArr[index];
+    
+    WebViewController *webVC = [[WebViewController alloc] init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    webVC.url = model.url;
+    [self.navigationController pushViewController:webVC animated:YES];
+
 }
 
 

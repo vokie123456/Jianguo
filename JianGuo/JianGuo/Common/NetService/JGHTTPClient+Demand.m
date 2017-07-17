@@ -41,7 +41,7 @@
 {
     NSMutableDictionary *params = [self getAllBasedParams];
     [params setObject:money forKey:@"money"];
-    [params setObject:imageUrl forKey:@"images"];
+    !imageUrl?:[params setObject:imageUrl forKey:@"images"];
     [params setObject:title forKey:@"title"];
     [params setObject:description forKey:@"d_describe"];
     [params setObject:type forKey:@"d_type"];
@@ -88,7 +88,7 @@
     NSMutableDictionary *params = [self getAllBasedParams];
     !type?:[params setObject:type forKey:@"type"];
     !sex?:[params setObject:sex forKey:@"sex"];
-//    [params setObject:userId?userId:@"0" forKey:@"user_id"];
+    !userId?:[params setObject:userId forKey:@"publishUserId"];
     !cityCode?:[params setObject:cityCode forKey:@"cityCode"];
     [params setObject:pageCount forKey:@"pageNum"];
     !schoolId?:[params setObject:schoolId forKey:@"schoolId"];
@@ -150,9 +150,8 @@
                            failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:Id forKey:@"demandId"];
-    [params setObject:likeStatus forKey:@"like_status"];
-    
+    !Id?:[params setObject:Id forKey:@"demandId"];
+    !likeStatus?:[params setObject:likeStatus forKey:@"likeStatus"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/like"];
     
@@ -207,7 +206,7 @@
     NSMutableDictionary *params = [self getAllBasedParams];
 //    [params setObject:Id?Id:@"0" forKey:@"id"];
 //    [params setObject:userId.integerValue?userId:@"0" forKey:@"user_id"];
-    [params setObject:Id forKey:@"demandId"];
+    !Id?:[params setObject:Id forKey:@"demandId"];
     NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demands/v2/detail"]];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -252,7 +251,7 @@
     }];
 }
 /**
- *  我要接活儿
+ *  报名任务
  */
 +(void)signDemandWithDemandId:(NSString *)Id
                        userId:(NSString *)userId
@@ -262,12 +261,9 @@
                       failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:Id forKey:@"d_id"];
-    [params setObject:userId forKey:@"user_id"];
-    [params setObject:status forKey:@"enroll_status"];
-    !reason?:[params setObject:reason forKey:@"reason"];
+    [params setObject:Id forKey:@"demandId"];
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/demandEnroll"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demands/v2/enroll"];
     
     [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -326,11 +322,11 @@
                       failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:Id?Id:@"0" forKey:@"id"];
+    !Id?:[params setObject:Id forKey:@"demandId"];
     [params setObject:pageNum forKey:@"pageNum"];
     
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demand/getEnrollUser"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demands/enroll-list"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -377,15 +373,17 @@
  *  我发布的需求列表
  */
 +(void)getMyDemandsListWithPageNum:(NSString *)pageNum
+                              type:(NSString *)type
                           pageSize:(NSString *)pageSize
                            Success:(void (^)(id responseObject))success
                            failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
+    !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
     
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demand/getDemandByUser/%@",USER.login_id]];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demands/my/publish"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -433,17 +431,73 @@
  *  我报名的需求列表
  */
 +(void)getMySignedDemandsListWithPageNum:(NSString *)pageNum
+                                    type:(NSString *)type
                                 pageSize:(NSString *)pageSize
                                  Success:(void (^)(id responseObject))success
                                  failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
+    !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
     
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demand/getDemandUserJoin/%@",USER.login_id]];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demands/my/enroll"]];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+/**
+ *  获取评价列表
+ */
++(void)getEvaluatesWithUserId:(NSString *)userId
+                      pageNum:(NSString *)pageNum
+                      Success:(void (^)(id responseObject))success
+                      failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    !userId?:[params setObject:userId forKey:@"userId"];
+    [params setObject:pageNum forKey:@"pageNum"];
+    
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demands/evaluate-list"]];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  删除评论
+ */
++(void)deleteCommentWithCommentId:(NSString *)commentId
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"demands/v2/comment-delete/%@",commentId]];
+    
+    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
             if ([responseObject[@"code"] integerValue] == 600) {
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];

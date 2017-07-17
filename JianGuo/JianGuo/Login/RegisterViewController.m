@@ -7,7 +7,6 @@
 //
 
 #import "RegisterViewController.h"
-#import "LoginViewController.h"
 #import "WebViewController.h"
 #import "TTTAttributedLabel.h"
 #import "ProfileViewController.h"

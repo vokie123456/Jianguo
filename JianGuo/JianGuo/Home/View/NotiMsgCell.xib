@@ -16,15 +16,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nZp-vy-WGY" customClass="IBView">
-                        <rect key="frame" x="18" y="13" width="284" height="130"/>
+                        <rect key="frame" x="18" y="13" width="284" height="144"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="备注" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvs-ga-m2i">
-                                <rect key="frame" x="8" y="94" width="266" height="28"/>
+                                <rect key="frame" x="8" y="108" width="266" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="LiM-oc-TUz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05-29" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Ps-JgE">
@@ -46,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="内容" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKq-g3-NWW">
-                                <rect key="frame" x="8" y="52" width="268" height="42"/>
+                                <rect key="frame" x="8" y="52" width="268" height="56"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -79,9 +79,15 @@
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="nZp-vy-WGY" secondAttribute="trailing" constant="10" id="9qm-Zr-279"/>
                     <constraint firstItem="nZp-vy-WGY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="ANn-Hb-OFF"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="nZp-vy-WGY" secondAttribute="bottom" constant="5" id="GCP-3N-31e"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="nZp-vy-WGY" secondAttribute="bottom" id="GCP-3N-31e"/>
                     <constraint firstItem="nZp-vy-WGY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="Ncr-Tj-iGf"/>
+                    <constraint firstAttribute="bottom" secondItem="nZp-vy-WGY" secondAttribute="bottom" id="u8F-ba-n0q"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="GCP-3N-31e"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
             <connections>

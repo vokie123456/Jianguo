@@ -9,7 +9,7 @@
 
 #import <Availability.h>
 #import <Foundation/Foundation.h>
-#import "CodeLoginViewController.h"
+
 #ifndef JianGuo_pch
 #define JianGuo_pch
 
@@ -47,7 +47,8 @@
 //#define BLUECOLOR RGBCOLOR(59, 155, 255)
 #define BLUECOLOR RGBCOLOR(170, 207, 83)//把原来的蓝色变成绿色
 #define RedColor RGBCOLOR(228, 96, 73)
-#define GreenColor RGBCOLOR(170, 207, 83)//新加的绿色
+#define GreenColor RGBCOLOR(170, 207, 83)//绿色
+//#define GreenColor RGBCOLOR(112, 167, 59)//新加的绿色<0628>
 
 
 
@@ -105,11 +106,11 @@
 #ifdef DEBUG
 //    #define APIURLCOMMON @"http://192.168.1.132/JianGuo_Server/"//局域网
 //
-//    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
+    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
 
 //    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 
-    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
+//    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
 //
 #else
     #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
@@ -150,7 +151,6 @@ static NSString *kNotificationRefreshCellHeight = @"kNotificationRefreshCellHeig
 #import <UIKit/UIKit.h>
 #import "WalletModel.h"
 #import "JGUser.h"
-#import "JianliAccount.h"
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <AFNetworking/AFNetworking.h>

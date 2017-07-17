@@ -35,6 +35,18 @@
 #pragma mark -
 #pragma mark - UIViewController Life
 
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        // 当在其它 Tab 的时候，收到消息, badge 增加，所以需要一直监听
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mineRefresh) name:LCCKNotificationMessageReceived object:nil];
+        [self mineRefresh];
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -273,5 +285,45 @@
     [self.conversationListViewModel refresh];
 }
 
+-(void)mineRefresh
+{
+
+    if (self.dataSource.count == 0) {
+        
+        [[LCCKConversationListService sharedInstance] findRecentConversationsWithBlock:^(NSArray *conversations, NSInteger totalUnreadCount, NSError *error) {
+            dispatch_block_t finishBlock = ^{
+                
+                if ([self filterAVIMError:error]) {
+                    if (totalUnreadCount > 0) {
+                        NSString *badgeValue = [NSString stringWithFormat:@"%ld", (long)totalUnreadCount];
+                        if (totalUnreadCount > 99) {
+                            badgeValue = LCCKBadgeTextForNumberGreaterThanLimit;
+                        }
+                        //                    [self.conversationListViewController.navigationController tabBarItem].badgeValue = badgeValue;
+                        UINavigationController *nav = [UIApplication sharedApplication].keyWindow.rootViewController.childViewControllers[3];
+                        if (totalUnreadCount) {
+                            [nav tabBarItem].badgeValue = badgeValue;
+                            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:totalUnreadCount];
+                        }
+                    } else {
+                        [self.navigationController tabBarItem].badgeValue = nil;
+                        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+                    }
+                }
+            };
+            if([LCCKConversationListService sharedInstance].prepareConversationsWhenLoadBlock) {
+                [LCCKConversationListService sharedInstance].prepareConversationsWhenLoadBlock(conversations, ^(BOOL succeeded, NSError *error) {
+                    if ([self filterAVIMError:error]) {
+                        finishBlock();
+                    } else {
+                        
+                    }
+                });
+            } else {
+                finishBlock();
+            }
+        }];
+    }
+}
 
 @end
