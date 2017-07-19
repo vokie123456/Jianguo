@@ -40,12 +40,12 @@
                     failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:money forKey:@"money"];
+    !money?:[params setObject:money forKey:@"money"];
     !imageUrl?:[params setObject:imageUrl forKey:@"images"];
-    [params setObject:title forKey:@"title"];
-    [params setObject:description forKey:@"d_describe"];
-    [params setObject:type forKey:@"d_type"];
-    [params setObject:city forKey:@"city"];
+    !title?:[params setObject:title forKey:@"title"];
+    !description?:[params setObject:description forKey:@"d_describe"];
+    !type?:[params setObject:type forKey:@"d_type"];
+    !city?:[params setObject:city forKey:@"city"];
     !area?:[params setObject:area forKey:@"area"];
     !schoolId?:[params setObject:schoolId forKey:@"school_id"];
     !sex?:[params setObject:sex forKey:@"sex"];
@@ -118,10 +118,10 @@
                         failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:Id forKey:@"d_id"];
-    [params setObject:content forKey:@"content"];
-    [params setObject:pid forKey:@"p_id"];
-    [params setObject:toUserId forKey:@"to_user_id"];
+    !Id?:[params setObject:Id forKey:@"d_id"];
+    !content?:[params setObject:content forKey:@"content"];
+    !pid?:[params setObject:pid forKey:@"p_id"];
+    !toUserId?:[params setObject:toUserId forKey:@"to_user_id"];
     
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"demands/v2/comment-add"];
@@ -289,9 +289,9 @@
                            failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
-    [params setObject:Id forKey:@"d_id"];
-    [params setObject:userId forKey:@"enroll_user_id"];
-    [params setObject:status forKey:@"d_status"];
+    !Id?:[params setObject:Id forKey:@"d_id"];
+    !userId?:[params setObject:userId forKey:@"enroll_user_id"];
+    !status?:[params setObject:status forKey:@"d_status"];
     [params setObject:USER.login_id forKey:@"b_user_id"];
     !reason?:[params setObject:reason forKey:@"reason"];
     

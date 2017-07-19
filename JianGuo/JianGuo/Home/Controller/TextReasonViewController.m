@@ -41,6 +41,11 @@
             self.titleL.text = @"评价任务";
             
             break;
+        } case ControllerFunctionTypePublisherComplain:{
+            
+            self.titleL.text = @"投诉理由";
+            
+            break;
         }
         default:
             break;
@@ -67,6 +72,7 @@
                 
             } failure:^(NSError *error) {
                 
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
                 [SVProgressHUD dismiss];
             }];
             
@@ -86,6 +92,7 @@
                 
             } failure:^(NSError *error) {
                 
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
                 [SVProgressHUD dismiss];
             }];
             
@@ -105,6 +112,27 @@
                 
             } failure:^(NSError *error) {
                 
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
+            }];
+            
+            break;
+        } case ControllerFunctionTypePublisherComplain:{
+            
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [JGHTTPClient complainSomeOneWithDemandId:self.demandId userId:self.userId status:nil reason:self.reasonTV.text Success:^(id responseObject) {
+                
+                [SVProgressHUD dismiss];
+                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                if ([responseObject[@"code"]integerValue] == 200) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self dismiss:nil];
+                    });
+                }
+                
+            } failure:^(NSError *error) {
+                
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
                 [SVProgressHUD dismiss];
             }];
             

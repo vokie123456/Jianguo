@@ -38,8 +38,8 @@
 -(void)setModel:(DemandSignModel *)model
 {
     _model = model;
-    self.typeL.text = titleArr[model.demandType.integerValue];
-    self.typeL.backgroundColor = colorArr[model.demandType.integerValue];
+    self.typeL.text = titleArr[model.demandType.integerValue-1];
+    self.typeL.backgroundColor = colorArr[model.demandType.integerValue-1];
     self.titleL.text = model.title;
     self.descriptionL.text = model.demandDesc;
     self.timeL.text = model.createTimeStr;

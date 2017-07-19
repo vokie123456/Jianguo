@@ -606,6 +606,13 @@ typedef enum : NSUInteger {
         
         [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1];
+        
+        if ([responseObject[@"code"] integerValue] == 200) {
+            JGUser *user = [JGUser user];
+            user.status = @"2";
+            [JGUser saveUser:user WithDictionary:nil loginType:0];
+        }
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [self.navigationController popViewControllerAnimated:YES];

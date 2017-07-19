@@ -80,6 +80,7 @@
 
     UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn_r setTitle:@"重新绑定" forState:UIControlStateNormal];
+    [btn_r setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [btn_r addTarget:self action:@selector(gotoSettingVC) forControlEvents:UIControlEventTouchUpInside];
     btn_r.frame = CGRectMake(0, 0, 80, 30);
     self.btn_r = btn_r;

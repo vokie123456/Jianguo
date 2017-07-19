@@ -85,7 +85,7 @@
         [self.signB showBadgeWithStyle:WBadgeStyleNumber value:signCount animationType:WBadgeAnimTypeNone];
         [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",responseObject[@"data"][@"headImg"]]] placeholderImage:[UIImage imageNamed:@"myicon"]];
         
-        self.moneyL.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"money"]];
+        self.moneyL.text = [NSString stringWithFormat:@"%.2f",[responseObject[@"data"][@"money"]floatValue]];
         
         NSInteger status = [responseObject[@"data"][@"authUserStatus"] integerValue];
         

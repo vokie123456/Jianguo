@@ -337,6 +337,25 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     [JGLCCKInputPickImage registerSubclass];
 //    [LCCKInputViewPluginLocation registerSubclass];
    
+
+    [[LCChatKit sharedInstance] openWithClientId:[NSString stringWithFormat:@"%@",USER.login_id] callback:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            JGLog(@"client 打开成功!!!");
+            [NotificationCenter postNotificationName:kNotificationOpenClientSuccessed object:nil];
+        }else{
+            JGLog(@"client 打开失败!!!");
+            JGLog(@"error == %@",error);
+        }
+    }];
+    
+    [[LCChatKit sharedInstance] setDidSelectConversationsListCellBlock:^(NSIndexPath *indexPath, AVIMConversation *conversation, LCCKConversationListViewController *controller) {
+        NSLog(@"conversation selected");
+        LCCKConversationViewController *conversationVC = [[LCCKConversationViewController alloc] initWithConversationId:conversation.conversationId];
+        conversationVC.hidesBottomBarWhenPushed = YES;
+        [controller.navigationController pushViewController:conversationVC animated:YES];
+    }];
+    
+    
     [[LCChatKit sharedInstance] setFetchProfilesBlock:^(NSArray<NSString *> *userIds, LCCKFetchProfilesCompletionHandler completionHandler) {
         
         if (userIds.count == 0) {
@@ -354,11 +373,11 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         }
         
         NSMutableArray *users = [NSMutableArray arrayWithCapacity:userIds.count];
-//#warning 注意：以下方法循环模拟了通过 userIds 同步查询 user 信息的过程，这里需要替换为 App 的 API 同步查询
-//        
-//        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userIds options:NSJSONWritingPrettyPrinted error:nil];
-//        NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//
+        //#warning 注意：以下方法循环模拟了通过 userIds 同步查询 user 信息的过程，这里需要替换为 App 的 API 同步查询
+        //
+        //        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userIds options:NSJSONWritingPrettyPrinted error:nil];
+        //        NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        //
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userIds options:NSJSONWritingPrettyPrinted error:nil];
         NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -367,7 +386,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         [JGHTTPClient getGroupChatUserInfoByLoginId:jsonStr Success:^(id responseObject) {
             
             JGLog(@"%@",responseObject[@"data"]);
-         
+            
             if ([responseObject[@"code"]intValue] == 200) {
                 
                 NSArray *userArr = responseObject[@"data"];
@@ -392,23 +411,6 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
             JGLog(@"%@",error);
         }];
         
-    }];
-
-    [[LCChatKit sharedInstance] openWithClientId:[NSString stringWithFormat:@"%@",USER.login_id] callback:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            JGLog(@"client 打开成功!!!");
-            [NotificationCenter postNotificationName:kNotificationOpenClientSuccessed object:nil];
-        }else{
-            JGLog(@"client 打开失败!!!");
-            JGLog(@"error == %@",error);
-        }
-    }];
-    
-    [[LCChatKit sharedInstance] setDidSelectConversationsListCellBlock:^(NSIndexPath *indexPath, AVIMConversation *conversation, LCCKConversationListViewController *controller) {
-        NSLog(@"conversation selected");
-        LCCKConversationViewController *conversationVC = [[LCCKConversationViewController alloc] initWithConversationId:conversation.conversationId];
-        conversationVC.hidesBottomBarWhenPushed = YES;
-        [controller.navigationController pushViewController:conversationVC animated:YES];
     }];
     
 }
@@ -640,7 +642,6 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         
         //保存需求分类的数组
         [NSKeyedArchiver archiveRootObject:[DemandTypeModel mj_objectArrayWithKeyValuesArray:[responseObject[@"data"] objectForKey:@"d_type_list"]] toFile:JGDemandTypeArr];
-        
         
         
         

@@ -40,7 +40,6 @@ static NSString *identifier = @"ScrollCollectionCell";
         remindVC = [[RemindMsgViewController alloc] init];
         
         [NotificationCenter addObserver:self selector:@selector(getNewNotiNews) name:kNotificationGetNewNotiNews object:nil];
-        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
     }
     return  self;
 }
@@ -235,6 +234,11 @@ static NSString *identifier = @"ScrollCollectionCell";
         }
         
     }
+}
+
+-(void)dealloc
+{
+    [NotificationCenter removeObserver:self name:kNotificationGetNewNotiNews object:nil];
 }
 
 

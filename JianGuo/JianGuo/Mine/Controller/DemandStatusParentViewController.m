@@ -162,12 +162,17 @@
     
     MyDemandCell *cell = (MyDemandCell *)[[[[sender superview]superview]superview]superview];
     DemandPostModel *model = cell.model;
+    UIButton *btn = sender;
+    
     
     switch (model.type.integerValue) {
         case 1:{//下架任务
-            
+            btn.userInteractionEnabled = NO;
+            JGSVPROGRESSLOAD(@"正在请求...");
             [JGHTTPClient offDemandWithDemandId:model.demandId reason:nil money:nil Success:^(id responseObject) {
                 
+                btn.userInteractionEnabled = YES;
+                [SVProgressHUD dismiss];
                 [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
                 if ([responseObject[@"code"] integerValue] == 200) {//下架成功
                     
@@ -178,6 +183,10 @@
                 }
                 
             } failure:^(NSError *error) {
+                
+                btn.userInteractionEnabled = YES;
+                [SVProgressHUD dismiss];
+                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
                 
             }];
             
@@ -223,6 +232,7 @@
     
     MyDemandCell *cell = (MyDemandCell *)[[[[sender superview]superview]superview]superview];
     DemandPostModel *model = cell.model;
+    UIButton *btn = sender;
     
     switch (model.type.integerValue) {
         case 1:{//查看报名
@@ -234,8 +244,12 @@
             break;
         } case 2:{//催他干活
             
+            JGSVPROGRESSLOAD(@"正在请求...");
+            btn.userInteractionEnabled = NO;
             [JGHTTPClient remindUserWithDemandId:model.demandId Success:^(id responseObject) {
                 
+                [SVProgressHUD dismiss];
+                btn.userInteractionEnabled = YES;
                 [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
                 if ([responseObject[@"code"] integerValue] == 200) {
                     
@@ -245,13 +259,20 @@
                 
             } failure:^(NSError *error) {
                 
+                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
+                btn.userInteractionEnabled = YES;
             }];
             
             break;
         } case 3:{//确认完工
             
+            JGSVPROGRESSLOAD(@"正在请求...");
+            btn.userInteractionEnabled = NO;
             [JGHTTPClient sureToFinishDemandWithDemandId:model.demandId type:@"2" Success:^(id responseObject) {
                 
+                [SVProgressHUD dismiss];
+                btn.userInteractionEnabled = YES;
                 [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
                 if ([responseObject[@"code"] integerValue] == 200) {
                     
@@ -260,6 +281,9 @@
                 }
                 
             } failure:^(NSError *error) {
+                [SVProgressHUD dismiss];
+                btn.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
                 
             }];
             

@@ -48,8 +48,8 @@
 @property (nonatomic,strong) SignUsers *user;
 @property (nonatomic,copy) NSString *payType;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-@property (nonatomic,strong) UIButton  *telBtn;
-@property (nonatomic,strong) UIButton *chatBtn;
+@property (nonatomic,strong) UIButton  *complainBtn;
+
 
 @end
 
@@ -67,17 +67,40 @@
     
     [self requestDemandDetail];
     
-//    if ([self.statusStr isEqualToString:@"报名中"]) {
-//        [self.bottomBtn setTitle:@"下架此任务" forState:UIControlStateNormal];
-//    }else if ([self.statusStr isEqualToString:@"待确认完工"]){
-//        [self.bottomBtn setTitle:@"确认完工" forState:UIControlStateNormal];
-//    }else{
-//        bottomCons.constant = -40;
-//        self.bottomBtn.hidden = YES;
-//    }
+//    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn_r setTitle:@"投诉订单" forState:UIControlStateNormal];
+//    btn_r.titleLabel.font = FONT(15);
+//    [btn_r setTitleColor:GreenColor forState:UIControlStateNormal];
+//    [btn_r addTarget:self action:@selector(complain) forControlEvents:UIControlEventTouchUpInside];
+//    btn_r.frame = CGRectMake(0, 0, 80, 25);
+//    btn_r.hidden = YES;
+//    self.complainBtn = btn_r;
+//    
+//    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+//    
+//    self.navigationItem.rightBarButtonItem = rightBtn;
+    
+
     bottomCons.constant = -40;
     self.bottomBtn.hidden = YES;
     
+}
+
+-(void)complain
+{
+    TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
+    reasonVC.transitioningDelegate = self;
+    reasonVC.demandId = self.demandId;
+    reasonVC.userId = self.demandModel.enrollUid;
+    reasonVC.modalPresentationStyle = UIModalPresentationCustom;
+    reasonVC.functionType = ControllerFunctionTypePublisherComplain;
+    IMP_BLOCK_SELF(MyPostDetailViewController);
+    reasonVC.callBackBlock = ^(){
+        
+        [block_self changedStautsCallBack];
+        
+    };
+    [self presentViewController:reasonVC animated:YES completion:nil];
 }
 
 /**
@@ -140,11 +163,9 @@
             
             self.demandModel = [MyPostDemandDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
             
-            if (self.user.b_user_id.integerValue == 0) {
-                self.telBtn.hidden  = YES;
-                self.chatBtn.hidden = YES;
+            if (self.demandModel.status.integerValue == 2||self.demandModel.status.integerValue == 3) {
+                self.complainBtn.hidden = NO;
             }
-            
             
             [self.tableView reloadData];
             
@@ -534,6 +555,7 @@
         
     } failure:^(NSError *error) {
         
+        [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
         sender.userInteractionEnabled = YES;
     }];
     
@@ -543,38 +565,48 @@
 {
     sender.userInteractionEnabled = NO;
     if ([sender.currentTitle containsString:@"下架"]) {
+        JGSVPROGRESSLOAD(@"正在请求...");
         [JGHTTPClient offDemandWithDemandId:self.demandId reason:nil money:nil Success:^(id responseObject) {
-            
+            [SVProgressHUD dismiss];
             sender.userInteractionEnabled = YES;
             [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
             [self changedStautsCallBack];
             
         } failure:^(NSError *error) {
             sender.userInteractionEnabled = YES;
-            
+            [SVProgressHUD dismiss];
+            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
         }];
     }else if ([sender.currentTitle containsString:@"催TA干活"]){
+        JGSVPROGRESSLOAD(@"正在请求...");
         [JGHTTPClient remindUserWithDemandId:self.demandId Success:^(id responseObject) {
             
             sender.userInteractionEnabled = YES;
+            [SVProgressHUD dismiss];
             [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
             
             [self changedStautsCallBack];
             
         } failure:^(NSError *error) {
             
+            [SVProgressHUD dismiss];
             sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
         }];
     }else if ([sender.currentTitle containsString:@"确认完工"]){
         
+        JGSVPROGRESSLOAD(@"正在请求...");
         [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
             
+            [SVProgressHUD dismiss];
             sender.userInteractionEnabled = YES;
             [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
             [self changedStautsCallBack];
             
         } failure:^(NSError *error) {
+            [SVProgressHUD dismiss];
             sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
             
         }];
         
@@ -594,6 +626,7 @@
         };
         [self presentViewController:reasonVC animated:YES completion:nil];
         
+        sender.userInteractionEnabled = YES;
         
     }
 }

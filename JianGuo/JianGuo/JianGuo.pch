@@ -101,16 +101,16 @@
 ////TODO: 切换环境
 //#define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 
-#define NETERROETEXT @"网络错误!"
+#define NETERROETEXT error.localizedDescription
 //API 切换
 #ifdef DEBUG
 //    #define APIURLCOMMON @"http://192.168.1.132/JianGuo_Server/"//局域网
 //
-    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
+//    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
 
 //    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 
-//    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
+    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
 //
 #else
     #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器

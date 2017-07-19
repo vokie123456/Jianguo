@@ -41,7 +41,7 @@
         // 当在其它 Tab 的时候，收到消息, badge 增加，所以需要一直监听
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mineRefresh) name:LCCKNotificationMessageReceived object:nil];
-        [self mineRefresh];
+//        [self mineRefresh];
         
     }
     return self;

@@ -348,13 +348,10 @@ static const NSInteger kMaxLength = 15;
         
         [self showAlertViewWithText:@"请输入任务描述" duration:1];
         return;
-    }else if (imageArr.count < 1){
-//        [self showAlertViewWithText:@"至少选择一张图片" duration:1];
-//        return;
-    }else if (schoolId.length==0){
+    }else if (schoolId.length==0||!schoolId){
         [self showAlertViewWithText:@"请选择任务发布的区域" duration:1];
         return;
-    }else if (demandMoney.length==0){
+    }else if (demandMoney.floatValue==0||!demandMoney){
         [self showAlertViewWithText:@"请输入赏金金额" duration:1];
         return;
     }

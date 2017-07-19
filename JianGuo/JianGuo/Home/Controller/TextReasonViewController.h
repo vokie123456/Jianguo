@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, ControllerFunctionType) {
     ControllerFunctionTypeRefusePay,
     ControllerFunctionTypePublisherEvualuate,
+    ControllerFunctionTypePublisherComplain,
     ControllerFunctionTypeWaiterEvaluate,
 };
 

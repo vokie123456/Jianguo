@@ -43,9 +43,9 @@ static NSString*const identifier = @"CommentCell";
     _model = model;
     
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.nameL.text = model.nickname;
+    self.nameL.text = model.nickname.length?model.nickname:@"未填写";
     self.timeL.text = [DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue];
-    self.contentL.text = model.content;
+    self.contentL.text = model.content.length?model.content:@" ";
     if (model.pid.integerValue>0) {
         self.iconViewLeftCons.constant = 65;
         self.lineViewLeftCons.constant = 65;
