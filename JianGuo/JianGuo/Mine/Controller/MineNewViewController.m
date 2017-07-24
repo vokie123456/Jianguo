@@ -364,7 +364,10 @@
         }];
         
         [JGUser deleteuser];
-        [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:nil];
+        [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+            
+        }];
+//        [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
         [NotificationCenter postNotificationName:kNotificationLogoutSuccessed object:nil];
         
         

@@ -226,12 +226,13 @@ typedef enum : NSUInteger {
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2) {
+        
         if (indexPath.row == 2) {
-            return 50+(SCREEN_W-imageB_Left)+20;
+            return 50+(SCREEN_W-imageB_Left)+50;
         }else if (indexPath.row == 3){
-            return 100;
+            return 0.01;
         }else{
-            return 44;
+            return 0.01;
         }
     }else if (indexPath.section == 1){
         return cellHeight;
@@ -373,19 +374,19 @@ typedef enum : NSUInteger {
         
     }else{
         
-        TextFieldCell *cell = [TextFieldCell  aTextFieldCell];
-        
-        
-        if (model.authStatus.integerValue == 2||model.authStatus.integerValue == 3) {
-            cell.contentView.userInteractionEnabled = NO;
-        }
-        cell.txfName.delegate = self;
-        cell.lblText.textColor = LIGHTGRAYTEXT;
-        cell.txfName.borderStyle = UITextBorderStyleNone;
-        cell.txfName.font = [UIFont systemFontOfSize:14];
         
         if (indexPath.row == 0) {
             
+            TextFieldCell *cell = [TextFieldCell  aTextFieldCell];
+            
+            
+            if (model.authStatus.integerValue == 2||model.authStatus.integerValue == 3) {
+                cell.contentView.userInteractionEnabled = NO;
+            }
+            cell.txfName.delegate = self;
+            cell.lblText.textColor = LIGHTGRAYTEXT;
+            cell.txfName.borderStyle = UITextBorderStyleNone;
+            cell.txfName.font = [UIFont systemFontOfSize:14];
             cell.iconView.image = [UIImage imageNamed:@"icon_card"];
             cell.lblText.text = @"学校全称";
             cell.txfName.placeholder = @"选择您的学校";
@@ -398,9 +399,20 @@ typedef enum : NSUInteger {
             if ([mutableDict[@"schoolName"]length]) {
                 cell.txfName.text = mutableDict[@"schoolName"];
             }
+            cell.contentView.hidden = YES;
+            return cell;
         
         }else if (indexPath.row == 1){
             
+            TextFieldCell *cell = [TextFieldCell  aTextFieldCell];
+            
+            if (model.authStatus.integerValue == 2||model.authStatus.integerValue == 3) {
+                cell.contentView.userInteractionEnabled = NO;
+            }
+            cell.txfName.delegate = self;
+            cell.lblText.textColor = LIGHTGRAYTEXT;
+            cell.txfName.borderStyle = UITextBorderStyleNone;
+            cell.txfName.font = [UIFont systemFontOfSize:14];
             cell.iconView.image = [UIImage imageNamed:@"icon_card"];
             cell.lblText.text = @"学号";
             cell.txfName.placeholder = @"输入您的学号";
@@ -412,6 +424,8 @@ typedef enum : NSUInteger {
             if ([mutableDict[@"studentNo"]length]) {
                 cell.txfName.text = mutableDict[@"studentNo"];
             }
+            cell.contentView.hidden = YES;
+            return cell;
             
             
         }else if (indexPath.row == 2){
@@ -435,8 +449,16 @@ typedef enum : NSUInteger {
                 [self.studentCardB setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:model.studentNoImg] placeholderImage:[UIImage imageNamed:@"studentidcard"]];
             }
             
+            UILabel *alertL = [[UILabel alloc] initWithFrame:CGRectMake(0, imageB.bottom+15, SCREEN_W, 20)];
+            alertL.textAlignment = NSTextAlignmentCenter;
+            alertL.font = FONT(12);
+            alertL.text = @"选填 (身份证/学生证,至少上传一种证件照片)";
+            alertL.textColor = RedColor;
+            
             [cell.contentView addSubview:leftL];
             [cell.contentView addSubview:imageB];
+            [cell.contentView addSubview:alertL];
+            
             
             if (model.authStatus.integerValue == 2||model.authStatus.integerValue == 3) {
                 cell.contentView.userInteractionEnabled = NO;
@@ -445,7 +467,7 @@ typedef enum : NSUInteger {
             
         }
         
-        return cell;
+        return nil;
         
     }
     
@@ -523,13 +545,15 @@ typedef enum : NSUInteger {
     }else if (![self checkIdentityCardNo:[cardIdTf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]){
         [self showAlertViewWithText:@"请正确输入身份证号" duration:1];
         return;
-    }else if (schoolTf.text.length == 0){
-        [self showAlertViewWithText:@"请选择您的学校" duration:1];
-        return;
-    }else if (studentNumTf.text.length == 0){
-        [self showAlertViewWithText:@"请输入您的学号" duration:1];
-        return;
-    }else if (!(isSelectIDCardFront&&isSelectIDCardBack)&&!isSelectStudentCard){
+    }
+//    else if (schoolTf.text.length == 0){
+//        [self showAlertViewWithText:@"请选择您的学校" duration:1];
+//        return;
+//    }else if (studentNumTf.text.length == 0){
+//        [self showAlertViewWithText:@"请输入您的学号" duration:1];
+//        return;
+//    }
+    else if (!(isSelectIDCardFront&&isSelectIDCardBack)&&!isSelectStudentCard){
         [self showAlertViewWithText:@"请选择上传身份证或者学生证照片" duration:1];
         return;
     }

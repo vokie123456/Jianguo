@@ -25,6 +25,7 @@
 
 #import "DateOrTimeTool.h"
 #import "UIImageView+WebCache.h"
+#import "XLPhotoBrowser.h"
 
 @interface MineChatViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -72,6 +73,9 @@
         self.editB.hidden = YES;
     }
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showIcon)];
+    [self.iconView addGestureRecognizer:tap];
+    
     [self requestUserInfo];
     
     self.tableView.estimatedRowHeight = 150;
@@ -102,13 +106,18 @@
     
 }
 
+-(void)showIcon
+{
+    [XLPhotoBrowser showPhotoBrowserWithImages:@[[NSURL URLWithString:userModel.headImg]] currentImageIndex:0];
+}
+
 -(void)requestUserInfo
 {
     
     [JGHTTPClient getUserInfoWithUserId:self.userId Success:^(id responseObject) {
         
         userModel = [UserInfoModel mj_objectWithKeyValues:responseObject[@"data"]];
-        [self.iconView sd_setImageWithURL:[NSURL URLWithString:userModel.headImg] placeholderImage:[UIImage imageNamed:@"myicon"]];
+        [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",userModel.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
         self.nameL.text = userModel.nickname.length?userModel.nickname:@"未填写姓名";
         [self.birthDateB setTitle:[userModel.birthDate.length?userModel.birthDate:@"1998-01-01" substringFromIndex:5] forState:UIControlStateNormal];
         

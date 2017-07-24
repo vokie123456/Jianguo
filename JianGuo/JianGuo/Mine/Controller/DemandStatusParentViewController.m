@@ -14,6 +14,7 @@
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
 #import "QLHudView.h"
+#import "QLAlertView.h"
 
 #import "JGHTTPClient+Demand.h"
 #import "JGHTTPClient+DemandOperation.h"
@@ -167,28 +168,34 @@
     
     switch (model.type.integerValue) {
         case 1:{//下架任务
-            btn.userInteractionEnabled = NO;
-            JGSVPROGRESSLOAD(@"正在请求...");
-            [JGHTTPClient offDemandWithDemandId:model.demandId reason:nil money:nil Success:^(id responseObject) {
+            
+            [QLAlertView showAlertTittle:@"确定下架任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
                 
-                btn.userInteractionEnabled = YES;
-                [SVProgressHUD dismiss];
-                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-                if ([responseObject[@"code"] integerValue] == 200) {//下架成功
+                btn.userInteractionEnabled = NO;
+                JGSVPROGRESSLOAD(@"正在请求...");
+                [JGHTTPClient offDemandWithDemandId:model.demandId reason:nil money:nil Success:^(id responseObject) {
                     
-                    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                    [self.dataArr removeObject:model];
-                    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                    btn.userInteractionEnabled = YES;
+                    [SVProgressHUD dismiss];
+                    [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                    if ([responseObject[@"code"] integerValue] == 200) {//下架成功
+                        
+                        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                        [self.dataArr removeObject:model];
+                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                        
+                    }
                     
-                }
-                
-            } failure:^(NSError *error) {
-                
-                btn.userInteractionEnabled = YES;
-                [SVProgressHUD dismiss];
-                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                } failure:^(NSError *error) {
+                    
+                    btn.userInteractionEnabled = YES;
+                    [SVProgressHUD dismiss];
+                    [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                    
+                }];
                 
             }];
+            
             
             break;
         } case 2:{//下架任务 <暂时改为 无操作>
@@ -267,25 +274,30 @@
             break;
         } case 3:{//确认完工
             
-            JGSVPROGRESSLOAD(@"正在请求...");
-            btn.userInteractionEnabled = NO;
-            [JGHTTPClient sureToFinishDemandWithDemandId:model.demandId type:@"2" Success:^(id responseObject) {
+            [QLAlertView showAlertTittle:@"确定完成任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
                 
-                [SVProgressHUD dismiss];
-                btn.userInteractionEnabled = YES;
-                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-                if ([responseObject[@"code"] integerValue] == 200) {
+                JGSVPROGRESSLOAD(@"正在请求...");
+                btn.userInteractionEnabled = NO;
+                [JGHTTPClient sureToFinishDemandWithDemandId:model.demandId type:@"2" Success:^(id responseObject) {
                     
-                    [self requestList:@"1"];
+                    [SVProgressHUD dismiss];
+                    btn.userInteractionEnabled = YES;
+                    [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                    if ([responseObject[@"code"] integerValue] == 200) {
+                        
+                        [self requestList:@"1"];
+                        
+                    }
                     
-                }
-                
-            } failure:^(NSError *error) {
-                [SVProgressHUD dismiss];
-                btn.userInteractionEnabled = YES;
-                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                } failure:^(NSError *error) {
+                    [SVProgressHUD dismiss];
+                    btn.userInteractionEnabled = YES;
+                    [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                    
+                }];
                 
             }];
+            
             
             break;
         } case 4:{//去评价

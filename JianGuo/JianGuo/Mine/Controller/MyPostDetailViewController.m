@@ -67,18 +67,18 @@
     
     [self requestDemandDetail];
     
-//    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn_r setTitle:@"投诉订单" forState:UIControlStateNormal];
-//    btn_r.titleLabel.font = FONT(15);
-//    [btn_r setTitleColor:GreenColor forState:UIControlStateNormal];
-//    [btn_r addTarget:self action:@selector(complain) forControlEvents:UIControlEventTouchUpInside];
-//    btn_r.frame = CGRectMake(0, 0, 80, 25);
-//    btn_r.hidden = YES;
-//    self.complainBtn = btn_r;
-//    
-//    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
-//    
-//    self.navigationItem.rightBarButtonItem = rightBtn;
+    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_r setTitle:@"投诉订单" forState:UIControlStateNormal];
+    btn_r.titleLabel.font = FONT(15);
+    [btn_r setTitleColor:GreenColor forState:UIControlStateNormal];
+    [btn_r addTarget:self action:@selector(complain) forControlEvents:UIControlEventTouchUpInside];
+    btn_r.frame = CGRectMake(0, 0, 80, 25);
+    btn_r.hidden = YES;
+    self.complainBtn = btn_r;
+    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    
+    self.navigationItem.rightBarButtonItem = rightBtn;
     
 
     bottomCons.constant = -40;
@@ -141,7 +141,7 @@
 -(void)clickPerson:(NSString *)userId
 {
     MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-    mineChatVC.userId = self.user.b_user_id;
+    mineChatVC.userId = self.demandModel.enrollUid;
     [self.navigationController pushViewController:mineChatVC animated:YES];
 }
 
@@ -546,39 +546,50 @@
 -(void)clickRightB:(UIButton *)sender
 {//确认完工
     
-    sender.userInteractionEnabled = NO;
-    [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+    [QLAlertView showAlertTittle:@"确定完成任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
+       
+        sender.userInteractionEnabled = NO;
+        [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+            
+            sender.userInteractionEnabled = YES;
+            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+            [self changedStautsCallBack];
+            
+        } failure:^(NSError *error) {
+            
+            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+            sender.userInteractionEnabled = YES;
+        }];
         
-        sender.userInteractionEnabled = YES;
-        [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-        [self changedStautsCallBack];
-        
-    } failure:^(NSError *error) {
-        
-        [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
-        sender.userInteractionEnabled = YES;
     }];
     
 }
 
 -(void)clickCenterB:(UIButton *)sender
 {
-    sender.userInteractionEnabled = NO;
+    
     if ([sender.currentTitle containsString:@"下架"]) {
-        JGSVPROGRESSLOAD(@"正在请求...");
-        [JGHTTPClient offDemandWithDemandId:self.demandId reason:nil money:nil Success:^(id responseObject) {
-            [SVProgressHUD dismiss];
-            sender.userInteractionEnabled = YES;
-            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-            [self changedStautsCallBack];
-            
-        } failure:^(NSError *error) {
-            sender.userInteractionEnabled = YES;
-            [SVProgressHUD dismiss];
-            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+        
+        [QLAlertView showAlertTittle:@"确定下架任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
+            JGSVPROGRESSLOAD(@"正在请求...");
+            sender.userInteractionEnabled = NO;
+            [JGHTTPClient offDemandWithDemandId:self.demandId reason:nil money:nil Success:^(id responseObject) {
+                [SVProgressHUD dismiss];
+                sender.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                [self changedStautsCallBack];
+                
+            } failure:^(NSError *error) {
+                sender.userInteractionEnabled = YES;
+                [SVProgressHUD dismiss];
+                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+            }];
         }];
+        
     }else if ([sender.currentTitle containsString:@"催TA干活"]){
+        
         JGSVPROGRESSLOAD(@"正在请求...");
+        sender.userInteractionEnabled = NO;
         [JGHTTPClient remindUserWithDemandId:self.demandId Success:^(id responseObject) {
             
             sender.userInteractionEnabled = YES;
@@ -595,19 +606,23 @@
         }];
     }else if ([sender.currentTitle containsString:@"确认完工"]){
         
-        JGSVPROGRESSLOAD(@"正在请求...");
-        [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+        [QLAlertView showAlertTittle:@"确定完成任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
             
-            [SVProgressHUD dismiss];
-            sender.userInteractionEnabled = YES;
-            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-            [self changedStautsCallBack];
-            
-        } failure:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            sender.userInteractionEnabled = YES;
-            [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
-            
+            JGSVPROGRESSLOAD(@"正在请求...");
+            sender.userInteractionEnabled = NO;
+            [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"2" Success:^(id responseObject) {
+                
+                [SVProgressHUD dismiss];
+                sender.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                [self changedStautsCallBack];
+                
+            } failure:^(NSError *error) {
+                [SVProgressHUD dismiss];
+                sender.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:NETERROETEXT duration:1.f];
+                
+            }];
         }];
         
     }else if ([sender.currentTitle containsString:@"评价"]){//去评价
@@ -626,7 +641,6 @@
         };
         [self presentViewController:reasonVC animated:YES completion:nil];
         
-        sender.userInteractionEnabled = YES;
         
     }
 }

@@ -109,6 +109,10 @@
             self.rightB.hidden = YES;
             if (_model.status.integerValue == 4) {
                 self.stateL.text = @"已结束";
+            }else if (_model.status.integerValue == 5){
+                self.stateL.text = @"投诉处理中";
+            }else if (_model.status.integerValue == 6){
+                self.stateL.text = @"投诉已处理";
             }else{
                 self.stateL.text = @"已下架";
             }

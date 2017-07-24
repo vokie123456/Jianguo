@@ -66,7 +66,7 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         
-        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
+//        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
 
     }
     return  self;
@@ -76,6 +76,7 @@
     [super viewDidLoad];
     
     self.delegate = self;
+    
     [self setChildController];
     
     [self location];
@@ -243,152 +244,6 @@
     return YES;
 }
 
-
--(void)clickNotification:(NSNotification *)noti//点击通知进入应用
-{
-    NSDictionary *userInfo = noti.object;
-    [self fromNotiToMyjobVC:userInfo];
-}
-
-
--(void)fromNotiToMyjobVC:(NSDictionary *)userInfo
-{
-    int intType = [userInfo[@"type"] intValue];
-    UIViewController *VC;
-    switch (intType) {
-        case 4:
-        case 1:{//报名推送
-            
-            VC = [[MyPartJobViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.childViewControllers.firstObject pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 2:
-        case 3:{//主页推送,留在主页就行,不用额外操作
-            
-            
-            JianZhiDetailController *jzdetailVC = [[JianZhiDetailController alloc] init];
-            
-            jzdetailVC.hidesBottomBarWhenPushed = YES;
-            
-            jzdetailVC.jobId = userInfo[@"job_id"];
-            
-            [self.childViewControllers.firstObject pushViewController:jzdetailVC animated:YES];
-            break;
-            
-            break;
-        }
-        case 5:{//钱包推送
-            
-            VC = [[MyWalletNewViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.childViewControllers.firstObject pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 7:
-        case 6:{//实名推送
-            
-            VC = [[RealNameNewViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.childViewControllers.firstObject pushViewController:VC animated:YES];
-            
-            break;
-        }
-        case 8:{//收到了果聊消息 –––> 果聊联系人页面
-            
-            [self.tabBarController setSelectedIndex:1];
-            
-            break;
-        }
-        case 9:{//报名了外露的兼职(主要是发短信的形式) –––>不做处理
-            
-            break;
-        }
-        case 10:{//发布的任务收到了新报名(–––>我发布的报名列表)
-            
-            SignDemandViewController *signVC = [SignDemandViewController new];
-            signVC.demandId = userInfo[@"jobid"];
-            signVC.hidesBottomBarWhenPushed = YES;
-            [self.childViewControllers.firstObject pushViewController:signVC animated:YES];
-            
-            break;
-        }
-            // ***  报名的需求  ***
-        case 14://被投诉,收到投诉处理结果(––––>任务详情页面)
-        case 13://被雇主投诉(––––>任务详情页面)
-        case 16://报名的需求被录用(––––>任务详情页面)
-        case 17:{//报名的需求被拒绝(–––>我发布的报名列表)
-            MySignDetailViewController *detailVC = [[MySignDetailViewController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.childViewControllers.firstObject pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 15:{//任务服务费用到账(–––>钱包明细,收入明细)
-            
-            BillsViewController *billVC = [[BillsViewController alloc] init];
-            billVC.hidesBottomBarWhenPushed = YES;
-            billVC.type = @"1";
-            billVC.navigationItem.title = @"收入明细";
-            [self.childViewControllers.firstObject pushViewController:billVC animated:YES];
-            break;
-        }
-            // ***  发布的需求  ***
-        case 11://发布的任务未通过审核
-        case 12://发布需求,投诉了服务者,收到了投诉处理结果
-        case 18:{//发布的需求收到了新评论(–––>也是任务详情页)
-            MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.childViewControllers.firstObject pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 19:{//收到了评论,去普通的需求详情页
-            DemandDetailNewViewController *detailVC = [[DemandDetailNewViewController alloc] init];
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.demandId = userInfo[@"jobid"];
-            [self.childViewControllers.firstObject pushViewController:detailVC animated:YES];
-            break;
-        }
-        case 23:{//自定义推送
-            
-            RemindMsgViewController *msgVC = [[RemindMsgViewController alloc] init];
-            
-            msgVC.hidesBottomBarWhenPushed = YES;
-            
-            [self.childViewControllers.firstObject pushViewController:msgVC animated:YES];
-            
-            break;
-            
-        }
-        case 24:{//活动推送(H5)
-            
-            WebViewController *webVC = [[WebViewController alloc] init];
-            webVC.url = userInfo[@"html_url"];
-            
-            webVC.hidesBottomBarWhenPushed = YES;
-            [self.childViewControllers.firstObject pushViewController:webVC animated:YES];
-            break;
-        }
-        case 25:{//评价推送(H5)
-            
-            MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
-            mineChatVC.hidesBottomBarWhenPushed = YES;
-            mineChatVC.userId = [NSString stringWithFormat:@"%@",USER.login_id];
-            [self.childViewControllers.firstObject pushViewController:mineChatVC animated:YES];
-            break;
-        }
-            
-            
-        case 100:{//活动推送(H5)
-            
-            break;
-        }
-    }
-}
 
 #pragma mark - UIViewControllerTransitioningDelegate
 

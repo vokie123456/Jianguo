@@ -15,6 +15,7 @@
 
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
+#import "QLAlertView.h"
 
 #import "MySignDemandCell.h"
 
@@ -155,8 +156,10 @@
             break;
         } case 3:{//催任务发布者确认完工
             
+            JGSVPROGRESSLOAD(@"正在请求...");
             [JGHTTPClient remindPublisherWithDemandId:model.demandId Success:^(id responseObject) {
                 
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
                 if ([responseObject[@"code"] integerValue] == 200) {
                     
@@ -164,6 +167,8 @@
                 
             } failure:^(NSError *error) {
                 
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
             }];
             
             break;
@@ -191,38 +196,59 @@
     switch (model.type.integerValue) {
         case 1:{//取消报名
             
-            [JGHTTPClient cancelSignWithDemandId:model.demandId Success:^(id responseObject) {
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [QLAlertView showAlertTittle:@"确定取消报名?" message:nil isOnlySureBtn:NO compeletBlock:^{
                 
-                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
-                if ([responseObject[@"code"] integerValue] == 200) {
-                    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-                    [self.dataArr removeObject:model];
-                    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-                }
-                
-            } failure:^(NSError *error) {
+                [SVProgressHUD dismiss];
+                [JGHTTPClient cancelSignWithDemandId:model.demandId Success:^(id responseObject) {
+                    
+                    [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                    if ([responseObject[@"code"] integerValue] == 200) {
+                        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+                        [self.dataArr removeObject:model];
+                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                    }
+                    
+                } failure:^(NSError *error) {
+                    
+                    [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                    [SVProgressHUD dismiss];
+                }];
                 
             }];
             
             break;
         } case 2:{//确认完工
             
-            [JGHTTPClient sureToFinishDemandWithDemandId:model.demandId type:@"1" Success:^(id responseObject) {
+            
+            [QLAlertView showAlertTittle:@"确定完成任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
                 
-                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
-                if ([responseObject[@"code"] integerValue] == 200) {
+                
+                JGSVPROGRESSLOAD(@"正在请求...");
+                [JGHTTPClient sureToFinishDemandWithDemandId:model.demandId type:@"1" Success:^(id responseObject) {
                     
-                }
-                
-            } failure:^(NSError *error) {
+                    [SVProgressHUD dismiss];
+                    [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                    if ([responseObject[@"code"] integerValue] == 200) {
+                        
+                        [self requestList:@"1"];
+                    }
+                    
+                } failure:^(NSError *error) {
+                    
+                    [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                    [SVProgressHUD dismiss];
+                }];
                 
             }];
             
             break;
         } case 3:{//催TA确认
             
+            JGSVPROGRESSLOAD(@"正在请求...");
             [JGHTTPClient remindPublisherWithDemandId:model.demandId Success:^(id responseObject) {
                 
+                [SVProgressHUD dismiss];
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
                 if ([responseObject[@"code"] integerValue] == 200) {
                     
@@ -230,6 +256,8 @@
                 
             } failure:^(NSError *error) {
                 
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
             }];
             
             break;

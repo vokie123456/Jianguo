@@ -38,11 +38,16 @@
         
     }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
-        [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
+    self.tableView.mj_footer = ({
         
-    }];
+        MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+            pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+            [self requestWithCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
+        }];
+//        footer.automaticallyHidden = YES;
+        footer;
+        
+    });
     
     [self requestWithCount:@"1"];
     
@@ -65,15 +70,15 @@
                 [self showAlertViewWithText:@"没有更多数据" duration:1];
                 return ;
             }
-            NSMutableArray *sections = [NSMutableArray array];
+            NSMutableArray *indexPaths = [NSMutableArray array];
             for (SignUsers *model in [SignUsers mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
                 [self.dataArr addObject:model];
-                NSIndexSet* section = [NSIndexSet indexSetWithIndex:self.dataArr.count-1];
-                [sections addObject:section];
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:1];
+                [indexPaths addObject:indexPath];
             }
             
-            //            [_tableView insertRowsAtIndexPaths:sections withRowAnimation:UITableViewRowAnimationFade];
-            [_tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.dataArr.count-sections.count, sections.count)] withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+//            [_tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.dataArr.count-sections.count, sections.count)] withRowAnimation:UITableViewRowAnimationFade];
             return;
             
         }else{
@@ -115,7 +120,7 @@
         }else
             return 65;
     }else
-        return 70;
+        return 80;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -192,13 +197,17 @@
     
 }
 
+
+
 - (IBAction)use:(id)sender {
     
     SignersCell *cell = (SignersCell *)[[sender superview]superview];
     SignUsers *model = cell.model;
     
+    JGSVPROGRESSLOAD(@"正在请求...");
     [JGHTTPClient admitUserWithDemandId:self.demandId userId:model.enrollUid Success:^(id responseObject) {
         
+        [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
         if ([responseObject[@"code"] integerValue] == 200) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -207,6 +216,7 @@
         }
         
     } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
         [self showAlertViewWithText:NETERROETEXT duration:1];
     }];
     

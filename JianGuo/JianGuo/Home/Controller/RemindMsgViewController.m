@@ -70,7 +70,7 @@
     [self.view addSubview:self.tableView];
     
     self.tableView.rowHeight = UITableViewAutomaticDimension; // 自适应单元格高度
-    self.tableView.estimatedRowHeight = 155; //先估计一个高度
+    self.tableView.estimatedRowHeight = 140; //先估计一个高度
     
     self.view.backgroundColor = BACKCOLORGRAY;
     self.tableView.backgroundColor = BACKCOLORGRAY;
@@ -82,10 +82,16 @@
     
     self.tableView.mj_header = header;
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
-        [self requestWithCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
-    }];
+    self.tableView.mj_footer = ({
+        
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+            pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+            [self requestWithCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
+        }];
+//        footer.automaticallyHidden = YES;
+        footer;
+    
+    });
     
     
     [self showANopartJobView];
@@ -115,7 +121,7 @@
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             return;
             
         }else{
@@ -126,9 +132,9 @@
             }else{
                 bgView.hidden = YES;
             }
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];

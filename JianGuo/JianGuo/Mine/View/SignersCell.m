@@ -56,13 +56,17 @@
         self.genderView.image = [UIImage imageNamed:@"girlsex"];
     }
     
-    if (model.enrollStatus.integerValue == 2) {
+    if (model.enrollStatus.integerValue == 2) {//已录用
         
         [self.acceptBtn setTitle:@"已录用" forState:UIControlStateNormal];
         [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
         self.acceptBtn.userInteractionEnabled = NO;
-    }else if (model.enrollStatus.integerValue == 3){
+    }else if (model.enrollStatus.integerValue == 3){//拒绝,未录用状态
         [self.acceptBtn setTitle:@"未录用" forState:UIControlStateNormal];
+        [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
+        self.acceptBtn.userInteractionEnabled = NO;
+    }else if (model.enrollStatus.integerValue == 4){//用户取消报名
+        [self.acceptBtn setTitle:@"已取消" forState:UIControlStateNormal];
         [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
         self.acceptBtn.userInteractionEnabled = NO;
     }else if (model.enrollStatus.integerValue==1){
@@ -73,6 +77,10 @@
             [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
             self.acceptBtn.userInteractionEnabled = NO;
             
+        }else if (model.demandStatus.integerValue != 1){
+            [self.acceptBtn setTitle:@"未录用" forState:UIControlStateNormal];
+            [self.acceptBtn setBackgroundColor:LIGHTGRAY1];
+            self.acceptBtn.userInteractionEnabled = NO;
         }
         
     }
@@ -130,7 +138,7 @@
 - (void)showIcon:(UITapGestureRecognizer *)sender {
     
     if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
-        [self.delegate clickIcon:_model.user_id];
+        [self.delegate clickIcon:_model.enrollUid];
     }
     
 }
@@ -162,6 +170,9 @@
     if (SCREEN_W!=320) {
         self.buttonWidthCons.constant = 60;
     }
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showIcon:)];
+    [self.iconView addGestureRecognizer:tap];
     
 }
 

@@ -275,12 +275,12 @@ static const NSInteger kMaxLength = 15;
             if (schoolModel) {
                 schoolM = schoolModel;
                 schoolId = schoolModel.id;
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@",cityM.cityName,schoolM.name];
             }
             if (cityModel) {
                 cityM = cityModel;
                 cityId = cityModel.code;
             }
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@",cityM.cityName,schoolM.name];
             
         };
         searchVC.hidesBottomBarWhenPushed = YES;

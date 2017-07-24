@@ -14,6 +14,16 @@
 #import "DemandDetailNewViewController.h"
 #import "WebViewController.h"
 
+#import "SignDemandViewController.h"
+#import "JianZhiDetailController.h"
+#import "MyWalletNewViewController.h"
+#import "RealNameNewViewController.h"
+#import "MyPartJobViewController.h"
+#import "MySignDetailViewController.h"
+#import "MyPostDetailViewController.h"
+#import "RemindMsgViewController.h"
+#import "BillsViewController.h"
+
 #import "JGHTTPClient+Demand.h"
 #import "JGHTTPClient+Mine.h"
 #import "JGHTTPClient+Home.h"
@@ -102,6 +112,7 @@ static NSString *identifier = @"DemandListCell";
         
         [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
         [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
     }
     return self;
 }
@@ -145,7 +156,7 @@ static NSString *identifier = @"DemandListCell";
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     
     
-    self.tableView.estimatedRowHeight = 140;
+    self.tableView.estimatedRowHeight = 278;
 //    self.tableView.rowHeight = 140;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
@@ -162,15 +173,19 @@ static NSString *identifier = @"DemandListCell";
         [self requestWithCount:@"1"];
     }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = ({
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         pageCount = ((int)(self.dataArr.count-1)/10) + ((int)((self.dataArr.count-1)/10)>=1?1:2) + (((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0);
         
         JGLog(@"one ====  %d",(int)self.dataArr.count/10);
         JGLog(@"two ==== %d",((int)(self.dataArr.count/10)>=1?1:2));
         JGLog(@"three ==== %d",(((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0));
         [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
-
+        
     }];
+        footer.pullingPercent = 0.5;
+        footer;
+    });
     
     [self.tableView.mj_header beginRefreshing];
     
@@ -240,7 +255,7 @@ static NSString *identifier = @"DemandListCell";
     //    [self customCommentKeyboard];
 //    [self.tableView.mj_header beginRefreshing];
     
-    
+    [self handleRemoteNotifcation];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -318,7 +333,7 @@ static NSString *identifier = @"DemandListCell";
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             /*
             NSMutableArray *sections = [NSMutableArray array];
             for (DemandModel *model in [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
@@ -336,10 +351,10 @@ static NSString *identifier = @"DemandListCell";
 //            if (self.dataArr.count == 0) {
 //                [self.tableView setContentSize:CGSizeMake(SCREEN_W, SCREEN_H*2)];
 //                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
-//            }
+            //            }
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         
     } failure:^(NSError *error) {
@@ -783,10 +798,189 @@ static NSString *identifier = @"DemandListCell";
 }
 
 
+-(void)clickNotification:(NSNotification *)noti//点击通知进入应用
+{
+    NSDictionary *userInfo = noti.object;
+    [self fromNotiToMyjobVC:userInfo];
+}
+
+
+/**
+ *  处理远程推送的跳转逻辑
+ */
+-(void)handleRemoteNotifcation
+{
+    NSDictionary *userInfo = [USERDEFAULTS objectForKey:@"push"];
+    if (userInfo) {
+        
+        NSDictionary *userInfo = [USERDEFAULTS objectForKey:@"push"];
+        if (userInfo) {
+            
+            NSArray *array = [[userInfo objectForKey:@"aps"] allKeys];
+            if ([array containsObject:@"type"]||[[userInfo allKeys] containsObject:@"type"]) {
+                
+                [self fromNotiToMyjobVC:userInfo];
+                
+            }else{
+                UITabBarController *tabVc = (UITabBarController *)APPLICATION.keyWindow.rootViewController;
+                [tabVc setSelectedIndex:2];
+                
+            }
+            
+            
+        }
+        [[NSUserDefaults standardUserDefaults]setObject:nil forKey:@"push"];
+        
+    }
+}
+
+
+-(void)fromNotiToMyjobVC:(NSDictionary *)userInfo
+{
+    int intType = [userInfo[@"type"] intValue];
+    UIViewController *VC;
+    switch (intType) {
+        case 4:
+        case 1:{//报名推送
+            
+            VC = [[MyPartJobViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+            break;
+        }
+        case 2:
+        case 3:{//主页推送,留在主页就行,不用额外操作
+            
+            
+            JianZhiDetailController *jzdetailVC = [[JianZhiDetailController alloc] init];
+            
+            jzdetailVC.hidesBottomBarWhenPushed = YES;
+            
+            jzdetailVC.jobId = userInfo[@"job_id"];
+            
+            [self.navigationController pushViewController:jzdetailVC animated:YES];
+            break;
+            
+            break;
+        }
+        case 5:{//钱包推送
+            
+            VC = [[MyWalletNewViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+            break;
+        }
+        case 7:
+        case 6:{//实名推送
+            
+            VC = [[RealNameNewViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+            break;
+        }
+        case 8:{//收到了果聊消息 –––> 果聊联系人页面
+            
+            [self.tabBarController setSelectedIndex:1];
+            
+            break;
+        }
+        case 9:{//报名了外露的兼职(主要是发短信的形式) –––>不做处理
+            
+            break;
+        }
+        case 10:{//发布的任务收到了新报名(–––>我发布的报名列表)
+            
+            SignDemandViewController *signVC = [SignDemandViewController new];
+            signVC.demandId = userInfo[@"jobid"];
+            signVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:signVC animated:YES];
+            
+            break;
+        }
+            // ***  报名的需求  ***
+        case 14://被投诉,收到投诉处理结果(––––>任务详情页面)
+        case 13://被雇主投诉(––––>任务详情页面)
+        case 16://报名的需求被录用(––––>任务详情页面)
+        case 17:{//报名的需求被拒绝(–––>我发布的报名列表)
+            MySignDetailViewController *detailVC = [[MySignDetailViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
+            break;
+        }
+        case 15:{//任务服务费用到账(–––>钱包明细,收入明细)
+            
+            BillsViewController *billVC = [[BillsViewController alloc] init];
+            billVC.hidesBottomBarWhenPushed = YES;
+            billVC.type = @"1";
+            billVC.navigationItem.title = @"收入明细";
+            [self.navigationController pushViewController:billVC animated:YES];
+            break;
+        }
+            // ***  发布的需求  ***
+        case 11://发布的任务未通过审核
+        case 12://发布需求,投诉了服务者,收到了投诉处理结果
+        case 18:{//发布的需求收到了新评论(–––>也是任务详情页)
+            MyPostDetailViewController *detailVC = [[MyPostDetailViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
+            break;
+        }
+        case 19:{//收到了评论,去普通的需求详情页
+            DemandDetailNewViewController *detailVC = [[DemandDetailNewViewController alloc] init];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.demandId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:detailVC animated:YES];
+            break;
+        }
+        case 23:{//自定义推送
+            
+            RemindMsgViewController *msgVC = [[RemindMsgViewController alloc] init];
+            
+            msgVC.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:msgVC animated:YES];
+            
+            break;
+            
+        }
+        case 24:{//活动推送(H5)
+            
+            WebViewController *webVC = [[WebViewController alloc] init];
+            webVC.url = userInfo[@"html_url"];
+            
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+            break;
+        }
+        case 25:{//评价推送(H5)
+            
+            MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+            mineChatVC.hidesBottomBarWhenPushed = YES;
+            mineChatVC.userId = [NSString stringWithFormat:@"%@",USER.login_id];
+            [self.navigationController pushViewController:mineChatVC animated:YES];
+            break;
+        }
+            
+            
+        case 100:{//活动推送(H5)
+            
+            break;
+        }
+    }
+}
+
+
+
 -(void)dealloc
 {
     [NotificationCenter removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [NotificationCenter removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [NotificationCenter removeObserver:self name:kNotificationClickNotification object:nil];
     
 }
 

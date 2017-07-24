@@ -10,6 +10,7 @@
 #import "MySignDetailViewController.h"
 #import "DemandDetailNewViewController.h"
 #import "TextReasonViewController.h"
+#import "MineChatViewController.h"
 
 #import "MySignDemandCell.h"
 #import "DemandStatusCell.h"
@@ -347,9 +348,23 @@
         detailVC.demandId = self.demandId;
         [self.navigationController pushViewController:detailVC animated:YES];
         
+    }else if (indexPath.section == 1){
+        
+        MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+        mineChatVC.userId = self.demandModel.publishUid;
+        [self.navigationController pushViewController:mineChatVC animated:YES];
     }
 }
-
+/**
+ *  去个人页面
+ *
+ */
+-(void)clickPerson:(NSString *)userId
+{
+    MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+    mineChatVC.userId = self.demandModel.publishUid;
+    [self.navigationController pushViewController:mineChatVC animated:YES];
+}
 
 -(void)callSomeOne
 {
@@ -378,36 +393,48 @@
 -(void)clickCenterB:(UIButton *)sender
 {
     
-    sender.userInteractionEnabled = NO;
-    
     if ([sender.currentTitle containsString:@"取消报名"]) {
         
-        [JGHTTPClient cancelSignWithDemandId:self.demandId Success:^(id responseObject) {
+        [QLAlertView showAlertTittle:@"确定取消报名?" message:nil isOnlySureBtn:NO compeletBlock:^{
             
-            sender.userInteractionEnabled = YES;
-            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-            [self changedStautsCallBack];
-            if ([responseObject[@"code"] integerValue] == 200) {
+            sender.userInteractionEnabled = NO;
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [JGHTTPClient cancelSignWithDemandId:self.demandId Success:^(id responseObject) {
                 
-            }
-            
-        } failure:^(NSError *error) {
-            
-            sender.userInteractionEnabled = YES;
+                sender.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                [self changedStautsCallBack];
+                if ([responseObject[@"code"] integerValue] == 200) {
+                    
+                }
+                
+            } failure:^(NSError *error) {
+                
+                sender.userInteractionEnabled = YES;
+            }];
         }];
+        
     }else if ([sender.currentTitle containsString:@"确认完工"]){
-        [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"1" Success:^(id responseObject) {
+        
+        [QLAlertView showAlertTittle:@"确定完成任务?" message:nil isOnlySureBtn:NO compeletBlock:^{
             
-            sender.userInteractionEnabled = YES;
-            [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
-            [self changedStautsCallBack];
-            
-        } failure:^(NSError *error) {
-            
-            sender.userInteractionEnabled = YES;
+            sender.userInteractionEnabled = NO;
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [JGHTTPClient sureToFinishDemandWithDemandId:self.demandId type:@"1" Success:^(id responseObject) {
+                
+                sender.userInteractionEnabled = YES;
+                [QLHudView showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                [self changedStautsCallBack];
+                
+            } failure:^(NSError *error) {
+                
+                sender.userInteractionEnabled = YES;
+            }];
         }];
     }else if ([sender.currentTitle containsString:@"催TA确认"]){
         
+        sender.userInteractionEnabled = NO;
+        JGSVPROGRESSLOAD(@"正在请求...");
         [JGHTTPClient remindPublisherWithDemandId:self.demandId Success:^(id responseObject) {
             
             sender.userInteractionEnabled = YES;

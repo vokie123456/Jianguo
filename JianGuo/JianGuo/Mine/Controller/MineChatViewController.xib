@@ -43,7 +43,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="334"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kobe" translatesAutoresizingMaskIntoConstraints="NO" id="IMF-I0-B8O">
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kobe" translatesAutoresizingMaskIntoConstraints="NO" id="IMF-I0-B8O">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="uhk-cN-2Hm"/>
@@ -224,7 +224,7 @@
                                     <constraint firstAttribute="bottom" secondItem="C07-6n-HyQ" secondAttribute="bottom" constant="2" id="rKa-Bp-iM6"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myicon" translatesAutoresizingMaskIntoConstraints="NO" id="RvO-TI-PoH" customClass="IBImageView">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myicon" translatesAutoresizingMaskIntoConstraints="NO" id="RvO-TI-PoH" customClass="IBImageView">
                                 <rect key="frame" x="155" y="90" width="65" height="65"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="9f8-0A-9Lb"/>
@@ -301,7 +301,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iwa-ET-qgW">
                                 <rect key="frame" x="0.0" y="0.0" width="187" height="49"/>
                                 <state key="normal" title="关注TA">
-                                    <color key="titleColor" red="0.32953742146492004" green="0.65923553705215454" blue="0.069756954908370972" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="followUser:" destination="-1" eventType="touchUpInside" id="mZy-9I-Mud"/>
@@ -310,7 +310,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="llx-gs-a9d">
                                 <rect key="frame" x="188" y="0.0" width="187" height="49"/>
                                 <state key="normal" title="果聊TA">
-                                    <color key="titleColor" red="0.32953742146492004" green="0.65923553705215454" blue="0.069756954908370972" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="chat:" destination="-1" eventType="touchUpInside" id="xVE-Z3-a15"/>

@@ -44,7 +44,11 @@
     self.descriptionL.text = model.demandDesc;
     self.timeL.text = model.createTimeStr;
     self.timeLimitL.text = model.limitTimeStr;
-    self.moneyL.text = [@"￥ " stringByAppendingString:model.money];
+    if ([model.money containsString:@"."]) {
+        self.moneyL.text = [NSString stringWithFormat:@"￥%.2f元",model.money.floatValue];
+    }else{
+        self.moneyL.text = [NSString stringWithFormat:@"￥%@元",model.money];
+    }
     switch (model.type.integerValue) {
         case 1:{
             
@@ -83,6 +87,10 @@
             self.rightB.hidden = YES;
             if (_model.status.integerValue == 7) {
                 self.stateL.text = @"已下架";
+            }else if (_model.status.integerValue == 5){
+                self.stateL.text = @"任务被投诉";
+            }else if (_model.status.integerValue == 6){
+                self.stateL.text = @"投诉已处理";
             }else{
                 if (_model.enrollStatus.integerValue == 4) {
                     self.stateL.text = @"已取消报名";

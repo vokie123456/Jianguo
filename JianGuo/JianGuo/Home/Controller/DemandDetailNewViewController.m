@@ -100,7 +100,7 @@
     
     self.navigationItem.title = @"任务详情";
     
-    self.tableView.estimatedRowHeight = 80;
+    self.tableView.estimatedRowHeight = 100;
     
     [self requestDetail];
     IMP_BLOCK_SELF(DemandDetailNewViewController);
@@ -290,7 +290,36 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section>0?15:0;
+    return section==2?60:0;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) {
+        
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 60)];
+        headerView.backgroundColor = BACKCOLORGRAY;
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 15, SCREEN_W, 45)];
+        view.backgroundColor = WHITECOLOR;
+        
+        UIImageView *commentView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 12, 21, 21)];
+        commentView.image = [UIImage imageNamed:@"msessage"];
+        
+        UILabel *commentCountL = [[UILabel alloc] initWithFrame:CGRectMake(commentView.right+10, 0, 100, 43)];
+        commentCountL.textColor = LIGHTGRAYTEXT;
+        commentCountL.font = FONT(15);
+        commentCountL.text = detailModel.commentCount;
+        
+        [view addSubview:commentView];
+        [view addSubview:commentCountL];
+        
+        [headerView addSubview:view];
+        
+        return headerView;
+        
+    }else
+        return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

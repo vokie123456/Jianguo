@@ -120,7 +120,7 @@
         } case ControllerFunctionTypePublisherComplain:{
             
             JGSVPROGRESSLOAD(@"正在请求...");
-            [JGHTTPClient complainSomeOneWithDemandId:self.demandId userId:self.userId status:nil reason:self.reasonTV.text Success:^(id responseObject) {
+            [JGHTTPClient complainSomeOneWithDemandId:self.demandId userId:self.userId status:@"5" reason:self.reasonTV.text Success:^(id responseObject) {
                 
                 [SVProgressHUD dismiss];
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
