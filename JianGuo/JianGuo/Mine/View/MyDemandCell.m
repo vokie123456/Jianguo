@@ -37,6 +37,8 @@
     [super prepareForReuse];
     self.leftB.hidden = NO;
     self.rightB.hidden = NO;
+//    self.timeLimitHeightCons.constant = 0;
+//    self.timeLimitL.hidden = YES;
     
 }
 
@@ -54,6 +56,12 @@
 -(void)setModel:(DemandPostModel *)model
 {
     _model = model;
+    if (model.limitTimeStr.length == 0) {
+        self.timeLimitHeightCons.constant = 0;
+        self.timeLimitL.hidden = YES;
+    }else{
+        self.timeLimitHeightCons.constant = 35;
+    }
     self.titleL.text = model.title;
     self.descriptionL.text = model.demandDesc;
     self.timeL.text = model.createTimeStr;
@@ -150,8 +158,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    
-    
 }
 
 @end

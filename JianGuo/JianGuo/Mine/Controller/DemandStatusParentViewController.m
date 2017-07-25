@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.estimatedRowHeight = 150;
+    self.tableView.estimatedRowHeight = 120;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -46,14 +46,16 @@
         
     }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = ({
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+            pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+            [self requestList:[NSString stringWithFormat:@"%ld",(long)pageCount]];
+        }];
+        //        footer.automaticallyHidden = YES;
+        footer;
         
-        
-        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
-        
-    }];
+    });
     
     [self requestList:@"1"];
     
@@ -82,7 +84,8 @@
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadData];
+//            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             return;
             
         }else{
@@ -94,9 +97,9 @@
             }else{
                 bgView.hidden = YES;
             }
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -129,12 +132,7 @@
 //    }else{
         MyDemandCell *cell = [MyDemandCell cellWithTableView:tableView];
         cell.model = self.dataArr[indexPath.row];
-        if (cell.model.limitTimeStr.length == 0) {
-            cell.timeLimitHeightCons.constant = 0;
-            cell.timeLimitL.hidden = YES;
-        }else{
-            cell.timeLimitHeightCons.constant = 35;
-        }
+        
         return cell;
 //    }
     
@@ -158,6 +156,22 @@
     [self.navigationController pushViewController:postVC animated:YES];
     
 }
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);//沿x轴正轴旋转60度
+//    //    cell.transform = CGAffineTransformTranslate(cell.transform, -SCREEN_W/2, 0);
+//    cell.alpha = 0.0;
+//    
+//    [UIView animateWithDuration:0.8 animations:^{
+//        
+//        cell.layer.transform = CATransform3DRotate(cell.layer.transform, M_PI, 1, 0, 0);
+//        
+//        cell.alpha = 1.0;
+//        
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
 
 - (IBAction)clickLeft:(id)sender {
     
