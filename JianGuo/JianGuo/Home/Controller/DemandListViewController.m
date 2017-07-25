@@ -183,7 +183,7 @@ static NSString *identifier = @"DemandListCell";
         [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
         
     }];
-        footer.pullingPercent = 0.5;
+//        footer.pullingPercent = 0.5;
         footer;
     });
     
@@ -332,8 +332,8 @@ static NSString *identifier = @"DemandListCell";
                 NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:0];
                 [indexPaths addObject:indexPath];
             }
-            
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+            [_tableView reloadData];
+//            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             /*
             NSMutableArray *sections = [NSMutableArray array];
             for (DemandModel *model in [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {

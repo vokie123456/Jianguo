@@ -121,10 +121,19 @@
     
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//
+//    [APPLICATION.keyWindow endEditing:YES];
+//    [self.commentView removeFromSuperview];
+//    self.commentView = nil;
+//}
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
     [APPLICATION.keyWindow endEditing:YES];
     [self.commentView removeFromSuperview];
     self.commentView = nil;
@@ -185,13 +194,14 @@
                 [addArr addObjectsFromArray:model.childComments];
             }
             
-            NSMutableArray *indexPaths = [NSMutableArray array];
-            for (int i=0; i<addArr.count; i++) {
-                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.commentAll.count-addArr.count+i inSection:2];
-                [indexPaths addObject:indexPath];
-            }
+//            NSMutableArray *indexPaths = [NSMutableArray array];
+//            for (int i=0; i<addArr.count; i++) {
+//                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.commentAll.count-addArr.count+i inSection:2];
+//                [indexPaths addObject:indexPath];
+//            }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadData];
+//            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
             
             return;
             
@@ -202,7 +212,7 @@
                 [self.commentAll addObject:model];
                 [self.commentAll addObjectsFromArray:model.childComments];
             }
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView reloadData];
             return;
         }
         
@@ -271,7 +281,6 @@
             self.likeView.image = [UIImage imageNamed:detailModel.isLike.integerValue == 1?@"xin":@"fabulous"];
             
             
-            [self.tableView reloadData];
             if (detailModel.limitTime.integerValue == 0) {
                 [UIView animateWithDuration:0.2 animations:^{
                     [self.headerView layoutIfNeeded];
@@ -279,6 +288,7 @@
                     self.headerView.height = 115-44;
                 }];
             }
+            [self.tableView reloadData];
             
         }else if ([responseObject[@"code"] integerValue] == 600){
             [self showAlertViewWithText:responseObject[@"message"] duration:1];
@@ -680,13 +690,17 @@
 -(void)finishEdit
 {
     [self.commentTV resignFirstResponder];
+    JGSVPROGRESSLOAD(@"正在请求...");
     [JGHTTPClient postAcommentWithDemandId:detailModel.self.demandId content:self.commentTV.text pid:self.pid toUserId:self.toUserId Success:^(id responseObject) {
         
+        [SVProgressHUD dismiss];
         if ([responseObject[@"code"] integerValue] == 200) {
             [self requestWithCount:@"1"];
         }
         
     } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self showAlertViewWithText:NETERROETEXT duration:1.f];
         
     }];
     

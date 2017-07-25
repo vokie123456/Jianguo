@@ -41,14 +41,17 @@
         
     }];
     
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    
+    self.tableView.mj_footer = ({
         
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+            pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+            [self requestList:[NSString stringWithFormat:@"%ld",(long)pageCount]];
+        }];
+        //        footer.automaticallyHidden = YES;
+        footer;
         
-        
-        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
-        
-    }];
+    });
     
     [self requestList:@"1"];
     
@@ -76,8 +79,8 @@
                 NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:0];
                 [indexPaths addObject:indexPath];
             }
-            
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView reloadData];
+//            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             return;
             
         }else{
@@ -89,9 +92,9 @@
             }else{
                 bgView.hidden = YES;
             }
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -138,6 +141,8 @@
     [self.navigationController pushViewController:signVC animated:YES];
     
 }
+
+
 - (IBAction)clickLeft:(id)sender {
     
     

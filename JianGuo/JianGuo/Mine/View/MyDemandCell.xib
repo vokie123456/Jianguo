@@ -115,7 +115,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习交流" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXa-Dn-Mxy" customClass="IBLabel">
-                                <rect key="frame" x="56" y="11" width="45" height="15"/>
+                                <rect key="frame" x="55" y="11" width="45" height="15"/>
                                 <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="AwP-y6-0B7"/>
@@ -169,44 +169,21 @@
                             </mask>
                         </variation>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3h-BY-f8b">
-                        <rect key="frame" x="0.0" y="114" width="320" height="35"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iDP-0T-3Fp">
-                                <rect key="frame" x="15" y="0.0" width="305" height="1"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="FsR-KL-6CK"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务时限: 2017-06-27 12:30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rK1-IE-HZi">
-                                <rect key="frame" x="15" y="9" width="290" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="1" green="0.1954960151" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="rK1-IE-HZi" firstAttribute="leading" secondItem="f3h-BY-f8b" secondAttribute="leading" constant="15" id="2nw-la-5Kc"/>
-                            <constraint firstItem="iDP-0T-3Fp" firstAttribute="top" secondItem="f3h-BY-f8b" secondAttribute="top" id="4SJ-PT-7tn"/>
-                            <constraint firstAttribute="height" priority="750" constant="35" id="CZs-I4-nn9"/>
-                            <constraint firstItem="iDP-0T-3Fp" firstAttribute="leading" secondItem="f3h-BY-f8b" secondAttribute="leading" constant="15" id="Mx6-4r-XoM"/>
-                            <constraint firstItem="rK1-IE-HZi" firstAttribute="centerY" secondItem="f3h-BY-f8b" secondAttribute="centerY" id="bfq-hK-Ban"/>
-                            <constraint firstAttribute="trailing" secondItem="iDP-0T-3Fp" secondAttribute="trailing" id="mKF-wG-ZtJ"/>
-                            <constraint firstAttribute="trailing" secondItem="rK1-IE-HZi" secondAttribute="trailing" constant="15" id="xSp-yc-op1"/>
-                        </constraints>
-                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务时限: 2017-06-27 12:30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rK1-IE-HZi">
+                        <rect key="frame" x="15" y="114" width="193" height="36"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="1" green="0.1954960151" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5ab-OF-NyS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="54o-sS-Fei"/>
+                    <constraint firstItem="rK1-IE-HZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="B5J-nu-fyv"/>
+                    <constraint firstItem="rK1-IE-HZi" firstAttribute="top" secondItem="5ab-OF-NyS" secondAttribute="bottom" id="KZA-Yl-5Wr"/>
                     <constraint firstAttribute="trailing" secondItem="5ab-OF-NyS" secondAttribute="trailing" id="PKN-ws-jwz"/>
-                    <constraint firstItem="f3h-BY-f8b" firstAttribute="top" secondItem="5ab-OF-NyS" secondAttribute="bottom" id="Zfp-f2-Kf0"/>
                     <constraint firstAttribute="bottom" secondItem="5ab-OF-NyS" secondAttribute="bottom" constant="35" id="aVK-rZ-ocS"/>
-                    <constraint firstAttribute="trailing" secondItem="f3h-BY-f8b" secondAttribute="trailing" id="ihV-yn-evJ"/>
-                    <constraint firstAttribute="bottom" secondItem="f3h-BY-f8b" secondAttribute="bottom" id="qDR-7v-9Wo"/>
-                    <constraint firstItem="f3h-BY-f8b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="y57-Td-xf4"/>
                     <constraint firstItem="5ab-OF-NyS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="yRf-5F-04f"/>
+                    <constraint firstAttribute="bottom" secondItem="rK1-IE-HZi" secondAttribute="bottom" id="zo5-4z-eUj"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -222,12 +199,11 @@
                 <outlet property="rightB" destination="jeY-Ug-PwA" id="yPl-eT-H3R"/>
                 <outlet property="stateL" destination="l36-rd-Bez" id="UnN-b7-I7x"/>
                 <outlet property="timeL" destination="zss-OH-0Ey" id="KXS-Px-yZR"/>
-                <outlet property="timeLimitHeightCons" destination="CZs-I4-nn9" id="iA9-FD-n7V"/>
                 <outlet property="timeLimitL" destination="rK1-IE-HZi" id="QjM-p1-kY8"/>
                 <outlet property="titleL" destination="WYI-AR-C2l" id="H36-5J-IpJ"/>
                 <outlet property="typeL" destination="SXa-Dn-Mxy" id="Ya6-wG-adB"/>
             </connections>
-            <point key="canvasLocation" x="58" y="219.5"/>
+            <point key="canvasLocation" x="151" y="61"/>
         </tableViewCell>
     </objects>
 </document>

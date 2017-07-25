@@ -36,10 +36,16 @@
         
         [self requestList:@"1"];
     }];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
-        pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
-        [self requestList:[NSString stringWithFormat:@"%ld",pageCount]];
-    }];
+    self.tableView.mj_footer = ({
+        
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+            pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
+            [self requestList:[NSString stringWithFormat:@"%ld",(long)pageCount]];
+        }];
+        //        footer.automaticallyHidden = YES;
+        footer;
+        
+    });
     
 }
 
@@ -63,7 +69,7 @@
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             return;
             
         }else{
@@ -74,9 +80,9 @@
             }else{
                 bgView.hidden = YES;
             }
+            [self.tableView reloadData];
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];

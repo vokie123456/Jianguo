@@ -231,6 +231,7 @@
         self.tableView.tableHeaderView = headerView;
 
         [self requestList:@"1"];
+        
     }];
 
     self.tableView.mj_header = header;
