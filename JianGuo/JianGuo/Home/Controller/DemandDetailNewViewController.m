@@ -661,6 +661,7 @@
           
       }];
 }
+
 //添加输入框
 -(void)customCommentKeyboard
 {
@@ -674,6 +675,7 @@
     JGLog(@"%@",APPLICATION.keyWindow);
     view.frame = CGRectMake(0, APPLICATION.keyWindow.frame.size.height, SCREEN_W, self.commentView.height);
 }
+
 //点击发送按钮
 -(void)finishEdit
 {

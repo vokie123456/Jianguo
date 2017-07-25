@@ -10,6 +10,7 @@
 
 #import "MineNewViewController.h"
 #import "HomeViewController.h"
+#import "HomeSegmentViewController.h"
 #import "DemandListViewController.h"
 #import "DiscoveryViewController.h"
 #import "PartJobViewController.h"
@@ -116,7 +117,7 @@
 -(void)setChildController
 {
     
-    DemandListViewController *homeVC = [[DemandListViewController alloc] init];
+    HomeSegmentViewController *homeVC = [[HomeSegmentViewController alloc] init];
 //    HomeNewViewController *homeVC = [[HomeNewViewController alloc] init];
 //    HomeViewController *homeVC = [[HomeViewController alloc] init];
     homeVC.title = @"首页";

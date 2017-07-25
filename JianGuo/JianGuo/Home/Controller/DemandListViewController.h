@@ -7,8 +7,10 @@
 //
 
 #import "NavigatinViewController.h"
+#import "ZJScrollPageView.h"
 
-@interface DemandListViewController : NavigatinViewController<UIViewControllerTransitioningDelegate>
+
+@interface DemandListViewController : NavigatinViewController<UIViewControllerTransitioningDelegate,ZJScrollPageViewChildVcDelegate>
 
 
 @property (nonatomic,copy) NSString *schoolId;
