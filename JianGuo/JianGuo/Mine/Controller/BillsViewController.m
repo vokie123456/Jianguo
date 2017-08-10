@@ -20,10 +20,10 @@
 
 @implementation BillsViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+
 //    self.navigationItem.title = @"账单";
     self.tableView.rowHeight = 65;
     

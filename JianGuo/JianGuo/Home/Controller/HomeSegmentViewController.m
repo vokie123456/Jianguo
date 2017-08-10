@@ -7,6 +7,7 @@
 //
 
 #import "HomeSegmentViewController.h"
+#import "SearchDemandsViewController.h"
 #import "DemandListViewController.h"
 #import "SkillViewController.h"
 
@@ -18,6 +19,11 @@
 /** 标题数组 */
 @property (nonatomic,copy) NSArray *titles;
 
+/** segmentView */
+@property (nonatomic,strong) ZJScrollSegmentView *segmentView;
+/** contentView */
+@property (nonatomic,strong) ZJContentView *contentView;
+
 @end
 
 @implementation HomeSegmentViewController
@@ -27,6 +33,30 @@
     
     [self setSegmentView];
     
+    [self setNavigationBar];
+    
+}
+
+-(void)setNavigationBar
+{
+    UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    [btnLocation setTitle:[CityModel city].cityName forState:UIControlStateNormal];
+    [btnLocation setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    btnLocation.titleLabel.font = FONT(14);
+    [btnLocation addTarget:self action:@selector(selectCitySChool:) forControlEvents:UIControlEventTouchUpInside];
+    btnLocation.frame = CGRectMake(0, 0, 20, 20);
+    
+    //    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_l];
+    UIBarButtonItem *bbtLocation = [[UIBarButtonItem alloc] initWithCustomView:btnLocation];
+    self.navigationItem.rightBarButtonItems = @[bbtLocation];
+}
+
+
+-(void)selectCitySChool:(UIButton *)btn
+{
+    SearchDemandsViewController *searchVC = [[SearchDemandsViewController alloc] init];
+    searchVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 -(void)setSegmentView
@@ -35,11 +65,13 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     ZJSegmentStyle *style = [[ZJSegmentStyle alloc] init];
     // 缩放标题
-    style.scaleTitle = NO;
+//    style.scaleTitle = YES;
+//    style.titleBigScale = 2;
     // 颜色渐变
+    style.normalTitleColor = LIGHTGRAYTEXT;
     style.gradualChangeTitleColor = YES;
     // 设置附加按钮的背景图片
-    style.titleFont = FONT(15);
+    style.titleFont = [UIFont systemFontOfSize:17];
     style.scrollTitle = NO;
     style.showLine = YES;
     style.selectedTitleColor = GreenColor;
@@ -48,13 +80,19 @@
     self.titles = @[@"技能",
                     @"任务"
                     ];
-    // 初始化
-    ZJScrollPageView *scrollPageView = [[ZJScrollPageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) segmentStyle:style titles:self.titles parentViewController:self delegate:self];
-    scrollPageView.backgroundColor = BACKCOLORGRAY;
-    // 这里可以设置头部视图的属性(背景色, 圆角, 背景图片...)
-    //    scrollPageView.segmentView.backgroundColor = [UIColor blackColor];
-//    self.navigationItem.titleView  = scrollPageView;
-    [self.view addSubview:scrollPageView];
+    
+    IMP_BLOCK_SELF(HomeSegmentViewController);
+    self.segmentView = [[ZJScrollSegmentView alloc] initWithFrame:CGRectMake(0, 0, 100, 40) segmentStyle:style delegate:self titles:self.titles titleDidClick:^(ZJTitleView *titleView, NSInteger index) {
+        
+        [block_self.contentView setContentOffSet:CGPointMake(SCREEN_W*index, 0) animated:YES];
+        
+    }];
+    
+    self.navigationItem.titleView = self.segmentView;
+    
+    self.contentView = [[ZJContentView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64-49) segmentView:self.segmentView parentViewController:self delegate:self];
+    [self.view addSubview:self.contentView];
+    
 }
 
 #pragma ZJScrollPageViewDelegate 代理方法

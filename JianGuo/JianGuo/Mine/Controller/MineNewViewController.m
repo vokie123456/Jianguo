@@ -19,6 +19,10 @@
 #import "AboutUsViewController.h"
 #import "MyPostDemandViewController.h"
 #import "MySignDemandsViewController.h"
+#import "AddressListViewController.h"
+#import "CollectionsViewController.h"
+#import "MySkillsViewController.h"
+#import "MyBuySkillViewController.h"
 
 #import "MineCell.h"
 
@@ -39,6 +43,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *describL;
+@property (weak, nonatomic) IBOutlet UIButton *myBuyB;
+@property (weak, nonatomic) IBOutlet UIButton *mySkillB;
+@property (weak, nonatomic) IBOutlet UILabel *skillConfirmL;
 
 @end
 
@@ -55,7 +62,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
 }
 
@@ -105,7 +111,7 @@
         NSRange range = [[NSString stringWithFormat:@"我已经在兼果校园赚取了%.2f元啦",ownMoney] rangeOfString:aaa];
         [descriptionStr addAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]} range:range];
         self.describL.attributedText = descriptionStr;
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:5 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:5 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
         
         
     } failure:^(NSError *error) {
@@ -125,12 +131,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1&&indexPath.row == 5) {
+    if (indexPath.section == 2&&indexPath.row == 5) {
         return 100;
     }
     return 44;
@@ -138,7 +144,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section?6:1;
+    if (section == 0) {
+        return 1;
+    }else if (section == 1){
+        return 2;
+    }else if (section == 2){
+        return 6;
+    }
+    return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,6 +165,17 @@
         
     }
     else if (indexPath.section==1){
+        
+        if (indexPath.row == 0) {
+            cell.labelLeft.text = @"我的收藏";
+            cell.iconView.image = [UIImage imageNamed:@"collectionMine"];
+        }else if (indexPath.row == 1){
+            cell.labelLeft.text = @"地址管理";
+            cell.iconView.image = [UIImage imageNamed:@"address"];
+        }
+        
+    }
+    else if (indexPath.section==2){
         
         if (indexPath.row == 0) {
             cell.labelLeft.text = @"编辑资料";
@@ -211,7 +235,28 @@
         myPartjobVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:myPartjobVC animated:YES];
         
-    }else if (indexPath.section == 1){
+    }else if (indexPath.section == 1) {//兼职管理
+        
+        if (![self checkExistPhoneNum]) {
+            [self gotoLoginVC];
+            return;
+        }
+        
+        if (indexPath.row == 0) {//我的收藏
+            
+            CollectionsViewController *collectionVC = [[CollectionsViewController alloc] init];
+            collectionVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:collectionVC animated:YES];
+            
+        }else if (indexPath.row == 1){//地址管理
+            
+            AddressListViewController *addressVC = [[AddressListViewController alloc] init];
+            addressVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:addressVC animated:YES];
+            
+        }
+        
+    }else if (indexPath.section == 2){
         
         if (indexPath.row == 0) {//编辑资料
             
@@ -264,6 +309,28 @@
         }
         
     }
+    
+}
+- (IBAction)mySkill:(UIButton *)sender {
+    
+    if (![self checkExistPhoneNum]) {
+        [self gotoLoginVC];
+        return;
+    }
+    MySkillsViewController *myskillVC = [[MySkillsViewController alloc] init];
+    myskillVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myskillVC animated:YES];
+    
+}
+- (IBAction)myBuy:(UIButton *)sender {
+    
+    if (![self checkExistPhoneNum]) {
+        [self gotoLoginVC];
+        return;
+    }
+    MyBuySkillViewController *myBuySkillVC = [[MyBuySkillViewController alloc] init];
+    myBuySkillVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myBuySkillVC animated:YES];
     
 }
 
@@ -323,6 +390,14 @@
     [self.navigationController pushViewController:realNameVC animated:YES];
     
 }
+
+- (IBAction)skillConfirm:(id)sender {
+    
+    
+    
+}
+
+
 - (IBAction)header:(id)sender {
     if (![self checkExistPhoneNum]) {
         [self gotoLoginVC];

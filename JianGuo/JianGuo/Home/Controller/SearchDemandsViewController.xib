@@ -26,7 +26,7 @@
                         <outlet property="delegate" destination="-1" id="aLb-4l-44F"/>
                     </connections>
                 </tableView>
-                <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="prominent" placeholder="搜索任务" translatesAutoresizingMaskIntoConstraints="NO" id="GZE-2h-h9g">
+                <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" placeholder="搜索任务" translatesAutoresizingMaskIntoConstraints="NO" id="GZE-2h-h9g">
                     <rect key="frame" x="0.0" y="38" width="600" height="44"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>

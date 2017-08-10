@@ -42,13 +42,23 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tnc-ed-qCu">
+                        <rect key="frame" x="20" y="105" width="300" height="1"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="eaf-8L-fXW"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tYT-PO-aea" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="7Vh-Nz-nua"/>
                     <constraint firstAttribute="trailing" secondItem="fOB-Ia-gxM" secondAttribute="trailing" constant="20" id="BbT-D3-Nvl"/>
+                    <constraint firstItem="tnc-ed-qCu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="E2A-VS-iCz"/>
+                    <constraint firstAttribute="trailing" secondItem="tnc-ed-qCu" secondAttribute="trailing" id="GwL-uU-lht"/>
                     <constraint firstAttribute="bottom" secondItem="fOB-Ia-gxM" secondAttribute="bottom" constant="10" id="IY0-t0-dcg"/>
                     <constraint firstItem="SOy-2P-nbx" firstAttribute="centerY" secondItem="tYT-PO-aea" secondAttribute="centerY" id="OIs-se-dpe"/>
                     <constraint firstItem="tYT-PO-aea" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="P4m-Ca-Ook"/>
+                    <constraint firstAttribute="bottom" secondItem="tnc-ed-qCu" secondAttribute="bottom" id="ewz-Dm-t74"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SOy-2P-nbx" secondAttribute="trailing" constant="10" id="hMN-kG-Mt4"/>
                     <constraint firstItem="fOB-Ia-gxM" firstAttribute="top" secondItem="tYT-PO-aea" secondAttribute="bottom" constant="12.5" id="jGv-Lj-ymn"/>
                     <constraint firstItem="fOB-Ia-gxM" firstAttribute="top" secondItem="tYT-PO-aea" secondAttribute="bottom" constant="10" id="of4-QG-0iV"/>
@@ -63,6 +73,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="contentL" destination="fOB-Ia-gxM" id="wpc-13-frP"/>
+                <outlet property="lineView" destination="tnc-ed-qCu" id="XMU-tP-quh"/>
                 <outlet property="titleL" destination="tYT-PO-aea" id="mm3-t7-FLf"/>
                 <outlet property="typeL" destination="SOy-2P-nbx" id="0y9-EQ-sYe"/>
             </connections>

@@ -10,14 +10,19 @@
 
 @implementation DDTitleCell
 
-- (void)awakeFromNib {
-    // Initialization code
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.lineView.hidden = YES;
+    
+    
+    
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)awakeFromNib {
+    
+    
+    
 }
 
 @end

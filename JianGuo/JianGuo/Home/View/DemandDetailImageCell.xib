@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder_Image.png" translatesAutoresizingMaskIntoConstraints="NO" id="quT-eU-hLS">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderPic" translatesAutoresizingMaskIntoConstraints="NO" id="quT-eU-hLS">
                         <rect key="frame" x="20" y="0.0" width="280" height="240"/>
                     </imageView>
                 </subviews>
@@ -32,6 +32,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Placeholder_Image.png" width="200" height="200"/>
+        <image name="placeholderPic" width="345" height="330"/>
     </resources>
 </document>

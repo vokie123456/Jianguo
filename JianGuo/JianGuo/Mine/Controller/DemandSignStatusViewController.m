@@ -201,12 +201,12 @@
     switch (model.type.integerValue) {
         case 1:{//取消报名
             
-            JGSVPROGRESSLOAD(@"正在请求...");
             [QLAlertView showAlertTittle:@"确定取消报名?" message:nil isOnlySureBtn:NO compeletBlock:^{
                 
-                [SVProgressHUD dismiss];
+                JGSVPROGRESSLOAD(@"正在请求...");
                 [JGHTTPClient cancelSignWithDemandId:model.demandId Success:^(id responseObject) {
                     
+                    [SVProgressHUD dismiss];
                     [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
                     if ([responseObject[@"code"] integerValue] == 200) {
                         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];

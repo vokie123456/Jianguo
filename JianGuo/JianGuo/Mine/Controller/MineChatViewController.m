@@ -29,7 +29,7 @@
 
 @interface MineChatViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
-    NSInteger dataSourceCount;//1==任务;2==评价
+    NSInteger dataSourceCount;//1==任务;2==评价;3==技能
     __weak IBOutlet NSLayoutConstraint *toolBarHeightCons;
     NSInteger pageCount;
     UserInfoModel *userModel;
@@ -50,7 +50,11 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomLineView;
 @property (weak, nonatomic) IBOutlet UIButton *evaluateB;
 @property (weak, nonatomic) IBOutlet UIButton *demandB;
+@property (weak, nonatomic) IBOutlet UIButton *skillB;
 @property (weak, nonatomic) IBOutlet UIButton *followUserB;
+
+@property (weak, nonatomic) IBOutlet UIButton *editB;
+@property (weak, nonatomic) IBOutlet UIButton *backB;
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
@@ -64,6 +68,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view bringSubviewToFront:self.editB];
+    [self.view bringSubviewToFront:self.backB];
     
     dataSourceCount = 1;
     
@@ -333,11 +340,20 @@
     }
     
 }
+- (IBAction)clickSkill:(UIButton *)sender {
+    
+    dataSourceCount = 3;//技能
+    lineLeftCons.constant = 0;
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.segmentView layoutIfNeeded];
+    }];
+    
+}
 
 - (IBAction)clickDemand:(id)sender {
     
-    dataSourceCount = 1;
-    lineLeftCons.constant = 0;
+    dataSourceCount = 1;//任务
+    lineLeftCons.constant = SCREEN_W/3;
     [UIView animateWithDuration:0.3 animations:^{
         [self.segmentView layoutIfNeeded];
     }];
@@ -346,8 +362,8 @@
 }
 - (IBAction)clickEvaluate:(id)sender {
     
-    dataSourceCount = 2;
-    lineLeftCons.constant = SCREEN_W/2;
+    dataSourceCount = 2;//评价
+    lineLeftCons.constant = SCREEN_W*2/3;
     [UIView animateWithDuration:0.3 animations:^{
         [self.segmentView layoutIfNeeded];
     }];

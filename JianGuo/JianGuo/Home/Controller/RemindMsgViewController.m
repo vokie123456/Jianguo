@@ -121,7 +121,7 @@
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+            [_tableView reloadData];
             return;
             
         }else{

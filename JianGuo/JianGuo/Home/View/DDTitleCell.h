@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
 
 @end

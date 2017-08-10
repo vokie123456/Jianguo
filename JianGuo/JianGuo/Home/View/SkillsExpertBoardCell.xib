@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SkillsExpertBoardCell" id="gTV-IL-0wX" customClass="SkillsExpertBoardCell">
+            <rect key="frame" x="0.0" y="0.0" width="90" height="130"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="90" height="130"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myicon" translatesAutoresizingMaskIntoConstraints="NO" id="Se1-tP-kxW" customClass="IBImageView">
+                        <rect key="frame" x="19" y="0.0" width="53" height="53"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Se1-tP-kxW" secondAttribute="height" multiplier="1:1" id="Icj-NZ-BAF"/>
+                            <constraint firstAttribute="width" constant="53" id="kqv-lk-LKA"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="26.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="达人" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCf-Sy-8Hb" customClass="IBLabel">
+                        <rect key="frame" x="25" y="43" width="40" height="15"/>
+                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="uSb-pI-POt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="7.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄影狂人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W73-he-S2s">
+                        <rect key="frame" x="15" y="68" width="60" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPi-IE-HjU" customClass="IBButton">
+                        <rect key="frame" x="23" y="96" width="45" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="23" id="MtS-7x-uVw"/>
+                            <constraint firstAttribute="width" constant="45" id="OXC-3g-mVb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="+关注">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.59999999999999998"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="HCf-Sy-8Hb" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="2ex-cv-46l"/>
+                <constraint firstItem="RPi-IE-HjU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="3EK-FV-uGK"/>
+                <constraint firstItem="HCf-Sy-8Hb" firstAttribute="top" secondItem="Se1-tP-kxW" secondAttribute="bottom" constant="-10" id="YcC-w2-C2Z"/>
+                <constraint firstItem="W73-he-S2s" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="dYp-wm-b9j"/>
+                <constraint firstItem="W73-he-S2s" firstAttribute="top" secondItem="HCf-Sy-8Hb" secondAttribute="bottom" constant="10" id="k6g-zK-hwQ"/>
+                <constraint firstItem="Se1-tP-kxW" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="n6q-9c-Q2Z"/>
+                <constraint firstItem="Se1-tP-kxW" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ry9-hM-afp"/>
+                <constraint firstItem="RPi-IE-HjU" firstAttribute="top" secondItem="W73-he-S2s" secondAttribute="bottom" constant="10" id="zlQ-Hr-gax"/>
+            </constraints>
+            <size key="customSize" width="98" height="130"/>
+            <connections>
+                <outlet property="followB" destination="RPi-IE-HjU" id="rBk-Bu-PZz"/>
+                <outlet property="iconView" destination="Se1-tP-kxW" id="5ab-ef-WFE"/>
+                <outlet property="nameL" destination="W73-he-S2s" id="eBf-Bt-fvQ"/>
+            </connections>
+            <point key="canvasLocation" x="519" y="378"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="myicon" width="70" height="70"/>
+    </resources>
+</document>

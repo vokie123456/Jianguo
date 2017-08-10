@@ -11,6 +11,6 @@
 @interface MineChatViewController : BaseViewController
 
 @property (nonatomic,copy) NSString *userId;
-@property (weak, nonatomic) IBOutlet UIButton *editB;
+
 
 @end

@@ -172,7 +172,7 @@
                 <outlet property="nameL" destination="cBN-PV-mKW" id="dDz-UV-9rO"/>
                 <outlet property="schoolL" destination="Vrd-qd-Qjt" id="19R-hh-g2f"/>
             </connections>
-            <point key="canvasLocation" x="521" y="392.5"/>
+            <point key="canvasLocation" x="521" y="392"/>
         </tableViewCell>
     </objects>
     <resources>

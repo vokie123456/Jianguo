@@ -131,7 +131,7 @@ static NSString *identifier = @"DemandListCell";
     imagesArr = @[@"study",@"errands",@"technology",@"emotion",@"entertainment",@"purchase"].mutableCopy;
     
     self.schoolId = @"0";
-    self.orderType = @"create_time";
+    self.orderType = @"createTime";
     self.cityCode = [CityModel city].code;
     self.sex = @"0";
     self.type = @"0";
@@ -212,7 +212,6 @@ static NSString *identifier = @"DemandListCell";
     scrollImagesView.pageDotColor = WHITECOLOR;
     [scrollImagesView setShowPageControl:YES];
     scrollImagesView.pageControlDotSize = CGSizeMake(100, 20);
-    
     
 }
 
@@ -607,13 +606,7 @@ static NSString *identifier = @"DemandListCell";
     self.collectionView.dataSource = self;
 
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MineIconCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([MineIconCell class])];
-    
-//    UIView*lineView = [[UIView alloc] initWithFrame:CGRectMake(spaceWidth/2, self.collectionView.height-lineViewHeight, sizeWidth-spaceWidth, lineViewHeight)];
-//    lineView.backgroundColor = GreenColor;
-//    [self.collectionView addSubview:lineView];
-//    self.lineView = lineView;
-    
-    
+  
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -741,9 +734,9 @@ static NSString *identifier = @"DemandListCell";
     } else if (indexPath.column == 3){
         
         if (indexPath.row == 0) {
-            self.orderType = @"create_time";//最新
+            self.orderType = @"createTime";//最新
         }else if (indexPath.row == 1){
-            self.orderType = @"like_count";//最热
+            self.orderType = @"viewCount";//最热
         }
         
     }
@@ -823,7 +816,7 @@ static NSString *identifier = @"DemandListCell";
                 
             }else{
                 UITabBarController *tabVc = (UITabBarController *)APPLICATION.keyWindow.rootViewController;
-                [tabVc setSelectedIndex:2];
+                [tabVc setSelectedIndex:3];
                 
             }
             

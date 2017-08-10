@@ -16,4 +16,7 @@
 
 @property (nonatomic,assign) BOOL isFromGetCash;
 
+/**  */
+@property (nonatomic,assign,getter=isBool) BOOL boolValue;
+
 @end
