@@ -23,7 +23,7 @@
 
 #import "XLPhotoBrowser.h"
 
-@interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface DemandListCell()<UITextFieldDelegate,TTTAttributedLabelDelegate,UICollectionViewDataSource,UICollectionViewDelegate,XLPhotoBrowserDatasource,XLPhotoBrowserDelegate>
 {
     NSMutableArray *colorArr;
     NSArray *imageArr;
@@ -312,7 +312,27 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [XLPhotoBrowser showPhotoBrowserWithImages:_model.images currentImageIndex:indexPath.item];
+//    [XLPhotoBrowser showPhotoBrowserWithImages:_model.images currentImageIndex:indexPath.item];
+    XLPhotoBrowser *browser = [XLPhotoBrowser showPhotoBrowserWithCurrentImageIndex:indexPath.item imageCount:_model.images.count datasource:self];
+    [browser setActionSheetWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" deleteButtonTitle:nil otherButtonTitles:@"保存图片", nil];
+    
+}
+
+- (void)photoBrowser:(XLPhotoBrowser *)browser clickActionSheetIndex:(NSInteger)actionSheetindex currentImageIndex:(NSInteger)currentImageIndex
+{
+    if (actionSheetindex==0) {
+        [browser saveCurrentShowImage];
+    }
+}
+
+-(NSURL *)photoBrowser:(XLPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:_model.images[index]];
+}
+
+-(UIImage *)photoBrowser:(XLPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    return [UIImage imageNamed:@"placeholderPic"];
 }
 
 #pragma mark collectionView Layout 代理方法

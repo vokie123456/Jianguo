@@ -35,7 +35,7 @@
 #import "UIColor+Hex.h"
 
 
-@interface DemandDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate,CommentCellDelegate,FinishEditDelegate>
+@interface DemandDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate,CommentCellDelegate,FinishEditDelegate,XLPhotoBrowserDelegate,XLPhotoBrowserDatasource>
 {
     DemandDetailModel *detailModel;
     NSMutableArray *typeNameArr;
@@ -441,6 +441,13 @@
     if (indexPath.section == 0) {
         if (indexPath.row>0&&indexPath.row<detailModel.images.count+2) {
             [XLPhotoBrowser showPhotoBrowserWithImages:detailModel.images currentImageIndex:indexPath.row-1];
+            XLPhotoBrowser *browser = [[XLPhotoBrowser alloc] init];
+            browser.tag = 101;
+            browser.datasource = self;
+            browser.imageCount = detailModel.images.count;
+            browser.currentImageIndex = indexPath.row-1;
+            [browser show];
+            [browser setActionSheetWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" deleteButtonTitle:nil otherButtonTitles:@"保存图片", nil];
         }
     }else if (indexPath.section == 2){
         CommentModel *model = self.commentAll[indexPath.row];
@@ -458,6 +465,25 @@
     }
     
     
+}
+
+
+- (void)photoBrowser:(XLPhotoBrowser *)browser clickActionSheetIndex:(NSInteger)actionSheetindex currentImageIndex:(NSInteger)currentImageIndex
+{
+    if (actionSheetindex==0) {
+        [browser saveCurrentShowImage];
+    }
+}
+
+-(NSURL *)photoBrowser:(XLPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:detailModel.images[index]];
+   
+}
+
+-(UIImage *)photoBrowser:(XLPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    return [UIImage imageNamed:@"placeholderPic"];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -691,7 +717,7 @@
 {
     [self.commentTV resignFirstResponder];
     JGSVPROGRESSLOAD(@"正在请求...");
-    [JGHTTPClient postAcommentWithDemandId:detailModel.self.demandId content:self.commentTV.text pid:self.pid toUserId:self.toUserId Success:^(id responseObject) {
+    [JGHTTPClient postAcommentWithDemandId:self.demandId content:self.commentTV.text pid:self.pid toUserId:self.toUserId Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         if ([responseObject[@"code"] integerValue] == 200) {

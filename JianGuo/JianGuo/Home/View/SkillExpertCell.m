@@ -11,6 +11,8 @@
 #import "MineIconCell.h"
 #import "SkillsExpertBoardCell.h"
 
+#import "SkillExpertModel.h"
+
 #define sizeWidth 90
 
 @interface SkillExpertCell() <UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate>
@@ -93,6 +95,12 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JGLog(@"%ld",indexPath.item);
+    if ([self.delegate respondsToSelector:@selector(clickPersonIcon:)]) {
+        if (_dataArr.count) {
+            SkillExpertModel * model = _dataArr[indexPath.item];
+            [self.delegate clickPersonIcon:model];
+        }
+    }
     
 }
 

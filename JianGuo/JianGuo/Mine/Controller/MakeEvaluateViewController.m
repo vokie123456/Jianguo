@@ -9,6 +9,8 @@
 #import "MakeEvaluateViewController.h"
 #import "UITextView+placeholder.h"
 
+#import "JGHTTPClient+Skill.h"
+
 @interface MakeEvaluateViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *star1;
@@ -19,6 +21,10 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *textV;
 @property (weak, nonatomic) IBOutlet UILabel *scoreL;
+
+/** 分数 */
+@property (nonatomic,strong) NSString *score;
+
 
 @end
 
@@ -31,7 +37,7 @@
     
     self.textV.placeholder = @"请对本次服务做出评价!";
     
-    self.scoreL.text = @"很差";
+//    self.scoreL.text = @"很差";
 
 }
 
@@ -77,7 +83,34 @@
         [self.star5 setBackgroundImage:[UIImage imageNamed:@"stars"] forState:UIControlStateNormal];
         self.scoreL.text = @"很好";
     }
+    self.score = [NSString stringWithFormat:@"%ld",sender.tag-100];
     
+}
+
+-(IBAction)commit:(id)sender
+{
+    if (self.score.integerValue) {
+        [self showAlertViewWithText:@"请打分!" duration:1.5];
+        return;
+    }
+    
+    [JGHTTPClient makeEvaluateWithOrderNo:self.orderNo score:self.score content:self.textV.text type:self.type Success:^(id responseObject) {
+        
+        [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
+        if ([responseObject[@"code"] integerValue] == 200) {
+            
+            if (self.callBackBlock) {
+                self.callBackBlock();
+            }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            
+        }
+        
+    } failure:^(NSError *error) {
+        [self showAlertViewWithText:NETERROETEXT duration:2];
+    }];
 }
 
 

@@ -20,6 +20,9 @@
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 @property (weak, nonatomic) IBOutlet UIButton *defaultAddressB;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomCons;
+@property (weak, nonatomic) IBOutlet UIButton *editB;
+@property (weak, nonatomic) IBOutlet UIButton *deleteB;
 
 
 @property (nonatomic,weak) id <AddressCellDelegate> delegate;

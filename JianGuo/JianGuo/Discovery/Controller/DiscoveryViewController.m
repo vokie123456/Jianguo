@@ -14,8 +14,9 @@
 
 #import "DiscoveryCell.h"
 
-
 #import "DiscoveryModel.h"
+
+#import "QLSuccessHudView.h"
 
 @interface DiscoveryViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -94,7 +95,6 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return self.dataArr.count;
 }
 
@@ -107,6 +107,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
+    
     DiscoveryModel *model = self.dataArr[indexPath.row];
     WebViewController *webVC = [[WebViewController alloc] init];
     webVC.hidesBottomBarWhenPushed = YES;

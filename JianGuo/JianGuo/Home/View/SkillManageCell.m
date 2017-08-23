@@ -33,7 +33,7 @@
     self.skillL.text = model.masterTitle;
     self.titleL.text = model.title;
     self.starView.score = model.averageScore;
-    self.nameL.text = model.nickname;
+    self.nameL.text = model.masterTitle;
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.timeSchoolL.text = [NSString stringWithFormat:@"%@|%@",model.createTimeStr,model.schoolName.length?model.schoolName:model.cityName];
     self.saleCountL.text = [NSString stringWithFormat:@"已售: %ld",model.saleCount];
@@ -51,9 +51,11 @@
     
     if (model.status) {
         self.stateL.text = @"已暂停接单";
+        self.stateL.textColor = [UIColor redColor];
         [self.settingB setTitle:@"恢复接单" forState:UIControlStateNormal];
     }else if (model.status == 0){
         self.stateL.text = @"正常接单中";
+        self.stateL.textColor = GreenColor;
         [self.settingB setTitle:@"暂停接单" forState:UIControlStateNormal];
     }
 }
@@ -88,9 +90,11 @@
                 _model.status = status.integerValue;
                 if (_model.status) {
                     self.stateL.text = @"已暂停接单";
+                    self.stateL.textColor = [UIColor redColor];
                     [sender setTitle:@"恢复接单" forState:UIControlStateNormal];
                 }else{
                     self.stateL.text = @"正常接单中";
+                    self.stateL.textColor = GreenColor;
                     [sender setTitle:@"暂停接单" forState:UIControlStateNormal];
                 }
             }

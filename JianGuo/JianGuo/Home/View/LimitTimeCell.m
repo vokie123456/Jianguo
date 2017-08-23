@@ -86,6 +86,8 @@
                 return NO;
             }else
                 return YES;
+        }else if ([string isEqualToString:@"."]){
+            return NO;
         }
     }
     return YES;

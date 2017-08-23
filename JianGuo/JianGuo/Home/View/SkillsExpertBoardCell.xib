@@ -65,6 +65,9 @@
                                 <real key="value" value="0.59999999999999998"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="following:" destination="gTV-IL-0wX" eventType="touchUpInside" id="pTt-HU-K8J"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

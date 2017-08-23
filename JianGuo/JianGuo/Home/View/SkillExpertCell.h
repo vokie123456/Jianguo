@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SkillExpertBoardDelegate <NSObject>
+
+-(void)clickPersonIcon:(id)model;
+
+@end
+
 @interface SkillExpertCell : UITableViewCell
 
+/** 委托 */
+@property (nonatomic,weak) id <SkillExpertBoardDelegate> delegate;
 /** 数据源数组 */
 @property (nonatomic,strong) NSMutableArray *dataArr;
 

@@ -25,6 +25,8 @@
 
 #define iconWidth 80
 
+static const NSInteger kMaxLength = 10;
+
 @interface ProfileViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,AMapLocationManagerDelegate>
 {
     NSInteger currentIndex;
@@ -32,6 +34,8 @@
     QLTakePictures *takePic;
     
     BOOL isSelectIconImage;
+    
+    NSString *title;
     
 }
 
@@ -99,6 +103,13 @@
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
     
     self.navigationItem.rightBarButtonItem = rightBtn;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self showAlertViewWithText:@"性别确认后不能修改!" duration:1.5];
 }
 
 -(void)takePhoto
@@ -177,6 +188,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.labelLeft.text = @"姓名";
             cell.rightTf.placeholder = @"尊姓大名";
+            [cell.rightTf addTarget:self action:@selector(limitWordsNumber:) forControlEvents:UIControlEventValueChanged];
             cell.jiantouView.hidden = YES;
             cell.rightTf.userInteractionEnabled = YES;
             self.nameTF = cell.rightTf;
@@ -275,14 +287,12 @@
         
         if (indexPath.row == 1) {//性别
             
-            [QLAlertView showAlertTittle:@"温馨提示!" message:@"性别填写后不能修改" isOnlySureBtn:YES compeletBlock:^{
-                
-                DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
-                    self.sexTF.text = title;
-                    self.sex = [NSString stringWithFormat:@"%ld",index];
-                }];
-                view.titleArr = @[@"女神",@"男神"];
+            
+            DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *titleStr) {
+                self.sexTF.text = titleStr;
+                self.sex = [NSString stringWithFormat:@"%ld",index];
             }];
+            view.titleArr = @[@"女神",@"男神"];
         
             
         }else if (indexPath.row == 2){//出生日期
@@ -323,6 +333,43 @@
             [pickerView show];
             
         }
+    }
+}
+-(void)limitWordsNumber:(UITextField *)sender
+{
+    title = sender.text;
+    NSString *toBeString = sender.text;
+    
+    NSString *lang = [sender.textInputMode primaryLanguage];
+    
+    if([lang isEqualToString:@"zh-Hans"]){ //简体中文输入，包括简体拼音，健体五笔，简体手写
+        
+        UITextRange *selectedRange = [sender markedTextRange];
+        
+        UITextPosition *position = [sender positionFromPosition:selectedRange.start offset:0];
+        
+        if (!position){//非高亮
+            
+            if (toBeString.length > kMaxLength) {
+                
+                [self showAlertViewWithText:[NSString stringWithFormat:@"您最多可以输入%ld个字",kMaxLength] duration:1];
+                
+                sender.text = [toBeString substringToIndex:kMaxLength];
+                
+            }
+            
+        }
+        
+    }else{//中文输入法以外
+        
+        if (toBeString.length > kMaxLength) {
+            
+            [self showAlertViewWithText:[NSString stringWithFormat:@"您最多可以输入%ld个字",kMaxLength] duration:1];
+            
+            sender.text = [toBeString substringToIndex:kMaxLength];
+            
+        }
+        
     }
 }
 

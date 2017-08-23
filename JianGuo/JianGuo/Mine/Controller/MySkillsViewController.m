@@ -93,7 +93,7 @@
     
     if (!childVc) {
         MySkillsChildViewController *VC = [[MySkillsChildViewController alloc] init];
-//        VC.type = [NSString stringWithFormat:@"%ld",index+1];
+        VC.type = [NSString stringWithFormat:@"%ld",index+1];
         childVc = VC;
         childVc.title = self.titles[index];
     }

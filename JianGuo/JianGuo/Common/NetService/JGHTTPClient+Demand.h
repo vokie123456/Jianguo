@@ -142,7 +142,7 @@
                               Success:(void (^)(id responseObject))success
                               failure:(void (^)(NSError *error))failure;
 /**
- *  关注状态 0==关注; 1==取消
+ *  关注状态 0==取消; 1==关注
  */
 +(void)followUserWithUserId:(NSString *)userId
                      status:(NSString *)status

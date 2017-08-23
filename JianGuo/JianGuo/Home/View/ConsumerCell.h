@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class StarView;
+@class StarView,ConsumerEvaluationsModel;
 
 @interface ConsumerCell : UITableViewCell
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
+/** model */
+@property (nonatomic,strong) ConsumerEvaluationsModel *model;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *schoolL;

@@ -20,6 +20,7 @@
 - (instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        _score = 5.f;
         [self initSubView];
     }
     return self;

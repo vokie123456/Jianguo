@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol SkillManageDelegate <NSObject>
+@class MySkillListModel,MyBuySkillListModel;
+@protocol MySkillManageDelegate <NSObject>
 
--(void)clickChat:(id)sender;
--(void)clickLeft:(id)sender;
--(void)clickRight:(id)sender;
+-(void)clickChat:(id)sender model:(id)model;
+-(void)clickLeft:(id)sender model:(id)model;
+-(void)clickRight:(id)sender model:(id)model;
 
 @end
+
 
 @interface MySkillManageCell : UITableViewCell
 
@@ -22,7 +24,12 @@
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 
-@property (nonatomic,weak) id<SkillManageDelegate> delegate;
+@property (nonatomic,weak) id<MySkillManageDelegate> delegate;
+
+/** 我的model */
+@property (nonatomic,strong) MySkillListModel *model;
+/** 我购买的model */
+@property (nonatomic,strong) MyBuySkillListModel *buyModel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *skillView;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
@@ -33,5 +40,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *chatB;
 @property (weak, nonatomic) IBOutlet UIButton *leftB;
 @property (weak, nonatomic) IBOutlet UIButton *rightB;
+@property (weak, nonatomic) IBOutlet UIView *alertBottomView;
 
 @end

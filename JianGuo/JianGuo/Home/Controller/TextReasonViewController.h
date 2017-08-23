@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, ControllerFunctionType) {
     ControllerFunctionTypePublisherEvualuate,
     ControllerFunctionTypePublisherComplain,
     ControllerFunctionTypeWaiterEvaluate,
+    ControllerFunctionTypeSkillApplyRefund
 };
 
 @interface TextReasonViewController : BaseViewController
@@ -20,6 +21,8 @@ typedef NS_ENUM(NSUInteger, ControllerFunctionType) {
 
 @property (nonatomic,copy) void(^callBackBlock)();
 @property (nonatomic,copy) NSString *demandId;
+
+@property (nonatomic,copy) NSString *orderNo;
 @property (nonatomic,assign) ControllerFunctionType functionType;
 @property (nonatomic,copy) NSString *contentTitle;
 @property (nonatomic,copy) NSString *userId;

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class DemandDetailModel;
+@class DemandDetailModel,SkillDetailModel;
 @interface DDUserInfoCell : UITableViewCell
 @property (nonatomic,strong) DemandDetailModel *detailModel;
+@property (nonatomic,strong) SkillDetailModel *skillDetailM;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *schoolL;

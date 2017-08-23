@@ -106,6 +106,7 @@ static NSString *identifier = @"DemandListCell";
         [self.tableView.mj_header beginRefreshing];
     }else{
         self.navigationItem.titleView = titleView;
+        self.searchBar.hidden = NO;
         
         self.searchBar.tintColor = [UIColor blueColor];
     }
@@ -130,10 +131,18 @@ static NSString *identifier = @"DemandListCell";
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
-        if ([button.currentTitle containsString:@"任务"]) {
+        
+        if (self.isModule) {
+            
             [self requestWithCount:@"1"];
-        }else if ([button.currentTitle containsString:@"技能"]){
-            [self requestListCount:@"1"];
+            
+        }else{
+            
+            if ([button.currentTitle containsString:@"任务"]) {
+                [self requestWithCount:@"1"];
+            }else if ([button.currentTitle containsString:@"技能"]){
+                [self requestListCount:@"1"];
+            }
         }
         
     }];
@@ -156,7 +165,7 @@ static NSString *identifier = @"DemandListCell";
 //        self.searchBar.tintColor = [UIColor blueColor];
 //    }
     
-//    [self.tableView.mj_header beginRefreshing];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 -(void)setSearchBarLeftView
@@ -176,10 +185,10 @@ static NSString *identifier = @"DemandListCell";
     
     
     selectView = [[UIView alloc] initWithFrame:CGRectZero];
-    selectView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    selectView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:1];
     
     CGRect rect = [button convertRect:button.frame toView:backgroundView];
-    selectView.frame = CGRectMake(rect.origin.x, rect.size.height+rect.origin.y, 80, 0);
+    selectView.frame = CGRectMake(rect.origin.x+5, rect.size.height+rect.origin.y, 50, 0);
     selectView.clipsToBounds = YES;
     
     UIButton *btn0 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -188,7 +197,6 @@ static NSString *identifier = @"DemandListCell";
     
     [btn0 addTarget:self action:@selector(selectSkill:) forControlEvents:UIControlEventTouchUpInside];
     
-    btn0.backgroundColor = [RedColor colorWithAlphaComponent:0.3];
     
     [selectView addSubview:btn0];
     
@@ -199,16 +207,15 @@ static NSString *identifier = @"DemandListCell";
     
     [btn1 addTarget:self action:@selector(selectSkill:) forControlEvents:UIControlEventTouchUpInside];
     
-    btn1.backgroundColor = [RedColor colorWithAlphaComponent:0.3];
-    btn0.frame = CGRectMake(0, 0, 80, 50);
-    btn1.frame = CGRectMake(0, 50, 80, 50);
+    btn0.frame = CGRectMake(0, 0, 50, 40);
+    btn1.frame = CGRectMake(0, btn0.bottom, 50, 40);
     [selectView addSubview:btn1];
     
     [backgroundView addSubview:selectView];
     
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = [button convertRect:button.frame toView:backgroundView];
-        selectView.frame = CGRectMake(rect.origin.x, rect.size.height+rect.origin.y, 80, 100);
+        selectView.frame = CGRectMake(rect.origin.x+5, rect.size.height+rect.origin.y, 50, 80);
         
     }];
     
@@ -314,10 +321,6 @@ static NSString *identifier = @"DemandListCell";
         }
         
         [self.tableView reloadData];
-        if ([DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
-            [self showAlertViewWithText:@"没有更多数据" duration:1];
-            return ;
-        }
         
     } failure:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -398,7 +401,7 @@ static NSString *identifier = @"DemandListCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([button.currentTitle containsString:@"任务"]) {
+    if ([button.currentTitle containsString:@"任务"]||self.isModule) {
         return UITableViewAutomaticDimension;
     }else if ([button.currentTitle containsString:@"技能"]){
         return 335;
@@ -413,7 +416,13 @@ static NSString *identifier = @"DemandListCell";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([button.currentTitle containsString:@"任务"]) {
+    if (self.isModule) {
+        DemandListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        DemandModel *model = self.dataArr[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.model = model;
+        return cell;
+    }else if ([button.currentTitle containsString:@"任务"]) {
         DemandListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         DemandModel *model = self.dataArr[indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -553,7 +562,9 @@ static NSString *identifier = @"DemandListCell";
         
     }
     
-    if ([button.currentTitle containsString:@"任务"]) {
+    if (self.isModule) {
+        [self requestWithCount:@"1"];
+    }else if ([button.currentTitle containsString:@"任务"]) {
         [self requestWithCount:@"1"];
     }else if ([button.currentTitle containsString:@"技能"]){
         [self requestListCount:@"1"];

@@ -9,6 +9,7 @@
 #import "TextReasonViewController.h"
 #import "UITextView+placeholder.h"
 #import "JGHTTPClient+Demand.h"
+#import "JGHTTPClient+Skill.h"
 #import "JGHTTPClient+DemandOperation.h"
 
 @interface TextReasonViewController ()
@@ -44,6 +45,11 @@
         } case ControllerFunctionTypePublisherComplain:{
             
             self.titleL.text = @"投诉理由";
+            
+            break;
+        } case ControllerFunctionTypeSkillApplyRefund:{
+            
+            self.titleL.text = @"申请理由";
             
             break;
         }
@@ -137,9 +143,27 @@
             }];
             
             break;
-        }
-        default:
+        } case ControllerFunctionTypeSkillApplyRefund:{
+            
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [JGHTTPClient userApplyForRefundWithOrderNo:self.orderNo reason:self.reasonTV.text Success:^(id responseObject) {
+                
+                [SVProgressHUD dismiss];
+                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                if ([responseObject[@"code"]integerValue] == 200) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self dismiss:nil];
+                    });
+                }
+                
+            } failure:^(NSError *error) {
+                
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
+            }];
+            
             break;
+        }
     }
     
 //    if (self.isPublisherEvaluate) {//发布者评价服务者

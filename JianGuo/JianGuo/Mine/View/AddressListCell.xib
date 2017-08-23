@@ -36,7 +36,7 @@
                             <constraint firstAttribute="height" constant="1" id="ocR-tU-zPk"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZs-wu-lxu">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZs-wu-lxu">
                         <rect key="frame" x="15" y="85" width="71" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="nLf-Mu-UQU"/>
@@ -110,7 +110,10 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="addressL" destination="gB1-gs-hJC" id="Fvw-4b-Ge4"/>
+                <outlet property="bottomCons" destination="nLf-Mu-UQU" id="uy0-5t-by1"/>
                 <outlet property="defaultAddressB" destination="FZs-wu-lxu" id="nqs-Lv-pZi"/>
+                <outlet property="deleteB" destination="eBy-7s-OJX" id="oed-m2-wjf"/>
+                <outlet property="editB" destination="LmH-qH-nBk" id="ZVr-TT-SuL"/>
                 <outlet property="nameL" destination="JGw-i4-474" id="yEd-Fs-EVa"/>
                 <outlet property="telL" destination="gzL-As-w7c" id="MyJ-sa-t2k"/>
             </connections>

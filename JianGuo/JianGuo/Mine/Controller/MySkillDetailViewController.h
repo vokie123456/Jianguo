@@ -10,4 +10,7 @@
 
 @interface MySkillDetailViewController : NavigatinViewController
 
+/** 订单号 */
+@property (nonatomic,copy) NSString *orderNo;
+
 @end

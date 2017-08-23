@@ -41,10 +41,10 @@ static NSString*const identifier = @"CommentCell";
 -(void)setModel:(CommentModel *)model
 {
     _model = model;
-    
+    JGLog(@"pid === %@",model.pid);
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.nameL.text = model.nickname.length?model.nickname:@"未填写";
-    self.timeL.text = [DateOrTimeTool getDateStringBytimeStamp:model.createTime.floatValue];
+    self.timeL.text = [DateOrTimeTool getDateStringBytimeStamp:[model.createTime substringToIndex:10].floatValue];
     self.contentL.text = model.content.length?model.content:@" ";
     if (model.pid.integerValue>0) {
         self.iconViewLeftCons.constant = 65;

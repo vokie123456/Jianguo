@@ -10,4 +10,10 @@
 
 @interface SkillsDetailViewController : NavigatinViewController
 
+/** 技能id */
+@property (nonatomic,copy) NSString *skillId;
+
+/** 回调block */
+@property (nonatomic,copy) void(^callBack)(NSInteger collectionStatus);
+
 @end

@@ -10,4 +10,7 @@
 
 @interface ConsumerEvaluatesViewController : NavigatinViewController
 
+/** 技能id */
+@property (nonatomic,copy) NSString *skillId;
+
 @end

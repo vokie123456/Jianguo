@@ -15,6 +15,8 @@
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
 #import "QLHudView.h"
+#import "MobClick.h"
+
 
 @interface AddMoneyViewController ()<UITableViewDataSource,UITableViewDelegate,BeeCloudDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate>
 {
@@ -185,6 +187,15 @@
         if (tempResp.resultCode == BCErrCodeUserCancel) {
             return;
         }
+        NSString *payChannel;
+        if (request.channel == PayChannelWxApp) {
+            payChannel = @"weixin";
+        }else if (request.channel == PayChannelAliApp){
+            payChannel = @"aliPay";
+        }
+        
+        [MobClick event:@"recharge_userVersion" attributes:@{@"payChannel":payChannel} counter:request.totalFee.intValue];
+        
         [JGHTTPClient uploadOrderPayResultWithType:self.payType title:request.title money:request.totalFee detail:tempResp.resultMsg code:[NSString stringWithFormat:@"%ld",tempResp.resultCode] beeNo:tempResp.bcId orderId:request.billNo userId:USER.login_id Success:^(id responseObject) {
             
             [self showAlertViewWithText:responseObject[@"message"] duration:1];

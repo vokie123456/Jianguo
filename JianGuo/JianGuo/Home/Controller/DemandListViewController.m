@@ -14,6 +14,10 @@
 #import "DemandDetailNewViewController.h"
 #import "WebViewController.h"
 
+#import "SkillsDetailViewController.h"
+#import "MySkillDetailViewController.h"
+#import "MyBuySkillDetailViewController.h"
+
 #import "SignDemandViewController.h"
 #import "JianZhiDetailController.h"
 #import "MyWalletNewViewController.h"
@@ -958,6 +962,31 @@ static NSString *identifier = @"DemandListCell";
             [self.navigationController pushViewController:mineChatVC animated:YES];
             break;
         }
+        case 30:{//技能详情
+            
+            SkillsDetailViewController *skillDetailVC = [[SkillsDetailViewController alloc] init];
+            skillDetailVC.hidesBottomBarWhenPushed = YES;
+            skillDetailVC.skillId = userInfo[@"jobid"];
+            [self.navigationController pushViewController:skillDetailVC animated:YES];
+            break;
+        }
+        case 31:{//我发布的技能的详情
+            
+            MySkillDetailViewController *mySkillVC = [[MySkillDetailViewController alloc] init];
+            mySkillVC.hidesBottomBarWhenPushed = YES;
+            mySkillVC.orderNo =  userInfo[@"jobid"];
+            [self.navigationController pushViewController:mySkillVC animated:YES];
+            break;
+        }
+        case 32:{//我购买的技能的详情
+            
+            MyBuySkillDetailViewController *myBuySkillVC = [[MyBuySkillDetailViewController alloc] init];
+            myBuySkillVC.hidesBottomBarWhenPushed = YES;
+            myBuySkillVC.orderNo = userInfo[@"jobid"];
+            [self.navigationController pushViewController:myBuySkillVC animated:YES];
+            break;
+        }
+
             
             
         case 100:{//活动推送(H5)

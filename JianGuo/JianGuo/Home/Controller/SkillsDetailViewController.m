@@ -9,9 +9,14 @@
 #import "SkillsDetailViewController.h"
 #import "PlaceOrderViewController.h"
 #import "ConsumerEvaluatesViewController.h"
+#import "LCCKConversationViewController.h"
+#import "MineChatViewController.h"
+
+#import "JGHTTPClient+Skill.h"
+#import "JGHTTPClient+Demand.h"
 
 #import "CommentModel.h"
-#import "DemandDetailModel.h"
+#import "SkillDetailModel.h"
 
 #import "DemandDetailImageCell.h"
 #import "DDTitleCell.h"
@@ -20,15 +25,30 @@
 #import "CommentCell.h"
 
 #import "StarView.h"
+#import "ShareView.h"
+#import "CommentInputView.h"
+#import "UITextView+placeholder.h"
+#import <IQKeyboardManager.h>
 
+#import "XLPhotoBrowser.h"
 #import "TTTAttributedLabel.h"
 #import "UIImageView+WebCache.h"
 
-@interface SkillsDetailViewController () <UITabBarDelegate,UITableViewDataSource,UITableViewDelegate>
+
+@interface SkillsDetailViewController () <UITabBarDelegate,UITableViewDataSource,UITableViewDelegate,CommentCellDelegate,FinishEditDelegate,XLPhotoBrowserDelegate,XLPhotoBrowserDatasource>
+{
+    SkillDetailModel *detailModel;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UIButton *buyB;
 @property (weak, nonatomic) IBOutlet UITabBarItem *likeItem;
+@property (nonatomic,strong) CommentInputView *commentView;
+@property (nonatomic,strong) UITextView *commentTV;
+
+@property (nonatomic,strong) NSMutableArray *imagesArr;
+@property (nonatomic,strong) NSMutableArray *commentArr;
+@property (nonatomic,strong) NSMutableArray *commentAll;
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
@@ -38,8 +58,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *saleCountL;
 @property (weak, nonatomic) IBOutlet UILabel *scoreL;
 @property (weak, nonatomic) IBOutlet StarView *starView;
+@property (weak, nonatomic) IBOutlet UILabel *skillTitleL;
+@property (weak, nonatomic) IBOutlet UILabel *labelL;
+@property (nonatomic,strong) UIButton *collectionB;
 
-
+@property (nonatomic,copy) NSString *pid;
+@property (nonatomic,copy) NSString *toUserId;
 /** 数据源数组 */
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
@@ -47,23 +71,63 @@
 
 @implementation SkillsDetailViewController
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [IQKeyboardManager sharedManager].enable = NO;
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [APPLICATION.keyWindow endEditing:YES];
+    [self.commentView removeFromSuperview];
+    self.commentView = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
+    [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
+    
+    self.commentAll = @[].mutableCopy;
     
     self.navigationItem.title = @"技能详情";
     
     self.tabBar.delegate = self;
-    self.starView.score = 4.6;
+
     self.tableView.estimatedRowHeight = 100;
     
+    [self setNavigationBarItem];
+    
+    [self customCommentKeyboard];
+    
+    [self requestDetail];
+    IMP_BLOCK_SELF(SkillsDetailViewController);
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{//上拉加载
+        __block NSInteger blockPageCount = ((int)block_self.commentArr.count/10) + ((int)(block_self.commentArr.count/10)>=1?1:2) + ((block_self.commentArr.count%10)>0&&block_self.commentArr.count>10?1:0);
+        [block_self requestWithCount:[NSString stringWithFormat:@"%ld",(long)blockPageCount]];
+    }];
+    [self requestWithCount:@"1"];
+    
+}
+
+-(void)setNavigationBarItem
+{
+    
     UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn_r setTitle:@"<#名字#>" forState:UIControlStateNormal];
+    
     [btn_r setBackgroundImage:[UIImage imageNamed:@"collection"] forState:UIControlStateNormal];
     [btn_r addTarget:self action:@selector(collectionSkill:) forControlEvents:UIControlEventTouchUpInside];
-    btn_r.frame = CGRectMake(0, 0, 16, 16);
+    btn_r.frame = CGRectMake(0, 0, 18, 18);
+    self.collectionB = btn_r;
     
     UIButton * btn_r2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    [btn_r setTitle:@"<#名字#>" forState:UIControlStateNormal];
     [btn_r2 setBackgroundImage:[UIImage imageNamed:@"demandshare"] forState:UIControlStateNormal];
     [btn_r2 addTarget:self action:@selector(shareSkill:) forControlEvents:UIControlEventTouchUpInside];
     btn_r2.frame = CGRectMake(0, 0, 16, 15);
@@ -74,22 +138,235 @@
     
     self.navigationItem.rightBarButtonItems = @[rightBtn2,rightBtnMiddle,rightBtn1];
     
+    
+}
+
+//添加输入框
+-(void)customCommentKeyboard
+{
+    CommentInputView *view = [CommentInputView aReplyCommentView:nil];
+    view.delegate = self;
+    self.commentView = view;
+    self.commentTV = view.commentTV;
+    view.commentTV.placeholder = @"请输入文字";
+    [APPLICATION.keyWindow addSubview:view];
+    [APPLICATION.keyWindow bringSubviewToFront:view];
+    JGLog(@"%@",APPLICATION.keyWindow);
+    view.frame = CGRectMake(0, APPLICATION.keyWindow.frame.size.height, SCREEN_W, self.commentView.height);
+}
+
+-(void)requestWithCount:(NSString *)count
+{
+    
+    [JGHTTPClient getSkillCommentsListWithPageNum:count skillId:self.skillId Success:^(id responseObject) {
+        
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        JGLog(@"%@",responseObject);
+        
+        if (count.integerValue>1) {//上拉加载
+            
+            if ([[CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            
+            NSMutableArray *addArr = @[].mutableCopy;
+            [self.commentArr addObjectsFromArray:[CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]];
+            for (CommentModel *model in [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.commentAll addObject:model];
+                [self.commentAll addObjectsFromArray:model.childComments];
+                [addArr addObject:model];
+                [addArr addObjectsFromArray:model.childComments];
+            }
+            
+            [self.tableView reloadData];
+            
+            
+            return;
+            
+        }else{
+            self.commentArr = [CommentModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            [self.commentAll removeAllObjects];
+            for (CommentModel *model in self.commentArr) {
+                [self.commentAll addObject:model];
+                [self.commentAll addObjectsFromArray:model.childComments];
+            }
+            [self.tableView reloadData];
+            return;
+        }
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+        
+    }];
+}
+
+-(void)requestDetail
+{
+    
+    JGSVPROGRESSLOAD(@"加载中...");
+    
+    [JGHTTPClient getSkillDetailsWithSkillId:self.skillId  userId:nil Success:^(id responseObject) {
+        JGLog(@"%@",responseObject);
+        if ([responseObject[@"code"] integerValue] ==200) {
+            detailModel = [SkillDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
+            
+            [_iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",detailModel.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
+            self.nameL.text = detailModel.nickname.length?detailModel.nickname:@"未填写";
+            self.schoolL.text = [NSString stringWithFormat:@"发布到:%@",detailModel.publishSchoolName.length?detailModel.publishSchoolName:detailModel.publishCityName];
+            self.saleCountL.text = [NSString stringWithFormat:@"已售 %ld 次",(long)detailModel.saleCount];
+            if ([detailModel.price containsString:@"."]) {
+                self.moneyL.text = [NSString stringWithFormat:@"%.2f元",detailModel.price.floatValue];
+            }else{
+                self.moneyL.text = [NSString stringWithFormat:@"%@元",detailModel.price];
+            }
+            self.scoreL.text = [NSString stringWithFormat:@"%.1f分",detailModel.averageScore];
+            
+            self.starView.score = detailModel.averageScore;
+            self.skillTitleL.text = detailModel.title;
+            self.labelL.text = detailModel.masterTitle.length?[[@" " stringByAppendingString:detailModel.masterTitle] stringByAppendingString:@" "]:nil;
+            if (detailModel.isFavourite) {
+                [self.collectionB setBackgroundImage:[UIImage imageNamed:@"stars"] forState:UIControlStateNormal];
+            }
+            if (detailModel.isLike) {
+                self.likeItem.image = [UIImage imageNamed:@"xin"];
+                self.likeItem.selectedImage = [UIImage imageNamed:@"xin"];
+            }
+            if (detailModel.isFollow) {
+                self.followHeaderB.hidden = YES;
+            }
+            if (detailModel.status) {
+                
+                self.buyB.userInteractionEnabled = NO;
+                [self.buyB setTitle:@"暂停接单" forState:UIControlStateNormal];
+                [self.buyB setBackgroundColor:LIGHTGRAY1];
+                
+            }
+            /*
+            if (detailModel.demandStatus.integerValue==1) {
+                
+                
+                if (detailModel.enrollStatus.integerValue!=0) {
+                    [self.signButton setTitle:@"已报名" forState:UIControlStateNormal];
+                    self.signButton.userInteractionEnabled = NO;
+                    [self.signButton setBackgroundColor:LIGHTGRAY1];
+                }
+                
+            }else{
+                
+                [self.signButton setTitle:@"已完成" forState:UIControlStateNormal];
+                self.signButton.userInteractionEnabled = NO;
+                [self.signButton setBackgroundColor:LIGHTGRAY1];
+            }
+            
+            self.likeView.image = [UIImage imageNamed:detailModel.isLike.integerValue == 1?@"xin":@"fabulous"];
+            
+            
+            if (detailModel.limitTime.integerValue == 0) {
+                [UIView animateWithDuration:0.2 animations:^{
+                    [self.headerView layoutIfNeeded];
+                    timeLimitViewCons.constant = 0;
+                    self.headerView.height = 115-44;
+                }];
+            }
+            */
+            [self.tableView reloadData];
+            
+        }else if ([responseObject[@"code"] integerValue] == 600){
+            [self showAlertViewWithText:responseObject[@"message"] duration:1];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showAlertViewWithText:NETERROETEXT duration:1.5];
+    }];
 }
 
 -(void)collectionSkill:(UIButton *)sender
 {//收藏
+    
+    if (USER.login_id.integerValue<1) {
+        [self gotoCodeVC];
+        return;
+    }
+    NSString *status;
+    if (detailModel.isFavourite) {
+        status = @"0";
+    }else{
+        status = @"1";
+    }
+    sender.userInteractionEnabled = NO;
+    [JGHTTPClient collectionSkillById:[NSString stringWithFormat:@"%ld",detailModel.skillId] status:status Success:^(id responseObject) {
+        
+        sender.userInteractionEnabled = YES;
+        if ([responseObject[@"code"] integerValue] == 200) {
+            detailModel.isFavourite = status.integerValue;
+            
+            if (self.callBack) {
+                self.callBack(status.integerValue);
+            }
+            
+            if (detailModel.isFavourite) {
+                
+                [sender setBackgroundImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+                   
+            }else{
+                [sender setBackgroundImage:[UIImage imageNamed:@"collection"] forState:UIControlStateNormal];
+            }
+        }else{
+            [self showAlertViewWithText:responseObject[@"message"] duration:1];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showAlertViewWithText:NETERROETEXT duration:1.5f];
+        sender.userInteractionEnabled = YES;
+    }];
     
 }
 
 -(void)shareSkill:(UIButton *)sender
 {//分享
     
+    [APPLICATION.keyWindow endEditing:YES];
+    ShareView *shareView = [ShareView aShareView];
+    shareView.skillModel = detailModel;
+    [shareView show];
+    
 }
+
+//点击发送按钮
+-(void)finishEdit
+{
+    [self.commentTV resignFirstResponder];
+    JGSVPROGRESSLOAD(@"正在请求...");
+    [JGHTTPClient postAcommentWithSkillId:self.skillId content:self.commentTV.text pid:self.pid toUserId:self.toUserId Success:^(id responseObject) {
+        
+        [SVProgressHUD dismiss];
+        if ([responseObject[@"code"] integerValue] == 200) {
+            [self requestWithCount:@"1"];
+            
+        }
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [self showAlertViewWithText:NETERROETEXT duration:1.f];
+        
+    }];
+    
+    self.commentTV.text = nil;
+    self.commentTV.placeholder = @"请输入文字";
+}
+
 
 - (IBAction)checkEvaluates:(UIButton *)sender {
     
     ConsumerEvaluatesViewController *consumerVC = [[ConsumerEvaluatesViewController alloc] init];
     consumerVC.hidesBottomBarWhenPushed = YES;
+    consumerVC.skillId = self.skillId;
     [self.navigationController pushViewController:consumerVC animated:YES];
     
 }
@@ -115,7 +392,7 @@
         UILabel *commentCountL = [[UILabel alloc] initWithFrame:CGRectMake(commentView.right+10, 0, 100, 43)];
         commentCountL.textColor = LIGHTGRAYTEXT;
         commentCountL.font = FONT(15);
-//        commentCountL.text = detailModel.commentCount;
+        commentCountL.text = [NSString stringWithFormat:@"%ld",detailModel.commentCount];
         
         [view addSubview:commentView];
         [view addSubview:commentCountL];
@@ -136,9 +413,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        if (indexPath.row == 0||indexPath.row == 3||indexPath.row == 5||indexPath.row == 6) {
+        if (indexPath.row == 0||indexPath.row == detailModel.descImages.count+1||indexPath.row == 3+detailModel.aptitudeImages.count+detailModel.descImages.count||indexPath.row == 2+detailModel.aptitudeImages.count+detailModel.descImages.count) {
             return UITableViewAutomaticDimension;
-        }else if (indexPath.row == 7){
+        }else if (indexPath.row == 4+detailModel.aptitudeImages.count+detailModel.descImages.count){
             return 44;
         }else{
             return 250;
@@ -156,11 +433,11 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section ==0) {
-        return 8;
+        return 5+detailModel.aptitudeImages.count+detailModel.descImages.count;
     }else if (section == 1){
         return 1;
     }else if (section==2){
-        return 10;
+        return self.commentAll.count;
     }else
         return 0;
 }
@@ -168,68 +445,332 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        if (indexPath.row == 0||indexPath.row == 3||indexPath.row == 5||indexPath.row == 6) {
+        if (indexPath.row == 0||indexPath.row == 1+detailModel.descImages.count||indexPath.row == 2+detailModel.aptitudeImages.count+detailModel.descImages.count||indexPath.row == 3+detailModel.aptitudeImages.count+detailModel.descImages.count) {
             DDTitleCell *cell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DDTitleCell class]) owner:nil options:nil].lastObject;
             cell.typeL.hidden = YES;
-            if (indexPath.row == 5) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (indexPath.row == detailModel.descImages.count+1) {
                 cell.lineView.hidden = NO;
             }
-            cell.titleL.text = @"服务详情";
-            cell.contentL.text = @"换屏幕,换电池,贴膜,恢复数据,解决各种卡机问题";
+            if (indexPath.row == 0) {
+                cell.titleL.text = @"服务详情";
+                cell.contentL.text = detailModel.skillDesc;
+                if (detailModel.descImages.count == 0) {
+                    cell.lineView.hidden = NO;
+                }
+            }else if (indexPath.row == 1+detailModel.descImages.count){
+                cell.titleL.text = @"技能资质";
+                cell.contentL.text = detailModel.skillAptitude;
+            }else if (indexPath.row == 2+detailModel.aptitudeImages.count+detailModel.descImages.count){
+                cell.titleL.text = @"价格说明";
+                cell.contentL.text = detailModel.priceDesc;
+                cell.lineView.hidden = NO;
+            }else if (indexPath.row == 3+detailModel.aptitudeImages.count+detailModel.descImages.count){
+                
+                NSString *serviceName;
+                switch (detailModel.serviceMode) {
+                    case 1:{
+                        
+                        serviceName = @"到店服务";
+                        
+                        break;
+                    } case 2:{
+                        
+                        serviceName = @"线上服务";
+                        
+                        break;
+                    } case 3:{
+                        
+                        serviceName = @"上门服务";
+                        
+                        break;
+                    } case 4:{
+                        
+                        serviceName = @"邮寄服务";
+                        
+                        break;
+                    }
+                }
+                cell.titleL.text = [@"服务方式: " stringByAppendingString:serviceName?serviceName:@""];
+                if (detailModel.serviceMode!=2) {
+                    cell.contentL.text = [NSString stringWithFormat:@"联系地址:%@",detailModel.serviceAddress];
+                }else{
+                    cell.contentL.text = nil;
+                }
+            }
             return cell;
-        }else if (indexPath.row == 7){
+            
+        }else if (indexPath.row == 4+detailModel.aptitudeImages.count+detailModel.descImages.count){
             DDScanCountCell *cell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DDScanCountCell class]) owner:nil options:nil].lastObject;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
+            cell.scanL.text = [NSString stringWithFormat:@"%ld",detailModel.viewCount];
+            cell.likeL.text = [NSString stringWithFormat:@"%ld",detailModel.likeCount];
             return cell;
         }else{
             DemandDetailImageCell *cell = [DemandDetailImageCell cellWithTableView:tableView];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.images[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+            if (indexPath.row<=detailModel.descImages.count) {
+                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.descImages[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+            }else{
+                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.aptitudeImages[indexPath.row-detailModel.descImages.count-2]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+            }
             return cell;
         }
     }else if (indexPath.section == 1){
         DDUserInfoCell *cell = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DDUserInfoCell class]) owner:nil options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        DemandDetailModel *model = [[DemandDetailModel alloc] init];
-        model.schoolName = @"中国人民大学";
-        model.authStatus = @"1";
-        model.nickname = @"Mr.weather";
-        model.publishDemandCount = @"300";
-        model.completedDemandCount = @"50";
-        model.sex = @"1";
-        cell.detailModel = model;
+        
+        cell.skillDetailM = detailModel;
         
         return cell;
     }else{
         CommentCell *cell = [CommentCell cellWithTableView:tableView];
-//        cell.delegate = self;
-//        CommentModel *model = self.commentAll[indexPath.row];
-//        
-//        cell.model = model;
-        CommentModel *model = [[CommentModel alloc] init];
-        model.content = @"是肯定和反馈说的话";
+        cell.delegate = self;
+        CommentModel *model = self.commentAll[indexPath.row];
         cell.model = model;
+        
         
         return cell;
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0&&indexPath.row>0&&indexPath.row<=detailModel.descImages.count) {
+        
+        XLPhotoBrowser *browser = [[XLPhotoBrowser alloc] init];
+        browser.tag = 100;
+        browser.datasource = self;
+        browser.imageCount = detailModel.descImages.count;
+        browser.currentImageIndex = indexPath.row-1;
+        [browser show];
+//        XLPhotoBrowser *browser = [XLPhotoBrowser showPhotoBrowserWithCurrentImageIndex:indexPath.row-1 imageCount:detailModel.descImages.count datasource:self];
+
+        [browser setActionSheetWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" deleteButtonTitle:nil otherButtonTitles:@"保存图片", nil];
+        
+    }else if (indexPath.section ==0&&indexPath.row>=detailModel.descImages.count+2&&indexPath.row<=detailModel.descImages.count+detailModel.aptitudeImages.count+1){
+        
+        XLPhotoBrowser *browser = [[XLPhotoBrowser alloc] init];
+        browser.tag = 101;
+        browser.datasource = self;
+        browser.imageCount = detailModel.aptitudeImages.count;
+        browser.currentImageIndex = indexPath.row-detailModel.descImages.count-2;
+        [browser show];
+//        XLPhotoBrowser *browser = [XLPhotoBrowser showPhotoBrowserWithCurrentImageIndex:indexPath.row-detailModel.descImages.count-2 imageCount:detailModel.aptitudeImages.count datasource:self];
+        
+        [browser setActionSheetWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" deleteButtonTitle:nil otherButtonTitles:@"保存图片", nil];
+        
+    }else if (indexPath.section == 1){
+        
+        MineChatViewController *userVC = [[MineChatViewController alloc] init];
+        userVC.hidesBottomBarWhenPushed = YES;
+        userVC.userId = [NSString stringWithFormat:@"%ld",detailModel.publishUid];
+        [self.navigationController pushViewController:userVC animated:YES];
+        
+    }else if (indexPath.section == 2){
+        CommentModel *model = self.commentAll[indexPath.row];
+        self.toUserId = model.userId;
+        self.pid = model.pid.integerValue==0?model.id:model.pid;
+        self.commentTV.placeholder = [NSString stringWithFormat:@"回复:%@",model.nickname];
+        [self.commentTV becomeFirstResponder];
+    }
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section ==2) {
+        CommentModel *model = self.commentAll[indexPath.row];
+        if (model.canDelete.boolValue) {
+            return UITableViewCellEditingStyleDelete;
+        }
+        return UITableViewCellEditingStyleNone;
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        CommentModel *model = self.commentAll[indexPath.row];
+        
+        //TODO: 调用删除评论的接口
+        [JGHTTPClient deleteCommentWithCommentId:model.id Success:^(id responseObject) {
+            
+            if ([responseObject[@"code"] integerValue] == 200) {
+                
+                [self.commentAll removeObject:model];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                
+            }else{
+                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+            }
+            
+        } failure:^(NSError *error) {
+            
+        }];
+        
+    }
+}
+
+
+- (void)photoBrowser:(XLPhotoBrowser *)browser clickActionSheetIndex:(NSInteger)actionSheetindex currentImageIndex:(NSInteger)currentImageIndex
+{
+    if (actionSheetindex==0) {
+        [browser saveCurrentShowImage];
+    }
+}
+
+-(NSURL *)photoBrowser:(XLPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    JGLog(@"%ld",browser.tag);
+    if (browser.tag == 100) {
+        return [NSURL URLWithString:detailModel.descImages[index]];
+    }else{
+        return [NSURL URLWithString:detailModel.aptitudeImages[index]];
+    }
+}
+
+-(UIImage *)photoBrowser:(XLPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    return [UIImage imageNamed:@"placeholderPic"];
+}
+
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {//tag: 100==果聊;101==评论;102==点赞
     
+    if (USER.login_id.integerValue<1) {
+        [self gotoCodeVC];
+        return;
+    }
+    if (USER.resume.intValue == 0){
+        [self showAlertViewWithText:@"请您先去完善资料" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self gotoProfileVC];
+        });
+        return;
+    }
+    
+    switch (item.tag) {
+        case 100:{//果聊
+            
+            
+            if (detailModel.publishUid == USER.login_id.integerValue) {
+                [self showAlertViewWithText:@"您不能跟自己聊天!" duration:1];
+                return ;
+            }
+            
+            LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithString:[NSString stringWithFormat:@"%ld",detailModel.publishUid]]];
+            
+            [self.navigationController pushViewController:conversationViewController animated:YES];
+            
+            break;
+        }
+        case 101:{//评论
+            
+            self.toUserId = @"0";
+            self.pid = @"0";
+            self.commentTV.placeholder = @"请输入文字";
+            [self.commentTV becomeFirstResponder];
+            
+            break;
+        }
+        case 102:{//点赞
+            
+            NSString *status;
+            if (detailModel.isLike == 1) {
+                status = @"0";
+            }else{
+                status = @"1";
+            }
+            [JGHTTPClient praiseSkillById:self.skillId status:status Success:^(id responseObject) {
+                
+                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                if ([responseObject[@"code"] integerValue] == 200) {
+                    
+                    detailModel.isLike = status.integerValue;
+                    item.image = [UIImage imageNamed:status.integerValue == 1?@"xin":@"fabulous"];
+                    item.selectedImage = [UIImage imageNamed:status.integerValue == 1?@"xin":@"fabulous"];
+                    
+                    
+                }
+                
+            } failure:^(NSError *error) {
+                
+            }];
+            
+            
+            break;
+        }
+    }
+    
 }
+
+
+//点击评论cell的头像
+-(void)clickIcon:(NSString *)userId
+{
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
+    mineChatVC.hidesBottomBarWhenPushed = YES;
+    mineChatVC.userId = userId;
+    [self.navigationController pushViewController:mineChatVC animated:YES];
+}
+
+
 - (IBAction)buy:(UIButton *)sender {
     
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"小果果建议您在购买技能之前与卖家通过果聊沟通好服务时间,以确保服务顺利完成哦!" preferredStyle:UIAlertControllerStyleAlert];
+    if (detailModel.publishUid == USER.login_id.integerValue) {
+        [self showAlertViewWithText:@"你不能购买自己的技能!" duration:2];
+        return;
+    }
+    
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"想要服务保质保量？先果聊一下!" preferredStyle:UIAlertControllerStyleAlert];
         
     UIAlertAction *cancelAC = [UIAlertAction actionWithTitle:@"果聊TA" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {//去果聊
+        
+        LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithFormat:@"%ld",detailModel.publishUid]];
+        
+        [self.navigationController pushViewController:conversationViewController animated:YES];
         
     }];
     UIAlertAction *sureAC = [UIAlertAction actionWithTitle:@"直接购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {//跳到购买页面
         
         PlaceOrderViewController *orderVC = [[PlaceOrderViewController alloc] init];
+        NSString *serviceName;
+        switch (detailModel.serviceMode) {
+            case 1:{
+                
+                serviceName = @"到店服务";
+                
+                break;
+            } case 2:{
+                
+                serviceName = @"线上服务";
+                
+                break;
+            } case 3:{
+                
+                serviceName = @"上门服务";
+                
+                break;
+            } case 4:{
+                
+                serviceName = @"邮寄服务";
+                
+                break;
+            }
+        }
+        orderVC.serviceModeStr = serviceName;
+        orderVC.serviceMode = detailModel.serviceMode;
+        orderVC.skillTitle = detailModel.title;
+        orderVC.price = [NSString stringWithFormat:@"￥ %.2f",detailModel.price.floatValue];
+        orderVC.coverImg = [NSString stringWithFormat:@"%@",detailModel.cover];
         orderVC.hidesBottomBarWhenPushed = YES;
+        orderVC.skillId = self.skillId;
         [self.navigationController pushViewController:orderVC animated:YES];
         
     }];
@@ -239,6 +780,52 @@
     
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertVC animated:YES completion:nil];
 }
+
+
+-(void)keyboardWillAppear:(NSNotification *)noti
+{
+    self.tableView.userInteractionEnabled = NO;
+    
+    CGRect rect = [[noti.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    
+    CGFloat duration = [[noti.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]floatValue];
+    
+    UIViewAnimationOptions option = [[noti.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        
+        self.commentView.frame = CGRectMake(0, SCREEN_H-rect.size.height-self.commentView.height, SCREEN_W, self.commentView.height);
+        
+    } completion:^(BOOL finished) {
+        [IQKeyboardManager sharedManager].enable = YES;
+    }];
+}
+
+-(void)keyboardWillHide:(NSNotification *)noti
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    CGRect rect = [[noti.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    
+    CGFloat duration = [[noti.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]floatValue];
+    
+    UIViewAnimationOptions option = [[noti.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        //        self.commentView.transform = CGAffineTransformIdentity;
+        self.commentView.frame = CGRectMake(0, rect.origin.y+rect.size.height, SCREEN_W, self.commentView.height);
+    } completion:^(BOOL finished) {
+        [IQKeyboardManager sharedManager].enable = NO;
+    }];
+}
+
+-(void)dealloc
+{
+    [NotificationCenter removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [NotificationCenter removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
+
+
 
 
 @end

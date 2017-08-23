@@ -60,13 +60,14 @@
 /** 如果大于零证明是子评论 */
 @property (nonatomic, copy) NSString*  pid;
 
+/** 如果大于零证明是子评论(技能模块的字段) */
+//@property (nonatomic, copy) NSString*  pId;
+
 /** 需求id */
 @property (nonatomic, copy) NSString*  demandId;
 
 /** 评论内容 */
 @property (nonatomic, copy) NSString* content;
-
-
 
 
 @end

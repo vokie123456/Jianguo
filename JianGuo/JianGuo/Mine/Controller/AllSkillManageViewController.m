@@ -7,6 +7,7 @@
 //
 
 #import "AllSkillManageViewController.h"
+#import "SkillsDetailViewController.h"
 
 #import "SkillListModel.h"
 #import "JGHTTPClient+Skill.h"
@@ -53,7 +54,7 @@
 -(void)requestList:(NSString *)count
 {
     JGSVPROGRESSLOAD(@"加载中...");
-    [JGHTTPClient getMySkillsListWithPageNum:count type:nil Success:^(id responseObject) {
+    [JGHTTPClient manageMySkillsListWithPageNum:count type:nil Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];
@@ -105,6 +106,8 @@
 {
     SkillManageCell *cell = [SkillManageCell cellWithTableView:tableView];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     cell.model = self.dataArr[indexPath.row];
     
     return cell;
@@ -112,6 +115,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    SkillListModel *model = self.dataArr[indexPath.row];
+    
+    SkillsDetailViewController *detailVC = [[SkillsDetailViewController alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    detailVC.skillId = [NSString stringWithFormat:@"%ld",model.skillId];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

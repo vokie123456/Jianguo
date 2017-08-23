@@ -12,12 +12,14 @@
                 <outlet property="buyB" destination="cr1-r9-OXA" id="Wek-Av-kgb"/>
                 <outlet property="followHeaderB" destination="mbj-ps-Ttx" id="cGa-cX-wvG"/>
                 <outlet property="iconView" destination="lro-Ti-Rag" id="BNr-ZR-Bf4"/>
+                <outlet property="labelL" destination="2kx-oK-Xi4" id="hWv-mH-DOK"/>
                 <outlet property="likeItem" destination="LG2-25-v8n" id="9eF-FR-YAA"/>
                 <outlet property="moneyL" destination="M34-4a-Wce" id="ExG-Op-gL3"/>
                 <outlet property="nameL" destination="8Z8-n7-rgi" id="ZhZ-kS-eKC"/>
                 <outlet property="saleCountL" destination="Aav-6G-Ldn" id="Pib-Um-Pxq"/>
                 <outlet property="schoolL" destination="58d-vy-5lp" id="2IM-R3-Wtq"/>
                 <outlet property="scoreL" destination="G9K-O2-QRl" id="vME-hl-qfY"/>
+                <outlet property="skillTitleL" destination="ozd-1p-bIm" id="ATA-UT-QcB"/>
                 <outlet property="starView" destination="2IE-sv-0e0" id="AV9-fJ-xgv"/>
                 <outlet property="tabBar" destination="v32-2D-lRd" id="jGm-Mv-4u6"/>
                 <outlet property="tableView" destination="5kf-lP-yLC" id="Yv2-oJ-MBX"/>
@@ -112,7 +114,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5zp-3A-M6G">
                                 <rect key="frame" x="0.0" y="107" width="600" height="44"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="万修王" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kx-oK-Xi4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="万修王" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kx-oK-Xi4" customClass="IBLabel">
                                         <rect key="frame" x="217" y="14" width="42" height="17"/>
                                         <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -121,6 +123,11 @@
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="DAJ-zP-F4S"/>

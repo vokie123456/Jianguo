@@ -14,6 +14,7 @@
 #import "DetailModel.h"
 #import "JianzhiModel.h"
 #import "DemandDetailModel.h"
+#import "SkillDetailModel.h"
 
 #define INSTANCE_Y 30
 
@@ -130,6 +131,13 @@
             NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",self.model.job_name,self.money,self.address];
             [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"小伙伴给您分享了一条兼职!" type:SSDKContentTypeAuto];
         
+        }else if (self.skillModel){
+            
+            NSString *backURL = [NSString stringWithFormat:@"%@skill/buy?skillId=%ld",@"http://www.woniukeji.com.cn:8888/",self.skillModel.skillId];
+            NSArray* imageArray = @[self.skillModel.cover];
+            NSString *text = [NSString stringWithFormat:@"%@\n单价:%@",self.skillModel.title,self.skillModel.price];
+            [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"发现了一个校园达人，Ta在兼果校园等你撩!" type:SSDKContentTypeAuto];
+            
         }
     }
     

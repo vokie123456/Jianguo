@@ -8,6 +8,8 @@
 
 #import "SkillViewController.h"
 #import "SkillsDetailViewController.h"
+#import "WebViewController.h"
+#import "MineChatViewController.h"
 
 #import "JGHTTPClient+Skill.h"
 #import "JGHTTPClient+Mine.h"
@@ -29,7 +31,7 @@
 #import "PresentingAnimator.h"
 
 
-@interface SkillViewController () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,SDCycleScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface SkillViewController () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,SDCycleScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,SkillExpertBoardDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet SDCycleScrollView *bannerView;
@@ -73,6 +75,13 @@
                 [self.selectMenu reloadData];
             }
         } failure:^(NSError *error) {
+
+            SchoolModel *school = [[SchoolModel alloc] init];
+            school.id = @"0";
+            school.name = @"全部学校";
+            self.schoolArr = [NSMutableArray array];
+            [self.schoolArr insertObject:school atIndex:0];
+            [self.selectMenu reloadData];
             [SVProgressHUD dismiss];
         }];
         
@@ -145,7 +154,7 @@
 
 -(void)refreshBanner
 {
-    [JGHTTPClient getImgsOfScrollviewWithCategory:@"1" Success:^(id responseObject) {
+    [JGHTTPClient getImgsOfScrollviewWithCategory:@"3" Success:^(id responseObject) {
         if (responseObject) {
             if ([responseObject[@"code"] integerValue] == 200) {
                 NSMutableArray *images = [NSMutableArray array];
@@ -162,12 +171,22 @@
     }];
 }
 
+-(void)clickPersonIcon:(id)model
+{
+    SkillExpertModel *_model = model;
+    
+    MineChatViewController *mineVC = [[MineChatViewController alloc] init];
+    mineVC.hidesBottomBarWhenPushed = YES;
+    mineVC.userId = [NSString stringWithFormat:@"%ld",_model.uid];
+    [self.navigationController pushViewController:mineVC animated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
 //    self.navigationItem.title = @"技能详情";
     
-    self.cityCode = [CityModel city].code;
+    self.cityCode = @"0";
     self.schoolId = @"0";
     self.sex = @"0";
     self.orderType = @"createTime";
@@ -182,6 +201,11 @@
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
+        NSString *title = [self.selectMenu titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:0 row:0]];
+        if (title.length==0) {
+            self.cityArr = JGKeyedUnarchiver(JGCityArr);
+            [self.selectMenu reloadData];
+        }
         [self refreshBanner];
         [self getSkillExperts];
         [self requestWithCount:@"1"];
@@ -191,9 +215,6 @@
         MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             pageCount = ((int)(self.dataArr.count-1)/10) + ((int)((self.dataArr.count-1)/10)>=1?1:2) + (((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0);
             
-            JGLog(@"one ====  %d",(int)self.dataArr.count/10);
-            JGLog(@"two ==== %d",((int)(self.dataArr.count/10)>=1?1:2));
-            JGLog(@"three ==== %d",(((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0));
             [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
             
         }];
@@ -267,6 +288,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         cell.dataArr = self.expertModelArr;
+        cell.delegate = self;
         
         return cell;
     }
@@ -280,9 +302,20 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SkillsDetailViewController *detailVC = [[SkillsDetailViewController alloc] init];
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
+    if (indexPath.row>0) {
+        
+        SkillListModel *model = self.dataArr[indexPath.row-1];
+        SkillsCell *cell = (SkillsCell *)[tableView cellForRowAtIndexPath:indexPath];
+        SkillsDetailViewController *detailVC = [[SkillsDetailViewController alloc] init];
+        detailVC.callBack = ^(NSInteger collectionStatus){
+            model.isFavourite = collectionStatus;
+            [cell.collectionB setBackgroundImage:[UIImage imageNamed:collectionStatus?@"heart":@"stars1"] forState:UIControlStateNormal];
+        };
+        detailVC.skillId = [NSString stringWithFormat:@"%ld",model.skillId];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
+    }
 }
 
 #pragma mark DOPDropDownMenuDataSource (三方筛选控件代理方法)
@@ -403,12 +436,12 @@
 
 -(void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
-//    ImagesModel *model = self.imagesScrollArr[index];
-//    
-//    WebViewController *webVC = [[WebViewController alloc] init];
-//    webVC.hidesBottomBarWhenPushed = YES;
-//    webVC.url = model.url;
-//    [self.navigationController pushViewController:webVC animated:YES];
+    ImagesModel *model = self.imagesScrollArr[index];
+    
+    WebViewController *webVC = [[WebViewController alloc] init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    webVC.url = model.url;
+    [self.navigationController pushViewController:webVC animated:YES];
     
 }
 

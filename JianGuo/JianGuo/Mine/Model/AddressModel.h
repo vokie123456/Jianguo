@@ -12,7 +12,7 @@
 
 
 /** 地址id */
-@property (nonatomic, assign) NSInteger  id;
+@property (nonatomic, copy) NSString*  id;
 
 /** 电话 */
 @property (nonatomic, copy) NSString*  mobile;

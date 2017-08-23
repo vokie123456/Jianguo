@@ -19,9 +19,27 @@
     return cell;
 }
 - (IBAction)reduce:(id)sender {
+    
+    if (self.countTF.text.integerValue>1) {
+        NSInteger count = self.countTF.text.integerValue-1;
+        self.countTF.text = [NSString stringWithFormat:@"%ld",count];
+        if ([self.delegate respondsToSelector:@selector(countChanged:)]) {
+            [self.delegate countChanged:self.countTF.text];
+        }
+    }
+    
 }
 
 - (IBAction)add:(id)sender {
+    
+    if (self.countTF.text.integerValue<99) {
+        NSInteger count = self.countTF.text.integerValue+1;
+        self.countTF.text = [NSString stringWithFormat:@"%ld",count];
+        if ([self.delegate respondsToSelector:@selector(countChanged:)]) {
+            [self.delegate countChanged:self.countTF.text];
+        }
+    }
+    
 }
 
 

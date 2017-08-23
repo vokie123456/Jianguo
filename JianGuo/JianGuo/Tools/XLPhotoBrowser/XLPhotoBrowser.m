@@ -488,7 +488,7 @@
     } else {
         self.savaImageTipLabel.text = XLPhotoBrowserSaveImageSuccessText;
     }
-    [self.savaImageTipLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1.0];
+    [self.savaImageTipLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:2.0];
 }
 
 #pragma mark    -   private ---loadimage

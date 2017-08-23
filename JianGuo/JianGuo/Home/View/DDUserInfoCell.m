@@ -9,10 +9,11 @@
 #import "DDUserInfoCell.h"
 
 #import "LoginNew2ViewController.h"
-
 #import "JGHTTPClient+Demand.h"
+#import "JGHTTPClient+Skill.h"
 
 #import "DemandDetailModel.h"
+#import "SkillDetailModel.h"
 
 #import "UIImageView+WebCache.h"
 #import "DateOrTimeTool.h"
@@ -21,6 +22,17 @@
 
 - (void)awakeFromNib {
     // Initialization code
+}
+
+-(void)setSkillDetailM:(SkillDetailModel *)skillDetailM
+{
+    _skillDetailM = skillDetailM;
+    [self.iconView sd_setImageWithURL:[NSURL URLWithString:skillDetailM.headImg] placeholderImage:[UIImage imageNamed:@"myicon"]];
+    self.schoolL.text = skillDetailM.userSchoolName;
+    self.contentL.text = [self getSkillPersonInfoStr];
+    self.nameL.text = skillDetailM.nickname.length?skillDetailM.nickname:@"未填写";
+    self.statusView.image = [UIImage imageNamed:(skillDetailM.authStatus?@"adopt":@"authentication1")];
+    self.statusL.text = skillDetailM.authStatus?@"已经通过实名认证!":@"暂未通过实名认证!";
 }
 
 -(void)setDetailModel:(DemandDetailModel *)detailModel
@@ -44,6 +56,20 @@
     }else{
         string = [NSString stringWithFormat:@"该%@孩,在兼果发布过%@条任务,完成过%@条任务.",_detailModel.sex.integerValue==2?@"男":@"女",_detailModel.publishDemandCount,_detailModel.completedDemandCount];
     }
+    return string;
+}
+
+//获取个人信息字符串
+-(NSString *)getSkillPersonInfoStr
+{
+    NSString *string;
+    if (_skillDetailM.birthDate.length>=10) {
+        
+        string = [NSString stringWithFormat:@"%@年%@%@孩,兼果校园技能达人,在兼果校园发布过%@条任务,完成过%@条任务.",[_skillDetailM.birthDate substringWithRange:NSMakeRange(2, 2)],[DateOrTimeTool getConstellation:_skillDetailM.birthDate],_skillDetailM.sex==2?@"男":@"女",[NSString stringWithFormat:@"%ld",_skillDetailM.publishDemandCount],[NSString stringWithFormat:@"%ld",_skillDetailM.completedDemandCount]];
+    }else{
+        string = [NSString stringWithFormat:@"该%@孩,兼果校园技能达人,在兼果发布过%@条任务,完成过%@条任务.",_skillDetailM.sex==2?@"男":@"女",[NSString stringWithFormat:@"%ld",_skillDetailM.publishDemandCount],[NSString stringWithFormat:@"%ld",_skillDetailM.completedDemandCount]];
+    }
+    
     return string;
 }
 

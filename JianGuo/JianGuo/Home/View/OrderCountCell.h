@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol OrderCountCellDelegate <NSObject>
+
+-(void)countChanged:(NSString *)count;
+
+@end
+
 @interface OrderCountCell : UITableViewCell
+
+
+@property (nonatomic,weak) id<OrderCountCellDelegate> delegate;
+
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 

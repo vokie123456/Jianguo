@@ -9,6 +9,7 @@
 #import "CommentModel.h"
 
 
+
 @implementation CommentModel
 
 
@@ -16,6 +17,10 @@
 {
     return @{
              @"childComments" : [CommentModel class]   };
+}
++(NSDictionary *)mj_replacedKeyFromPropertyName
+{
+  return @{@"pid":@"pId"};
 }
 
 @end

@@ -7,9 +7,6 @@
 //
 
 #import "RemindMsgViewController.h"
-#import "NotiMsgCell.h"
-#import "JGHTTPClient+Home.h"
-#import "NotiNewsModel.h"
 
 
 #import "MyWalletNewViewController.h"
@@ -24,6 +21,15 @@
 #import "MyPartJobViewController.h"
 #import "WebViewController.h"
 #import "MineChatViewController.h"
+#import "SkillsDetailViewController.h"
+#import "MySkillDetailViewController.h"
+#import "MyBuySkillDetailViewController.h"
+
+
+#import "NotiMsgCell.h"
+#import "JGHTTPClient+Home.h"
+#import "NotiNewsModel.h"
+
 
 
 
@@ -84,7 +90,7 @@
     
     self.tableView.mj_footer = ({
         
-        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter  footerWithRefreshingBlock:^{//上拉加载
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{//上拉加载
             pageCount = ((int)self.dataArr.count/10) + ((int)(self.dataArr.count/10)>=1?1:2) + ((self.dataArr.count%10)>0&&self.dataArr.count>10?1:0);
             [self requestWithCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
         }];
@@ -121,7 +127,7 @@
                 [indexPaths addObject:indexPath];
             }
             
-            [_tableView reloadData];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             return;
             
         }else{
@@ -288,6 +294,30 @@
             mineChatVC.hidesBottomBarWhenPushed = YES;
             mineChatVC.userId = [NSString stringWithFormat:@"%@",USER.login_id];
             [self.navigationController pushViewController:mineChatVC animated:YES];
+            break;
+        }
+        case 30:{//技能详情
+            
+            SkillsDetailViewController *skillDetailVC = [[SkillsDetailViewController alloc] init];
+            skillDetailVC.hidesBottomBarWhenPushed = YES;
+            skillDetailVC.skillId = [NSString stringWithFormat:@"%@",model.job_id];
+            [self.navigationController pushViewController:skillDetailVC animated:YES];
+            break;
+        }
+        case 31:{//我发布的技能的详情
+            
+            MySkillDetailViewController *mySkillVC = [[MySkillDetailViewController alloc] init];
+            mySkillVC.hidesBottomBarWhenPushed = YES;
+            mySkillVC.orderNo = [NSString stringWithFormat:@"%@",model.job_id];
+            [self.navigationController pushViewController:mySkillVC animated:YES];
+            break;
+        }
+        case 32:{//我购买的技能的详情
+            
+            MyBuySkillDetailViewController *myBuySkillVC = [[MyBuySkillDetailViewController alloc] init];
+            myBuySkillVC.hidesBottomBarWhenPushed = YES;
+            myBuySkillVC.orderNo = [NSString stringWithFormat:@"%@",model.job_id];
+            [self.navigationController pushViewController:myBuySkillVC animated:YES];
             break;
         }
             

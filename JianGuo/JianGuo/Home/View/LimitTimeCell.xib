@@ -28,19 +28,6 @@
                             <constraint firstAttribute="height" constant="1" id="tn7-nX-9wW"/>
                         </constraints>
                     </view>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="100.00" placeholder="赏金金额" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KUw-F8-MSC">
-                        <rect key="frame" x="110" y="38" width="100" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="OYx-ly-Wgc"/>
-                            <constraint firstAttribute="height" constant="30" id="x9f-ie-eou"/>
-                        </constraints>
-                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                        <connections>
-                            <action selector="textChange:" destination="KGk-i7-Jjw" eventType="editingChanged" id="sy4-fA-M5g"/>
-                        </connections>
-                    </textField>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="246" misplaced="YES" text="任务时限  2017-06-05 17:18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FnL-Dd-Eux">
                         <rect key="frame" x="71" y="79" width="186" height="25"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -125,6 +112,19 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="100.00" placeholder="赏金金额" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KUw-F8-MSC">
+                        <rect key="frame" x="110" y="39" width="100" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="OYx-ly-Wgc"/>
+                            <constraint firstAttribute="height" constant="30" id="x9f-ie-eou"/>
+                        </constraints>
+                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                        <connections>
+                            <action selector="textChange:" destination="KGk-i7-Jjw" eventType="editingChanged" id="sy4-fA-M5g"/>
+                        </connections>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Gh3-3d-44N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6cF-25-JdJ"/>

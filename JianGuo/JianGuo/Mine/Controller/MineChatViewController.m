@@ -11,17 +11,21 @@
 #import "DemandDetailNewViewController.h"
 #import "FunsFollowViewController.h"
 #import "LCCKConversationViewController.h"
+#import "SkillsDetailViewController.h"
 
 #import "JGHTTPClient+Demand.h"
 #import "JGHTTPClient+Mine.h"
+#import "JGHTTPClient+Skill.h"
 
 
 #import "DemandListCell.h"
 #import "EvaluateCell.h"
+#import "SkillsCell.h"
 
 #import "DemandModel.h"
 #import "EvaluateModel.h"
 #import "UserInfoModel.h"
+#import "SkillListModel.h"
 
 #import "DateOrTimeTool.h"
 #import "UIImageView+WebCache.h"
@@ -72,7 +76,7 @@
     [self.view bringSubviewToFront:self.editB];
     [self.view bringSubviewToFront:self.backB];
     
-    dataSourceCount = 1;
+    dataSourceCount = 3;
     
     if (self.userId.integerValue == USER.login_id.integerValue) {
         toolBarHeightCons.constant = 0;
@@ -88,7 +92,13 @@
     self.tableView.estimatedRowHeight = 150;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    [self requestDemandsWithCount:@"1"];
+    if (dataSourceCount == 1) {
+        [self requestDemandsWithCount:@"1"];
+    }else if (dataSourceCount == 2){
+        [self requestEvaluatesWithCount:@"1"];
+    }else if (dataSourceCount == 3){
+        [self requestSkillsWithCount:@"1"];
+    }
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
         
@@ -97,6 +107,8 @@
             [self requestDemandsWithCount:@"1"];
         }else if (dataSourceCount == 2){
             [self requestEvaluatesWithCount:@"1"];
+        }else if (dataSourceCount == 3){
+            [self requestSkillsWithCount:@"1"];
         }
         
     }];
@@ -107,6 +119,8 @@
             [self requestDemandsWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
         }else if (dataSourceCount == 2){
             [self requestEvaluatesWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
+        }else if (dataSourceCount == 3){
+            [self requestSkillsWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
         }
         
     }];
@@ -285,6 +299,64 @@
     }];
 }
 
+-(void)requestSkillsWithCount:(NSString *)count
+{
+    JGSVPROGRESSLOAD(@"加载中...");
+    [JGHTTPClient getSkillListWithSchoolId:nil cityCode:nil keywords:nil orderBy:nil type:nil sex:nil userId:self.userId pageCount:count Success:^(id responseObject) {
+        
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        JGLog(@"%@",responseObject);
+        
+        if (count.integerValue>1) {//上拉加载
+            
+            if ([[SkillListModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] count] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+            
+            
+            NSMutableArray *indexPaths = [NSMutableArray array];
+            for (SkillListModel *model in [SkillListModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]]) {
+                [self.dataArr addObject:model];
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.dataArr.count-1 inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            
+            
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            
+            return;
+            
+        }else{
+            self.dataArr = [SkillListModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            
+            [self.tableView reloadData];
+            if ([SkillListModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]] == 0) {
+                [self showAlertViewWithText:@"没有更多数据" duration:1];
+                return ;
+            }
+        }
+        
+        
+    } failure:^(NSError *error) {
+        
+        [SVProgressHUD dismiss];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self showAlertViewWithText:NETERROETEXT duration:1];
+    }];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (dataSourceCount == 3){
+        return 335;
+    }else{
+        return UITableViewAutomaticDimension;
+    }
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -301,11 +373,16 @@
         cell.model = model;
         return cell;
         
-    }else{
+    }else if(dataSourceCount == 2){
         EvaluateCell *cell = [EvaluateCell cellWithTableView:tableView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         EvaluateModel *model = self.dataArr[indexPath.row];
         cell.model = model;
+        return cell;
+    }else{
+        SkillsCell *cell = [SkillsCell cellWithTableView:tableView];
+        cell.model = self.dataArr[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
@@ -337,6 +414,17 @@
         
         [self.navigationController pushViewController:detailVC animated:YES];
         
+    }else if ([cell isKindOfClass:[SkillsCell class]]){//点击评价
+        
+        SkillsDetailViewController *detailVC = [SkillsDetailViewController new];
+        if (self.dataArr.count>indexPath.row) {
+            SkillListModel *model = self.dataArr[indexPath.row];
+            detailVC.skillId = [NSString stringWithFormat:@"%ld",model.skillId];
+        }
+        detailVC.hidesBottomBarWhenPushed = YES;
+        
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
     }
     
 }
@@ -347,6 +435,8 @@
     [UIView animateWithDuration:0.3 animations:^{
         [self.segmentView layoutIfNeeded];
     }];
+    
+    [self requestSkillsWithCount:@"1"];
     
 }
 

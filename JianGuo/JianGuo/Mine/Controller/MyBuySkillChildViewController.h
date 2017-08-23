@@ -9,6 +9,8 @@
 #import "NavigatinViewController.h"
 #import "ZJScrollPageView.h"
 
-@interface MyBuySkillChildViewController : NavigatinViewController <ZJScrollPageViewChildVcDelegate>
+@interface MyBuySkillChildViewController : NavigatinViewController <ZJScrollPageViewChildVcDelegate,UIViewControllerTransitioningDelegate>
 
+/** 技能状态type */
+@property (nonatomic,copy) NSString *type;
 @end

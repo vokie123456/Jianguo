@@ -10,4 +10,11 @@
 
 @interface MakeEvaluateViewController : NavigatinViewController
 
+/** 订单号 */
+@property (nonatomic,copy) NSString *orderNo;
+/** type */
+@property (nonatomic,copy) NSString *type;
+/** 回调 */
+@property (nonatomic,copy) void(^callBackBlock)();
+
 @end

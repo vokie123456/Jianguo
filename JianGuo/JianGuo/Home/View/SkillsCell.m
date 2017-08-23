@@ -24,7 +24,7 @@
 {
     SkillsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
     if (!cell) {
-        cell = [[[NSBundle mainBundle ]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+        cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
     }
     return cell;
 }
@@ -35,9 +35,9 @@
     self.skillL.text = model.masterTitle;
     self.titleL.text = model.title;
     self.starView.score = model.averageScore;
-    self.nameL.text = model.nickname;
+    self.nameL.text = model.masterTitle;
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.timeSchoolL.text = [NSString stringWithFormat:@"%@|%@",model.createTimeStr,model.schoolName.length?model.schoolName:model.cityName];
+    self.timeSchoolL.text = [NSString stringWithFormat:@"%@ | %@",model.createTimeStr,model.schoolName.length?model.schoolName:model.cityName];
     self.saleCountL.text = [NSString stringWithFormat:@"已售: %ld",model.saleCount];
     self.likeCountL.text = [NSString stringWithFormat:@"%ld",model.likeCount];
     self.commentCountL.text = [NSString stringWithFormat:@"%ld",model.commentCount];

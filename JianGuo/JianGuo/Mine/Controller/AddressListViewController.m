@@ -139,6 +139,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.isFromPlaceOrderVC) {
+        
+        AddressModel *model = self.dataArr[indexPath.section];
+        AddressListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if (self.selectAddressBlock) {
+            self.selectAddressBlock(model,cell);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
+    
 }
 - (IBAction)addNewAddress:(id)sender {
     

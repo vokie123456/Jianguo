@@ -76,12 +76,15 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
+    [self monitNetState];//检测网络状态
+    
     //从自己公司的服务器获取一些数据
     [self getData];
+    
 
     // 上一次的使用版本（存储在沙盒中的版本号）
     NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"CFBundleShortVersionString"];
-//    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
     
     if ([@"3.2.1" compare:lastVersion options:NSNumericSearch] == NSOrderedDescending) {
         
@@ -128,10 +131,13 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     
     [self checkVersionToUpdate];
     
+    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
 #ifdef DEBUG
     [MobClick startWithAppkey:@"5730641c67e58e8ef800123e" reportPolicy:BATCH channelId:@"开发版"];
+    [MobClick setAppVersion:bundleVersion];
 #else
     [MobClick startWithAppkey:@"5730641c67e58e8ef800123e" reportPolicy:BATCH channelId:nil];
+    [MobClick setAppVersion:bundleVersion];
 #endif
     
     [AVOSCloud setApplicationId:@"AtwJtfIJPKQFtti8D3gNjMmb-gzGzoHsz" clientKey:@"spNrDrtGWAXP633DkMMWT65B"];
@@ -723,6 +729,53 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
         //handle其他类型的url
     }
     return YES;
+}
+
+-(void)monitNetState
+{
+    AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
+    [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        // 当网络状态发生改变的时候调用这个block
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWiFi:{
+                
+                NSArray *array = JGKeyedUnarchiver(JGCityArr);
+                if (array.count==0) {
+                    [self getData];
+                }
+                
+//                [self showAlertViewWithText:@"wifi" duration:1];
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:{
+                
+                NSArray *array = JGKeyedUnarchiver(JGCityArr);
+                if (array.count==0) {
+                    [self getData];
+                }
+//                [self showAlertViewWithText:@"3G/4G" duration:1];
+                
+                break;
+            }
+            case AFNetworkReachabilityStatusNotReachable:
+                
+                [self showAlertViewWithText:@"没有网络" duration:1];
+                break;
+                
+            case AFNetworkReachabilityStatusUnknown:{
+                NSArray *array = JGKeyedUnarchiver(JGCityArr);
+                if (array.count==0) {
+                    [self getData];
+                }
+//                [self showAlertViewWithText:@"未知网络" duration:1];
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+    // 开始监控
+    [mgr startMonitoring];
 }
 
 @end

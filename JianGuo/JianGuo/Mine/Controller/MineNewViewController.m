@@ -23,6 +23,7 @@
 #import "CollectionsViewController.h"
 #import "MySkillsViewController.h"
 #import "MyBuySkillViewController.h"
+#import "WebViewController.h"
 
 #import "MineCell.h"
 
@@ -33,6 +34,7 @@
 #import "LCChatKit.h"
 #import "JPUSHService.h"
 #import "QLAlertView.h"
+#import "AlertView.h"
 
 @interface MineNewViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -82,18 +84,29 @@
         
         NSInteger postCount = [responseObject[@"data"][@"releaseJobSumNum"] integerValue];
         NSInteger signCount = [responseObject[@"data"][@"enrollSumNum"] integerValue];
+        NSInteger mySkillCount = [responseObject[@"data"][@"skillPublishNum"] integerValue];
+        NSInteger myBuySkillCount = [responseObject[@"data"][@"skillBuyNum"] integerValue];
         CGFloat ownMoney = [responseObject[@"data"][@"sumMoney"] floatValue];
         NSString *name = responseObject[@"data"][@"nickname"];
         
         self.publishB.badgeFont = FONT(12);
         self.signB.badgeFont = FONT(12);
+        self.mySkillB.badgeFont = FONT(12);
+        self.myBuyB.badgeFont = FONT(12);
+        
         [self.publishB showBadgeWithStyle:WBadgeStyleNumber value:postCount animationType:WBadgeAnimTypeNone];
         [self.signB showBadgeWithStyle:WBadgeStyleNumber value:signCount animationType:WBadgeAnimTypeNone];
+        [self.myBuyB showBadgeWithStyle:WBadgeStyleNumber value:myBuySkillCount animationType:WBadgeAnimTypeNone];
+        [self.mySkillB showBadgeWithStyle:WBadgeStyleNumber value:mySkillCount animationType:WBadgeAnimTypeNone];
+        
         [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",responseObject[@"data"][@"headImg"]]] placeholderImage:[UIImage imageNamed:@"myicon"]];
         
         self.moneyL.text = [NSString stringWithFormat:@"%.2f",[responseObject[@"data"][@"money"]floatValue]];
         
         NSInteger status = [responseObject[@"data"][@"authUserStatus"] integerValue];
+        
+        NSInteger skillStatus = [responseObject[@"data"][@"masterStatus"] integerValue];
+        
         
         if (status == 1) {
             self.confirmStatusL.text = @"未认证";
@@ -103,6 +116,12 @@
             self.confirmStatusL.text = @"审核中";
         }else if (status == 4){
             self.confirmStatusL.text = @"被拒绝";
+        }
+        
+        if (skillStatus==1) {
+            self.skillConfirmL.text = @"已认证";
+        }else{
+            self.skillConfirmL.text = @"未认证";
         }
         
         self.nameL.text = name.length?name:@"未填写";
@@ -168,7 +187,7 @@
         
         if (indexPath.row == 0) {
             cell.labelLeft.text = @"我的收藏";
-            cell.iconView.image = [UIImage imageNamed:@"collectionMine"];
+            cell.iconView.image = [UIImage imageNamed:@"collection_mine"];
         }else if (indexPath.row == 1){
             cell.labelLeft.text = @"地址管理";
             cell.iconView.image = [UIImage imageNamed:@"address"];
@@ -393,8 +412,14 @@
 
 - (IBAction)skillConfirm:(id)sender {
     
-    
-    
+    if ([self.skillConfirmL.text isEqualToString:@"未认证"]) {
+        WebViewController *webVC = [[WebViewController alloc]init] ;
+        webVC.url = @"https://jinshuju.net/f/BoMqQH";
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }else if([self.skillConfirmL.text isEqualToString:@"已认证"]){
+        [self showAlertViewWithText:@"您已经通过达人认证" duration:2];
+    }
 }
 
 
@@ -453,7 +478,9 @@
         self.iconView.image = [UIImage imageNamed:@"myicon"];
         [self.publishB clearBadge];
         [self.signB clearBadge];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:5 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        [self.myBuyB clearBadge];
+        [self.mySkillB clearBadge];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:5 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView setContentOffset:CGPointMake(0, 0)];
         
     }];
