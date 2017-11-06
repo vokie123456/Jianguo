@@ -88,7 +88,7 @@
         cell.leftL.text = @"用户协议";
     }else if (indexPath.row == 2){
         cell.leftL.text = @"商务合作";
-        cell.rightL.text = @"010-53350021";
+        cell.rightL.text = @"0898-36693910";
     }else if (indexPath.row == 3){
         cell.leftL.text = @"官方网站";
         cell.rightL.text = @"http://www.woniukeji.com/";
@@ -118,12 +118,12 @@
         
     }else if (indexPath.row == 2){
         
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"呼叫" message:@"010-53350021" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"呼叫" message:@"0898-36693910" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
         }];
         UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:@"010-53350021"]]];
+            [APPLICATION openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:@"0898-36693910"]]];
         }];
         [alertVC addAction:cancelAction];
         [alertVC addAction:sureAction];

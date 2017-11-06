@@ -16,6 +16,9 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderPic" translatesAutoresizingMaskIntoConstraints="NO" id="quT-eU-hLS">
                         <rect key="frame" x="20" y="0.0" width="280" height="240"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="240" id="5wS-Li-7dV"/>
+                        </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
@@ -27,6 +30,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconView" destination="quT-eU-hLS" id="PHX-vc-FeQ"/>
+                <outlet property="iconViewHeightCons" destination="5wS-Li-7dV" id="AHW-o5-Wl6"/>
             </connections>
             <point key="canvasLocation" x="521" y="460.5"/>
         </tableViewCell>

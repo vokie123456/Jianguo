@@ -14,6 +14,7 @@
 -(void)clickChat:(id)sender model:(id)model;
 -(void)clickLeft:(id)sender model:(id)model;
 -(void)clickRight:(id)sender model:(id)model;
+-(void)clickIcon:(NSString *)userId;
 
 @end
 
@@ -31,6 +32,7 @@
 /** 我购买的model */
 @property (nonatomic,strong) MyBuySkillListModel *buyModel;
 
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIImageView *skillView;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
@@ -41,5 +43,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *leftB;
 @property (weak, nonatomic) IBOutlet UIButton *rightB;
 @property (weak, nonatomic) IBOutlet UIView *alertBottomView;
+@property (weak, nonatomic) IBOutlet UILabel *stateL;
 
 @end

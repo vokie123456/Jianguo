@@ -116,7 +116,7 @@ static NSString *identifier = @"DemandListCell";
         
         [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
         [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
+//        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
     }
     return self;
 }
@@ -258,7 +258,7 @@ static NSString *identifier = @"DemandListCell";
     //    [self customCommentKeyboard];
 //    [self.tableView.mj_header beginRefreshing];
     
-    [self handleRemoteNotifcation];
+//    [self handleRemoteNotifcation];
 }
 
 -(void)viewDidDisappear:(BOOL)animated

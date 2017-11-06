@@ -13,7 +13,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mdj-ug-gar" customClass="IBView">
-                    <rect key="frame" x="179" y="174" width="240" height="250"/>
+                    <rect key="frame" x="168" y="35" width="240" height="250"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4bD-YO-bzD">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="40"/>
@@ -136,21 +136,83 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qZo-0W-o4I" customClass="IBView">
+                    <rect key="frame" x="168" y="306" width="240" height="223"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2k-JK-YDK">
+                            <rect key="frame" x="0.0" y="185" width="240" height="35"/>
+                            <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="WLu-RU-Tbn"/>
+                            </constraints>
+                            <state key="normal" image="cha"/>
+                            <connections>
+                                <action selector="dismiss:" destination="iN0-l3-epB" eventType="touchUpInside" id="x9a-Xf-bmr"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buysuccess" translatesAutoresizingMaskIntoConstraints="NO" id="HpM-WR-xKK">
+                            <rect key="frame" x="75" y="75" width="90" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="NdX-VK-uE0"/>
+                                <constraint firstAttribute="width" secondItem="HpM-WR-xKK" secondAttribute="height" multiplier="156:28" id="SRN-i3-DVr"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="为保障您的权益，只有您确认服务完成后，兼果校园才会将钱发给服务者哦，在此期间，兼果校园承诺保障您的资金安全！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVN-Q7-f6f">
+                            <rect key="frame" x="10" y="101" width="220" height="63"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cartoon" translatesAutoresizingMaskIntoConstraints="NO" id="GkP-me-KIH">
+                            <rect key="frame" x="99" y="15" width="40" height="55"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="GkP-me-KIH" secondAttribute="height" multiplier="128:174" id="jjP-iZ-RIx"/>
+                                <constraint firstAttribute="width" constant="40" id="z9c-hw-Avu"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="HpM-WR-xKK" firstAttribute="centerX" secondItem="qZo-0W-o4I" secondAttribute="centerX" id="1GL-As-hhO"/>
+                        <constraint firstItem="TVN-Q7-f6f" firstAttribute="leading" secondItem="qZo-0W-o4I" secondAttribute="leading" constant="10" id="3vd-rf-Itr"/>
+                        <constraint firstItem="GkP-me-KIH" firstAttribute="leading" secondItem="qZo-0W-o4I" secondAttribute="leading" constant="99" id="ALD-Qk-dt7"/>
+                        <constraint firstItem="HpM-WR-xKK" firstAttribute="top" secondItem="GkP-me-KIH" secondAttribute="bottom" constant="5" id="DGP-Ss-RKd"/>
+                        <constraint firstAttribute="width" constant="240" id="Iob-Y4-xjh"/>
+                        <constraint firstAttribute="bottom" secondItem="O2k-JK-YDK" secondAttribute="bottom" id="Lzo-ke-LWo"/>
+                        <constraint firstAttribute="trailing" secondItem="TVN-Q7-f6f" secondAttribute="trailing" constant="10" id="UBX-Li-G57"/>
+                        <constraint firstItem="O2k-JK-YDK" firstAttribute="leading" secondItem="qZo-0W-o4I" secondAttribute="leading" id="g9r-pO-6aB"/>
+                        <constraint firstItem="GkP-me-KIH" firstAttribute="top" secondItem="qZo-0W-o4I" secondAttribute="top" constant="15" id="hZl-2M-Dt7"/>
+                        <constraint firstAttribute="height" constant="220" id="jtI-sj-5Y8"/>
+                        <constraint firstItem="TVN-Q7-f6f" firstAttribute="top" secondItem="HpM-WR-xKK" secondAttribute="bottom" constant="10" id="nZL-6Q-b1l"/>
+                        <constraint firstAttribute="trailing" secondItem="O2k-JK-YDK" secondAttribute="trailing" id="yn4-ye-vYy"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Mdj-ug-gar" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="58q-um-9qK"/>
+                <constraint firstItem="qZo-0W-o4I" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Hh0-vM-TeX"/>
                 <constraint firstItem="Mdj-ug-gar" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Rwt-pU-dfd"/>
+                <constraint firstItem="qZo-0W-o4I" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="rVp-uI-bwm"/>
             </constraints>
             <connections>
                 <outlet property="alertView" destination="Mdj-ug-gar" id="7Po-7s-Dwg"/>
+                <outlet property="buySuccessView" destination="qZo-0W-o4I" id="aKa-zi-Gqf"/>
                 <outlet property="moneyTF" destination="SUj-G9-Kle" id="l25-6r-mib"/>
             </connections>
-            <point key="canvasLocation" x="401.5" y="91.5"/>
+            <point key="canvasLocation" x="401" y="91"/>
         </view>
     </objects>
     <resources>
         <image name="bexit" width="27" height="27"/>
+        <image name="buysuccess" width="78" height="14"/>
+        <image name="cartoon" width="64" height="87"/>
+        <image name="cha" width="16" height="20"/>
         <image name="junmao2" width="71" height="100"/>
     </resources>
 </document>

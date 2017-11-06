@@ -14,6 +14,9 @@
 /** 技能状态（0正常状态，1暂停接单） */
 @property (nonatomic, assign) NSInteger  status;
 
+/** 技能状态（0审核中，1通过审核, 2审核未通过） */
+@property (nonatomic, assign) NSInteger  auditStatus;
+
 /** 技能标题 */
 @property (nonatomic, copy) NSString* title;
 

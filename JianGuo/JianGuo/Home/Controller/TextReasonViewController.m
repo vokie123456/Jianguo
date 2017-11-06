@@ -163,35 +163,29 @@
             }];
             
             break;
+        } case ControllerFunctionTypeSkillComplain:{
+            
+            JGSVPROGRESSLOAD(@"正在请求...");
+            [JGHTTPClient complainOrderWithOrderNo:self.orderNo reason:self.reasonTV.text Success:^(id responseObject) {
+                
+                [SVProgressHUD dismiss];
+                [self showAlertViewWithText:responseObject[@"message"] duration:1.f];
+                if ([responseObject[@"code"]integerValue] == 200) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self dismiss:nil];
+                    });
+                }
+                
+            } failure:^(NSError *error) {
+                
+                [self showAlertViewWithText:NETERROETEXT duration:1.f];
+                [SVProgressHUD dismiss];
+            }];
+            
+            break;
         }
     }
     
-//    if (self.isPublisherEvaluate) {//发布者评价服务者
-//        [JGHTTPClient complainSomeOneWithDemandId:self.demandId userId:self.userId status:@"5" reason:self.reasonTV.text Success:^(id responseObject) {
-//            [SVProgressHUD dismiss];
-//            [self showAlertViewWithText:responseObject[@"message"] duration:1];
-//            if ([responseObject[@"code"]integerValue] == 200) {
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                    [self dismiss:nil];
-//                });
-//            }
-//        } failure:^(NSError *error) {
-//            [SVProgressHUD dismiss];
-//        }];
-//
-//    }else{//服务者评价发布者
-//        [JGHTTPClient signDemandWithDemandId:self.demandId userId:self.userId status:@"3" reason:self.reasonTV.text Success:^(id responseObject) {
-//            [SVProgressHUD dismiss];
-//            [self showAlertViewWithText:responseObject[@"message"] duration:1];
-//            if ([responseObject[@"code"]integerValue] == 200) {
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                    [self dismiss:nil];
-//                });
-//            }
-//        } failure:^(NSError *error) {
-//            [SVProgressHUD dismiss];
-//        }];
-//    }
 }
 
 - (IBAction)dismiss:(id)sender {

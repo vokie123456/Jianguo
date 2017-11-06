@@ -87,7 +87,13 @@
     }
 
     //1==关注 , 0==取消
-    [JGHTTPClient followUserWithUserId:_detailModel.userId status:@"1" Success:^(id responseObject) {
+    NSString *userId;
+    if (_detailModel) {
+        userId = _detailModel.userId;
+    }else if (_skillDetailM){
+        userId = [NSString stringWithFormat:@"%ld",_skillDetailM.publishUid];
+    }
+    [JGHTTPClient followUserWithUserId:userId status:@"1" Success:^(id responseObject) {
         
         if ([responseObject[@"code"] integerValue] == 200) {
             [self showAlertViewWithText:@"关注成功" duration:1];

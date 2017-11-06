@@ -7,7 +7,7 @@
 //
 
 #import "CollectionsViewController.h"
-#import "MakeEvaluateViewController.h"
+#import "SkillsDetailViewController.h"
 
 #import "JGHTTPClient+Skill.h"
 
@@ -120,12 +120,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    SkillListModel *model = self.dataArr[indexPath.row];
+    SkillsDetailViewController *detailVC= [[SkillsDetailViewController alloc] init];
+    detailVC.skillId = [NSString stringWithFormat:@"%ld",model.skillId];
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    MakeEvaluateViewController *evaluateVC = [[MakeEvaluateViewController alloc] init];
-    evaluateVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:evaluateVC animated:YES];
-    
 }
 
 

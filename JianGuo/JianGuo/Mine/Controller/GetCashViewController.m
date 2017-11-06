@@ -158,12 +158,12 @@
 
 -(void)call
 {
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"联系兼果客服" message:@"010-53350021" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"联系兼果客服" message:@"0898-36693910" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://010-53350021"]]];
+        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://0898-36693910"]]];
     }];
     [alertVC addAction:cancelAction];
     [alertVC addAction:sureAction];

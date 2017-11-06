@@ -27,6 +27,7 @@
 
 #import "JGHTTPClient+Demand.h"
 #import "UIImageView+WebCache.h"
+#import "SDWebImageManager.h"
 #import "XLPhotoBrowser.h"
 #import "DateOrTimeTool.h"
 #import "ShareView.h"
@@ -41,6 +42,9 @@
     NSMutableArray *typeNameArr;
     __weak IBOutlet UIImageView *iconView;
     __weak IBOutlet NSLayoutConstraint *timeLimitViewCons;
+    
+    BOOL firstImage;
+    BOOL secondImage;
 }
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
@@ -73,6 +77,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.hidden = YES;
     
     [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -110,14 +115,18 @@
     }];
     [self requestWithCount:@"1"];
     
+    
 }
-
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [IQKeyboardManager sharedManager].enable = NO;
-    //    [self customCommentKeyboard];
+    
+    if (self.navigationController.viewControllers.lastObject == self) {
+        self.commentView.hidden = NO;
+    }
+    
     
 }
 
@@ -135,8 +144,14 @@
     [super viewDidDisappear:animated];
     
     [APPLICATION.keyWindow endEditing:YES];
-    [self.commentView removeFromSuperview];
-    self.commentView = nil;
+    if (![self.navigationController.viewControllers containsObject:self]) {
+        [self.commentView removeFromSuperview];
+        self.commentView = nil;
+    }else{
+        if (self.navigationController.viewControllers.lastObject == self) {
+            self.commentView.hidden = YES;
+        }
+    }
 }
 
 //关注
@@ -211,7 +226,11 @@
             for (CommentModel *model in self.commentArr) {
                 [self.commentAll addObject:model];
                 [self.commentAll addObjectsFromArray:model.childComments];
+                for (CommentModel *model_ in model.childComments) {
+                    JGLog(@"––––––––––>>>>>>%@",model_.pid);
+                }
             }
+            
             [self.tableView reloadData];
             return;
         }
@@ -247,6 +266,8 @@
     
     [JGHTTPClient getDemandDetailsWithDemandId:self.demandId userId:nil Success:^(id responseObject) {
         if ([responseObject[@"code"] integerValue] ==200) {
+            
+            self.tableView.hidden = NO;
             detailModel = [DemandDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
             [iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",detailModel.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
             self.nameL.text = detailModel.nickname.length?detailModel.nickname:@"未填写";
@@ -345,7 +366,7 @@
         }else if (indexPath.row == detailModel.images.count+1){
             return 44;
         }else{
-            return 250;
+            return UITableViewAutomaticDimension;
         }
     }else{
         return UITableViewAutomaticDimension;
@@ -394,7 +415,30 @@
         }else{
             DemandDetailImageCell *cell = [DemandDetailImageCell cellWithTableView:tableView];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.images[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+        
+
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.images[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                
+                cell.iconViewHeightCons.constant = (SCREEN_W-40)*image.size.height/image.size.width;
+                
+                NSString *url = [NSString stringWithFormat:@"%@",imageURL];
+                
+                NSInteger index = [detailModel.images indexOfObject:url];
+                
+//                if (indexPath.row ==1) {
+//                    firstImage = YES;
+//                }else if (indexPath.row == 2){
+//                    secondImage = YES;
+//                }
+                
+                DemandDetailImageCell *cell_ = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index+1 inSection:0]];
+                
+                if (cell_.iconView.height == 240) {
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index+1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                }
+                
+            }];
+            
             return cell;
         }
     }else if (indexPath.section == 1){
@@ -440,7 +484,7 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row>0&&indexPath.row<detailModel.images.count+2) {
-            [XLPhotoBrowser showPhotoBrowserWithImages:detailModel.images currentImageIndex:indexPath.row-1];
+            
             XLPhotoBrowser *browser = [[XLPhotoBrowser alloc] init];
             browser.tag = 101;
             browser.datasource = self;
@@ -569,7 +613,7 @@
     
     };
     [view addSubview:chat];
-
+    
     
     CheckBoxButton *comment = [[CheckBoxButton alloc] initWithFrame:CGRectMake(chat.right, 0, chat.width, chat.height)];
     comment.imageV.image = [UIImage imageNamed:@"writecomment"];

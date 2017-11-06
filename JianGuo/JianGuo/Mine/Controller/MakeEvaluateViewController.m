@@ -11,6 +11,8 @@
 
 #import "JGHTTPClient+Skill.h"
 
+
+
 @interface MakeEvaluateViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *star1;
@@ -32,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.navigationItem.title = @"写评分";
     
     self.textV.placeholder = @"请对本次服务做出评价!";
@@ -89,13 +91,18 @@
 
 -(IBAction)commit:(id)sender
 {
-    if (self.score.integerValue) {
+    if (self.textV.text.length==0){
+        [self showAlertViewWithText:@"请输入您的评价!" duration:1.5];
+        return;
+    }else if (self.score.integerValue==0) {
         [self showAlertViewWithText:@"请打分!" duration:1.5];
         return;
     }
     
+    JGSVPROGRESSLOAD(@"请求中...");
     [JGHTTPClient makeEvaluateWithOrderNo:self.orderNo score:self.score content:self.textV.text type:self.type Success:^(id responseObject) {
         
+        [SVProgressHUD dismiss];
         [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
         if ([responseObject[@"code"] integerValue] == 200) {
             
@@ -109,6 +116,7 @@
         }
         
     } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
         [self showAlertViewWithText:NETERROETEXT duration:2];
     }];
 }

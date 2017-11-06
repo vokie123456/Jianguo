@@ -91,6 +91,9 @@
                                         <color key="value" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="follow:" destination="-1" eventType="touchUpInside" id="Apc-i8-6vC"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M34-4a-Wce">
                                 <rect key="frame" x="579" y="15" width="11" height="22"/>
@@ -115,7 +118,7 @@
                                 <rect key="frame" x="0.0" y="107" width="600" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="万修王" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kx-oK-Xi4" customClass="IBLabel">
-                                        <rect key="frame" x="217" y="14" width="42" height="17"/>
+                                        <rect key="frame" x="216" y="14" width="42" height="17"/>
                                         <color key="backgroundColor" red="0.66666666669999997" green="0.81176470590000005" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="DAJ-zP-F4S"/>
@@ -218,6 +221,12 @@
                                     <action selector="checkEvaluates:" destination="-1" eventType="touchUpInside" id="uas-RI-4ga"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wza-en-Lap">
+                                <rect key="frame" x="24" y="15" width="45" height="45"/>
+                                <connections>
+                                    <action selector="headerIcon:" destination="-1" eventType="touchUpInside" id="4uR-ZE-xbN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -230,6 +239,7 @@
                             <constraint firstItem="5zp-3A-M6G" firstAttribute="top" secondItem="gbV-cb-MEr" secondAttribute="bottom" id="6NP-HG-cIQ"/>
                             <constraint firstItem="mbj-ps-Ttx" firstAttribute="centerY" secondItem="8Z8-n7-rgi" secondAttribute="centerY" id="6vc-wJ-hvE"/>
                             <constraint firstItem="G9K-O2-QRl" firstAttribute="centerY" secondItem="2IE-sv-0e0" secondAttribute="centerY" id="8Au-4a-Dqd"/>
+                            <constraint firstItem="Wza-en-Lap" firstAttribute="leading" secondItem="lro-Ti-Rag" secondAttribute="leading" id="Aeq-KN-Qiq"/>
                             <constraint firstItem="58d-vy-5lp" firstAttribute="top" secondItem="8Z8-n7-rgi" secondAttribute="bottom" constant="3" id="C6V-oN-7X4"/>
                             <constraint firstItem="gbV-cb-MEr" firstAttribute="leading" secondItem="qvi-q7-wpY" secondAttribute="leading" constant="20" id="CSA-Oe-gxp"/>
                             <constraint firstItem="5zp-3A-M6G" firstAttribute="leading" secondItem="qvi-q7-wpY" secondAttribute="leading" id="Dkh-g1-DDH"/>
@@ -238,6 +248,8 @@
                             <constraint firstItem="Aav-6G-Ldn" firstAttribute="trailing" secondItem="M34-4a-Wce" secondAttribute="trailing" id="GHu-A4-esZ"/>
                             <constraint firstAttribute="trailing" secondItem="byF-SZ-2B7" secondAttribute="trailing" constant="15" id="M59-xH-ckJ"/>
                             <constraint firstItem="58d-vy-5lp" firstAttribute="bottom" secondItem="lro-Ti-Rag" secondAttribute="bottom" id="QR8-sc-a91"/>
+                            <constraint firstItem="Wza-en-Lap" firstAttribute="top" secondItem="lro-Ti-Rag" secondAttribute="top" id="QZ7-Rx-a49"/>
+                            <constraint firstItem="Wza-en-Lap" firstAttribute="height" secondItem="lro-Ti-Rag" secondAttribute="height" id="SIQ-Lh-jk4"/>
                             <constraint firstItem="Aav-6G-Ldn" firstAttribute="centerY" secondItem="58d-vy-5lp" secondAttribute="centerY" id="So0-ZF-8vf"/>
                             <constraint firstItem="2IE-sv-0e0" firstAttribute="leading" secondItem="qvi-q7-wpY" secondAttribute="leading" constant="20" id="YHy-i9-7bQ"/>
                             <constraint firstItem="8Z8-n7-rgi" firstAttribute="top" secondItem="qvi-q7-wpY" secondAttribute="top" constant="15" id="YRu-og-WAp"/>
@@ -247,6 +259,7 @@
                             <constraint firstItem="58d-vy-5lp" firstAttribute="leading" secondItem="8Z8-n7-rgi" secondAttribute="leading" id="r6y-hn-fIX"/>
                             <constraint firstItem="2IE-sv-0e0" firstAttribute="top" secondItem="58d-vy-5lp" secondAttribute="bottom" constant="15" id="sT9-zX-m1n"/>
                             <constraint firstItem="8Z8-n7-rgi" firstAttribute="leading" secondItem="lro-Ti-Rag" secondAttribute="trailing" constant="10" id="xKJ-Cr-shc"/>
+                            <constraint firstItem="Wza-en-Lap" firstAttribute="width" secondItem="lro-Ti-Rag" secondAttribute="width" id="xiO-DW-oBX"/>
                         </constraints>
                     </view>
                     <connections>
@@ -271,7 +284,7 @@
                         <constraint firstAttribute="height" constant="49" id="YNO-57-eHi"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="立刻购买">
+                    <state key="normal" title="享受服务">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -292,7 +305,7 @@
                 <constraint firstAttribute="bottom" secondItem="cr1-r9-OXA" secondAttribute="bottom" id="xXv-qU-7wu"/>
                 <constraint firstItem="v32-2D-lRd" firstAttribute="top" secondItem="5kf-lP-yLC" secondAttribute="bottom" id="y4Y-8j-sF0"/>
             </constraints>
-            <point key="canvasLocation" x="261" y="282"/>
+            <point key="canvasLocation" x="286" y="225"/>
         </view>
     </objects>
     <resources>

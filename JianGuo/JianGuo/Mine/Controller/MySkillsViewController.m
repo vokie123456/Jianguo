@@ -8,6 +8,7 @@
 
 #import "MySkillsViewController.h"
 #import "MySkillsChildViewController.h"
+#import "MyBuySkillChildViewController.h"
 #import "AllSkillManageViewController.h"
 
 #import "ZJScrollPageView.h"
@@ -16,6 +17,11 @@
 
 /** 标题数组 */
 @property (nonatomic,strong) NSArray *titles;
+
+/** segmentView */
+@property (nonatomic,strong) ZJScrollSegmentView *segmentView;
+/** contentView */
+@property (nonatomic,strong) ZJContentView *contentView;
 
 @end
 
@@ -26,7 +32,7 @@
     //必要的设置, 如果没有设置可能导致内容显示不正常
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.navigationItem.title = @"我的技能";
+//    self.navigationItem.title = @"已结束的技能交易";
     
 //    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [btn_r setTitle:@"技能设置" forState:UIControlStateNormal];
@@ -37,47 +43,61 @@
 //    
 //    
 //    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"技能设置" style:UIBarButtonItemStylePlain target:self action:@selector(setMySkill:)];
-    item.tintColor = GreenColor;
     
-    self.navigationItem.rightBarButtonItem = item;
+    if (!self.isFinishedVC) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"已结束" style:UIBarButtonItemStylePlain target:self action:@selector(setMySkill:)];
+        item.tintColor = GreenColor;
+        
+        self.navigationItem.rightBarButtonItem = item;
+//        self.navigationItem.title = @"技能交易";
+    }
     
-    
+    [self setSegmentView];
+}
+
+
+-(void)setSegmentView
+{
+    //必要的设置, 如果没有设置可能导致内容显示不正常
+    self.automaticallyAdjustsScrollViewInsets = NO;
     ZJSegmentStyle *style = [[ZJSegmentStyle alloc] init];
     // 缩放标题
-    style.scaleTitle = NO;
+    //    style.scaleTitle = YES;
+    //    style.titleBigScale = 2;
     // 颜色渐变
+    style.normalTitleColor = LIGHTGRAYTEXT;
     style.gradualChangeTitleColor = YES;
     // 设置附加按钮的背景图片
-    style.titleFont = FONT(15);
-    if (SCREEN_W>=375) {
-        style.scrollTitle = NO;
-    }
+    style.titleFont = [UIFont systemFontOfSize:17];
+    style.scrollTitle = NO;
     style.showLine = YES;
-//    style.showCover = YES;
-    style.normalTitleColor = LIGHTGRAYTEXT;
     style.selectedTitleColor = GreenColor;
     style.scrollLineColor = GreenColor;
-    style.coverBackgroundColor = [GreenColor colorWithAlphaComponent:0.5];
     
     self.titles = @[
-                    @"待付款",
-                    @"待服务",
-                    @"待确认",
-                    @"待评价",
-                    @"待售后",
-                    @"已结束"
+                    @"我购买的",
+                    @"我出售的"
                     ];
-    // 初始化
-    ZJScrollPageView *scrollPageView = [[ZJScrollPageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) segmentStyle:style titles:self.titles parentViewController:self delegate:self];
-    scrollPageView.backgroundColor = BACKCOLORGRAY;
-    [self.view addSubview:scrollPageView];
+    
+    IMP_BLOCK_SELF(MySkillsViewController);
+    self.segmentView = [[ZJScrollSegmentView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W==320?150: 200, 40) segmentStyle:style delegate:self titles:self.titles titleDidClick:^(ZJTitleView *titleView, NSInteger index) {
+        
+        [block_self.contentView setContentOffSet:CGPointMake(SCREEN_W*index, 0) animated:YES];
+        
+    }];
+    
+    self.navigationItem.titleView = self.segmentView;
+    
+    self.contentView = [[ZJContentView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) segmentView:self.segmentView parentViewController:self delegate:self];
+    [self.view addSubview:self.contentView];
+
 }
 
 -(void)setMySkill:(UIButton *)sender
 {
-    AllSkillManageViewController *manageVC = [[AllSkillManageViewController alloc] init];
+    MySkillsViewController *manageVC = [[MySkillsViewController alloc] init];
     manageVC.hidesBottomBarWhenPushed = YES;
+    manageVC.isFinishedVC = YES;
     [self.navigationController pushViewController:manageVC animated:YES];
 }
 
@@ -92,10 +112,25 @@
     //    NSLog(@"%ld---------", index);
     
     if (!childVc) {
-        MySkillsChildViewController *VC = [[MySkillsChildViewController alloc] init];
-        VC.type = [NSString stringWithFormat:@"%ld",index+1];
-        childVc = VC;
-        childVc.title = self.titles[index];
+        if (index == 1) {
+            
+            MySkillsChildViewController *VC = [[MySkillsChildViewController alloc] init];
+            if (_isFinishedVC) {
+                VC.type = @"6";
+            }
+            childVc = VC;
+            childVc.title = self.titles[index];
+        }else if (index == 0){
+            
+            MyBuySkillChildViewController *VC = [[MyBuySkillChildViewController alloc] init];
+            if (_isFinishedVC) {
+                VC.type = @"6";
+            }
+            childVc = VC;
+            childVc.title = self.titles[index];
+            
+        }
+        
     }
     
     return childVc;

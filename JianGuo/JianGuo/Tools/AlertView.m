@@ -17,6 +17,7 @@ static const CGFloat scale = 0.001f;
     __weak IBOutlet UIView *alertView;
     void(^_block)(NSString *price);
     __weak IBOutlet UITextField *moneyTF;
+    __weak IBOutlet UIView *buySuccessView;
 }
 
 +(instancetype)aAlertViewCallBackBlock:(void(^)(NSString *))block
@@ -28,33 +29,62 @@ static const CGFloat scale = 0.001f;
 
 -(void)show
 {
-    self.backgroundColor = [UIColor clearColor];
-    alertView.transform = CGAffineTransformMakeScale(scale, scale);
-    alertView.alpha = 0.3;
-    self.frame = APPLICATION.keyWindow.bounds;
-    self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-    [APPLICATION.keyWindow addSubview:self];
-    
-    [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    if (self.isSuccessDeal) {
+        alertView.hidden = YES;
+        self.backgroundColor = [UIColor clearColor];
+        buySuccessView.transform = CGAffineTransformMakeScale(scale, scale);
+        buySuccessView.alpha = 0.3;
+        self.frame = APPLICATION.keyWindow.bounds;
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+        [APPLICATION.keyWindow addSubview:self];
         
-        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-        alertView.transform = CGAffineTransformMakeScale(1.2*(SCREEN_W/375), 1.2*(SCREEN_W/375));
-        alertView.alpha = 1;
+        [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            
+            self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+            buySuccessView.transform = CGAffineTransformMakeScale(1.2*(SCREEN_W/375), 1.2*(SCREEN_W/375));
+            buySuccessView.alpha = 1;
+            
+        } completion:^(BOOL finished) {
+
+        }];
         
-    } completion:^(BOOL finished) {
-        [moneyTF becomeFirstResponder];
-    }];
-    
-    moneyTF.delegate = self;
+    }else{
+        buySuccessView.hidden = YES;
+        self.backgroundColor = [UIColor clearColor];
+        alertView.transform = CGAffineTransformMakeScale(scale, scale);
+        alertView.alpha = 0.3;
+        self.frame = APPLICATION.keyWindow.bounds;
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+        [APPLICATION.keyWindow addSubview:self];
+        
+        [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            
+            self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+            alertView.transform = CGAffineTransformMakeScale(1.2*(SCREEN_W/375), 1.2*(SCREEN_W/375));
+            alertView.alpha = 1;
+            
+        } completion:^(BOOL finished) {
+            [moneyTF becomeFirstResponder];
+        }];
+        
+        moneyTF.delegate = self;
+    }
 }
 
 - (IBAction)close:(id)sender {
     
     [UIView animateWithDuration:animationDuration animations:^{
         
-        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
-        alertView.transform = CGAffineTransformMakeScale(scale, scale);
-        alertView.alpha = 1;
+        if (self.isSuccessDeal) {
+            
+            self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
+            buySuccessView.transform = CGAffineTransformMakeScale(scale, scale);
+            buySuccessView.alpha = 1;
+        }else{
+            self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
+            alertView.transform = CGAffineTransformMakeScale(scale, scale);
+            alertView.alpha = 1;
+        }
         
     } completion:^(BOOL finished) {
         
@@ -96,6 +126,11 @@ static const CGFloat scale = 0.001f;
         }
     }
     return YES;
+}
+- (IBAction)dismiss:(id)sender {
+    
+    [self close:nil];
+    
 }
 
 @end

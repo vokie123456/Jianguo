@@ -33,7 +33,7 @@
 {
     MySkillManageCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
     if (!cell) {
-        cell = [[[NSBundle mainBundle ]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+        cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
     }
     return cell;
 }
@@ -42,9 +42,10 @@
 {
     _buyModel = buyModel;
     
+    self.headerView.backgroundColor = RGBCOLOR(195, 220, 138);
     [self.skillView sd_setImageWithURL:[NSURL URLWithString:buyModel.cover] placeholderImage:[UIImage imageNamed:@"kobe"]];
-    self.titleL.text = buyModel.title;
-    self.nameL.text = buyModel.nickname;
+    self.titleL.text = buyModel.title.length?buyModel.title:@"  ";
+    self.nameL.text = [NSString stringWithFormat:@"服务者: %@",buyModel.nickname];
     
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",buyModel.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
     self.timeL.text = buyModel.createTimeStr;
@@ -66,6 +67,7 @@
             self.moneyL.text = @"平台已仲裁";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -74,6 +76,7 @@
             self.moneyL.text = @"平台仲裁中";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -82,6 +85,7 @@
             self.moneyL.text = @"已退款";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -90,6 +94,7 @@
             self.moneyL.text = @"退款申请被拒绝";
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"投诉订单" forState:UIControlStateNormal];
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -98,6 +103,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"申请退款金额: %.2f 元",buyModel.refundPrice];
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -106,6 +112,7 @@
             self.moneyL.text = @"订单已取消";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -114,6 +121,7 @@
             self.moneyL.text = @"订单已结束";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -121,13 +129,14 @@
             
             if (buyModel.isAdjust) {
                 alertL.text = [NSString stringWithFormat:@"价格已调整为 %.2f 元,等待对方付款",buyModel.realPrice];
-                self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.orderPrice];
+                self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.realPrice];
                 
             }else{
                 self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.realPrice];
             }
             [self.leftB setTitle:@"取消订单" forState:UIControlStateNormal];
             [self.rightB setTitle:@"付  款" forState:UIControlStateNormal];
+            self.stateL.text = @"待付款";
             
             break;
         }
@@ -136,6 +145,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.realPrice];
             [self.leftB setTitle:@"申请退款" forState:UIControlStateNormal];
             [self.rightB setTitle:@"催TA干活" forState:UIControlStateNormal];
+            self.stateL.text = @"待服务";
             
             break;
         }
@@ -144,6 +154,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"服务完成" forState:UIControlStateNormal];
+            self.stateL.text = @"待确认";
             
             break;
         }
@@ -152,6 +163,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",buyModel.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"去评价" forState:UIControlStateNormal];
+            self.stateL.text = @"待评价";
             
             break;
         }
@@ -160,6 +172,7 @@
             self.moneyL.text = @"服务已完成";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -167,7 +180,9 @@
             
             self.moneyL.text = @"服务已完成";
             self.leftB.hidden = YES;
-            self.rightB.hidden = YES;
+            self.rightB.hidden = NO;
+            [self.rightB setTitle:@"去评价" forState:UIControlStateNormal];
+            self.stateL.text = @"待评价";
             
             break;
         }
@@ -176,6 +191,7 @@
             self.moneyL.text = @"服务已完成";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已完成";
             
             break;
         }
@@ -186,8 +202,9 @@
 -(void)setModel:(MySkillListModel *)model
 {
     _model = model;
+    self.headerView.backgroundColor = RGBCOLOR(253, 185, 111);
     [self.skillView sd_setImageWithURL:[NSURL URLWithString:model.cover] placeholderImage:[UIImage imageNamed:@"kobe"]];
-    self.titleL.text = model.title;
+    self.titleL.text = model.title.length?model.title:@"  ";
     self.nameL.text = model.nickname;
     
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
@@ -206,6 +223,7 @@
             self.moneyL.text = @"平台已仲裁";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -214,6 +232,7 @@
             self.moneyL.text = @"平台仲裁中";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -222,6 +241,7 @@
             self.moneyL.text = @"已退款";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -230,6 +250,7 @@
             self.moneyL.text = @"已拒绝退款";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -238,6 +259,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"申请退款金额: %.2f 元",model.refundPrice];
             [self.leftB setTitle:@"拒绝退款" forState:UIControlStateNormal];
             [self.rightB setTitle:@"同意退款" forState:UIControlStateNormal];
+            self.stateL.text = @"待售后";
             
             break;
         }
@@ -246,6 +268,7 @@
             self.moneyL.text = @"订单已取消";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -254,6 +277,7 @@
             self.moneyL.text = @"订单已结束";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -268,6 +292,7 @@
             }
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"调整价格" forState:UIControlStateNormal];
+            self.stateL.text = @"待付款";
             
             break;
         }
@@ -276,6 +301,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",model.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"完成服务" forState:UIControlStateNormal];
+            self.stateL.text = @"待服务";
             
             break;
         }
@@ -284,6 +310,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",model.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"催TA确认" forState:UIControlStateNormal];
+            self.stateL.text = @"待确认";
             
             break;
         }
@@ -292,6 +319,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",model.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"去评价" forState:UIControlStateNormal];
+            self.stateL.text = @"待评价";
             
             break;
         }
@@ -300,6 +328,7 @@
             self.moneyL.text = [NSString stringWithFormat:@"%.2f 元",model.realPrice];
             self.leftB.hidden = YES;
             [self.rightB setTitle:@"去评价" forState:UIControlStateNormal];
+            self.stateL.text = @"待评价";
             
             break;
         }
@@ -308,6 +337,7 @@
             self.moneyL.text = @"服务已完成";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -316,6 +346,7 @@
             self.moneyL.text = @"服务已完成";
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;
+            self.stateL.text = @"已结束";
             
             break;
         }
@@ -357,8 +388,21 @@
 
 - (void)awakeFromNib {
     
+    [super awakeFromNib];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickIcon:)];
+    [self.iconView addGestureRecognizer:tap];
     
-    
+}
+
+-(void)clickIcon:(UITapGestureRecognizer *)gesture
+{
+    if (_model) {
+        if ([self.delegate respondsToSelector:@selector(clickIcon:)]) {
+            [self.delegate clickIcon:[NSString stringWithFormat:@"%ld",_model.buyUid]];
+        }
+    }else if (_buyModel){
+        [self.delegate clickIcon:[NSString stringWithFormat:@"%ld",_buyModel.publishUid]];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

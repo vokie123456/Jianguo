@@ -123,6 +123,27 @@ static FMDatabaseQueue *_queue;
 }
 
 /**
+ 获取 插屏广告
+ */
++ (void)getAdvertisementSuccess:(void (^)(id responseObject))success
+                        failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"adverts/screen"];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
  获取 多个聊天用户信息
  */
 + (void)getGroupChatUserInfoByLoginId:(NSString *)loginIds

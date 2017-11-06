@@ -429,7 +429,7 @@ static const NSInteger kMaxLength = 10;
             return ;
         }else{//上传图片成功后再上传个人资料
             
-            NSString *url = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+            NSString *url = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
             
             
             [JGHTTPClient uploadUserJianliInfoByname:nil nickName:self.nameTF.text iconUrl:url sex:self.sex height:nil schoolId:self.schoolId cityId:self.cityId areaId:self.areaId inSchoolTime:self.intoSchoolTimeTF.text birthDay:self.birthDateTF.text constellation:nil introduce:self.introduceTF.text qq:self.QQTF.text isStudent:self.isStudent Success:^(id responseObject) {//是不是学生这个字段在业务上不要了

@@ -42,6 +42,7 @@
 #import "QLHudView.h"
 #import "CoreLaunchCool.h"
 #import "JGLCCKInputPickImage.h"
+
 #define SV_APP_EXTENSIONS
 
 static NSString *BeeCloudAppID = @"3a9ecbbb-d431-4cd8-9af9-5e44ba504f9a";
@@ -81,6 +82,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     
     //从自己公司的服务器获取一些数据
     [self getData];
+    
     
 
     // 上一次的使用版本（存储在沙盒中的版本号）
@@ -400,6 +402,7 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
                     NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDic objectForKey:@"avatarUrl"]]];
                     ChatUser *user_ = [ChatUser userWithUserId:[userDic objectForKey:@"userId"] name:[userDic objectForKey:@"name"] avatarURL:avatarURL clientId:[NSString stringWithFormat:@"%@",[userDic objectForKey:@"userId"]]];
                     [users addObject:user_];
+
                 }
                 !completionHandler ?: completionHandler([users copy], nil);
                 if (users.count>1) {
@@ -777,5 +780,6 @@ static NSString *WX_appID = @"wx8c1fd6e2e9c4fd49";//
     // 开始监控
     [mgr startMonitoring];
 }
+
 
 @end

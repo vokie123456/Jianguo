@@ -121,11 +121,12 @@
         [self.typeBtn setTitle:arr[model.type.integerValue-1] forState:UIControlStateNormal];
         [self.typeBtn setBackgroundColor:colorArr[model.type.integerValue-1]];
     }
-
+    
     self.schoolL.text = model.userSchoolName?model.userSchoolName:@"未填写";
     NSString *timeStr;
     NSTimeInterval timeNow = [[NSDate date] timeIntervalSince1970];
-    NSInteger createTime = [[model.create_time substringToIndex:10] integerValue];
+    CGFloat createTime = [[model.createTime substringToIndex:10] floatValue];
+    
     if (timeNow-createTime<=60) {
         timeStr = [NSString stringWithFormat:@"刚刚 | %@",model.schoolName.length?model.schoolName:model.cityName];
     }else if (timeNow-createTime<60*60){//一个小时以内

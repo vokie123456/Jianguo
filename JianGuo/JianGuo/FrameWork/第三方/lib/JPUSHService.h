@@ -111,7 +111,7 @@ callbackSelector:(SEL)cbSelector
 + (void) setTags:(NSSet *)tags
            alias:(NSString *)alias
 callbackSelector:(SEL)cbSelector
-          object:(id)theTarget;
+          object:(id)theTarget ;
 
 + (void) setTags:(NSSet *)tags
 callbackSelector:(SEL)cbSelector

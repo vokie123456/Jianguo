@@ -91,6 +91,9 @@
 		1835D04F1E4C6FB500798208 /* SignDemandViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835D04D1E4C6FB500798208 /* SignDemandViewController.xib */; };
 		1835D0531E4C724A00798208 /* SignersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835D0511E4C724A00798208 /* SignersCell.m */; };
 		1835D0541E4C724A00798208 /* SignersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835D0521E4C724A00798208 /* SignersCell.xib */; };
+		18375DE91F9D90970072485F /* MyBuyManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18375DE71F9D90970072485F /* MyBuyManageCell.m */; };
+		18375DEA1F9D90970072485F /* MyBuyManageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18375DE81F9D90970072485F /* MyBuyManageCell.xib */; };
+		18375DED1F9DF2100072485F /* Enrolls.m in Sources */ = {isa = PBXBuildFile; fileRef = 18375DEC1F9DF2100072485F /* Enrolls.m */; };
 		183DE6CC1E63F94400655078 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 183DE6CB1E63F94400655078 /* UIColor+Hex.m */; };
 		183ED2861C96A98C00BF1A9A /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183ED2851C96A98C00BF1A9A /* SettingViewController.m */; };
 		183ED28C1C96B11C00BF1A9A /* OpinionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183ED28B1C96B11C00BF1A9A /* OpinionsViewController.m */; };
@@ -253,6 +256,9 @@
 		186F3C1B1E52DB3100D9DA66 /* DemandProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186F3C191E52DB3100D9DA66 /* DemandProgressCell.xib */; };
 		187096241C891F2700D5257C /* UIImage+sretchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 187096231C891F2700D5257C /* UIImage+sretchImage.m */; };
 		1870962A1C8933D400D5257C /* FindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187096291C8933D400D5257C /* FindPassViewController.m */; };
+		1870AC9C1F68C73100CF44FA /* PostSkillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1870AC9A1F68C73100CF44FA /* PostSkillViewController.m */; };
+		1870AC9D1F68C73100CF44FA /* PostSkillViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1870AC9B1F68C73100CF44FA /* PostSkillViewController.xib */; };
+		1870ACA01F6918B400CF44FA /* PostSkillCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1870AC9F1F6918B400CF44FA /* PostSkillCollectionView.m */; };
 		187332181C8E6C63004C637F /* JGHTTPClient+Mine.m in Sources */ = {isa = PBXBuildFile; fileRef = 187332171C8E6C63004C637F /* JGHTTPClient+Mine.m */; };
 		1873321C1C8E7E7E004C637F /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873321A1C8E7E7E004C637F /* TextFieldCell.m */; };
 		1873321D1C8E7E7E004C637F /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1873321B1C8E7E7E004C637F /* TextFieldCell.xib */; };
@@ -375,6 +381,8 @@
 		1888473C1CFD22B0006F6C26 /* NotiNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888473B1CFD22B0006F6C26 /* NotiNewsModel.m */; };
 		1889F8A81EF8C5B70042825C /* MineChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889F8A61EF8C5B70042825C /* MineChatViewController.m */; };
 		1889F8A91EF8C5B70042825C /* MineChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1889F8A71EF8C5B70042825C /* MineChatViewController.xib */; };
+		188A16951F6BDB8C0009C571 /* DraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188A16931F6BDB8C0009C571 /* DraftViewController.m */; };
+		188A16961F6BDB8C0009C571 /* DraftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188A16941F6BDB8C0009C571 /* DraftViewController.xib */; };
 		188C0B971C86B72800FEF500 /* ShareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188C0B831C86B72800FEF500 /* ShareSDK.framework */; };
 		188C0B981C86B72800FEF500 /* ShareSDKExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188C0B861C86B72800FEF500 /* ShareSDKExtension.framework */; };
 		188C0B991C86B72800FEF500 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 188C0B871C86B72800FEF500 /* ShareSDKUI.bundle */; };
@@ -764,6 +772,11 @@
 		1835D0501E4C724A00798208 /* SignersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignersCell.h; sourceTree = "<group>"; };
 		1835D0511E4C724A00798208 /* SignersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignersCell.m; sourceTree = "<group>"; };
 		1835D0521E4C724A00798208 /* SignersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignersCell.xib; sourceTree = "<group>"; };
+		18375DE61F9D90970072485F /* MyBuyManageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBuyManageCell.h; sourceTree = "<group>"; };
+		18375DE71F9D90970072485F /* MyBuyManageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBuyManageCell.m; sourceTree = "<group>"; };
+		18375DE81F9D90970072485F /* MyBuyManageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBuyManageCell.xib; sourceTree = "<group>"; };
+		18375DEB1F9DF2100072485F /* Enrolls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enrolls.h; sourceTree = "<group>"; };
+		18375DEC1F9DF2100072485F /* Enrolls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enrolls.m; sourceTree = "<group>"; };
 		183DE6CA1E63F94400655078 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		183DE6CB1E63F94400655078 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		183ED2841C96A98C00BF1A9A /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -1070,6 +1083,11 @@
 		187096231C891F2700D5257C /* UIImage+sretchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+sretchImage.m"; sourceTree = "<group>"; };
 		187096281C8933D400D5257C /* FindPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassViewController.h; sourceTree = "<group>"; };
 		187096291C8933D400D5257C /* FindPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassViewController.m; sourceTree = "<group>"; };
+		1870AC991F68C73100CF44FA /* PostSkillViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostSkillViewController.h; sourceTree = "<group>"; };
+		1870AC9A1F68C73100CF44FA /* PostSkillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostSkillViewController.m; sourceTree = "<group>"; };
+		1870AC9B1F68C73100CF44FA /* PostSkillViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostSkillViewController.xib; sourceTree = "<group>"; };
+		1870AC9E1F6918B400CF44FA /* PostSkillCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostSkillCollectionView.h; sourceTree = "<group>"; };
+		1870AC9F1F6918B400CF44FA /* PostSkillCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostSkillCollectionView.m; sourceTree = "<group>"; };
 		187332161C8E6C63004C637F /* JGHTTPClient+Mine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JGHTTPClient+Mine.h"; sourceTree = "<group>"; };
 		187332171C8E6C63004C637F /* JGHTTPClient+Mine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JGHTTPClient+Mine.m"; sourceTree = "<group>"; };
 		187332191C8E7E7E004C637F /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldCell.h; sourceTree = "<group>"; };
@@ -1296,6 +1314,9 @@
 		1889F8A51EF8C5B70042825C /* MineChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineChatViewController.h; sourceTree = "<group>"; };
 		1889F8A61EF8C5B70042825C /* MineChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineChatViewController.m; sourceTree = "<group>"; };
 		1889F8A71EF8C5B70042825C /* MineChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineChatViewController.xib; sourceTree = "<group>"; };
+		188A16921F6BDB8C0009C571 /* DraftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftViewController.h; sourceTree = "<group>"; };
+		188A16931F6BDB8C0009C571 /* DraftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftViewController.m; sourceTree = "<group>"; };
+		188A16941F6BDB8C0009C571 /* DraftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DraftViewController.xib; sourceTree = "<group>"; };
 		188C0B831C86B72800FEF500 /* ShareSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDK.framework; sourceTree = "<group>"; };
 		188C0B861C86B72800FEF500 /* ShareSDKExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKExtension.framework; sourceTree = "<group>"; };
 		188C0B871C86B72800FEF500 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
@@ -1843,6 +1864,12 @@
 				18FD98301F259C4200FDBA2D /* HomeSegmentViewController.h */,
 				18FD98311F259C4200FDBA2D /* HomeSegmentViewController.m */,
 				18FD98321F259C4200FDBA2D /* HomeSegmentViewController.xib */,
+				1870AC991F68C73100CF44FA /* PostSkillViewController.h */,
+				1870AC9A1F68C73100CF44FA /* PostSkillViewController.m */,
+				1870AC9B1F68C73100CF44FA /* PostSkillViewController.xib */,
+				188A16921F6BDB8C0009C571 /* DraftViewController.h */,
+				188A16931F6BDB8C0009C571 /* DraftViewController.m */,
+				188A16941F6BDB8C0009C571 /* DraftViewController.xib */,
 				18FD98351F259F1F00FDBA2D /* SkillViewController.h */,
 				18FD98361F259F1F00FDBA2D /* SkillViewController.m */,
 				18FD98371F259F1F00FDBA2D /* SkillViewController.xib */,
@@ -2175,6 +2202,8 @@
 				187D17651E6E983F005D11DB /* DemandStatusModel.m */,
 				186627721F09E0B60018A11D /* DemandPostModel.h */,
 				186627731F09E0B60018A11D /* DemandPostModel.m */,
+				18375DEB1F9DF2100072485F /* Enrolls.h */,
+				18375DEC1F9DF2100072485F /* Enrolls.m */,
 				18F4581F1F036BA200041FAF /* DemandSignModel.h */,
 				18F458201F036BA200041FAF /* DemandSignModel.m */,
 				18ADF5C71EFCEF37008DEA94 /* EvaluateModel.h */,
@@ -3498,6 +3527,8 @@
 				18BF1D651F3080CA00A07069 /* ConsumerCell.h */,
 				18BF1D661F3080CA00A07069 /* ConsumerCell.m */,
 				18BF1D671F3080CA00A07069 /* ConsumerCell.xib */,
+				1870AC9E1F6918B400CF44FA /* PostSkillCollectionView.h */,
+				1870AC9F1F6918B400CF44FA /* PostSkillCollectionView.m */,
 			);
 			name = Skill;
 			sourceTree = "<group>";
@@ -3561,6 +3592,9 @@
 				18E44CC31F32FB5800B1DBB3 /* MySkillManageCell.h */,
 				18E44CC41F32FB5800B1DBB3 /* MySkillManageCell.m */,
 				18E44CC51F32FB5800B1DBB3 /* MySkillManageCell.xib */,
+				18375DE61F9D90970072485F /* MyBuyManageCell.h */,
+				18375DE71F9D90970072485F /* MyBuyManageCell.m */,
+				18375DE81F9D90970072485F /* MyBuyManageCell.xib */,
 				18D9CA541F38002A00B410FE /* SkillManageCell.h */,
 				18D9CA551F38002A00B410FE /* SkillManageCell.m */,
 				18D9CA561F38002A00B410FE /* SkillManageCell.xib */,
@@ -3838,10 +3872,12 @@
 				18F54C4F1EFBB36400CEA935 /* RealNameNewViewController.xib in Resources */,
 				18971EF61E1F36DE003EE4CD /* DemandListCell.xib in Resources */,
 				18863A201F2982D800C7EF0E /* SkillsDetailViewController.xib in Resources */,
+				18375DEA1F9D90970072485F /* MyBuyManageCell.xib in Resources */,
 				18D452251EE2A3D300652487 /* PostDemandPictureCell.xib in Resources */,
 				18E44CCC1F330E1100B1DBB3 /* MyBuySkillViewController.xib in Resources */,
 				18D61FE51EEE80310056FB46 /* DemandDetailImageCell.xib in Resources */,
 				18F723481C9E348F0040DA5E /* icon_chose_arrow_sel@2x.png in Resources */,
+				188A16961F6BDB8C0009C571 /* DraftViewController.xib in Resources */,
 				180265651EE533AC00555E7A /* TZImagePickerController.bundle in Resources */,
 				1875AFF01E5E7E9C002DBDBA /* MineChatCell.xib in Resources */,
 				186AA01E1DF51F84008C0842 /* ChatKeyboard.bundle in Resources */,
@@ -3857,6 +3893,7 @@
 				18D0A4471F00F8A6005E6782 /* FunsFollowViewController.xib in Resources */,
 				18BF1D5A1F3062AA00A07069 /* AddNewAddressController.xib in Resources */,
 				1832FEF21EEFBDC7009F1EF5 /* DDUserInfoCell.xib in Resources */,
+				1870AC9D1F68C73100CF44FA /* PostSkillViewController.xib in Resources */,
 				180917EF1CFC40E500919019 /* NotiMsgCell.xib in Resources */,
 				18992B741EB8220200E75577 /* CodeValidateView.xib in Resources */,
 				18BF1D6E1F3085A000A07069 /* ConsumerEvaluatesViewController.xib in Resources */,
@@ -3986,6 +4023,7 @@
 				187096241C891F2700D5257C /* UIImage+sretchImage.m in Sources */,
 				186AA0071DF51F84008C0842 /* LCCKChatBar.m in Sources */,
 				187779541F4695FE00703882 /* QLSuccessHudView.m in Sources */,
+				1870AC9C1F68C73100CF44FA /* PostSkillViewController.m in Sources */,
 				18E5C89A1C9B97F8004E6E29 /* ImagesModel.m in Sources */,
 				185C4CD31C98597D00510A3E /* DetailHeaderCell.m in Sources */,
 				18EE54781C9413690073809B /* DrawAnimationView.m in Sources */,
@@ -4052,6 +4090,7 @@
 				18F0B0E01E6817B9000508C4 /* FSActionSheet.m in Sources */,
 				18D9CA571F38002A00B410FE /* SkillManageCell.m in Sources */,
 				187532671EE8079800B95443 /* QNResumeUpload.m in Sources */,
+				18375DE91F9D90970072485F /* MyBuyManageCell.m in Sources */,
 				184CE1331ED5655700FB93AA /* NewsScrollViewController.m in Sources */,
 				187532A61EE8084200B95443 /* QNRefresher.m in Sources */,
 				18F0B0DE1E6817B9000508C4 /* UIImage+XLExtension.m in Sources */,
@@ -4163,6 +4202,7 @@
 				180744AA1EFE5CE800A0A6FD /* EditUserModel.m in Sources */,
 				18EF9FE51F01FDCD00291188 /* ZJScrollSegmentView.m in Sources */,
 				18A3F3DE1E5BE5A80064392B /* DemandStatusCell.m in Sources */,
+				1870ACA01F6918B400CF44FA /* PostSkillCollectionView.m in Sources */,
 				18971EF01E1F358F003EE4CD /* DemandListViewController.m in Sources */,
 				1878DD3A1E6123F8003B0809 /* VerLayout.m in Sources */,
 				189380F41E9C71AD00CA3D36 /* GetCashProgressViewController.m in Sources */,
@@ -4226,6 +4266,7 @@
 				18B817431DE44F1700A8764D /* LimitModel.m in Sources */,
 				187332181C8E6C63004C637F /* JGHTTPClient+Mine.m in Sources */,
 				180265601EE533AC00555E7A /* TZAssetCell.m in Sources */,
+				188A16951F6BDB8C0009C571 /* DraftViewController.m in Sources */,
 				186A9FFC1DF51F84008C0842 /* NSMutableDictionary+LCCKWeakReference.m in Sources */,
 				18D9CA611F380C0000B410FE /* MySkillDetailViewController.m in Sources */,
 				18F0B0FB1E6817B9000508C4 /* XLProgressView.m in Sources */,
@@ -4274,6 +4315,7 @@
 				186AA0461DF51F84008C0842 /* LCCKWebViewProgress.m in Sources */,
 				18863A1F1F2982D800C7EF0E /* SkillsDetailViewController.m in Sources */,
 				1802655F1EE533AC00555E7A /* NSBundle+TZImagePicker.m in Sources */,
+				18375DED1F9DF2100072485F /* Enrolls.m in Sources */,
 				186AA0491DF51F84008C0842 /* Mp3Recorder.m in Sources */,
 				189D64701D2E0867009FDC0D /* JobCollectionViewCell.m in Sources */,
 				187532A51EE8084200B95443 /* QNTxtResolver.m in Sources */,
@@ -4503,8 +4545,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xiao Hengdi (AEGEVUDLH4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiao Hengdi (AEGEVUDLH4)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Xiao Hengdi (DLGRFSF589)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Xiao Hengdi (DLGRFSF589)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4575,6 +4617,7 @@
 					"$(PROJECT_DIR)/JianGuo/FrameWork/第三方/高德定位",
 					"$(PROJECT_DIR)/JianGuo/FrameWork/第三方/Umeng",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/JianGuo/JianGuo.pch";
 				INFOPLIST_FILE = JianGuo/Info.plist;
@@ -4591,7 +4634,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.woniukeji.JianguoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e73d5dbd-ae67-432b-a331-77b73992b8f7";
+				PROVISIONING_PROFILE = "b8685625-0abb-4782-a1bd-ef3f5e84abf0";
+				PROVISIONING_PROFILE_SPECIFIER = JGAppAppStoreProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -4604,8 +4648,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xiao Hengdi (AEGEVUDLH4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiao Hengdi (AEGEVUDLH4)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Xiao Hengdi (DLGRFSF589)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Xiao Hengdi (DLGRFSF589)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4692,7 +4736,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.woniukeji.JianguoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e73d5dbd-ae67-432b-a331-77b73992b8f7";
+				PROVISIONING_PROFILE = "b8685625-0abb-4782-a1bd-ef3f5e84abf0";
+				PROVISIONING_PROFILE_SPECIFIER = JGAppAppStoreProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};

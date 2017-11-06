@@ -16,6 +16,17 @@
 #import "QLAlertView.h"
 
 @implementation SkillManageCell
+{
+    __weak IBOutlet NSLayoutConstraint *reconfirmBcons;
+    
+}
+
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.reconfirmB.hidden = NO;
+    self.settingB.hidden = NO;
+}
 
 +(instancetype)cellWithTableView:(UITableView *)tableView
 {
@@ -34,8 +45,9 @@
     self.titleL.text = model.title;
     self.starView.score = model.averageScore;
     self.nameL.text = model.masterTitle;
+    self.timeL.text = model.createTimeStr;
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.timeSchoolL.text = [NSString stringWithFormat:@"%@|%@",model.createTimeStr,model.schoolName.length?model.schoolName:model.cityName];
+    self.timeSchoolL.text = [NSString stringWithFormat:@"发布在 %@",model.schoolName.length?model.schoolName:model.cityName];
     self.saleCountL.text = [NSString stringWithFormat:@"已售: %ld",model.saleCount];
     self.likeCountL.text = [NSString stringWithFormat:@"%ld",model.likeCount];
     self.commentCountL.text = [NSString stringWithFormat:@"%ld",model.commentCount];
@@ -49,15 +61,36 @@
         [self.collectionB setBackgroundImage:[UIImage imageNamed:@"stars1"] forState:UIControlStateNormal];
     }
     
-    if (model.status) {
-        self.stateL.text = @"已暂停接单";
-        self.stateL.textColor = [UIColor redColor];
-        [self.settingB setTitle:@"恢复接单" forState:UIControlStateNormal];
-    }else if (model.status == 0){
-        self.stateL.text = @"正常接单中";
+    if (model.auditStatus == 1) {
+        
+        self.reconfirmB.hidden = NO;
+        
+        if (model.status) {
+            self.stateL.text = @"已暂停接单";
+            self.stateHeaderL.text = @"发布中";
+            self.stateL.textColor = [UIColor redColor];
+            [self.settingB setTitle:@"恢复接单" forState:UIControlStateNormal];
+        }else if (model.status == 0){
+            self.stateL.text = @"正常接单中";
+            self.stateHeaderL.text = @"发布中";
+            self.stateL.textColor = GreenColor;
+            [self.settingB setTitle:@"暂停接单" forState:UIControlStateNormal];
+        }
+    }else if (model.auditStatus == 0){
+        self.stateL.text = @"审核中";
         self.stateL.textColor = GreenColor;
-        [self.settingB setTitle:@"暂停接单" forState:UIControlStateNormal];
+        self.stateHeaderL.text = @"审核中";
+        self.reconfirmB.hidden = YES;
+        self.settingB.hidden = YES;
+    }else if (model.auditStatus == 2){//被拒绝
+        self.stateL.text = @"审核被拒绝";
+        self.stateL.textColor = [UIColor redColor];
+        self.stateHeaderL.text = @"审核被拒";
+        self.reconfirmB.hidden = NO;
+        reconfirmBcons.constant = -self.reconfirmB.width;
+        self.settingB.hidden = YES;
     }
+    
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -108,6 +141,13 @@
     }];
     
     
+    
+}
+- (IBAction)reconfirm:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(reconfirmWithSkillId:)]) {
+        [self.delegate reconfirmWithSkillId:[NSString stringWithFormat:@"%ld",_model.skillId]];
+    }
     
 }
 

@@ -50,6 +50,9 @@
     
     [NotificationCenter addObserver:self selector:@selector(changeFrame:) name:UIKeyboardDidChangeFrameNotification object:nil];
     
+//    [[IQKeyboardManager sharedManager] setEnable:NO];
+//    [[IQKeyboardManager sharedManager] setShouldResignOnTouchOutside:YES];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"picture"]];
     
     UIView *leftView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 45)];

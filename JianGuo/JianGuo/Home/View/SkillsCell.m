@@ -37,7 +37,7 @@
     self.starView.score = model.averageScore;
     self.nameL.text = model.masterTitle;
     [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",model.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
-    self.timeSchoolL.text = [NSString stringWithFormat:@"%@ | %@",model.createTimeStr,model.schoolName.length?model.schoolName:model.cityName];
+    self.timeSchoolL.text = [NSString stringWithFormat:@"发布在 %@",model.schoolName.length?model.schoolName:model.cityName];
     self.saleCountL.text = [NSString stringWithFormat:@"已售: %ld",model.saleCount];
     self.likeCountL.text = [NSString stringWithFormat:@"%ld",model.likeCount];
     self.commentCountL.text = [NSString stringWithFormat:@"%ld",model.commentCount];

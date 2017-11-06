@@ -38,6 +38,8 @@
 @interface SkillsDetailViewController () <UITabBarDelegate,UITableViewDataSource,UITableViewDelegate,CommentCellDelegate,FinishEditDelegate,XLPhotoBrowserDelegate,XLPhotoBrowserDatasource>
 {
     SkillDetailModel *detailModel;
+    BOOL firstImage;
+    BOOL secondImage;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
@@ -49,6 +51,7 @@
 @property (nonatomic,strong) NSMutableArray *imagesArr;
 @property (nonatomic,strong) NSMutableArray *commentArr;
 @property (nonatomic,strong) NSMutableArray *commentAll;
+@property (nonatomic,strong) NSMutableDictionary *imageHeightDic;
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
@@ -82,13 +85,20 @@
 {
     [super viewDidDisappear:animated];
     
-    [APPLICATION.keyWindow endEditing:YES];
-    [self.commentView removeFromSuperview];
-    self.commentView = nil;
 }
+
+-(void)viewDidLayoutSubviews
+{
+    self.commentView.frame = CGRectMake(0, self.view.frame.size.height, SCREEN_W, 45);
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.tableView.hidden = YES;
+    
+    self.imageHeightDic = @{}.mutableCopy;
     
     [NotificationCenter addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [NotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -115,6 +125,30 @@
     }];
     [self requestWithCount:@"1"];
     
+//    [self gotImageToRefreshCellHeight];
+}
+
+-(void)gotImageToRefreshCellHeight
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (detailModel.descImages.count>1) {
+            if (firstImage && secondImage) {
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            }else{
+                [self gotImageToRefreshCellHeight];
+            }
+        }else{
+            if (detailModel.descImages.count==1) {
+                if (firstImage) {
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                }else{
+                    [self gotImageToRefreshCellHeight];
+                }
+            }else{
+                return ;
+            }
+        }
+    });
 }
 
 -(void)setNavigationBarItem
@@ -149,10 +183,8 @@
     self.commentView = view;
     self.commentTV = view.commentTV;
     view.commentTV.placeholder = @"请输入文字";
-    [APPLICATION.keyWindow addSubview:view];
-    [APPLICATION.keyWindow bringSubviewToFront:view];
-    JGLog(@"%@",APPLICATION.keyWindow);
-    view.frame = CGRectMake(0, APPLICATION.keyWindow.frame.size.height, SCREEN_W, self.commentView.height);
+    [self.view addSubview:view];
+    [self.view bringSubviewToFront:view];
 }
 
 -(void)requestWithCount:(NSString *)count
@@ -213,12 +245,14 @@
     
     [JGHTTPClient getSkillDetailsWithSkillId:self.skillId  userId:nil Success:^(id responseObject) {
         JGLog(@"%@",responseObject);
+        
+        self.tableView.hidden = NO;
         if ([responseObject[@"code"] integerValue] ==200) {
             detailModel = [SkillDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
             
             [_iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",detailModel.headImg]] placeholderImage:[UIImage imageNamed:@"myicon"]];
             self.nameL.text = detailModel.nickname.length?detailModel.nickname:@"未填写";
-            self.schoolL.text = [NSString stringWithFormat:@"发布到:%@",detailModel.publishSchoolName.length?detailModel.publishSchoolName:detailModel.publishCityName];
+            self.schoolL.text = [NSString stringWithFormat:@"发布在 %@",detailModel.publishSchoolName.length?detailModel.publishSchoolName:detailModel.publishCityName];
             self.saleCountL.text = [NSString stringWithFormat:@"已售 %ld 次",(long)detailModel.saleCount];
             if ([detailModel.price containsString:@"."]) {
                 self.moneyL.text = [NSString stringWithFormat:@"%.2f元",detailModel.price.floatValue];
@@ -338,6 +372,28 @@
     
 }
 
+- (IBAction)follow:(UIButton *)sender {
+    
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    //1==关注 , 0==取消
+    NSString *userId = [NSString stringWithFormat:@"%ld",detailModel.publishUid];
+    
+    [JGHTTPClient followUserWithUserId:userId status:@"1" Success:^(id responseObject) {
+        
+        if ([responseObject[@"code"] integerValue] == 200) {
+            [self showAlertViewWithText:@"关注成功" duration:1];
+            [sender setHidden:YES];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
+
 //点击发送按钮
 -(void)finishEdit
 {
@@ -418,7 +474,10 @@
         }else if (indexPath.row == 4+detailModel.aptitudeImages.count+detailModel.descImages.count){
             return 44;
         }else{
-            return 250;
+//            if ([[NSString stringWithFormat:@"%@",[self.imageHeightDic allKeys]] containsString:[NSString stringWithFormat:@"%@",indexPath]] ) {
+//                return [[self.imageHeightDic valueForKey:[NSString stringWithFormat:@"%@",indexPath]] floatValue];
+//            }
+            return UITableViewAutomaticDimension;
         }
     }else{
         return UITableViewAutomaticDimension;
@@ -510,9 +569,39 @@
             DemandDetailImageCell *cell = [DemandDetailImageCell cellWithTableView:tableView];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if (indexPath.row<=detailModel.descImages.count) {
-                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.descImages[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.descImages[indexPath.row-1]] placeholderImage:[UIImage imageNamed:@"placeholderPic"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    
+                    cell.iconViewHeightCons.constant = (SCREEN_W-40)*image.size.height/image.size.width;
+                    
+                    
+                    NSString *url = [NSString stringWithFormat:@"%@",imageURL];
+                    
+                    NSInteger index = [detailModel.descImages indexOfObject:url];
+                    
+                    DemandDetailImageCell *cell_ = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index+1 inSection:0]];
+                    
+                    if (cell_.iconView.height == 240) {
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index+1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    }
+
+                }];
             }else{
-                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.aptitudeImages[indexPath.row-detailModel.descImages.count-2]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]];
+                [cell.iconView sd_setImageWithURL:[NSURL URLWithString:detailModel.aptitudeImages[indexPath.row-detailModel.descImages.count-2]] placeholderImage:[UIImage imageNamed:@"placeholderPic"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    
+                    
+                    cell.iconViewHeightCons.constant = (SCREEN_W-40)*image.size.height/image.size.width;
+                    
+                    NSString *url = [NSString stringWithFormat:@"%@",imageURL];
+                    
+                    NSInteger index = [detailModel.aptitudeImages indexOfObject:url];
+                    
+                    DemandDetailImageCell *cell_ = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index+2+detailModel.descImages.count inSection:0]];
+                    
+                    if (cell_.iconView.height == 240) {
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index+1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    }
+                    
+                }];
             }
             return cell;
         }
@@ -521,6 +610,9 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         cell.skillDetailM = detailModel;
+        if (detailModel.isFollow) {
+            cell.followB.hidden = YES;
+        }
         
         return cell;
     }else{
@@ -562,18 +654,31 @@
         
     }else if (indexPath.section == 1){
         
+        if (![self checkExistPhoneNum]) {
+            [self gotoCodeVC];
+            return;
+        }
         MineChatViewController *userVC = [[MineChatViewController alloc] init];
         userVC.hidesBottomBarWhenPushed = YES;
         userVC.userId = [NSString stringWithFormat:@"%ld",detailModel.publishUid];
         [self.navigationController pushViewController:userVC animated:YES];
         
     }else if (indexPath.section == 2){
+        if (![self checkExistPhoneNum]) {
+            [self gotoCodeVC];
+            return;
+        }
         CommentModel *model = self.commentAll[indexPath.row];
         self.toUserId = model.userId;
         self.pid = model.pid.integerValue==0?model.id:model.pid;
         self.commentTV.placeholder = [NSString stringWithFormat:@"回复:%@",model.nickname];
         [self.commentTV becomeFirstResponder];
     }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -716,13 +821,25 @@
     }
     MineChatViewController *mineChatVC = [[MineChatViewController alloc] init];
     mineChatVC.hidesBottomBarWhenPushed = YES;
-    mineChatVC.userId = userId;
+    mineChatVC.userId = [NSString stringWithFormat:@"%@",userId];
     [self.navigationController pushViewController:mineChatVC animated:YES];
 }
+
+- (IBAction)headerIcon:(id)sender {
+    
+    [self clickIcon:[NSString stringWithFormat:@"%ld",detailModel.publishUid]];
+    
+}
+
 
 
 - (IBAction)buy:(UIButton *)sender {
     
+    
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
     if (detailModel.publishUid == USER.login_id.integerValue) {
         [self showAlertViewWithText:@"你不能购买自己的技能!" duration:2];
         return;
@@ -784,7 +901,7 @@
 
 -(void)keyboardWillAppear:(NSNotification *)noti
 {
-    self.tableView.userInteractionEnabled = NO;
+    self.tableView.scrollEnabled = NO;
     
     CGRect rect = [[noti.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue];
     
@@ -794,7 +911,7 @@
     
     [UIView animateWithDuration:duration delay:0 options:option animations:^{
         
-        self.commentView.frame = CGRectMake(0, SCREEN_H-rect.size.height-self.commentView.height, SCREEN_W, self.commentView.height);
+        self.commentView.frame = CGRectMake(0, self.view.height-rect.size.height-self.commentView.height, SCREEN_W, self.commentView.height);
         
     } completion:^(BOOL finished) {
         [IQKeyboardManager sharedManager].enable = YES;
@@ -803,7 +920,7 @@
 
 -(void)keyboardWillHide:(NSNotification *)noti
 {
-    self.tableView.userInteractionEnabled = YES;
+    self.tableView.scrollEnabled = YES;
     
     CGRect rect = [[noti.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue];
     
@@ -821,6 +938,7 @@
 
 -(void)dealloc
 {
+    JGLog(@"\n控制器销毁...............")
     [NotificationCenter removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [NotificationCenter removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }

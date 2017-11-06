@@ -18,7 +18,8 @@
                         keywords:(NSString *)keywords
                          orderBy:(NSString *)orderBy
                             type:(NSString *)type
-                             sex:(NSString *)sex
+                            sex:(NSString *)sex
+                          tagId:(NSString *)tagId
                           userId:(NSString *)userId
                        pageCount:(NSString *)pageCount
                          Success:(void (^)(id responseObject))success
@@ -32,6 +33,7 @@
     [params setObject:pageCount forKey:@"pageNum"];
     !schoolId?:[params setObject:schoolId forKey:@"schoolId"];
     !keywords?:[params setObject:keywords forKey:@"keywords"];
+    !tagId?:[params setObject:tagId forKey:@"tagId"];
     !orderBy?:[params setObject:orderBy forKey:@"orderBy"];//最新（createTime）,最热（viewCount）
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills"];
@@ -104,6 +106,7 @@
     NSMutableDictionary *params = [self getAllBasedParams];
     !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
+    [params setObject:@"v2" forKey:@"version"];
     
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/my"];
@@ -327,13 +330,15 @@
 /**
  *  达人榜单
  */
-+(void)getSkillExpertsListSuccess:(void (^)(id responseObject))success
-                          failure:(void (^)(NSError *error))failure
++(void)getSkillExpertsListWithCityCode:(NSString *)cityCode
+                               Success:(void (^)(id responseObject))success
+                               failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
+    !cityCode?:[params setObject:cityCode forKey:@"cityCode"];
     
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"masters"];
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"masters/v2"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -603,10 +608,12 @@
  *  投诉订单
  */
 +(void)complainOrderWithOrderNo:(NSString *)orderNo
+                         reason:(NSString *)reason
                         Success:(void (^)(id responseObject))success
                         failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *params = [self getAllBasedParams];
+    !reason?:[params setObject:reason forKey:@"reason"];
     [params setObject:orderNo forKey:@"orderNo"];
     
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/order-complain"];
@@ -637,8 +644,12 @@
     !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
     
-    
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/my-publish"];
+    NSString *Url;
+    if (!type) {
+        Url = [APIURLCOMMON stringByAppendingString:@"skills/my-publish/v2"];
+    }else{
+        Url = [APIURLCOMMON stringByAppendingString:@"skills/my-publish"];
+    }
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -667,8 +678,12 @@
     !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
     
-    
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/my-buy"];
+    NSString *Url;
+    if (!type) {
+        Url = [APIURLCOMMON stringByAppendingString:@"skills/my-buy/v2"];
+    }else{
+        Url = [APIURLCOMMON stringByAppendingString:@"skills/my-buy"];
+    }
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
@@ -754,6 +769,159 @@
     NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/my-buy/detail"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  获取技能草稿
+ */
++(void)getMySkillDraftWithPageNum:(NSString *)pageNum
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    !pageNum?:[params setObject:pageNum forKey:@"pageNum"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/skill-drafts"];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  删除技能草稿
+ */
++(void)deleteSkillDraftWithDraftId:(NSString *)draftId
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"skills/%@/del-draft",draftId]];
+    
+    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+/**
+ *  获取技能草稿信息
+ */
++(void)getSkillDraftDetailWithDraftId:(NSString *)draftId
+                              Success:(void (^)(id responseObject))success
+                              failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:[NSString stringWithFormat:@"skills/%@/edit",draftId]];
+    
+    [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  发布技能接口
+ */
++(void)postSkillWithMasterTitle:(NSString *)masterTitle
+                        skillId:(NSString *)skillId
+                          title:(NSString *)title
+                          cover:(NSString *)cover
+                      skillDesc:(NSString *)skillDesc
+                     descImages:(NSString *)descImages
+                  skillAptitude:(NSString *)skillAptitude
+                 aptitudeImages:(NSString *)aptitudeImages
+                          price:(NSString *)price
+                      priceDesc:(NSString *)priceDesc
+                    serviceMode:(NSString *)serviceMode
+                      addressId:(NSString *)addressId
+                       schoolId:(NSString *)schoolId
+                         status:(NSString *)status
+                        Success:(void (^)(id responseObject))success
+                        failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *params = [self getAllBasedParams];
+    
+    !masterTitle?:[params setObject:masterTitle forKey:@"masterTitle"];
+    !skillId?:[params setObject:skillId forKey:@"skillId"];
+    !title?:[params setObject:title forKey:@"title"];
+    !cover?:[params setObject:cover forKey:@"cover"];
+    !skillDesc?:[params setObject:skillDesc forKey:@"skillDesc"];
+    !descImages?:[params setObject:descImages forKey:@"descImages"];
+    !skillAptitude?:[params setObject:skillAptitude forKey:@"skillAptitude"];
+    !aptitudeImages?:[params setObject:aptitudeImages forKey:@"aptitudeImages"];
+    !price?:[params setObject:price forKey:@"price"];
+    !priceDesc?:[params setObject:priceDesc forKey:@"priceDesc"];
+    !serviceMode?:[params setObject:serviceMode forKey:@"serviceMode"];
+    !addressId?:[params setObject:addressId forKey:@"addressId"];
+    !schoolId?:[params setObject:schoolId forKey:@"schoolId"];
+    !status?:[params setObject:status forKey:@"status"];
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/skill-add"];
+    
+    [[JGHTTPClient sharedManager] POST:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success){
+            if ([responseObject[@"code"] integerValue] == 600) {
+                [self showAlertViewWithText:responseObject[@"message"] duration:1];
+            }
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  搜索标签
+ */
++(void)getLabelSuccess:(void (^)(id responseObject))success
+               failure:(void (^)(NSError *error))failure
+{
+    
+    NSString *Url = [APIURLCOMMON stringByAppendingString:@"skills/tags"];
+    [[JGHTTPClient sharedManager] GET:Url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){
             if ([responseObject[@"code"] integerValue] == 600) {
                 [self showAlertViewWithText:responseObject[@"message"] duration:1];

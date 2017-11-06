@@ -11,7 +11,11 @@
 @interface AlertView : UIView <UITextFieldDelegate>
 
 
+@property (nonatomic,assign) BOOL isSuccessDeal;
+
+
 +(instancetype)aAlertViewCallBackBlock:(void(^)(NSString *))block;
+
 
 -(void)show;
 

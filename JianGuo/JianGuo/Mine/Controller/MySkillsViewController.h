@@ -10,4 +10,7 @@
 
 @interface MySkillsViewController : NavigatinViewController
 
+@property (nonatomic,assign) BOOL isFinishedVC;
+
+
 @end

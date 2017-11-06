@@ -42,6 +42,9 @@
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+/** 投诉按钮 */
+@property (nonatomic,strong) UIButton *complainBtn;
+
 /** 数据元数组 */
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
@@ -56,9 +59,37 @@
     
     self.tableView.estimatedRowHeight = 80;
     
+    
+    UIButton * btn_r = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_r setTitle:@"投诉订单" forState:UIControlStateNormal];
+    btn_r.titleLabel.font = FONT(15);
+    [btn_r setTitleColor:GreenColor forState:UIControlStateNormal];
+    [btn_r addTarget:self action:@selector(complain) forControlEvents:UIControlEventTouchUpInside];
+    btn_r.frame = CGRectMake(0, 0, 80, 25);
+    btn_r.hidden = YES;
+    self.complainBtn = btn_r;
+    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:btn_r];
+    
+    self.navigationItem.rightBarButtonItem = rightBtn;
+    
     JGSVPROGRESSLOAD(@"正在加载...");
     [self requestOrderDetail];
     
+}
+
+-(void)complain
+{
+    TextReasonViewController *reasonVC = [[TextReasonViewController alloc] init];
+    reasonVC.transitioningDelegate = self;
+    reasonVC.orderNo = self.orderNo;
+    reasonVC.modalPresentationStyle = UIModalPresentationCustom;
+    reasonVC.functionType = ControllerFunctionTypeSkillComplain;
+    IMP_BLOCK_SELF(MyBuySkillDetailViewController);
+    reasonVC.callBackBlock = ^(){
+        
+    };
+    [self presentViewController:reasonVC animated:YES completion:nil];
 }
 
 -(void)requestOrderDetail
@@ -68,6 +99,9 @@
         [SVProgressHUD dismiss];
         if ([responseObject[@"code"] integerValue] == 200) {
             model = [MyBuySkillDetailModel mj_objectWithKeyValues:responseObject[@"data"]];
+            if (model.orderStatus == 3) {
+                self.complainBtn.hidden = NO;
+            }
             [self.tableView reloadData];
         }else{
             
@@ -450,7 +484,7 @@
     if ([sender.currentTitle containsString:@"投诉订单"]){
         [QLAlertView showAlertTittle:@"确定要投诉服务者?" message:@"" isOnlySureBtn:NO compeletBlock:^{
             
-            [JGHTTPClient complainOrderWithOrderNo:model.orderNo Success:^(id responseObject) {
+            [JGHTTPClient complainOrderWithOrderNo:model.orderNo reason:nil Success:^(id responseObject) {
                 
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
                 if ([responseObject[@"code"]integerValue] == 200) {
@@ -549,7 +583,7 @@
         
     }else if ([sender.currentTitle containsString:@"付"]){//付款
         
-        [QLAlertView showAlertTittle:@"确定购买?" message:@"购买后将从您的钱包余额里扣除服务费" isOnlySureBtn:NO compeletBlock:^{
+        [QLAlertView showAlertTittle:[NSString stringWithFormat:@"确认付款 ￥%.2f ?",model.realPrice] message:@"确认付款后，服务费将从您的兼果钱包余额中扣除!" isOnlySureBtn:NO compeletBlock:^{
             
             JGSVPROGRESSLOAD(@"正在付款...");
             [JGHTTPClient payOrderWithOrderNo:model.orderNo Success:^(id responseObject) {
@@ -557,7 +591,9 @@
                 [SVProgressHUD dismiss];
                 if ([responseObject[@"code"]integerValue] == 200) {
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                    [[QLSuccessHudView shareInstance] show:@"购买成功"];
+                    AlertView *view = [AlertView aAlertViewCallBackBlock:nil];
+                    view.isSuccessDeal = YES;
+                    [view show];
                 }else{
                     [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
                 }

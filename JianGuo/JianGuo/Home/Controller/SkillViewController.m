@@ -10,6 +10,8 @@
 #import "SkillsDetailViewController.h"
 #import "WebViewController.h"
 #import "MineChatViewController.h"
+#import "PostSkillViewController.h"
+#import "RealNameNewViewController.h"
 
 #import "JGHTTPClient+Skill.h"
 #import "JGHTTPClient+Mine.h"
@@ -31,9 +33,12 @@
 #import "PresentingAnimator.h"
 
 
-@interface SkillViewController () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,SDCycleScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,SkillExpertBoardDelegate>
+@interface SkillViewController () <DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,SDCycleScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,SkillExpertBoardDelegate,UIDynamicAnimatorDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIButton *confirmB;
+/** 物理仿真器 */
+@property (nonatomic,strong) UIDynamicAnimator *animator;
 @property (weak, nonatomic) IBOutlet SDCycleScrollView *bannerView;
 @property (nonatomic, strong) DOPDropDownMenu *selectMenu;
 
@@ -85,7 +90,7 @@
             [SVProgressHUD dismiss];
         }];
         
-        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
+//        [NotificationCenter addObserver:self selector:@selector(clickNotification:) name:kNotificationClickNotification object:nil];
     }
     return self;
 }
@@ -95,7 +100,7 @@
     JGSVPROGRESSLOAD(@"加载中...");
     
     [JGHTTPClient getSkillListWithSchoolId:self.schoolId
-                                   cityCode:self.cityCode keywords:nil orderBy:self.orderType type:nil sex:self.sex userId:nil pageCount:count Success:^(id responseObject) {
+                                   cityCode:self.cityCode keywords:nil orderBy:self.orderType type:nil sex:self.sex tagId:nil userId:nil pageCount:count Success:^(id responseObject) {
                                        
            [SVProgressHUD dismiss];
            [self.tableView.mj_header endRefreshing];
@@ -138,7 +143,7 @@
 
 -(void)getSkillExperts
 {
-    [JGHTTPClient getSkillExpertsListSuccess:^(id responseObject) {
+    [JGHTTPClient getSkillExpertsListWithCityCode:self.cityCode Success:^(id responseObject) {
         
         if ([responseObject[@"code"]integerValue] == 200) {
             
@@ -169,6 +174,32 @@
     } failure:^(NSError *error) {
         
     }];
+}
+- (IBAction)confirmSkillExpert:(UIButton *)sender {
+    
+    if (![self checkExistPhoneNum]) {
+        [self gotoCodeVC];
+        return;
+    }
+    if (USER.status.intValue == 1){
+        [self showAlertViewWithText:@"请您先去实名认证" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            RealNameNewViewController *realNameVC = [[RealNameNewViewController alloc] init];
+            realNameVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:realNameVC animated:YES];
+        });
+        return;
+    }
+    PostSkillViewController *postSkillVC = [[PostSkillViewController alloc] init];
+    postSkillVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:postSkillVC animated:YES];
+    
+//    WebViewController *webVC = [[WebViewController alloc]init] ;
+//    webVC.url = @"https://jinshuju.net/f/BoMqQH";
+//    webVC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:webVC animated:YES];
+    
 }
 
 -(void)clickPersonIcon:(id)model
@@ -218,12 +249,23 @@
             [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
             
         }];
-        //        footer.pullingPercent = 0.5;
         footer;
     });
     
     [self.tableView.mj_header beginRefreshing];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self addDynamicAnimator];
+//    });
+    
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+//    self.confirmB.hidden = NO;
+}
+
 //配置筛选控件
 -(void)initMenu{
     self.selectMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -366,6 +408,8 @@
         self.schoolId = @"0";
         [self getSchoolsByCityCode:model.code];
         
+        [self getSkillExperts];
+        
         [self.selectMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0] triggerDelegate:NO];
         
         [USERDEFAULTS setInteger:indexPath.row forKey:@"row"];
@@ -445,7 +489,47 @@
     
 }
 
+- (UIDynamicAnimator *)animator
+{
+    if (!_animator) {
+        // 创建一个物理仿真器
+        _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.navigationController.view];
+        _animator.delegate = self;
+    }
+    return _animator;
+}
 
+-(void)addDynamicAnimator
+{
+    // 创建重力行为x
+    UIGravityBehavior *gravity = [[UIGravityBehavior alloc] init];
+    // magnitude越大，速度增长越快
+    gravity.magnitude = 3;
+    [gravity addItem:self.confirmB];
+    
+    
+    // 2.创建碰撞行为
+    UICollisionBehavior *collision = [[UICollisionBehavior alloc] init];
+    [collision addItem:self.confirmB];
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:
+                          CGRectMake(0,0, self.view.frame.size.width, self.navigationController.view.frame.size.height-49-30)];
+    [collision addBoundaryWithIdentifier:@"rect" forPath:path];
+    
+    // 设置碰撞的边界
+    collision.translatesReferenceBoundsIntoBoundary = YES;
+    
+    // 3.开始仿真
+    [self.animator addBehavior:gravity];
+    [self.animator addBehavior:collision];
+    
+}
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+{
+    [animator removeAllBehaviors];
+    
+}
 
 
 @end

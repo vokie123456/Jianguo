@@ -13,7 +13,8 @@ typedef NS_ENUM(NSUInteger, ControllerFunctionType) {
     ControllerFunctionTypePublisherEvualuate,
     ControllerFunctionTypePublisherComplain,
     ControllerFunctionTypeWaiterEvaluate,
-    ControllerFunctionTypeSkillApplyRefund
+    ControllerFunctionTypeSkillApplyRefund,
+    ControllerFunctionTypeSkillComplain
 };
 
 @interface TextReasonViewController : BaseViewController

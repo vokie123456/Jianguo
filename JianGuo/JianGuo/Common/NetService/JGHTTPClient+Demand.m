@@ -382,8 +382,13 @@
     !type?:[params setObject:type forKey:@"type"];
     [params setObject:pageNum forKey:@"pageNum"];
     
+    NSString *Url;
+    if (type) {
+        Url = [APIURLCOMMON stringByAppendingString:@"demands/my-complete"];
+    }else{
+        Url = [APIURLCOMMON stringByAppendingString:@"demands/my-ongoing"];
+    }
     
-    NSString *Url = [APIURLCOMMON stringByAppendingString:@"demands/my/publish"];
     
     [[JGHTTPClient sharedManager] GET:Url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success){

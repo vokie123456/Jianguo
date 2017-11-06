@@ -13,11 +13,26 @@
 /** 点赞数 */
 @property (nonatomic, assign) NSInteger  likeCount;
 
+/** 技能状态（0审核中，1通过审核, 2审核未通过） */
+@property (nonatomic, assign) NSInteger  auditStatus;
+
 /** 分类id */
 @property (nonatomic, assign) NSInteger  categoryId;
 
 /** 达人称谓 */
 @property (nonatomic, copy) NSString* masterTitle;
+
+/** 到店地址id */
+@property (nonatomic, copy) NSString* addressId;
+
+/** 联系电话 */
+@property (nonatomic, copy) NSString* mobile;
+
+/** 联系地址 */
+@property (nonatomic, copy) NSString* location;
+
+/** 联系人 */
+@property (nonatomic, copy) NSString* consignee;
 
 /** 认证状态 */
 @property (nonatomic, assign) NSInteger  authStatus;

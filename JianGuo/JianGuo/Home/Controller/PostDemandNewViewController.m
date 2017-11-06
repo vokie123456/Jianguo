@@ -12,6 +12,7 @@
 #import "AddMoneyViewController.h"
 #import "DemandListViewController.h"
 #import "ShareSuccessViewController.h"
+#import "HomeSegmentViewController.h"
 
 #import "JGHTTPClient+Demand.h"
 
@@ -204,7 +205,10 @@ static const NSInteger kMaxLength = 15;
                 cell.textLabel.font = FONT(16);
                 cell.detailTextLabel.font = FONT(15);
                 cell.textLabel.textColor = LIGHTGRAYTEXT;
-                cell.detailTextLabel.text = @"选择发布到哪个学校";
+                cell.detailTextLabel.text = USER.school_name.length?USER.school_name:@"选择发布到哪个学校";
+                if (USER.schoolId.integerValue) {
+                    schoolId = [NSString stringWithFormat:@"%@",USER.schoolId];
+                }
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 return cell;
@@ -389,7 +393,7 @@ static const NSInteger kMaxLength = 15;
             return ;
         }else{//上传图片成功后再上传个人资料
             
-            NSString *url = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+            NSString *url = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
             blockCount++;
             
             images = [NSString stringWithFormat:@"%@%@%@",images?images:@"",(!images?@"":@","),url];
@@ -430,13 +434,13 @@ static const NSInteger kMaxLength = 15;
             images = nil;
 
             if ([responseObject[@"code"] integerValue] == 200) {
-                DemandListViewController *vc = (DemandListViewController *)self.navigationController.viewControllers.firstObject;
+                HomeSegmentViewController *vc = (HomeSegmentViewController *)[[(UINavigationController *)[[(UITabBarController *)APPLICATION.keyWindow.rootViewController childViewControllers] firstObject] viewControllers] firstObject];
                 [self.navigationController popToRootViewControllerAnimated:YES];
                 ShareSuccessViewController *postVC = [[ShareSuccessViewController alloc] init];
                 postVC.demandId = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"demandId"]];
                 postVC.demandTitle = title;
                 postVC.money = demandMoney;
-                postVC.transitioningDelegate = vc;//代理必须遵守这个专场协议
+                postVC.transitioningDelegate = vc;//代理必须遵守这个转场协议
                 postVC.modalPresentationStyle = UIModalPresentationCustom;
                 [self.navigationController.viewControllers.firstObject presentViewController:postVC animated:YES completion:nil];
             }else{

@@ -8,13 +8,14 @@
 
 #import "AllSkillManageViewController.h"
 #import "SkillsDetailViewController.h"
+#import "PostSkillViewController.h"
 
 #import "SkillListModel.h"
 #import "JGHTTPClient+Skill.h"
 
 #import "SkillManageCell.h"
 
-@interface AllSkillManageViewController ()
+@interface AllSkillManageViewController () <SkillManageCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 /** 数据源数组 */
@@ -27,9 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"技能设置";
+    self.navigationItem.title = @"技能管理";
     
-    self.tableView.rowHeight = 375.f;
+    self.tableView.rowHeight = 241;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
         [self requestList:@"1"];
@@ -110,6 +111,8 @@
     
     cell.model = self.dataArr[indexPath.row];
     
+    cell.delegate = self;
+    
     return cell;
 }
 
@@ -124,6 +127,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-
+-(void)reconfirmWithSkillId:(NSString *)skillId
+{
+    PostSkillViewController *postVC = [[PostSkillViewController alloc] init];
+    postVC.hidesBottomBarWhenPushed = YES;
+    postVC.draftId = skillId;
+    postVC.isFromDraftVC = YES;
+    [self.navigationController pushViewController:postVC animated:YES];
+}
 
 @end

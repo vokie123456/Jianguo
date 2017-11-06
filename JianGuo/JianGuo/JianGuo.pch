@@ -91,9 +91,9 @@
 #define NotificationCenter [NSNotificationCenter defaultCenter]
 
 #define USERDEFAULTS [NSUserDefaults standardUserDefaults]
-#define CITY @"city"
-#define JOBTYPE @"jobType"
-#define CityCode  @"cityCode"
+#define CITY     @"city"
+#define JOBTYPE  @"jobType"
+#define CityCode @"cityCode"
 #define CityName @"cityName"
 #define JGKeyedUnarchiver(f) [NSKeyedUnarchiver unarchiveObjectWithFile:f]; 
 //API 切换
@@ -106,15 +106,15 @@
 #ifdef DEBUG
 //    #define APIURLCOMMON @"http://192.168.1.132/JianGuo_Server/"//局域网
 //
-    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
+//    #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
 
 //    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 
-//    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
+    #define APIURLCOMMON @"http://192.168.0.100:9090/"//局域网
 //
 #else
     #define APIURLCOMMON @"http://101.200.195.147:9090/"//测试服务器
-//    #define APIURLCOMMON @"http://192.168.0.106:9090/"//义文局域网
+//    #define APIURLCOMMON @"http://192.168.0.112:9090/"//义文局域网
 //    #define APIURLCOMMON @"http://v3.jianguojob.com:8080/"//外网
 #endif
 
@@ -129,21 +129,21 @@
 #define JGLabelArr [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"label.data"]
 
 //通知
-static NSString *kNotificationDidReceiveMessage = @"kNotificationDidReceiveMessage";
-static NSString *kNotificationOpenIMClient = @"kNotificationOpenIMClient";
-static NSString *kNotificationJobType = @"kNotificationJobType";
-static NSString *kNotificationCity = @"kNotificationCity";
-static NSString *kNotificationLoginSuccessed = @"kNotificationLoginSuccessed";
-static NSString *kNotificationLogoutSuccessed = @"kNotificationLogoutSuccessed";
-static NSString *kNotificationClickNotification = @"kNotificationClickNotification";
-static NSString *kNotificationGetCitySuccess = @"kNotificationGetCitySuccess";
-static NSString *kNotificationGetNewNotiNews = @"kNotificationGetNewNotiNews";
-static NSString *kNotificationGotChatUserInfon = @"kNotificationGotChatUserInfon";
-static NSString *kNotificationClosedChatKit = @"kNotificationClosedChatKit";
-static NSString *kNotificationSendJobName = @"kNotificationSendJobName";
-static NSString *kNotificationOpenClientSuccessed = @"kNotificationOpenClientSuccessed";
+static NSString *kNotificationDidReceiveMessage    = @"kNotificationDidReceiveMessage";
+static NSString *kNotificationOpenIMClient         = @"kNotificationOpenIMClient";
+static NSString *kNotificationJobType              = @"kNotificationJobType";
+static NSString *kNotificationCity                 = @"kNotificationCity";
+static NSString *kNotificationLoginSuccessed       = @"kNotificationLoginSuccessed";
+static NSString *kNotificationLogoutSuccessed      = @"kNotificationLogoutSuccessed";
+static NSString *kNotificationClickNotification    = @"kNotificationClickNotification";
+static NSString *kNotificationGetCitySuccess       = @"kNotificationGetCitySuccess";
+static NSString *kNotificationGetNewNotiNews       = @"kNotificationGetNewNotiNews";
+static NSString *kNotificationGotChatUserInfon     = @"kNotificationGotChatUserInfon";
+static NSString *kNotificationClosedChatKit        = @"kNotificationClosedChatKit";
+static NSString *kNotificationSendJobName          = @"kNotificationSendJobName";
+static NSString *kNotificationOpenClientSuccessed  = @"kNotificationOpenClientSuccessed";
 static NSString *kNotificationCloseClientSuccessed = @"kNotificationCloseClientSuccessed";
-static NSString *kNotificationRefreshCellHeight = @"kNotificationRefreshCellHeight";
+static NSString *kNotificationRefreshCellHeight    = @"kNotificationRefreshCellHeight";
 
 
 #ifdef __OBJC__

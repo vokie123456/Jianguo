@@ -8,6 +8,7 @@
 
 #import "SearchDemandsViewController.h"
 #import "DemandDetailNewViewController.h"
+#import "SkillsDetailViewController.h"
 
 #import "DemandModel.h"
 #import "SkillListModel.h"
@@ -16,6 +17,7 @@
 
 #import "DemandListCell.h"
 #import "SkillsCell.h"
+#import "LabelJobCell.h"
 
 #import "JGHTTPClient+Demand.h"
 #import "JGHTTPClient+Skill.h"
@@ -25,10 +27,24 @@
 #import "DOPDropDownMenu.h"
 
 
+
 static NSString *identifier = @"DemandListCell";
 
 
-@interface SearchDemandsViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
+@interface labelModel:NSObject
+
+/** tagId */
+@property (nonatomic,strong) NSString *tagId;
+/** name */
+@property (nonatomic,strong) NSString *name;
+
+@end
+
+@implementation labelModel
+
+@end
+
+@interface SearchDemandsViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UIScrollViewDelegate>
 {
     NSString *keyword;
     __weak IBOutlet NSLayoutConstraint *tableViewTopCons;
@@ -39,16 +55,19 @@ static NSString *identifier = @"DemandListCell";
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) UISearchBar *searchBar;
 @property (nonatomic, strong) DOPDropDownMenu *selectMenu;
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) NSMutableArray *cityArr;
 @property (nonatomic,strong) NSMutableArray *schoolArr;
+@property (nonatomic,strong) NSMutableArray *labelArr;
 
 @property (nonatomic,copy) NSString *cityCode;
 @property (nonatomic,strong) NSString *orderType;
 @property (nonatomic,strong) NSString *sex;
+@property (nonatomic,strong) NSString *tagId;
 /** 学校id */
 @property (nonatomic,copy) NSString *schoolId;
 
@@ -76,6 +95,17 @@ static NSString *identifier = @"DemandListCell";
         } failure:^(NSError *error) {
             [SVProgressHUD dismiss];
         }];
+        [JGHTTPClient getLabelSuccess:^(id responseObject) {
+            
+            self.labelArr = [labelModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
+            [self.collectionView reloadData];
+            
+        } failure:^(NSError *error) {
+            
+            
+            
+        }];
+        
     }
     return self;
 }
@@ -84,18 +114,23 @@ static NSString *identifier = @"DemandListCell";
     [super viewDidLoad];
     
     titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W-100, 40)];
-    self.searchBar.frame = CGRectMake(0, 0, titleView.width, titleView.height);
+
     button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, 60, 40);
     [button addTarget:self action:@selector(changeType:) forControlEvents:UIControlEventTouchUpInside];
-//    [btn setBackgroundColor:RGBCOLOR(233, 235, 236)];
     button.titleLabel.font = FONT(15);
     [button setTitleColor:LIGHTGRAYTEXT forState:UIControlStateNormal];
     [button setTitle:@"技能▼" forState:UIControlStateNormal];
     [titleView addSubview:button];
+    
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.placeholder = @"搜索内容";
+    self.searchBar.delegate = self;
     self.searchBar.frame = CGRectMake(button.right, 0, titleView.width-button.width, 40);
     
     [titleView addSubview:self.searchBar];
+    
     
     self.orderType = @"createTime";
     if (self.isModule) {
@@ -118,16 +153,13 @@ static NSString *identifier = @"DemandListCell";
      forState:UIControlStateNormal];
     
     self.searchBar.barTintColor = LIGHTGRAYTEXT;
-//    UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(64, 0, SCREEN_W, SCREEN_H)];
-//    coverView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-//    self.searchBar.inputAccessoryView = coverView;
-
-    
     
     [self.tableView registerNib:[UINib nibWithNibName:identifier bundle:nil] forCellReuseIdentifier:identifier];
     
     self.tableView.estimatedRowHeight = 150;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    self.tableView.hidden = YES;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
@@ -150,12 +182,16 @@ static NSString *identifier = @"DemandListCell";
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         pageCount = ((int)(self.dataArr.count-1)/10) + ((int)((self.dataArr.count-1)/10)>=1?1:2) + (((self.dataArr.count-1)%10)>0&&(self.dataArr.count-1)>10?1:0);
         if ([button.currentTitle containsString:@"任务"]) {
-            [self requestWithCount:[NSString stringWithFormat:@"%ld",pageCount]];
+            [self requestWithCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
         }else if ([button.currentTitle containsString:@"技能"]){
-            [self requestListCount:[NSString stringWithFormat:@"%ld",pageCount]];
+            [self requestListCount:[NSString stringWithFormat:@"%ld",(long)pageCount]];
         }
         
     }];
+    
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LabelJobCell" bundle:nil] forCellWithReuseIdentifier:@"LabelJobCell"];
+    [self.collectionView reloadData];
+    
 //    if (self.isModule) {
 //        self.searchBar.hidden = YES;
 //        [self.tableView.mj_header beginRefreshing];
@@ -165,8 +201,9 @@ static NSString *identifier = @"DemandListCell";
 //        self.searchBar.tintColor = [UIColor blueColor];
 //    }
     
-    [self.tableView.mj_header beginRefreshing];
+//    [self.tableView.mj_header beginRefreshing];
 }
+
 
 -(void)setSearchBarLeftView
 {
@@ -242,9 +279,15 @@ static NSString *identifier = @"DemandListCell";
     if ([sender.currentTitle containsString:@"任务"]) {
         
         [self requestWithCount:@"1"];
+        self.collectionView.hidden = YES;
+        self.tableView.hidden = NO;
         
     }else if ([sender.currentTitle containsString:@"技能"]){
+        self.searchBar.text = nil;
+        keyword = nil;
         [self requestListCount:@"1"];
+        self.collectionView.hidden = NO;
+        self.tableView.hidden = YES;
     }
     
 }
@@ -337,7 +380,7 @@ static NSString *identifier = @"DemandListCell";
 {
     JGSVPROGRESSLOAD(@"加载中...");
     
-    [JGHTTPClient getSkillListWithSchoolId:self.schoolId cityCode:self.cityCode keywords:keyword orderBy:self.orderType type:self.type sex:self.sex userId:nil pageCount:count Success:^(id responseObject) {
+    [JGHTTPClient getSkillListWithSchoolId:self.schoolId cityCode:self.cityCode keywords:keyword orderBy:self.orderType type:self.type sex:self.sex tagId:self.tagId userId:nil pageCount:count Success:^(id responseObject) {
         //        [SVProgressHUD dismiss];
         //        JGLog(@"%@",responseObject);
         //        self.dataArr = [DemandModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
@@ -440,15 +483,26 @@ static NSString *identifier = @"DemandListCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DemandDetailNewViewController *detailVC = [DemandDetailNewViewController new];
     if (self.dataArr.count>indexPath.row) {
-        detailVC.demandId = [(DemandModel *)self.dataArr[indexPath.row] demandId];
+        
+        id model = self.dataArr[indexPath.row];
+        if ([model isKindOfClass:[DemandModel class]]) {
+            
+            DemandModel *demandModel = model;
+            DemandDetailNewViewController *detailVC = [DemandDetailNewViewController new];
+            detailVC.demandId = demandModel.demandId;
+            detailVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:detailVC animated:YES];
+            
+        }else if ([model isKindOfClass:[SkillListModel class]]){
+            
+            SkillListModel *skillModel = model;
+            SkillsDetailViewController *detailVC = [SkillsDetailViewController new];
+            detailVC.skillId = [NSString stringWithFormat:@"%ld",skillModel.skillId];
+            detailVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
     }
-    detailVC.hidesBottomBarWhenPushed = YES;
-    //    detailVC.callBackBlock = ^(){
-    //        [self requestWithCount:@"1"];
-    //    };
-    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 #pragma mark - UISearchBarDelegate 协议
@@ -477,12 +531,24 @@ static NSString *identifier = @"DemandListCell";
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     keyword = searchText;
+    
+    
     if ([button.currentTitle containsString:@"任务"]) {
+        
+        
         [self requestWithCount:@"1"];
     }else if ([button.currentTitle containsString:@"技能"]){
+        if (searchText.length == 0) {
+            self.tableView.hidden = YES;
+            self.collectionView.hidden = NO;
+            return;
+        }else{
+            self.tableView.hidden = NO;
+            self.collectionView.hidden = YES;
+        }
         [self requestListCount:@"1"];
     }
-    [APPLICATION.keyWindow endEditing:YES];
+//    [APPLICATION.keyWindow endEditing:YES];
 }
 
 
@@ -524,6 +590,54 @@ static NSString *identifier = @"DemandListCell";
     }
     
 }
+
+#pragma mark UICollectionView 相关方法
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.labelArr.count;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    labelModel *model = self.labelArr[indexPath.item];
+    CGRect rect = [model.name boundingRectWithSize:CGSizeMake(HUGE, 30) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:FONT(14)} context:nil];
+    return CGSizeMake(rect.size.width+20, 30);
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    LabelJobCell *cell = (LabelJobCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"LabelJobCell" forIndexPath:indexPath];
+    
+    labelModel *model = self.labelArr[indexPath.item];
+    cell.contentL.text = model.name;
+    cell.contentL.layer.borderColor = RGBCOLOR(random()%255, random()%255, random()%255).CGColor;
+
+    return cell;
+}
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 10;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.tableView.hidden = NO;
+    self.collectionView.hidden = YES;
+    
+    LabelJobCell *cell = (LabelJobCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    keyword = cell.contentL.text;
+    self.tagId = [NSString stringWithFormat:@"%@",[self.labelArr[indexPath.item] tagId]];
+    
+    self.searchBar.text = cell.contentL.text;
+    
+    if ([button.currentTitle containsString:@"任务"]) {
+        [self requestWithCount:@"1"];
+    }else if ([button.currentTitle containsString:@"技能"]){
+        [self requestListCount:@"1"];
+    }
+}
+
 #pragma mark - DOPDropDownMenuDelegate
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {//选择第几行执行什么操作
@@ -589,6 +703,10 @@ static NSString *identifier = @"DemandListCell";
     }];
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [APPLICATION.keyWindow endEditing:YES];
+}
 
 
 @end

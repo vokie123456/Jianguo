@@ -11,8 +11,10 @@
 #import "TextReasonViewController.h"
 #import "MyBuySkillDetailViewController.h"
 #import "LCCKConversationViewController.h"
+#import "MineChatViewController.h"
 
 #import "MySkillManageCell.h"
+#import "MyBuyManageCell.h"
 
 #import "MyBuySkillListModel.h"
 
@@ -24,7 +26,7 @@
 #import "DismissingAnimator.h"
 
 
-@interface MyBuySkillChildViewController ()<UITableViewDataSource,UITableViewDelegate,MySkillManageDelegate>
+@interface MyBuySkillChildViewController ()<UITableViewDataSource,UITableViewDelegate,MyBuySkillManageDelegate,MySkillManageDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 /** 数据源数组 */
 @property (nonatomic,strong) NSMutableArray *dataArr;
@@ -36,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.rowHeight = 300;
+    self.tableView.rowHeight = 290;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
@@ -106,16 +108,6 @@
     }];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    MyBuySkillListModel *model = self.dataArr[indexPath.row];
-//    if (model.isAdjust&&model.orderStatus == 1) {
-//        return 330;
-//    }else{
-//        return 300;
-//    }
-    return 300;
-}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -148,12 +140,15 @@
     UIButton *button = sender;
     if ([button.currentTitle containsString:@"付"]) {
         //跳转到支付页面
-        [QLAlertView showAlertTittle:@"确定购买?" message:@"购买后将从您的钱包余额里扣除服务费" isOnlySureBtn:NO compeletBlock:^{
+        [QLAlertView showAlertTittle:[NSString stringWithFormat:@"确认付款 ￥%.2f ?",model.realPrice] message:@"确认付款后，服务费将从您的兼果钱包余额中扣除!" isOnlySureBtn:NO compeletBlock:^{
             
             [JGHTTPClient payOrderWithOrderNo:model.orderNo Success:^(id responseObject) {
                 
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
                 if ([responseObject[@"code"]integerValue] == 200) {
+                    AlertView *view = [AlertView aAlertViewCallBackBlock:nil];
+                    view.isSuccessDeal = YES;
+                    [view show];
                     [self requestList:@"1"];
                 }
                 
@@ -170,8 +165,7 @@
                 
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
                 if ([responseObject[@"code"]integerValue] == 200) {
-                    [self.dataArr removeObject:model];
-                    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.dataArr indexOfObject:model] inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+                    [self requestList:@"1"];
                 }
                 
             } failure:^(NSError *error) {
@@ -201,7 +195,7 @@
     }else if ([button.currentTitle containsString:@"投诉订单"]){
         [QLAlertView showAlertTittle:@"确定要投诉服务者?" message:@"" isOnlySureBtn:NO compeletBlock:^{
             
-            [JGHTTPClient complainOrderWithOrderNo:model.orderNo Success:^(id responseObject) {
+            [JGHTTPClient complainOrderWithOrderNo:model.orderNo reason:nil Success:^(id responseObject) {
                 
                 [self showAlertViewWithText:responseObject[@"message"] duration:1.5];
                 if ([responseObject[@"code"]integerValue] == 200) {
@@ -270,6 +264,17 @@
     
     [self.navigationController pushViewController:conversationViewController animated:YES];
     
+}
+
+-(void)clickIcon:(NSString *)userId
+{
+    if (userId.integerValue==0) {
+        [self showAlertViewWithText:@"该用户账户信息有问题!" duration:1.5f];
+        return;
+    }
+    MineChatViewController *mineVC = [[MineChatViewController alloc] init];
+    mineVC.userId = userId;
+    [self.navigationController pushViewController:mineVC animated:YES];
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate

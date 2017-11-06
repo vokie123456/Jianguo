@@ -260,14 +260,14 @@ static CGFloat const sectionHeaderHeight = 50.f;
             
         }else if (indexPath.row == 2){//性别
             
-            if (model.sex.integerValue && USER.resume.integerValue != 0) {
-                [self showAlertViewWithText:@"性别不能修改" duration:1.f];
-                return;
-            }
-            
-            [QLAlertView showAlertTittle:@"温馨提示" message:@"性别填写后不能修改!" isOnlySureBtn:YES compeletBlock:^{
-                
-                
+//            if (model.sex.integerValue && USER.resume.integerValue != 0) {
+//                [self showAlertViewWithText:@"性别不能修改" duration:1.f];
+//                return;
+//            }
+//            
+//            [QLAlertView showAlertTittle:@"温馨提示" message:@"性别填写后不能修改!" isOnlySureBtn:YES compeletBlock:^{
+//                
+//                
                 DemandTypeView *view = [DemandTypeView demandTypeViewselectBlock:^(NSInteger index, NSString *title) {
                     cell.rightL.text = title;
                     //                self.sexTF.text = title;
@@ -275,7 +275,7 @@ static CGFloat const sectionHeaderHeight = 50.f;
                 }];
                 view.titleArr = @[@"女神",@"男神"];
                 
-            }];
+//            }];
             return;
             
         }else if (indexPath.row == 3){//生日
@@ -409,7 +409,7 @@ static CGFloat const sectionHeaderHeight = 50.f;
             return ;
         }else{//上传图片成功后再上传个人资料
             
-            self.headImg = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+            self.headImg = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
             
             [self uploadMyselfServer];
             

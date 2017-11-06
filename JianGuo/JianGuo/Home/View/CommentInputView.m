@@ -17,16 +17,26 @@
 
 @implementation CommentInputView
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        
+        self.bounds = CGRectMake(0, 0, SCREEN_W, 45);
+        
+    }
+    return self;
+}
+
 
 +(instancetype)aReplyCommentView:(void(^)(NSString *))completionBlock
 {
 //    CommentInputView *view = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
-    static CommentInputView *view;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        view = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
-    });
-    
+//    static CommentInputView *view;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        view = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
+//    });
+    CommentInputView *view = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil]lastObject];
     view.commentTV.layer.cornerRadius = 3;
     view.commentTV.delegate = view;
     
@@ -59,8 +69,6 @@
     }
     return YES;
 }
-
-
 
 - (IBAction)finishEdit:(UIButton *)sender {
     

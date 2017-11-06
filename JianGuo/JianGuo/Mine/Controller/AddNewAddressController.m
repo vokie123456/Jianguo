@@ -41,7 +41,7 @@
     self.doorNoTV.placeholder = @"请输入您的收货地址";
     _sw.transform = CGAffineTransformMakeScale( 0.8, 0.8);//缩放
     
-    self.addressId = [NSString stringWithFormat:@"%ld",self.model.id];
+    self.addressId = self.model?[NSString stringWithFormat:@"%@",self.model.id]:nil;
     self.isDefault = @"0";
     
     if (self.model) {

@@ -14,6 +14,7 @@
 -(void)getUsers:(NSString *)demandId;
 -(void)deleteDemand:(NSString *)demandId;
 -(void)offStoreDemand:(NSString *)demandId;
+-(void)lookUser:(NSString *)userId;
 -(void)refreshData;
 
 @end
@@ -28,12 +29,17 @@
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 
+@property (weak, nonatomic) IBOutlet UIView *collectionBgView;
+@property (weak, nonatomic) IBOutlet UILabel *enrollCountL;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLimitHeightCons;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel * titleL;
 @property (weak, nonatomic) IBOutlet UILabel * moneyL;
 @property (weak, nonatomic) IBOutlet UILabel * timeL;
 @property (weak, nonatomic) IBOutlet UILabel * typeL;
+@property (weak, nonatomic) IBOutlet UILabel *stateHeaderL;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionL;
 @property (weak, nonatomic) IBOutlet UIButton *leftB;
 @property (weak, nonatomic) IBOutlet UIButton *rightB;

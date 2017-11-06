@@ -19,6 +19,16 @@ static char RedTipViewKey;
 {
     return objc_getAssociatedObject(self,&RedTipViewKey);
 }
+//
+//+(BOOL)resolveInstanceMethod:(SEL)sel
+//{
+//    class_addMethod(self, sel, (IMP)methodABC, "@:");
+//    return YES;
+//}
+//
+//id methodABC(id self,SEL _cmd){
+//    return @"";
+//}
 
 - (void)setRedTipView:(UILabel *)redTipView
 {

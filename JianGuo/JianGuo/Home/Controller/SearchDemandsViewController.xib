@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchDemandsViewController">
             <connections>
+                <outlet property="collectionView" destination="C9O-HB-6kF" id="Us5-n7-2pa"/>
                 <outlet property="searchBar" destination="GZE-2h-h9g" id="IfB-dR-Y2j"/>
                 <outlet property="tableView" destination="K85-bY-Kdu" id="f6T-II-SfX"/>
                 <outlet property="tableViewTopCons" destination="MHh-NG-TbG" id="ZMi-SU-KG7"/>
@@ -15,31 +20,50 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K85-bY-Kdu">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="2Ev-Ky-n6G"/>
-                        <outlet property="delegate" destination="-1" id="aLb-4l-44F"/>
-                    </connections>
-                </tableView>
-                <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" placeholder="搜索任务" translatesAutoresizingMaskIntoConstraints="NO" id="GZE-2h-h9g">
+                <searchBar hidden="YES" contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" placeholder="搜索任务" translatesAutoresizingMaskIntoConstraints="NO" id="GZE-2h-h9g">
                     <rect key="frame" x="0.0" y="38" width="600" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="HcN-10-ldh"/>
                     </connections>
                 </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K85-bY-Kdu">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="2Ev-Ky-n6G"/>
+                        <outlet property="delegate" destination="-1" id="aLb-4l-44F"/>
+                    </connections>
+                </tableView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="C9O-HB-6kF">
+                    <rect key="frame" x="20" y="20" width="335" height="647"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rSe-p5-ksQ">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="hxR-3l-eUn"/>
+                        <outlet property="delegate" destination="-1" id="4B8-Wh-LiR"/>
+                    </connections>
+                </collectionView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="K85-bY-Kdu" secondAttribute="trailing" id="7fC-Ht-SWe"/>
+                <constraint firstAttribute="bottom" secondItem="C9O-HB-6kF" secondAttribute="bottom" id="82P-ro-2kP"/>
                 <constraint firstItem="K85-bY-Kdu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="A2d-x3-qI8"/>
                 <constraint firstAttribute="bottom" secondItem="K85-bY-Kdu" secondAttribute="bottom" id="Cis-H1-sxc"/>
+                <constraint firstAttribute="trailing" secondItem="C9O-HB-6kF" secondAttribute="trailing" constant="20" id="KXh-bc-iFj"/>
                 <constraint firstItem="K85-bY-Kdu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="MHh-NG-TbG"/>
+                <constraint firstItem="C9O-HB-6kF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="ObK-KR-sgJ"/>
+                <constraint firstItem="C9O-HB-6kF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="UWK-UV-UMG"/>
                 <constraint firstItem="K85-bY-Kdu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yhK-Hv-yC5"/>
             </constraints>
             <variation key="default">

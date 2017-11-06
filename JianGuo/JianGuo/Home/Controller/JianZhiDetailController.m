@@ -53,7 +53,7 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H-64) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 80;
+//        _tableView.rowHeight = 80;
 //        _tableView.backgroundColor = BACKCOLORGRAY;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
@@ -70,6 +70,7 @@
     self.title = @"工作详情";
     
     [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
     
     self.tableView.rowHeight = UITableViewAutomaticDimension; // 自适应单元格高度
     self.tableView.estimatedRowHeight = 150; //先估计一个高度
@@ -130,6 +131,8 @@
     }else if (IS_IPHONE6){
         top = 150;
     }else if (IS_IPHONE6PLUS){
+        top = 200;
+    }else{
         top = 200;
     }
     self.noNetView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_W-198*(SCREEN_W/414))/2, top, 198*(SCREEN_W/414), 228*(SCREEN_W/414))];
@@ -207,7 +210,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1;
+     return 0.1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {

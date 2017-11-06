@@ -37,9 +37,9 @@
     addressL.text = model.location;
     
     if (model.isDefault) {
-        
+        self.defaultAddressB.hidden = NO;
     }else{
-        
+        self.defaultAddressB.hidden = YES;
     }
     
 }

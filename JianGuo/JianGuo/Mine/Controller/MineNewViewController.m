@@ -24,6 +24,9 @@
 #import "MySkillsViewController.h"
 #import "MyBuySkillViewController.h"
 #import "WebViewController.h"
+#import "PostSkillViewController.h"
+#import "AllSkillManageViewController.h"
+#import "DemandStatusParentViewController.h"
 
 #import "MineCell.h"
 
@@ -36,7 +39,115 @@
 #import "QLAlertView.h"
 #import "AlertView.h"
 
-@interface MineNewViewController ()<UITableViewDataSource,UITableViewDelegate>
+@protocol SKillConfirmDelegate <NSObject>
+
+-(void)alert;
+
+@end
+
+@interface SkillConfirmSuccessView : NSObject
+
+/** delegate */
+@property (nonatomic,weak) id <SKillConfirmDelegate> delegate;
+
++(instancetype)shareAlertView;
+
+-(void)showSuccessView;
+
+@end
+
+@implementation SkillConfirmSuccessView
+{
+    UIView *bgView;
+}
+
++(instancetype)shareAlertView
+{
+    static SkillConfirmSuccessView *view;
+    static dispatch_once_t oncetoken;
+    dispatch_once(&oncetoken, ^{
+        view = [SkillConfirmSuccessView new];
+    });
+    return view;
+}
+
+-(void)showSuccessView
+{
+    bgView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    bgView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss:)];
+    [bgView addGestureRecognizer:tap];
+    
+    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 220)];
+    alertView.center = bgView.center;
+    alertView.layer.cornerRadius = 10;
+    alertView.backgroundColor = WHITECOLOR;
+    [bgView addSubview:alertView];
+    
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, alertView.width, 30)];
+    label.text = @"认证条件";
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont boldSystemFontOfSize:20];
+    [alertView addSubview:label];
+    
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, label.bottom, alertView.width-40, 50)];
+    label1.text = @"只有在兼果校园发不过技能,才能成为技能达人哦!";
+    label1.numberOfLines = 0;
+    label1.textColor = LIGHTGRAYTEXT;
+    label1.textAlignment = NSTextAlignmentCenter;
+    label1.font = [UIFont boldSystemFontOfSize:16];
+    [alertView addSubview:label1];
+    
+    
+    UIButton *sender = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sender setTitle:@"发布技能" forState:UIControlStateNormal];
+    [sender setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    [sender setBackgroundColor:GreenColor];
+    sender.layer.cornerRadius = 3;
+    [sender addTarget:self action:@selector(postSkill) forControlEvents:UIControlEventTouchUpInside];
+    sender.frame = CGRectMake(30, alertView.height-60, alertView.width-60, 40);
+    [alertView addSubview:sender];
+    
+    [APPLICATION.keyWindow addSubview:bgView];
+    
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        bgView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.8];
+        
+    } completion:^(BOOL finished) {
+        
+        
+        
+    }];
+    
+}
+
+-(void)postSkill
+{
+    if ([self.delegate respondsToSelector:@selector(alert)]) {
+        [self.delegate alert];
+        
+    }
+    [self dismiss:nil];
+}
+
+-(void)dismiss:(UIButton *)sender
+{
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        bgView.alpha = 0;
+        
+    } completion:^(BOOL finished) {
+        
+        [bgView removeFromSuperview];
+        
+    }];
+}
+
+@end
+@interface MineNewViewController ()<UITableViewDataSource,UITableViewDelegate,SKillConfirmDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *publishB;
 @property (weak, nonatomic) IBOutlet UIButton *signB;
@@ -94,10 +205,10 @@
         self.mySkillB.badgeFont = FONT(12);
         self.myBuyB.badgeFont = FONT(12);
         
-        [self.publishB showBadgeWithStyle:WBadgeStyleNumber value:postCount animationType:WBadgeAnimTypeNone];
-        [self.signB showBadgeWithStyle:WBadgeStyleNumber value:signCount animationType:WBadgeAnimTypeNone];
-        [self.myBuyB showBadgeWithStyle:WBadgeStyleNumber value:myBuySkillCount animationType:WBadgeAnimTypeNone];
-        [self.mySkillB showBadgeWithStyle:WBadgeStyleNumber value:mySkillCount animationType:WBadgeAnimTypeNone];
+        [self.publishB showBadgeWithStyle:WBadgeStyleNumber value:postCount+signCount animationType:WBadgeAnimTypeNone];
+        [self.signB clearBadge];
+        [self.myBuyB showBadgeWithStyle:WBadgeStyleNumber value:myBuySkillCount+mySkillCount animationType:WBadgeAnimTypeNone];
+        [self.mySkillB clearBadge];
         
         [self.iconView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@!100x100",responseObject[@"data"][@"headImg"]]] placeholderImage:[UIImage imageNamed:@"myicon"]];
         
@@ -145,7 +256,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return !section?:10;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -164,7 +275,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 1;
+        return 0;
     }else if (section == 1){
         return 2;
     }else if (section == 2){
@@ -199,6 +310,7 @@
         if (indexPath.row == 0) {
             cell.labelLeft.text = @"编辑资料";
             cell.iconView.image = [UIImage imageNamed:@"data"];
+            cell.lineView.hidden = NO;
         }else if (indexPath.row == 1){
             cell.labelLeft.text = @"兼果学堂";
             cell.iconView.image = [UIImage imageNamed:@"study_mine"];
@@ -336,9 +448,10 @@
         [self gotoLoginVC];
         return;
     }
-    MySkillsViewController *myskillVC = [[MySkillsViewController alloc] init];
-    myskillVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:myskillVC animated:YES];
+    
+    AllSkillManageViewController *manageVC = [[AllSkillManageViewController alloc] init];
+    manageVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:manageVC animated:YES];
     
 }
 - (IBAction)myBuy:(UIButton *)sender {
@@ -347,9 +460,13 @@
         [self gotoLoginVC];
         return;
     }
-    MyBuySkillViewController *myBuySkillVC = [[MyBuySkillViewController alloc] init];
-    myBuySkillVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:myBuySkillVC animated:YES];
+//    MyBuySkillViewController *myBuySkillVC = [[MyBuySkillViewController alloc] init];
+//    myBuySkillVC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:myBuySkillVC animated:YES];
+    
+    MySkillsViewController *myskillVC = [[MySkillsViewController alloc] init];
+    myskillVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myskillVC animated:YES];
     
 }
 
@@ -359,7 +476,7 @@
         [self gotoLoginVC];
         return;
     }
-    MyPostDemandViewController *postVC = [[MyPostDemandViewController alloc] init];
+    DemandStatusParentViewController *postVC = [[DemandStatusParentViewController alloc] init];
     postVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:postVC animated:YES];
     
@@ -367,13 +484,21 @@
 
 - (IBAction)sign:(id)sender {
     
+//    if (![self checkExistPhoneNum]) {
+//        [self gotoLoginVC];
+//        return;
+//    }
+//    MySignDemandsViewController *signVC = [[MySignDemandsViewController alloc] init];
+//    signVC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:signVC animated:YES];
+    
     if (![self checkExistPhoneNum]) {
         [self gotoLoginVC];
         return;
     }
-    MySignDemandsViewController *signVC = [[MySignDemandsViewController alloc] init];
-    signVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:signVC animated:YES];
+    MyPartJobViewController *myPartjobVC = [[MyPartJobViewController alloc] init];
+    myPartjobVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myPartjobVC animated:YES];
     
 }
 
@@ -412,16 +537,38 @@
 
 - (IBAction)skillConfirm:(id)sender {
     
+    if (![self checkExistPhoneNum]) {
+        [self gotoLoginVC];
+        return;
+    }
+    if (USER.status.intValue == 1){
+        [self showAlertViewWithText:@"请您先去实名认证" duration:1];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            RealNameNewViewController *realNameVC = [[RealNameNewViewController alloc] init];
+            realNameVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:realNameVC animated:YES];
+        });
+        return;
+    }
+    
     if ([self.skillConfirmL.text isEqualToString:@"未认证"]) {
-        WebViewController *webVC = [[WebViewController alloc]init] ;
-        webVC.url = @"https://jinshuju.net/f/BoMqQH";
-        webVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webVC animated:YES];
+        
+        SkillConfirmSuccessView *alertView = [SkillConfirmSuccessView shareAlertView];
+        alertView.delegate = self;
+        [alertView showSuccessView];
+        
     }else if([self.skillConfirmL.text isEqualToString:@"已认证"]){
-        [self showAlertViewWithText:@"您已经通过达人认证" duration:2];
+        [self showAlertViewWithText:@"您已经是兼果校园达人了哦" duration:2];
     }
 }
 
+-(void)alert
+{
+    PostSkillViewController *postVC = [[PostSkillViewController alloc] init];
+    postVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:postVC animated:YES];
+    
+}
 
 - (IBAction)header:(id)sender {
     if (![self checkExistPhoneNum]) {

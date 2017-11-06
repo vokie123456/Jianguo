@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconView;
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *iconViewHeightCons;
 
 @end

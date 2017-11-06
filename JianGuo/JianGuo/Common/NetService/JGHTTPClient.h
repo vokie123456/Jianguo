@@ -47,7 +47,12 @@
  获取 滑动图片
  */
 + (void)getScrollViewImagesSuccess:(void (^)(id responseObject))success
-                 failure:(void (^)(NSError *error))failure;
+                           failure:(void (^)(NSError *error))failure;
+/**
+ 获取 插屏广告
+ */
++ (void)getAdvertisementSuccess:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure;
 /**
  *  地区类型信息
  */

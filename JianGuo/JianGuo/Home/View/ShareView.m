@@ -135,7 +135,7 @@
             
             NSString *backURL = [NSString stringWithFormat:@"%@skill/buy?skillId=%ld",@"http://www.woniukeji.com.cn:8888/",self.skillModel.skillId];
             NSArray* imageArray = @[self.skillModel.cover];
-            NSString *text = [NSString stringWithFormat:@"%@\n单价:%@",self.skillModel.title,self.skillModel.price];
+            NSString *text = [NSString stringWithFormat:@"撩人绝技: %@",self.skillModel.title];
             [shareParams SSDKSetupShareParamsByText:text images:imageArray url:[NSURL URLWithString:backURL] title:@"发现了一个校园达人，Ta在兼果校园等你撩!" type:SSDKContentTypeAuto];
             
         }

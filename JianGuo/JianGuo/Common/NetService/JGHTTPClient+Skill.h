@@ -19,6 +19,7 @@
                         orderBy:(NSString *)orderBy
                            type:(NSString *)type
                             sex:(NSString *)sex
+                          tagId:(NSString *)tagId
                          userId:(NSString *)userId
                       pageCount:(NSString *)pageCount
                         Success:(void (^)(id responseObject))success
@@ -99,8 +100,9 @@
 /**
  *  达人榜单
  */
-+(void)getSkillExpertsListSuccess:(void (^)(id responseObject))success
-                          failure:(void (^)(NSError *error))failure;
++(void)getSkillExpertsListWithCityCode:(NSString *)cityCode
+                               Success:(void (^)(id responseObject))success
+                               failure:(void (^)(NSError *error))failure;
 
 /**
  *  下单
@@ -178,6 +180,7 @@
  *  投诉订单
  */
 +(void)complainOrderWithOrderNo:(NSString *)orderNo
+                         reason:(NSString *)reason
                         Success:(void (^)(id responseObject))success
                         failure:(void (^)(NSError *error))failure;
 
@@ -220,5 +223,55 @@
 +(void)getMyBuySkillDetailWithOrderNo:(NSString *)orderNo
                               Success:(void (^)(id responseObject))success
                               failure:(void (^)(NSError *error))failure;
+
+/**
+ *  获取技能草稿
+ */
++(void)getMySkillDraftWithPageNum:(NSString *)pageNum
+                          Success:(void (^)(id responseObject))success
+                          failure:(void (^)(NSError *error))failure;
+
+/**
+ *  删除技能草稿
+ */
++(void)deleteSkillDraftWithDraftId:(NSString *)draftId
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure;
+
+
+/**
+ *  获取技能草稿信息
+ */
++(void)getSkillDraftDetailWithDraftId:(NSString *)draftId
+                           Success:(void (^)(id responseObject))success
+                           failure:(void (^)(NSError *error))failure;
+
+/**
+ *  发布技能接口
+ */
++(void)postSkillWithMasterTitle:(NSString *)masterTitle
+                         skillId:(NSString *)skillId
+                           title:(NSString *)title
+                           cover:(NSString *)cover
+                       skillDesc:(NSString *)skillDesc
+                      descImages:(NSString *)descImages
+                   skillAptitude:(NSString *)skillAptitude
+                  aptitudeImages:(NSString *)aptitudeImages
+                           price:(NSString *)price
+                       priceDesc:(NSString *)priceDesc
+                     serviceMode:(NSString *)serviceMode
+                       addressId:(NSString *)addressId
+                        schoolId:(NSString *)schoolId
+                          status:(NSString *)status
+                         Success:(void (^)(id responseObject))success
+                         failure:(void (^)(NSError *error))failure;
+
+
+/**
+ *  搜索标签
+ */
++(void)getLabelSuccess:(void (^)(id responseObject))success
+               failure:(void (^)(NSError *error))failure;
+
 
 @end

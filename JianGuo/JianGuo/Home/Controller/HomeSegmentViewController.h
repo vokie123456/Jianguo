@@ -8,6 +8,6 @@
 
 #import "NavigatinViewController.h"
 
-@interface HomeSegmentViewController : NavigatinViewController
+@interface HomeSegmentViewController : NavigatinViewController <UIViewControllerTransitioningDelegate>
 
 @end

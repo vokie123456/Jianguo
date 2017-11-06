@@ -218,12 +218,12 @@
 
 -(void)call
 {
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"联系兼果客服" message:@"010-53350021" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"联系兼果客服" message:@"0898-36693910" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://010-53350021"]]];
+        [APPLICATION openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://0898-36693910"]]];
     }];
     [alertVC addAction:cancelAction];
     [alertVC addAction:sureAction];
@@ -245,7 +245,7 @@
 //        telBtn.frame=CGRectMake(20, 10, 270, 30);
 //        telBtn.titleLabel.font = [UIFont systemFontOfSize:12];
 //        [telBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
-//        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:010-53350021"];
+//        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:0898-36693910"];
 //        [attributeStr addAttribute:NSForegroundColorAttributeName value:LIGHTGRAYTEXT range:NSMakeRange(0, 14)];
 //        [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
 //        [telBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];
@@ -310,7 +310,7 @@
         telBtn.frame=CGRectMake(20, 10, 270, 30);
         telBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [telBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
-        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:010-53350021"];
+        NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:@"提现过程中有任何疑问请致电:0898-36693910"];
         [attributeStr addAttribute:NSForegroundColorAttributeName value:LIGHTGRAYTEXT range:NSMakeRange(0, 14)];
         [attributeStr addAttributes:@{NSForegroundColorAttributeName:GreenColor,NSFontAttributeName:FONT(15)} range:NSMakeRange(14, 12)];
         [telBtn setAttributedTitle:attributeStr forState:UIControlStateNormal];

@@ -9,15 +9,26 @@
 #import <UIKit/UIKit.h>
 #import "StarView.h"
 
+@protocol SkillManageCellDelegate <NSObject>
+
+-(void)reconfirmWithSkillId:(NSString *)skillId;
+
+@end
+
 @class SkillListModel;
 @interface SkillManageCell : UITableViewCell
+
+/** 代理 */
+@property (nonatomic,weak) id <SkillManageCellDelegate> delegate;
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 
 /** 技能模型 */
 @property (nonatomic,strong) SkillListModel *model;
 @property (weak, nonatomic) IBOutlet UILabel *stateL;
+@property (weak, nonatomic) IBOutlet UILabel *stateHeaderL;
 @property (weak, nonatomic) IBOutlet UIButton *settingB;
+@property (weak, nonatomic) IBOutlet UIButton *reconfirmB;
 
 @property (weak, nonatomic) IBOutlet UILabel *skillL;
 @property (weak, nonatomic) IBOutlet UIButton *collectionB;
@@ -34,5 +45,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *commentCountL;
 @property (weak, nonatomic) IBOutlet UILabel *scanCountL;
 @property (weak, nonatomic) IBOutlet StarView *starView;
+@property (weak, nonatomic) IBOutlet UILabel *timeL;
 
 @end

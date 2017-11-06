@@ -12,5 +12,7 @@
 @interface DemandStatusParentViewController : NavigatinViewController <ZJScrollPageViewChildVcDelegate,UIViewControllerTransitioningDelegate>
 /** 不同状态的参数<1待录取 2、待完成 3、待确认 4、待评价 5已结束> */
 @property (nonatomic,copy) NSString *type;
+@property (nonatomic,assign) BOOL isFinishedVC;
+
 
 @end

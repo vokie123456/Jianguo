@@ -10,6 +10,7 @@
 #import "MySkillDetailViewController.h"
 #import "MakeEvaluateViewController.h"
 #import "LCCKConversationViewController.h"
+#import "MineChatViewController.h"
 
 #import "MySkillManageCell.h"
 
@@ -32,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.rowHeight = 330;
+    self.tableView.rowHeight = 291;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageCount = 0;
@@ -238,6 +239,13 @@
     LCCKConversationViewController *conversationViewController = [[LCCKConversationViewController alloc] initWithPeerId:[NSString stringWithFormat:@"%ld",model.buyUid]];
     
     [self.navigationController pushViewController:conversationViewController animated:YES];
+}
+
+-(void)clickIcon:(NSString *)userId
+{
+    MineChatViewController *mineVC = [[MineChatViewController alloc] init];
+    mineVC.userId = userId;
+    [self.navigationController pushViewController:mineVC animated:YES];
 }
 
 @end

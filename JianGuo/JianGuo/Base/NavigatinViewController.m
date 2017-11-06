@@ -52,6 +52,7 @@
     
     [self.view addSubview:bgView];
     [self.view bringSubviewToFront:bgView];
+    self.view.backgroundColor = BACKCOLORGRAY;
     
     bgView.hidden = YES;
 }
@@ -68,9 +69,25 @@
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.showsTouchWhenHighlighted = YES;
-    backBtn.frame = CGRectMake(0, 0, 12, 21);
+    backBtn.frame = CGRectMake(0, 0, 50, 30);
+    
+    
+    UIImage *image=[UIImage imageNamed:@"icon-back"];
+    backBtn.imageView.contentMode = UIViewContentModeCenter;
+    [backBtn setImage:image forState:UIControlStateNormal];
+    CGSize itemSize = CGSizeMake(10, 18);
+    
+    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+    [backBtn.imageView.image drawInRect:imageRect];//改变系统自带控件的大小
+    [backBtn setImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
+    UIGraphicsEndImageContext();
+    backBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [backBtn addTarget:self action:@selector(popToPreviousVC) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"icon-back"] forState:UIControlStateNormal];
+    
+//    backBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 19, 5, 19);
+//    backBtn.imageView.frame = CGRectMake(0, 0, 12, 21);
+//    [backBtn setImageEdgeInsets:UIEdgeInsetsMake(5, 60, 5, 60)];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = item;
     
@@ -86,7 +103,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.view.backgroundColor = BACKCOLORGRAY;
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     CGFloat top = 5;
     CGFloat bottom = 5 ;

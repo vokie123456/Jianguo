@@ -81,7 +81,7 @@
             
             
             break;
-        } case 5:{//TODO:状态描述
+        } case 5:case 6:case 7:{//TODO:状态描述
             
             self.leftB.hidden = YES;
             self.rightB.hidden = YES;

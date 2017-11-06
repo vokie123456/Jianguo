@@ -302,7 +302,7 @@
 -(void)requestSkillsWithCount:(NSString *)count
 {
     JGSVPROGRESSLOAD(@"加载中...");
-    [JGHTTPClient getSkillListWithSchoolId:nil cityCode:nil keywords:nil orderBy:nil type:nil sex:nil userId:self.userId pageCount:count Success:^(id responseObject) {
+    [JGHTTPClient getSkillListWithSchoolId:nil cityCode:nil keywords:nil orderBy:nil type:nil sex:nil  tagId:nil userId:self.userId pageCount:count Success:^(id responseObject) {
         
         [SVProgressHUD dismiss];
         [self.tableView.mj_header endRefreshing];

@@ -568,6 +568,8 @@ typedef enum : NSUInteger {
     
 }
 
+
+
 -(void)uploadToQNServer
 {
     
@@ -583,7 +585,7 @@ typedef enum : NSUInteger {
                       [SVProgressHUD dismiss];
                       return ;
                   }
-                  self.frontCardIdUrl = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"]];
+                  self.frontCardIdUrl = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"]];
                   NSData *dataBack = UIImageJPEGRepresentation(_imgPickedRight,0.5);
                   [upManager putData:dataBack key:nil token:USER.qiniuToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                       
@@ -592,7 +594,7 @@ typedef enum : NSUInteger {
                           [SVProgressHUD dismiss];
                           return ;
                       }
-                      self.backCardIdUrl = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+                      self.backCardIdUrl = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
                       
                       if (isSelectStudentCard) {
                           [self uploadNext];
@@ -617,7 +619,7 @@ typedef enum : NSUInteger {
             [SVProgressHUD dismiss];
             return ;
         }
-        self.studentUrl = [@"http://7xlell.com2.z0.glb.qiniucdn.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
+        self.studentUrl = [@"http://img.jianguojob.com/" stringByAppendingString:[resp objectForKey:@"key"] ];
         [self uploadToSelfServer];
         
     } option:nil];
